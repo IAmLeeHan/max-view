@@ -15,7 +15,7 @@
         <li 
           v-for="(item,index) in subTitle" 
           :key="index"
-          :class="[{active: active === index},{disabled:item.disabled}]"
+          :class="[{active: active === index},{disabled: item.disabled}]"
           @click="changeActive(index,item.value)"
         >
           {{ item.name }}

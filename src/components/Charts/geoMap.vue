@@ -34,7 +34,7 @@ export default class extends mixins(ResizeMixin) {
 
   private selectedPT = []
 
-  private timer:any = null
+  private timer: any = null
 
   selectedAddress(){
     return this.selectedPT.length>1?this.selectedPT[this.selectedPT.length-1]:"中国"

@@ -17,8 +17,8 @@ export interface IAppState {
   language: string
   size: string
   isFullscreen: boolean
-  dialogTableVisible: boolean,
-  ListPopupsShow:boolean
+  dialogTableVisible: boolean
+  ListPopupsShow: boolean
 }
 
 @Module({ dynamic: true, store, name: 'app' })
@@ -79,7 +79,7 @@ class App extends VuexModule implements IAppState {
     this.dialogTableVisible = dialogTableVisible
   }
   @Mutation
-  private LIST_POPUPS_SHOW(ListPopupsShow:boolean){
+  private LIST_POPUPS_SHOW(ListPopupsShow: boolean){
     this.ListPopupsShow = ListPopupsShow
   }
 

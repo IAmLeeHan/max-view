@@ -71,51 +71,51 @@
       >
         <div slot="echarts">
           <div class="TableBox">
-              <table>
-                <tr
-                  v-for="(t,i) in ZDQYTableData1"
-                  :key="i"
-                >
-                  <td>
-                    <img
-                      v-if="i < 3"
-                      :src="require('img/px_'+ (i+1) +'.png')"
-                    >
-                    <div
-                      v-else
-                      class="index"
-                    >
-                      <span>{{ i+1 }}</span>
-                    </div>
-                    <span class="name">{{ t.govX315OrgName }}</span>
-                    <!-- <span class="money">{{ t.govB6Money }}</span>
+            <table>
+              <tr
+                v-for="(t,i) in ZDQYTableData1"
+                :key="i"
+              >
+                <td>
+                  <img
+                    v-if="i < 3"
+                    :src="require('img/px_'+ (i+1) +'.png')"
+                  >
+                  <div
+                    v-else
+                    class="index"
+                  >
+                    <span>{{ i+1 }}</span>
+                  </div>
+                  <span class="name">{{ t.govX315OrgName }}</span>
+                  <!-- <span class="money">{{ t.govB6Money }}</span>
                     <span class="percentage">{{ t.govB6Rate }}</span> -->
-                  </td>
-                </tr>
-              </table>
-              <table>
-                <tr
-                  v-for="(t,i) in ZDQYTableData2"
-                  :key="i"
-                >
-                  <td>
-                    <img
-                      v-if="ZDQYTableData1.length + i < 3"
-                      :src="require('img/px_'+ (i+2) +'.png')"
-                    >
-                    <div
-                      v-else
-                      class="index"
-                    >
-                      <span>{{ i+ZDQYTableData1.length+1 }}</span>
-                    </div>
-                    <span class="name">{{ t.govX315OrgName }}</span>
-                    <!-- <span class="money">{{ t.govB6Money }}</span>
+                </td>
+              </tr>
+            </table>
+            <table>
+              <tr
+                v-for="(t,i) in ZDQYTableData2"
+                :key="i"
+              >
+                <td>
+                  <img
+                    v-if="ZDQYTableData1.length + i < 3"
+                    :src="require('img/px_'+ (i+2) +'.png')"
+                  >
+                  <div
+                    v-else
+                    class="index"
+                  >
+                    <span>{{ i+ZDQYTableData1.length+1 }}</span>
+                  </div>
+                  <span class="name">{{ t.govX315OrgName }}</span>
+                  <!-- <span class="money">{{ t.govB6Money }}</span>
                     <span class="percentage">{{ t.govB6Rate }}</span> -->
-                  </td>
-                </tr>
-              </table>
-            </div>
+                </td>
+              </tr>
+            </table>
+          </div>
           <div class="getMore">
             <p>
               <span @click="showMore(currentId)">查看更多</span>
@@ -181,7 +181,7 @@
           <li 
             v-for="(item,index) in KeyEnterprises" 
             :key="index"
-            :class="[{active: popActive === index},{disabled:item.disabled}]"
+            :class="[{active: popActive === index},{disabled: item.disabled}]"
             @click="changePopActive(index,item.value)"
           >
             {{ item.name }}
@@ -193,9 +193,9 @@
         class="myContent"
       >
         <li 
-          class="item"
           v-for="(t,i) in popListData"
           :key="i"
+          class="item"
         >
           <img
             v-if="i + 1 <= 3"
@@ -207,20 +207,21 @@
           >
             <span>{{ i + 1 }}</span>
           </div>
-          <span class="name">{{t.govX315OrgName}}</span>
+          <span class="name">{{ t.govX315OrgName }}</span>
         </li>
       </ul>
       <div
-        class="pageBox"
         slot="other"
+        class="pageBox"
       >
         <el-pagination
-          @current-change="handleCurrentChange"
           :current-page="currentPage"
           :page-size="10"
           background
           layout="total, prev, pager, next"
-          :total="100">
+          :total="100"
+          @current-change="handleCurrentChange"
+        >
         </el-pagination>
       </div>
     </listPopups>
@@ -356,19 +357,19 @@ export default Vue.extend({
         areaTags((this as any).currentQydm).then(res=>{
           let rule = getTagRule('a','a5')
           let data = (this as any).$getTags('a','a5')
-          data.map((item:any)=>{
+          data.map((item: any)=>{
             if(!res.data.includes((item.value) * 1)){
               if(rule === 1){
                 item.disabled = true
               }else{
-                data = data.filter((item:any)=>{
+                data = data.filter((item: any)=>{
                   return res.data.includes((item.value) * 1)
                 })
               }
             }
           })
           _this.KeyEnterprises = data || []
-          let hasDataTag = _this.KeyEnterprises.filter((item:any)=>{
+          let hasDataTag = _this.KeyEnterprises.filter((item: any)=>{
             return !item.disabled
           })
           let urlA5 = _this.$getModUrl('a','a5')
@@ -525,7 +526,7 @@ export default Vue.extend({
     _this.timerA8 = null 
   },
   methods:{
-    getZDQYList(id:string|number,newVal:string,url:string){
+    getZDQYList(id: string|number,newVal: string,url: string){
       let _this = this as any
       let dataA5 = {
           "data": {
@@ -542,7 +543,7 @@ export default Vue.extend({
         _this.ZDQYTableData2 = data.slice(index,data.length)
       })
     },
-    getPopListData(id:string|number,newVal:string,page:number,url?:string){
+    getPopListData(id: string|number,newVal: string,page: number,url?: string){
       let _this = this as any
       let dataA5 = {
           "data": {
@@ -570,26 +571,26 @@ export default Vue.extend({
         _this.CHshow = true
       }
     },
-    changeA5Active(val:any){
+    changeA5Active(val: any){
       let _this = this as any
       _this.currentId = val      
       let urlA5 = _this.$getModUrl('a','a5');
       _this.getZDQYList(val*1,_this.currentQydm,urlA5)
     },
-    showMore(id:number | string){
+    showMore(id: number | string){
       let _this = this as any
       _this.$store.dispatch('SetListPopupsShow',!AppModule.ListPopupsShow)
-      _this.popActive = _this.KeyEnterprises.findIndex((item:any)=>{
+      _this.popActive = _this.KeyEnterprises.findIndex((item: any)=>{
         return item.value == _this.currentId
       })
       _this.getPopListData(id,_this.currentQydm,1)
     },
-    changePopActive(i:number,t:any){
+    changePopActive(i: number,t: any){
       let _this = this as any
       _this.popActive = i
       _this.currentId = t
     },
-    handleCurrentChange(val:number){
+    handleCurrentChange(val: number){
       let _this = this as any
       _this.getPopListData(_this.currentId,_this.currentQydm,val)
     }

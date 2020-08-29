@@ -41,8 +41,13 @@ export default Vue.extend({
             }
         }
     },
+    beforeDestroy(){
+        let _this = this as any
+        window.clearInterval(_this.timer)
+        _this.timer = null
+    },
     methods:{
-        loopFun(data:any[]){
+        loopFun(data: any[]){
             let _this = this as any
             // 当loop小于或者等于当前数组的长度时
             if(_this.loop <= data.length - 1){
@@ -74,11 +79,6 @@ export default Vue.extend({
                 },_this.govModNextSleep * 1000)
             }
         }
-    },
-    beforeDestroy(){
-        let _this = this as any
-        window.clearInterval(_this.timer)
-        _this.timer = null
     }
 })
 </script>
