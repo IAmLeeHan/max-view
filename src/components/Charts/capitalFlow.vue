@@ -25,14 +25,23 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: true }) private showPercentage!: boolean
   @Prop({ default: ()=>[] }) private echartsData!: any[]
   private echartData = [] as any
+  // private echartData2 = [] as any
   private fromData = [] as any
   private toData = [] as any
+  private sortData = [] as any
+  private colorList = ['#CB7BFD','#DDF327','#0FD5BF','#F3793F']
   @Watch("echartsData",{
      immediate: true,deep:true
   })
   private changeData(){
-    if(this.echartsData.length){
-          this.echartsData.map((item: any)=>{
+    let flowData = [] as any
+    this.echartData = []
+    let data = JSON.parse(JSON.stringify(this.echartsData))
+    this.sortData = data.sort((a: any,b: any)=>{
+        return b.govE1Money - a.govE1Money
+    })
+    if(this.sortData.length){
+        this.sortData.map((item: any)=>{
           let val = {
             fromName:item.govE1Name,
             toName:item.qyName,
@@ -47,11 +56,14 @@ export default class extends mixins(ResizeMixin) {
             je:item.govE1Money,
             unit:item.govUnitName
           }
-          this.fromData.push(val1)
+          flowData.push(val1)
+        })
+        this.fromData = flowData.sort((a: any,b: any)=>{
+            return b.je - a.je
         })
         let val2 = {
-          name:this.echartsData[0].qyName,
-          value:this.echartsData[0].govQydmWD
+          name:this.sortData[0].qyName,
+          value:this.sortData[0].govQydmWD
         }
         this.toData = []
         this.toData.push(val2)
@@ -141,7 +153,6 @@ export default class extends mixins(ResizeMixin) {
             show: true,
             period: 4, //箭头指向速度，值越小速度越快
             trailLength: 0.05, //特效尾迹长度[0,1]值越大，尾迹越长重
-            color: '#CB7BFD',
             symbol: 'arrow', //箭头图标
             symbolSize: 6, //图标大小
           },
@@ -150,83 +161,73 @@ export default class extends mixins(ResizeMixin) {
               width: 1, //尾迹线条宽度
               opacity: 1, //尾迹线条透明度
               curveness: .3, //尾迹线条曲直度
-              color:'#CB7BFD'
+              color:function(params: any){
+                  if(params.dataIndex<5){
+                    return _this.colorList[0]
+                  }else if(params.dataIndex>=5 && params.dataIndex <15){
+                    return _this.colorList[1]
+                  }else if(params.dataIndex>=15 && params.dataIndex <29){
+                    return _this.colorList[2]
+                  }else{
+                    return _this.colorList[3]
+                  }
+                },
             }
           },
           data:_this.echartData
         }, 
         {
-          // type: 'effectScatter',
-          // coordinateSystem: 'geo',
-          // zlevel: 2,
-          // // rippleEffect: { //涟漪特效
-          // //   period: 1, //动画时间，值越小速度越快
-          // //   brushType: 'stroke', //波纹绘制方式 stroke, fill
-          // //   scale: 3, //波纹圆环最大限制，值越大波纹越大,
-          // //   color:'#CB7BFD'
-          // // },
-          // rippleEffect: {
-          //     period: 5,
-          //     scale: 4,
-          //     brushType: 'fill'
-          // },
-          // label: {
-          //   normal: {
-          //     show: true,
-          //     position: 'right', //显示位置
-          //     offset: [5, 0], //偏移设置
-          //     formatter: function(params: any) { 
-          //       //圆环显示文字
-          //       return params.data.name;
-          //     },
-          //     fontSize: 13,
-          //     color:"#CB7BFD"
-          //   },
-          //   emphasis: {
-          //     show: true
-          //   }
-          // },
-          
-          // symbol: 'circle',
-          // symbolSize: function(val: any) {
-          //   return 12; //圆环大小
-          // },
-          // itemStyle: {
-          //   normal: {
-          //     show: false,
-          //     color:"#CB7BFD"
-          //     // color: '#4fb6d2',
-          //     // shadowBlur: 10,
-          //     // shadowColor: '#333'
-          //   }
-          // },
           type: 'effectScatter',
-                coordinateSystem: 'geo',
-                showEffectOn: 'render',
-                zlevel:1,
-                rippleEffect: {
-                    period: 15,
-                    scale: 4,
-                    brushType: 'fill'
+          coordinateSystem: 'geo',
+          showEffectOn: 'render',
+          zlevel:1,
+          rippleEffect: {
+              period: 15,
+              scale: 4,
+              brushType: 'fill'
+          },
+          hoverAnimation: true,
+          label: {
+              normal: {
+                  position: 'right',
+                  offset: [5, 0],
+                  color: '#fff',
+                  show: true,
+                  formatter: function(params: any) { 
+                    //圆环显示文字
+                    return params.data.name;
+                  },
+                  fontSize: 10,
+              },
+          },
+          itemStyle: {
+              normal: {
+                color:function(params: any){
+                  if(params.dataIndex<5){
+                    return _this.colorList[0]
+                  }else if(params.dataIndex>=5 && params.dataIndex <15){
+                    return _this.colorList[1]
+                  }else if(params.dataIndex>=15 && params.dataIndex <29){
+                    return _this.colorList[2]
+                  }else{
+                    return _this.colorList[3]
+                  }
                 },
-                hoverAnimation: true,
-                label: {
-                    normal: {
-                        formatter: '{b}',
-                        position: 'right',
-                        offset: [15, 0],
-                        color: '#1DE9B6',
-                        show: true
-                    },
-                },
-                itemStyle: {
-                    normal: {
-                       color:'#1DE9B6',
-                        shadowBlur: 10,
-                        shadowColor: '#333'
-                    }
-                },
-                symbolSize: 6,
+                shadowBlur: 10,
+                shadowColor: '#333'
+              }
+          },
+          symbolSize:function(value: any,params: any){
+            if(params.dataIndex<5){
+              return 10
+            }else if(params.dataIndex>=5 && params.dataIndex <15){
+              return 8
+            }else if(params.dataIndex>=15 && params.dataIndex <29){
+              return 6
+            }else{
+              return 4
+            }
+          },
           data:_this.fromData
         },
         //被攻击点

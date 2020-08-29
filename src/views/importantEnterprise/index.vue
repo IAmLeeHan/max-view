@@ -4,9 +4,9 @@
       title="区域核心企业分析"
       class="advantageIndustryItem"
       :type="'pillarEnterprise'"
-      :rank-list="coreEnterprise.zdqyfxTopDtos"
-      :areaCode='selectedArea.code'
+      :area-code="selectedArea.code"
       @checkMore="checkMore"
+      @getEchartData="getEchartData"
     >
       <verticalPie
         id="firstCapital"
@@ -27,7 +27,7 @@
         slot="area"
         height="100%"
         width="50%"
-        :echart-data="coreEnterprise.qyfb"
+        :echart-data="coreEnterprise.fbdq"
         :area-info="selectedArea"
       ></areaMap>
     </enterpriseItem>
@@ -35,9 +35,9 @@
       title="区域明星企业分析"
       class="advantageIndustryItem"
       :type="'starEnterprise'"
-      :rank-list="starEnterprise.zdqyfxTopDtos"
-      :areaCode='selectedArea.code'
+      :area-code="selectedArea.code"
       @checkMore="checkMore"
+      @getEchartData="getEchartData"
     >
       <verticalPie
         id="secondCapital"
@@ -58,7 +58,7 @@
         slot="area"
         height="100%"
         width="50%"
-        :echart-data="starEnterprise.qyfb"
+        :echart-data="starEnterprise.fbdq"
         :area-info="selectedArea"
       ></areaMap>
     </enterpriseItem>
@@ -66,9 +66,9 @@
       title="区域潜力企业分析"
       class="advantageIndustryItem"
       :type="'potentialEnterprise'"
-      :rank-list="potentialEnterprise.zdqyfxTopDtos"
-      :areaCode='selectedArea.code'
+      :area-code="selectedArea.code"
       @checkMore="checkMore"
+      @getEchartData="getEchartData"
     >
       <verticalPie
         id="thirdCapital"
@@ -89,7 +89,7 @@
         slot="area"
         height="100%"
         width="50%"
-        :echart-data="potentialEnterprise.qyfb"
+        :echart-data="potentialEnterprise.fbdq"
         :area-info="selectedArea"
       ></areaMap>
     </enterpriseItem>
@@ -142,22 +142,22 @@ export default Vue.extend({
       showDialog:false,
       type:"",
       coreEnterprise:{
-        zdqyfxTopDtos:[],
-        zczb:[1],
-        clsj:[2],
-        qyfb:[3]
+        zczb:[] as any,
+        clsj:[] as any,
+        fbdq:[] as any,
+        
       },
       starEnterprise:{
-        zdqyfxTopDtos:[],
-        zczb:[4],
-        clsj:[5],
-        qyfb:[6]
+        zczb:[] as any,
+        clsj:[] as any,
+        fbdq:[] as any,
+        
       },
       potentialEnterprise:{
-        zdqyfxTopDtos:[],
-        zczb:[7],
-        clsj:[8],
-        qyfb:[9]
+        zczb:[] as any,
+        clsj:[] as any,
+        fbdq:[] as any,
+        
       },
       valueCity : [] as any,
       defaultProps:{
@@ -237,6 +237,44 @@ export default Vue.extend({
           })
         }
       })
+    },
+    //获取echart数据
+    getEchartData(val: any){
+      if(val.type === "pillarEnterprise"){
+        if(val.data.zczb){
+          this.coreEnterprise.zczb = val.data.zczb
+        }
+        if(val.data.clsj){
+          this.coreEnterprise.clsj = val.data.clsj
+        }
+        if(val.data.qyfb){
+          this.coreEnterprise.fbdq = val.data.qyfb
+          // console.log(this.coreEnterprise.fbdq)
+        }
+      }
+      if(val.type === "starEnterprise"){
+        if(val.data.zczb){
+          this.starEnterprise.zczb = val.data.zczb
+        }
+        if(val.data.clsj){
+          this.starEnterprise.clsj = val.data.clsj
+        }
+        if(val.data.qyfb){
+          this.starEnterprise.fbdq = val.data.qyfb
+          
+        }
+      }
+      if(val.type === "starEnterprise"){
+        if(val.data.zczb){
+          this.potentialEnterprise.zczb = val.data.zczb
+        }
+        if(val.data.clsj){
+          this.potentialEnterprise.clsj = val.data.clsj
+        }
+        if(val.data.qyfb){
+          this.potentialEnterprise.fbdq = val.data.qyfb
+        }
+      }
     }
   }
 });

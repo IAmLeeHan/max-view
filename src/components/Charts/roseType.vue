@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import echarts, { EChartOption } from 'echarts'
-import { Component, Prop } from 'vue-property-decorator'
+import { Component, Prop, Watch } from 'vue-property-decorator'
 import { mixins } from 'vue-class-component'
 import ResizeMixin from './mixins/resize'
 
@@ -20,8 +20,24 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: 'chart' }) private id!: string
   @Prop({ default: '200px' }) private width!: string
   @Prop({ default: '200px' }) private height!: string
-  @Prop({ default: ()=>[] }) private echartData!: string
-
+  @Prop({ default: ()=>[] }) private echartData: any
+  private seriesData = [] as any
+  @Watch("echartData",{
+     immediate: true,deep:true
+  })
+  private changeData(){
+    console.log(this.echartData)
+    this.echartData.map((item: any)=>{
+      let val = {
+        name:item.key,
+        value:item.value
+      }
+      this.seriesData.push(val)
+    })
+    this.$nextTick(() => {
+      this.initChart()
+    })
+  }
   private echartsData = [
     {
       value: "5890",
@@ -52,11 +68,11 @@ export default class extends mixins(ResizeMixin) {
       name: "其他"
     }
   ]
-  mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
-  }
+  // mounted() {
+  //   this.$nextTick(() => {
+  //     this.initChart()
+  //   })
+  // }
 
   beforeDestroy() {
     if (!this.chart) {
@@ -93,7 +109,7 @@ export default class extends mixins(ResizeMixin) {
           color: "#fff"
         },
         orient:"vertical" ,
-        data: this.echartsData.map((item: any)=> item.name)
+        data: this.seriesData.map((item: any)=> item.name)
       },
       series: [
         {
@@ -106,7 +122,7 @@ export default class extends mixins(ResizeMixin) {
           label:{
               formatter: '{b} {d}%'
           },
-          data:(this as any).echartsData
+          data:(this as any).seriesData
         }
       ]
     } as EChartOption<EChartOption.SeriesPie>)

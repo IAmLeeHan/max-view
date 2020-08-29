@@ -3,14 +3,14 @@
     <div class="legendBox">
       <ul class="fl r_box_ul">
         <li
-          v-for="(item,index) in echartsData"
+          v-for="(item,index) in echartData"
           :key="index"
         >
           <span
             class="sp_cirle"
-            :style="{backgroundColor: colorList2[index]}"
+            :style="{backgroundColor: colorList2[index%10]}"
           ></span>
-          <span :style="{color: colorList2[index]}">{{ item.name }}</span>
+          <span :style="{color: colorList2[index%10]}">{{ item.qyName }}</span>
         </li>
       </ul>
     </div>
@@ -40,16 +40,23 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: 'chart' }) private id!: string
   @Prop({ default: '200px' }) private width!: string
   @Prop({ default: '200px' }) private height!: string
-  @Prop({ default: ()=>[] }) private echartData!: string
-  // @Prop({ default: ()=>{name:"",code:""} }) private areaInfo!: string
+  @Prop({ default: ()=>[] }) private echartData: any
   @Prop({ default: {name:"青岛市",code:"",selected:""} }) private areaInfo!: string
 
+  
   @Watch("areaInfo",{ immediate: true,deep:true })
   private changeAreaInfo(){
     this.$nextTick(() => {
+
       this.chart = echarts.init(document.getElementById(this.id) as any);
       this.initChart(this.chart)
     })
+  }
+  @Watch("echartData",{
+    immediate: true,deep:true
+  })
+  private changeData(){
+    // console.log(this.echartData)
   }
   private echartsData = [
     {
@@ -114,14 +121,16 @@ export default class extends mixins(ResizeMixin) {
      echarts.registerMap((_this as any).areaInfo.name, data);
         let d: any = {};
         for(let i in data.features){
-            d[data.features[i].properties.name] = data.features[i].properties.cp
+            d[data.features[i].properties.adcode] = data.features[i].properties.center
         }
         let series = [];
-        for(let i = 0;i<_this.echartsData.length;i++){
+        for(let i = 0;i<_this.echartData.length;i++){
             let bb = {};
-            let name = _this.echartsData[i].name;
-            let value = Number(_this.echartsData[i].value);
+            let name = _this.echartData[i].qyName;
+            let code = _this.echartData[i].key
+            let value = Number(_this.echartData[i].value);
             let scale = 4 - i*0.2
+            
             bb = {
                 type: 'effectScatter',
                 coordinateSystem: 'geo',
@@ -132,20 +141,33 @@ export default class extends mixins(ResizeMixin) {
                     brushType: 'stroke'
                 },
                 label: {
-                    show: false,
+                    show: true,
                     position: 'right',
                     formatter: '{b}',
                 },
-                symbolSize: function(val: any) {
-                    return (((val[2]/total)*100).toFixed(2))
-                },
+                // symbolSize: function(val: any) {
+                //     return (((val[2]/total)*100).toFixed(2))
+                // },
+                symbolSize:12,
                 itemStyle: {
-                    color: _this.colorList2[i]
+                    color: _this.colorList2[i%10]
                 },
+                data: [{
+                    name: name,
+                    value: d[code].concat(value)
+                }]
             };
             series.push(bb);
         }
         let option = {
+            tooltip:{
+              trigger:"item",
+              formatter:function(params: any){
+                let res = "";
+                res = "<span style='color:#fff;'>" + params.data.name + "</span><br/>" + params.data.value[2]+"家";
+                return res
+              }
+            },
             geo: {
                 // map: '青岛市',
                 map:(_this as any).areaInfo.name,
@@ -169,7 +191,7 @@ export default class extends mixins(ResizeMixin) {
                 },
                 left:'center'
             },
-            // series: series
+            series: series
         };
         (_this as any).chart.setOption(option as EChartOption<EChartOption.SeriesBar>);
   }
@@ -177,102 +199,9 @@ export default class extends mixins(ResizeMixin) {
     let _this = this
     myChart.clear();
     let total = 0
-    _this.echartsData.map(item=>{
+    _this.echartData.map((item: any)=>{
       total += Number(item.value*1)
     })
-    // $.get('/map/citys/'+(_this as any).areaInfo.code+'.json', function(data) {
-    //     echarts.registerMap((_this as any).areaInfo.name, data);
-    //     let d: any = {};
-    //     for(let i in data.features){
-    //         d[data.features[i].properties.name] = data.features[i].properties.cp
-    //     }
-    //     let series = [];
-    //     for(let i = 0;i<_this.echartsData.length;i++){
-    //         let bb = {};
-    //         let name = _this.echartsData[i].name;
-    //         let value = Number(_this.echartsData[i].value);
-    //         let scale = 4 - i*0.2
-    //         bb = {
-    //             type: 'effectScatter',
-    //             coordinateSystem: 'geo',
-    //             zlevel: 2,
-    //             rippleEffect: {
-    //                 period: 10,
-    //                 scale: scale ,
-    //                 brushType: 'stroke'
-    //             },
-    //             label: {
-    //                 show: false,
-    //                 position: 'right',
-    //                 formatter: '{b}',
-    //             },
-    //             symbolSize: function(val: any) {
-    //                 return (((val[2]/total)*100).toFixed(2))
-    //             },
-    //             itemStyle: {
-    //                 color: _this.colorList2[i]
-    //             },
-    //         // coordinateSystem: 'geo',
-    //         // symbol: 'pin',
-    //         // symbolSize: [50,50],
-    //         // label: {
-    //         //     normal: {
-    //         //         show: true,
-    //         //         textStyle: {
-    //         //             color: '#fff',
-    //         //             fontSize: 9,
-    //         //         },
-    //         //         formatter(value: any){
-    //         //             return value.data.value[2]
-    //         //         }
-    //         //     }
-    //         // },
-    //         // itemStyle: {
-    //         //     normal: {
-    //         //         color: _this.colorList2[i]
-    //         //     }
-    //         // },
-    //         // showEffectOn: 'render',
-    //         // rippleEffect: {
-    //         //     brushType: 'stroke'
-    //         // },
-    //         // hoverAnimation: true,
-    //         // zlevel: 1,
-    //             // data: [{
-    //             //     name: name,
-    //             //     value: d[name].concat(value)
-    //             // }]
-    //         };
-    //         series.push(bb);
-    //     }
-    //     let option = {
-    //         geo: {
-    //             // map: '青岛市',
-    //             map:(_this as any).areaInfo.name,
-    //             zoom:1,
-    //             label: {
-    //                 show: false,
-    //                 emphasis: {
-    //                     show: false
-    //                 }
-    //             },
-    //             roam: false,
-    //             itemStyle: {
-    //                 normal: {
-    //                     color: 'rgba(51, 69, 89, .3)', //地图背景色
-    //                     borderColor: '#396ac4', //省市边界线00fcff 516a89
-    //                     borderWidth: 1
-    //                 },
-    //                 emphasis: {
-    //                     color: 'rgba(37, 43, 61, .5)' //悬浮背景
-    //                 }
-    //             },
-    //             left:'center'
-    //         },
-    //         // series: series
-    //     };
-    //     (_this as any).chart.setOption(option as EChartOption<EChartOption.SeriesBar>);
-    // });
     MapModule.SetCurrentMap(formData({adminCode:(this as any).areaInfo.code})).then(res=>{
         _this.mapGet(MapModule.currentMap,total)
        
@@ -288,7 +217,7 @@ export default class extends mixins(ResizeMixin) {
     align-items: center;
     .legendBox{
       width:50%;
-      height:50%;
+      height:70%;
       .r_box_ul{
           /*width:50%;*/
           width:100%;

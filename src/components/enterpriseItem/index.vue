@@ -27,17 +27,18 @@
     <div class="labelBox">
       <div
         v-for="(item,index) in labelList"
+        v-if="item.hasValue"
         :key="index"
         class="labelItem"
-        :class="{selected: labelIndex===index}"
-        @click="changeLabel(index)"
+        :class="{selected: labelIndex===item.id}"
+        @click="changeLabel(item.id)"
       >
         {{ item.label }}
       </div>
     </div>
     <!-- 排名栏 -->
     <div
-      v-if="type==='pillarIndustry'"
+      v-if="type==='pillarEnterprise'"
       class="rankLeftBox rankBox"
     >
       <div
@@ -61,7 +62,7 @@
       </div>
     </div>
     <div
-      v-if="type==='starIndustry'"
+      v-if="type==='starEnterprise'"
       class="rankMiddleBox rankBox"
     >
       <div class="rankContent">
@@ -99,7 +100,7 @@
       </div>
     </div>
     <div
-      v-if="type==='potentialIndustry'"
+      v-if="type==='potentialEnterprise'"
       class="rankRightBox rankBox"
     >
       <div class="rankContent">
@@ -149,7 +150,7 @@
     </div>
     <div
       class="echarts"
-      :class="{pillarIndustry: type==='pillarIndustry',starIndustry: type==='starIndustry',potentialIndustry: type==='potentialIndustry'}"
+      :class="{pillarEnterprise: type==='pillarEnterprise',starEnterprise: type==='starEnterprise',potentialEnterprise: type==='potentialEnterprise'}"
     >
       <!-- echart标签栏 -->
       <div class="echartLabelBox">
@@ -278,6 +279,11 @@ export default Vue.extend({
       echartLabelIndex:0
     }
   },
+  watch:{
+    areaCode(){
+      this.getLabelList()
+    }
+  },
   created(){
       this.getLabelList()
   },
@@ -331,7 +337,6 @@ export default Vue.extend({
 
         }
       })
-      console.log(this.labelList)
       let _this = this as any
       if(this.type === 'pillarEnterprise'){
           let urlA1 = _this.$getModUrl('d','d1')
@@ -381,7 +386,13 @@ export default Vue.extend({
           let urlA1 = _this.$getModUrl('d','d1')
           getEnterpriseLeftData(formData({qydm:this.areaCode,label:this.labelIndex})).then((res: any)=>{
             if(res.code === "200"){
-              this.rankList = JSON.parse(res.data)
+              this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+              let val = {
+                type:this.type,
+                data:JSON.parse(res.data)
+              }
+              this.$emit("getEchartData",val)
+              // console.log(JSON.parse(res.data))
             }
           })
         }
@@ -389,7 +400,12 @@ export default Vue.extend({
           let urlA1 = _this.$getModUrl('d','d2')
           getEnterpriseMiddleData(formData({qydm:this.areaCode,label:this.labelIndex})).then((res: any)=>{
             if(res.code === "200"){
-              this.rankList = JSON.parse(res.data)
+              this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+              let val = {
+                type:this.type,
+                data:JSON.parse(res.data)
+              }
+              this.$emit("getEchartData",val)
             }
           })
         }
@@ -397,7 +413,12 @@ export default Vue.extend({
           let urlA1 = _this.$getModUrl('d','d3')
           getEnterpriseRightData(formData({qydm:this.areaCode,label:this.labelIndex})).then((res: any)=>{
             if(res.code === "200"){
-              this.rankList = JSON.parse(res.data)
+              this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+              let val = {
+                type:this.type,
+                data:JSON.parse(res.data)
+              }
+              this.$emit("getEchartData",val)
             }
           })
         }
@@ -582,11 +603,12 @@ export default Vue.extend({
     .rankContent{
       width:100%;
       margin:10px 0 5px 0;
+      height:16px;
       div{
         float:right;
         font-size: 12px;
         color:#3DD3CF;
-        margin-bottom:5px;
+        // margin-bottom:5px;
         padding:0px 20px;
       }
     }
@@ -669,13 +691,13 @@ export default Vue.extend({
     width: 100%;
     // height: calc(100% - 36px);
   }
-  .pillarIndustry{
+  .pillarEnterprise{
       height: calc(100% - 600px);
   }
-  .starIndustry{
+  .starEnterprise{
       height: calc(100% - 600px);
   }
-  .potentialIndustry{
+  .potentialEnterprise{
       height: calc(100% - 600px);
   }
 }

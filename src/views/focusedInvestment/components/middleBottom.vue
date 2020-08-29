@@ -73,7 +73,7 @@
 <script lang="ts">
 import Vue from "vue";
 import {getE3Label,getE3} from "@/api/focusedInvestment"
-
+import mixins from '@/components/polling/index.vue'
 import { formData } from '@/utils/index'
 export default Vue.extend({
   filters:{
@@ -83,6 +83,7 @@ export default Vue.extend({
       }
     }
   },
+  mixins:[mixins],
   props:{
     title:{
       type:String,
@@ -160,6 +161,8 @@ export default Vue.extend({
             this.active = this.labelList[0].id
             //获取对外投资活跃企业数据
             this.getEnterpriseData()
+            //启动轮询
+            // _this.pollingLabel()
           }
       })
     },
@@ -180,7 +183,7 @@ export default Vue.extend({
     getEnterpriseData(){
       let _this = this as any
       let urlA1 = _this.$getModUrl('e','e3')
-      getE3(formData({qydm:this.areaCode,label:this.active,pageNum:1,size:8}),urlA1).then((res: any)=>{
+      getE3(formData({qydm:this.areaCode,label:this.active,pageNum:1,size:7}),urlA1).then((res: any)=>{
           if(res.code === "200"){
             this.rankList = JSON.parse(res.data).records
           }
@@ -299,12 +302,12 @@ export default Vue.extend({
     }
     .rankBox{
       .rankItem{
-          height:31px;
+          height:35px;
           background:rgba(114,255,250,0.08);
           display:flex;
           color:#fff;
           font-size: 12px;
-          line-height:31px;
+          line-height:35px;
           margin-top:2px;
           .index{
             width:30px;

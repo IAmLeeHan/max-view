@@ -15,7 +15,7 @@
         <li 
           v-for="(item,index) in subTitle" 
           :key="index"
-          :class="{active: active === index}"
+          :class="[{active: active === index},{disabled:item.disabled}]"
           @click="changeActive(index,item.value)"
         >
           {{ item.name }}
@@ -37,7 +37,9 @@
 
 <script lang="ts">
 import Vue from "vue";
+import mixins from './mixins/index.vue';
 export default Vue.extend({
+  mixins:[mixins],
   props:{
     title:{
       type:String,
@@ -130,6 +132,12 @@ export default Vue.extend({
         &.active{
           color: #43F6FF;
           border-bottom:1px solid #43F6FF;
+        }
+        &.disabled{
+          color: #fff;
+          pointer-events: none;
+          cursor: pointer;
+          opacity: 0.6;
         }
       }
     }

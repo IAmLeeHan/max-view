@@ -52,7 +52,10 @@
         <p class="rightBK">
         </p>
       </div>
-      <span class="tips">注册资本 ≥1000 万元</span>
+      <span
+        v-if="zczb"
+        class="tips"
+      >注册资本 ≥{{ zczb }} 万元</span>
     </div>
     <!-- 标题栏结束 -->
     <!-- 投资金额top10 -->
@@ -116,7 +119,8 @@ export default Vue.extend({
     return {
       active:0,
       rankTopData:[],
-      rankBottomData:[]
+      rankBottomData:[] as any,
+      zczb:0
     }
   },
   watch:{
@@ -155,7 +159,11 @@ export default Vue.extend({
       let urlA1 = _this.$getModUrl('e','e5')
       getE5(formData({qydm:this.areaCode,pageNum:1,size:9}),urlA1).then((res: any)=>{
         if(res.code === "200"){
+          // console.log(JSON.parse(res.data))
           this.rankBottomData = JSON.parse(res.data).records
+          if(this.rankBottomData.length){
+            this.zczb = this.rankBottomData[0].govE5Zczb
+          }
         }
       })
     },

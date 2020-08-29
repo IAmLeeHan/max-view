@@ -1,8 +1,11 @@
 import request from '@/utils/request'
-
+// 重点企业分布可用标签
 export const areaTags = (data?: any) =>
   request({
-    url: '/gov/login',
+    url: '/gov/area/overview/tag',
+    headers:{
+      'Content-Type': 'application/json'
+    },
     method: 'post',
     data
   })

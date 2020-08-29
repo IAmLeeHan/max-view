@@ -30,7 +30,7 @@ module.exports = {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       '^/gov': {
         // target: `http://localhost:${mockServerPort}/mock-api/v1`,
-        target:'http://10.86.11.43:8080',
+        target:'http://10.86.11.18:8080',
         changeOrigin: true, // needed for virtual hosted sites
         // ws: true, // proxy websockets
         // pathRewrite: {
@@ -38,7 +38,7 @@ module.exports = {
         // }
       },
       '^/zhuang':{
-        target:'http://10.86.11.43:8080',
+        target:'http://10.86.11.18:8080',
         changeOrigin:true,
         pathRewrite: {
           '^/zhuang': ''

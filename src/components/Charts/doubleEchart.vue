@@ -29,7 +29,6 @@ export default class extends mixins(ResizeMixin) {
       this.initChart()
     })
   }
-
   beforeDestroy() {
     if (!this.chart) {
       return
@@ -59,7 +58,8 @@ export default class extends mixins(ResizeMixin) {
     unitList.push('增长率')
     for(let i in data2){
       let val = {
-        value:((data2[i]/all*10000)/100.00).toFixed(2),
+        value:data2[i],
+        // value:((data2[i]/all*10000)/100.00).toFixed(2),
         num:data2[i]
       }
       data.push(val)
@@ -127,12 +127,34 @@ export default class extends mixins(ResizeMixin) {
               interval: 0
               // rotate:40
             }
+          },
+          {
+            axisLine:{
+              show:true,
+              lineStyle: {
+                color: '#B9B9B9',
+                type: 'solid'
+              }
+            }
           }
         ],
         yAxis: [
           {
+            type: "value",
+            scale: true,
+            splitLine: {
+              lineStyle: {
+                color: 'rgba(234,234,234,0.5)',
+                type: 'dashed'
+              }
+            },
+            axisLabel:{
+              color: '#fff'
+            }
+          },
+          {
             axisTick: {
-              show: false
+              show: true
             },
             // max: 100,
             // maxInterval: 20,
@@ -144,13 +166,14 @@ export default class extends mixins(ResizeMixin) {
               color: '#fff'
             },
             axisLine: {
-              show: false
+              show: true
             },
             splitLine: {
-              lineStyle: {
-                color: 'rgba(234,234,234,0.5)',
-                type: 'dashed'
-              }
+              // lineStyle: {
+              //   color: 'rgba(234,234,234,0.5)',
+              //   type: 'dashed'
+              // }
+              show: false
             }
           }
         ],
@@ -179,6 +202,7 @@ export default class extends mixins(ResizeMixin) {
             type: 'line',
             symbol: 'circle',
             symbolSize: 6,
+            yAxisIndex: 1,
             lineStyle: {
               normal: {
                 width: 2,

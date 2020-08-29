@@ -71,13 +71,13 @@
           全国排名
         </div>
         <div
-          v-show="flag!=0"
+          v-show="flag!==0"
           class="rankLabelItem"
         >
           省排名
         </div>
         <div
-          v-show="flag==2"
+          v-show="flag===2"
           class="rankLabelItem"
         >
           市排名
@@ -103,13 +103,13 @@
           {{ item.counts }}{{ item.unit }}
         </div>
         <div class="rank cityRank">
-          {{ item.spm }}
+          {{ item.spm | spm }}
         </div>
         <div class="rank provinceRank">
-          {{ item.sfpm }}
+          {{ item.sfpm | rank }}
         </div>
         <div class="rank countryRank">
-          {{ item.qgpm }}
+          {{ item.qgpm | rank }}
         </div>
       </div>
     </div>
@@ -175,6 +175,26 @@ export default Vue.extend({
         return Math.abs(parseInt(val*100 + ''))
       }else{
         return "-"
+      }
+    },
+    //省排名 全国排名
+    rank:function(val: any){
+      if(val){
+        if(val*1>999){
+          return "999+"
+        }else{
+          return val
+        }
+      }
+    },
+    //市排名
+    spm:function(val: any){
+      if(val){
+        if(val.split("/")[0]*1>999){
+          return "999+"
+        }else{
+          return val
+        }
       }
     }
   },

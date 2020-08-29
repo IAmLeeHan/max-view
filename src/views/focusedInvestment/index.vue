@@ -28,6 +28,8 @@
         :sub-title="subTitle"
         :type="'middleBottom'"
         :area-code="selectedArea.code"
+        :gov-mod-next="1"
+        :gov-mod-next-sleep="sleepE3"
         @checkMore="checkMore"
       ></middleBottom>
     </div>
@@ -73,6 +75,11 @@ import flowChart from "@/components/Charts/capitalFlow.vue";
 import middleBottom from "./components/middleBottom.vue"
 import {getAreaCode} from "@/api/advantageIndustry"
 import {getE1} from "@/api/focusedInvestment"
+import {
+  getGovModNext,
+  getGovModNextSleep,
+  getGovModSleep
+} from '@/utils/getsleep';
 
 import { formData } from '@/utils/index'
 export default Vue.extend({
@@ -106,6 +113,14 @@ export default Vue.extend({
       flowEchartData:[],
       labelInfo:""
     }
+  },
+  computed:{
+    nextE3(){
+      return getGovModNext('e','e3')
+    },
+    sleepE3(){
+      return getGovModNext('e','e3')
+    },
   },
   created(){
     this.selectedArea.name = this.$store.state.user.govInfoName

@@ -26,15 +26,18 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: ()=>[] }) private echartsData!: any[]
   private echartData = [] as any
   private fromData = [] as any
+  // private fromData2 = [] as any
   private toData = [] as any
 
   private colorList = ['#CB7CFE','#DEF428','#10D6C0']
 
   @Watch("echartsData",{
-     immediate: true,deep:true
+     immediate: true,deep:false
   })
   private changeData(){
     if(this.echartsData.length){
+      this.echartData = []
+      this.fromData = []
           this.echartsData.map((item: any)=>{
           let val = {
             fromName:item.govE1Name,
@@ -82,16 +85,13 @@ export default class extends mixins(ResizeMixin) {
 
   private initChart() {
     let _this = this;
-    _this.chart  =echarts.init(document.getElementById(_this.id) as HTMLDivElement, null as any, {renderer: 'svg'});
+    _this.chart  =echarts.init(document.getElementById(_this.id) as HTMLDivElement, null as any);
     _this.chart.clear();
-    
-
     $.getJSON('/map/china.json',function(data){
       echarts.registerMap('china', data);
       (_this as any).chart.setOption({
       tooltip: {
         trigger: 'item',
-
         borderColor: '#FFFFCC',
         showDelay: 0,
         hideDelay: 0,
@@ -158,7 +158,7 @@ export default class extends mixins(ResizeMixin) {
               width: 1, //尾迹线条宽度
               opacity: 1, //尾迹线条透明度
               curveness: .3, //尾迹线条曲直度
-              color: (params:any)=>{
+              color: (params: any)=>{
                 return _this.colorList[params.dataIndex]
               }
             }
@@ -278,7 +278,7 @@ export default class extends mixins(ResizeMixin) {
           data:_this.toData
         }
       ]
-      } as any)
+      } as any,true)
     })
   }
 }

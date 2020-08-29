@@ -23,7 +23,7 @@ export const getEnterpriseLeftData = (data: any,url? : string) =>
 //获取重点企业中间数据
 export const getEnterpriseMiddleData = (data: any,url? : string) => 
   request({
-    url:`${url?url:''}/gov/zhong/d1`,
+    url:`${url?url:''}/gov/zhong/d2`,
     headers:{
       'Content-Type': 'application/json'
     },
@@ -33,7 +33,7 @@ export const getEnterpriseMiddleData = (data: any,url? : string) =>
 //获取重点企业右侧数据
 export const getEnterpriseRightData = (data: any,url? : string) => 
   request({
-    url:`${url?url:''}/gov/zhong/d1`,
+    url:`${url?url:''}/gov/zhong/d3`,
     headers:{
       'Content-Type': 'application/json'
     },
@@ -71,7 +71,7 @@ export const getRightDialogPage = (data: any,url? : string) =>
     data
   })
 //左侧label列表
-export const getLeftLabelList = (data: any,url? :string) => 
+export const getLeftLabelList = (data: any,url? : string) => 
   request({
     url:`${url?url:''}/gov/zhong/d1count`,
     headers:{
@@ -81,7 +81,7 @@ export const getLeftLabelList = (data: any,url? :string) =>
     data
   })
 //左侧label列表
-export const getMiddleLabelList = (data: any,url? :string) => 
+export const getMiddleLabelList = (data: any,url? : string) => 
   request({
     url:`${url?url:''}/gov/zhong/d2count`,
     headers:{
@@ -91,7 +91,7 @@ export const getMiddleLabelList = (data: any,url? :string) =>
     data
   })
 //左侧label列表
-export const getrightLabelList = (data: any,url? :string) => 
+export const getrightLabelList = (data: any,url? : string) => 
   request({
     url:`${url?url:''}/gov/zhong/d3count`,
     headers:{

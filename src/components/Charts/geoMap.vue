@@ -20,7 +20,8 @@ import { UserModule } from '@/store/modules/user';
 import { EAreaModule } from '@/store/modules/eArea';
 import {MapModule} from '@/store/modules/map'
 import { use } from 'vue/types/umd'
-import { formData } from '@/utils/index'
+import { formData } from '@/utils/index';
+import { getGovModSleep } from '@/utils/getsleep';
 
 @Component({
   name: 'BarChart'
@@ -32,6 +33,8 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: '200px' }) private height!: string
 
   private selectedPT = []
+
+  private timer:any = null
 
   selectedAddress(){
     return this.selectedPT.length>1?this.selectedPT[this.selectedPT.length-1]:"中国"
@@ -56,6 +59,23 @@ export default class extends mixins(ResizeMixin) {
       
       (this as any).selectedPT = [`china`,`${pName}`,`${UserModule.govInfoName}`]
     }
+
+    let time = getGovModSleep('a','a1') * 1000
+    if(time > 0){
+      this.timer = window.setInterval(()=>{
+        this.getA1Data()
+      },time)
+    }else{
+      this.getA1Data()
+    }
+    this.init()
+    this.$nextTick(() => {
+      this.$emit('sendAddress',this.selectedAddress)
+      // this.initChart()
+    })
+  }
+
+  private getA1Data(){
     if(this.selectedPT.length > 1){
       EAreaModule.getEnterpriseDistribution(UserModule.govInfoQydm).then(res=>{
         MapModule.SetCurrentMap(formData({adminCode:UserModule.govInfoQydm})).then(res=>{
@@ -65,14 +85,11 @@ export default class extends mixins(ResizeMixin) {
     }else{
       this.mapGet(`中国`,`/map/china2.json`, this.chart);
     }
-    this.init()
-    this.$nextTick(() => {
-      this.$emit('sendAddress',this.selectedAddress)
-      // this.initChart()
-    })
   }
 
   beforeDestroy() {
+    window.clearInterval(this.timer)
+    this.timer = null
     if (!this.chart) {
       return
     }

@@ -17,7 +17,8 @@ export interface IAppState {
   language: string
   size: string
   isFullscreen: boolean
-  dialogTableVisible: boolean
+  dialogTableVisible: boolean,
+  ListPopupsShow:boolean
 }
 
 @Module({ dynamic: true, store, name: 'app' })
@@ -32,6 +33,7 @@ class App extends VuexModule implements IAppState {
   public size = getSize() || 'medium'
   public isFullscreen = false
   public dialogTableVisible = false
+  public ListPopupsShow = false
   @Mutation
   private TOGGLE_SIDEBAR(withoutAnimation: boolean) {
     this.sidebar.opened = !this.sidebar.opened
@@ -76,6 +78,10 @@ class App extends VuexModule implements IAppState {
   private SET_DIALOGTABLEVISIBLE(dialogTableVisible: boolean){
     this.dialogTableVisible = dialogTableVisible
   }
+  @Mutation
+  private LIST_POPUPS_SHOW(ListPopupsShow:boolean){
+    this.ListPopupsShow = ListPopupsShow
+  }
 
   @Action
   public ToggleSideBar(withoutAnimation: boolean) {
@@ -110,6 +116,11 @@ class App extends VuexModule implements IAppState {
   @Action
   public SetDialogTableVisible(dialogTableVisible: boolean){
     this.SET_DIALOGTABLEVISIBLE(dialogTableVisible)
+  }
+
+  @Action
+  public SetListPopupsShow(ListPopupsShow: boolean){
+    this.LIST_POPUPS_SHOW(ListPopupsShow)
   }
 }
 

@@ -20,7 +20,7 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: 'chart' }) private id!: string
   @Prop({ default: '200px' }) private width!: string
   @Prop({ default: '200px' }) private height!: string
-  @Prop({ default: false }) private vertical!:boolean
+  @Prop({ default: false }) private vertical!: boolean
   @Prop({ default:()=>[] }) private echartsData!: any[]
 
   private colorList = [
@@ -40,8 +40,6 @@ export default class extends mixins(ResizeMixin) {
   }
   mounted() {
     this.$nextTick(() => {
-      console.log(this.vertical,"ver");
-      
       this.initChart()
     })
   }
