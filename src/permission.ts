@@ -32,7 +32,7 @@ router.beforeEach(async(to: Route, _: Route, next: any) => {
     // 判断用户是否有token（接口请求，处于登录状态）
     if(getToken()){
       // 如果跳转到登录页面
-      if (to.path === '/login') {
+      if (to.path === '/login' || to.path === '/') {
         // 重镜像到首页
         next({ path: getDefault() })
         NProgress.done()

@@ -187,7 +187,6 @@ class User extends VuexModule implements IUserState {
     }
     return new Promise(resolve=>{
       logout().then(res=>{
-        debugger
         let code = (res as any).code
         if(code === '200'){
           removeRefresh()
