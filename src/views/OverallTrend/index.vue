@@ -1084,6 +1084,16 @@ export default Vue.extend({
     },
     getPopListData(id: string|number,newVal: string,page: number,url?: string){
       let _this = this as any
+      // b4a 趋势图
+      let b4aData = {
+        "govLabel": id,
+        "qydm": newVal
+      }
+      trendsNewKeyEnterprises(b4aData).then((res:any)=>{
+        if(res.code === '200'){
+          _this.XZZDRecharts = res.data
+        }
+      })
       // b4 列表
       let b4Data = {
           "data": {
