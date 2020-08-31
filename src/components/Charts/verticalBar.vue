@@ -26,6 +26,7 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: ()=>[] }) private echartsData!: any[]
   @Prop({ default: false }) private wrap!: boolean
   @Prop({ default: true }) private showUnit!: boolean
+  @Prop({ default: 40}) private rotate!:number
 
   private barWidth = 12
 
@@ -112,7 +113,7 @@ export default class extends mixins(ResizeMixin) {
               fontSize: 11
             },
             interval:0,
-            rotate:40,
+            rotate:_this.rotate,
             formatter:function(value: any){  
               let ret = "";//拼接加\n返回的类目项  
               let maxLength = 5;//每项显示文字个数  

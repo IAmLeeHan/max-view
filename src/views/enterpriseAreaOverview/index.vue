@@ -552,11 +552,21 @@ export default Vue.extend({
         }
       keyEnterprise(dataA5,url).then((res: any)=>{
         _this.ZDQYTableShow = true
-        if(res.code === '200'){
+        if(res.code === '200' && res.data && res.data.length>0){
           let data = res.data
           let index = data.length / 2
           _this.ZDQYTableData1 = data.slice(0,index)
           _this.ZDQYTableData2 = data.slice(index,data.length)
+        }else{
+          let hasDataTag = _this.KeyEnterprises.filter((item: any)=>{
+            return !item.disabled
+          })
+          let curIndex = hasDataTag.findIndex((item:any)=>{
+            return item.value == id
+          })
+          _this.$refs.son.active = _this.KeyEnterprises.findIndex((item:any)=>{
+            return item.value === hasDataTag[curIndex-1].value
+          })
         }
       })
     },

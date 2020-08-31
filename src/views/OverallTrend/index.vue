@@ -313,6 +313,7 @@
           width="100%"
           :show-percentage="false"
           :unit="QYCYunit"
+          :rotate="0"
           :echarts-data="QYCYEchartsData"
         ></verticalBar>
       </moduleItem>
