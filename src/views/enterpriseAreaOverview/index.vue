@@ -62,6 +62,7 @@
         </div>
       </div>-->
       <moduleItem
+        ref="son"
         class="distributionOfKeyEnterprises"
         :sub-title="KeyEnterprises"
         :gov-mod-next="nextA5"
@@ -219,7 +220,7 @@
           :page-size="10"
           background
           layout="total, prev, pager, next"
-          :total="100"
+          :total="popCount"
           @current-change="handleCurrentChange"
         >
         </el-pagination>
@@ -301,7 +302,8 @@ export default Vue.extend({
       KeyEnterprises:[],
       ZDQYTableData1:[],
       ZDQYTableData2:[],
-      popListData:[]
+      popListData:[],
+      popCount:0
     };
   },
   computed:{
@@ -530,7 +532,7 @@ export default Vue.extend({
       let _this = this as any
       let dataA5 = {
           "data": {
-            "govA5Label": id,
+            "govLabel": id,
             "qydm": newVal
           },
           "pageNum": 1,
@@ -547,7 +549,7 @@ export default Vue.extend({
       let _this = this as any
       let dataA5 = {
           "data": {
-            "govA5Label": id,
+            "govLabel": id,
             "qydm": newVal
           },
           "pageNum": page,
@@ -556,8 +558,7 @@ export default Vue.extend({
       keyEnterprise(dataA5,url).then((res: any)=>{
         let data = res.data
         _this.popListData = data
-        console.log(_this.popListData,"popListData");
-        
+        _this.popCount = res.count
       })
     },
     changeActive(val: any){
@@ -587,6 +588,7 @@ export default Vue.extend({
     },
     changePopActive(i: number,t: any){
       let _this = this as any
+      _this.$refs.son.active = i
       _this.popActive = i
       _this.currentId = t
     },

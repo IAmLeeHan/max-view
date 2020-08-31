@@ -1,5 +1,16 @@
 import request from '@/utils/request'
 
+  // 获取b4/b4atags
+  export const getB4Tags = (data:any,url?:string) => 
+  request({
+    url:`${url?url:''}/gov/trend/analyze/tag`,
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    method:'post',
+    data
+  })
+
   // 企业总量
 export const totalEnterprise = (data: any,url?: string) => 
   request({
@@ -35,7 +46,7 @@ export const totalEnterprise = (data: any,url?: string) =>
    // 新增重点企业数量趋势（图）
    export const trendsNewKeyEnterprises = (data: any,url?: string) =>
    request({
-     url:`${url?url:''}/gov/trend/analyze/b4`,
+     url:`${url?url:''}/gov/trend/analyze/b4a`,
      headers:{
        'Content-Type': 'application/json'
      },
@@ -45,7 +56,7 @@ export const totalEnterprise = (data: any,url?: string) =>
    // 新增重点企业数量趋势（表）
    export const trendsNewKeyEnterprisesT = (data: any,url?: string) =>
    request({
-     url:`${url?url:''}/gov/trend/analyze/b4a`,
+     url:`${url?url:''}/gov/trend/analyze/b4`,
      headers:{
        'Content-Type': 'application/json'
      },

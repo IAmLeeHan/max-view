@@ -74,9 +74,13 @@
         </div>
       </div>-->
       <moduleItem
+        ref="son"
         class="distributionOfKeyEnterprises"
         :sub-title="KeyEnterprises"
+        :gov-mod-next="nextB4"
+        :gov-mod-next-sleep="sleepB4"
         title="新增重点企业数量趋势"
+        @changeCH="changeB4Active"
       >
         <div
           slot="echarts"
@@ -88,58 +92,34 @@
                 id="NewKeyEnterprises"
                 width="100%"
                 height="100%"
-                :echarts-data="QYCYEchartsData"
+                :echarts-data="XZZDRecharts"
+                :unit="XZZDunit"
               ></verticalBar>
             </div>
             <div class="tableBox">
               <table>
-                <tr>
+                <tr
+                  v-for="(t,i) in XZZDList"
+                  :key="i"
+                >
                   <td>
                     <img
-                      src="~img/px_1.png"
-                      alt=""
+                      v-if="i < 3"
+                      :src="require('img/px_'+ (i+1) +'.png')"
                     >
-                    <p>青岛啤酒股份有限公司</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <img
-                      src="~img/px_2.png"
-                      alt=""
+                    <div
+                      v-else
+                      class="index"
                     >
-                    <p>海尔集团公司</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <img
-                      src="~img/px_3.png"
-                      alt=""
-                    >
-                    <p>海信集团有限公司</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6>4</h6>
-                    <p>中国石化青岛炼油化工有限责任公司</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6>5</h6>
-                    <p>青岛钢铁控股集团有限责任公司</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <h6>6</h6>
-                    <p>山东六和集团有限公司</p>
+                      <span>{{ i+1 }}</span>
+                    </div>
+                    <span class="name">{{ t.govX315OrgName }}</span>
+                    <!-- <span class="money">{{ t.govB6Money }}</span>
+                      <span class="percentage">{{ t.govB6Rate }}</span> -->
                   </td>
                 </tr>
                 <div class="getMore">
-                  <p>
+                  <p @click="showMore(currentId)">
                     <span>查看更多</span>
                     <i class="el-icon-arrow-right"></i>
                   </p>
@@ -330,6 +310,65 @@
         ></verticalBar>
       </moduleItem>
     </div>
+    <listPopups>
+      <div
+        slot="ListPopups-header"
+        class="myHeader"
+      >
+        <div class="title">
+          <h1>新增重点企业数量趋势</h1>
+        </div>  
+        <ul
+          v-if="KeyEnterprises.length>0"
+          :class="{margin: KeyEnterprises.length<=3}"  
+        >
+          <li 
+            v-for="(item,index) in KeyEnterprises" 
+            :key="index"
+            :class="[{active: popActive === index},{disabled: item.disabled}]"
+            @click="changePopActive(index,item.value)"
+          >
+            {{ item.name }}
+          </li>
+        </ul>
+      </div>
+      <ul
+        slot="ListPopups-content"
+        class="myContent"
+      >
+        <li 
+          v-for="(t,i) in XZZDList"
+          :key="i"
+          class="item"
+        >
+          <img
+            v-if="i + 1 <= 3"
+            :src="require('img/px_'+ (i + 1) +'.png')"
+          >
+          <div
+            v-else
+            class="index"
+          >
+            <span>{{ i + 1 }}</span>
+          </div>
+          <span class="name">{{ t.govX315OrgName }}</span>
+        </li>
+      </ul>
+      <div
+        slot="other"
+        class="pageBox"
+      >
+        <el-pagination
+          :current-page="currentPage"
+          :page-size="10"
+          background
+          layout="total, prev, pager, next"
+          :total="popCount"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
+      </div>
+    </listPopups>
   </div>
 </template>
 
@@ -343,7 +382,9 @@ import verticalBar from "@/components/Charts/verticalBar.vue";
 import flowChart from "@/components/Charts/flowChart.vue";
 import RosePieChart from "@/components/Charts/RosePieChart.vue";
 import ringChart from "@/components/Charts/ringChart.vue";
+import listPopups from '@/components/listPopups/index.vue';
 import { EAreaModule } from '@/store/modules/eArea';
+import { AppModule } from "@/store/modules/app"
 import {getE1} from "@/api/focusedInvestment";
 import {
   getGovModNext,
@@ -356,8 +397,12 @@ import {
   newBusinessTrends,
   revocationOfBusinessTrends,
   RegionalCapitalSources,
-  scaleOfRegionalEmployees
-} from '@/api/trend'
+  scaleOfRegionalEmployees,
+  trendsNewKeyEnterprises,
+  trendsNewKeyEnterprisesT,
+  getB4Tags
+} from '@/api/trend';
+import getTagRule from '@/utils/getTagRule';
 import getModUrl from '@/utils/getModUrl';
 import { formData } from '@/utils';
 export default Vue.extend({
@@ -369,7 +414,8 @@ export default Vue.extend({
     verticalBar,
     flowChart,
     RosePieChart,
-    ringChart
+    ringChart,
+    listPopups
   },
   data() {
     return {
@@ -489,6 +535,14 @@ export default Vue.extend({
       timerB5:null,
       timerB6:null,
       timerB7:null,
+      KeyEnterprises:[],
+      XZZDList:[],
+      XZZDRecharts:[],
+      XZZDunit:'家',
+      currentPage:1,
+      popActive:0,
+      currentId:0,
+      popCount:0
     };
   },
   computed:{
@@ -530,10 +584,7 @@ export default Vue.extend({
     },
     currentQydm(){
       return EAreaModule.currentQydm
-    },
-    KeyEnterprises(){
-      return (this as any).$getTags('b','b4')
-    },
+    }
   },
   watch:{
     currentQydm:{
@@ -573,6 +624,31 @@ export default Vue.extend({
             }
           }
         })
+
+        getB4Tags(newVal).then(res=>{
+          let rule = getTagRule('b','b4')
+          let data = _this.$getTags('b','b4')
+          data.map((item:any)=>{
+            if(!res.data.includes((item.value) * 1)){
+              if(rule === 1){
+                item.disabled = true
+              }else{
+                data = data.filter((item:any)=>{
+                  return res.data.includes((item.value) * 1)
+                })
+              }
+            }
+          })
+          _this.KeyEnterprises = data || []
+          let hasDataTag = _this.KeyEnterprises.filter((item:any)=>{
+            return !item.disabled
+          })
+          let urlB4 = _this.$getModUrl('b','b4')
+          let id = (hasDataTag[0].value) * 1
+          _this.currentId = id
+          _this.getXZZDList(id,newVal,urlB4)
+        })
+
         let urlB5 = _this.$getModUrl('b','b5')
         revocationOfBusinessTrends(newVal,urlB5).then((res: any)=>{
           _this.ZDXBarShow = true
@@ -617,6 +693,14 @@ export default Vue.extend({
             }
           }
         })
+      }
+    },
+    currentId:{
+      immediate:false,
+      handler(newVal,oldVal){
+        let _this = this as any
+        _this.currentPage = 1
+        _this.getPopListData(newVal,_this.currentQydm,_this.currentPage)
       }
     }
   },
@@ -852,6 +936,12 @@ export default Vue.extend({
           break;
       }
     },
+    changeB4Active(val:any){
+      let _this = this as any;
+      _this.currentId = val;
+      let urlB4 = _this.$getModUrl('b','b5')
+      _this.getXZZDList(val*1,_this.currentQydm,urlB4)
+    },
     changeB5Active(val: any){
       let _this = this as any
       _this.ZDXBarShow = false
@@ -964,6 +1054,69 @@ export default Vue.extend({
         default:
           break;
       }
+    },
+    getXZZDList(id:string|number,newVal:string,url?:string){
+      let _this = this as any;
+      // b4a 趋势图
+      let b4aData = {
+        "govLabel": id,
+        "qydm": newVal
+      }
+      trendsNewKeyEnterprises(b4aData).then((res:any)=>{
+        if(res.code === '200'){
+          _this.XZZDRecharts = res.data
+        }
+      })
+      // b4 列表
+      let b4Data = {
+          "data": {
+            "govLabel": id,
+            "qydm": newVal
+          },
+          "pageNum": 1,
+          "pageSize": 6
+      }
+      trendsNewKeyEnterprisesT(b4Data).then((res:any)=>{
+        if(res.code === '200'){
+          _this.XZZDList = res.data
+        }
+      })
+    },
+    getPopListData(id: string|number,newVal: string,page: number,url?: string){
+      let _this = this as any
+      // b4 列表
+      let b4Data = {
+          "data": {
+            "govLabel": id,
+            "qydm": newVal
+          },
+          "pageNum": page,
+          "pageSize": 10
+      }
+      trendsNewKeyEnterprisesT(b4Data).then((res:any)=>{
+        if(res.code === '200'){
+          _this.XZZDList = res.data
+          _this.popCount = res.count
+        }
+      })
+    },
+    showMore(id: number | string){
+      let _this = this as any
+      _this.$store.dispatch('SetListPopupsShow',!AppModule.ListPopupsShow)
+      _this.popActive = _this.KeyEnterprises.findIndex((item: any)=>{
+        return item.value == _this.currentId
+      })
+      _this.getPopListData(id,_this.currentQydm,1)
+    },
+    changePopActive(i: number,t: any){
+      let _this = this as any
+      _this.$refs.son.active = i
+      _this.popActive = i
+      _this.currentId = t
+    },
+    handleCurrentChange(val: number){
+      let _this = this as any
+      _this.getPopListData(_this.currentId,_this.currentQydm,val)
     }
   }
 });
@@ -1276,6 +1429,110 @@ export default Vue.extend({
     }
     .established {
       height: 272px;
+    }
+  }
+  .myHeader{
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    .title{
+      padding: 0 30px;
+      h1{
+        font-size: 18px;
+        color: #FFFFFF;
+        background: linear-gradient(0deg, #91E9EB 0%, #FFFFFF 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+    ul{
+      display: flex;
+      flex: 1;
+      padding-right:20px; 
+      align-items: flex-end;
+      // justify-content: space-around;
+      &.margin{
+        justify-content: center;
+        li{
+          margin-left: 40px;
+          &:first-child{
+            margin:0;
+          }
+        }
+      }
+      li{
+        font-size: 14px;
+        color: #fff;
+        margin-left: 20px;
+        &:hover{
+          cursor: pointer;
+        }
+        &.active{
+          padding-bottom: 3px;
+          color: #43F6FF;
+          border-bottom:3px solid #43F6FF;
+        }
+        &.disabled{
+          color: #fff;
+          pointer-events: none;
+          cursor: pointer;
+          opacity: 0.6;
+        }
+      }
+    }
+  }
+  .myContent{
+    padding:30px;
+    .item{
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 36px;
+      background: rgba(255,255,255,.06);
+      margin-bottom: 3px;
+      img{
+        width: 20px;
+        height: 23px;
+        margin:0 20px;
+      }
+      .index{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 20px;
+        height: 23px;
+        font-size: 13px;
+        color: #40DCD6;
+        margin:0 20px;
+      }
+      .name{
+        font-size: 14px;
+        color: #FFFFFF;
+      }
+    }
+  }
+  .pageBox{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding:0 30px 20px 30px;
+    .el-pagination{
+      .el-pagination__total{
+        color: #FEFEFE;
+      }
+      .btn-prev,.btn-next{
+        color: #FEFEFE;
+        background: rgba(255,255,255,.15);
+      }
+      .el-pager{
+        .number,.el-icon{
+          background-color: rgba(255,255,255,.15);
+          color: #fff;
+          &.active{
+            background: #01B4C5;
+          }
+        }
+      }
     }
   }
 }
