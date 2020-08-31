@@ -1,5 +1,11 @@
 <template>
-  <div class="enterpriseAreaOverview">
+  <div 
+    class="enterpriseAreaOverview" 
+    v-loading="!mainItem"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+  >
     <div class="left">
       <moduleItem
         title="企业总量变化"
@@ -89,6 +95,7 @@
           <div class="NewKeyEnterprisesBox">
             <div class="echartsBox">
               <verticalBar
+                v-if="XZZDechartsShow"
                 id="NewKeyEnterprises"
                 width="100%"
                 height="100%"
@@ -542,7 +549,9 @@ export default Vue.extend({
       currentPage:1,
       popActive:0,
       currentId:0,
-      popCount:0
+      popCount:0,
+      XZZDListShow:false,
+      XZZDechartsShow:false
     };
   },
   computed:{
@@ -584,6 +593,10 @@ export default Vue.extend({
     },
     currentQydm(){
       return EAreaModule.currentQydm
+    },
+    mainItem(){
+      let _this = this as any
+      return EAreaModule.loading &&_this.XZZDListShow && _this.ZLshow && _this.ZLFXshow && _this.XZshow && _this.XZZDechartsShow && _this.showZDXDate && _this.ZDXBarShow && _this.showMap && _this.QYCYshow
     }
   },
   watch:{
@@ -1063,6 +1076,7 @@ export default Vue.extend({
         "qydm": newVal
       }
       trendsNewKeyEnterprises(b4aData).then((res:any)=>{
+        _this.XZZDechartsShow = true
         if(res.code === '200'){
           _this.XZZDRecharts = res.data
         }
@@ -1077,6 +1091,7 @@ export default Vue.extend({
           "pageSize": 6
       }
       trendsNewKeyEnterprisesT(b4Data).then((res:any)=>{
+        _this.XZZDListShow = true
         if(res.code === '200'){
           _this.XZZDList = res.data
         }

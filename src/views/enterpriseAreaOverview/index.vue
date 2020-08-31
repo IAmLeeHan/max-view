@@ -1,5 +1,10 @@
 <template>
-  <div class="enterpriseAreaOverview">
+  <div class="enterpriseAreaOverview"
+    v-loading="!mainItem"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+  >
     <div class="left">
       <moduleItem
         :sub-title="subTitle"
@@ -49,6 +54,7 @@
     <div class="middle">
       <!-- :org-list="OrgList" -->
       <mainItem
+        ref="mainItem"
         class="enterpriseDistribution"
         title="企业分布"
         show-bg
@@ -159,6 +165,7 @@
         class="established"
       >
         <horizontalBar
+          v-if="CSshow"
           id="established"
           slot="echarts"
           :echarts-data="established"
@@ -282,6 +289,7 @@ export default Vue.extend({
       XLshow:false,
       GMshow:false,
       CSshow:false,
+      ZDQYTableShow:false,
       CHData:{},
       CHChartData:[],
       JYChartData:[],
@@ -324,6 +332,10 @@ export default Vue.extend({
     },
     currentQydm(){
       return EAreaModule.currentQydm
+    },
+    mainItem(){
+      let _this = this as any
+      return EAreaModule.loading && _this.CHshow && _this.JYshow && _this.ZCshow &&_this.ZDQYTableShow && _this.XLshow && _this.GMshow &&_this.CSshow
     }
   },
   watch:{
@@ -539,10 +551,13 @@ export default Vue.extend({
           "pageSize":6 
         }
       keyEnterprise(dataA5,url).then((res: any)=>{
-        let data = res.data
-        let index = data.length / 2
-        _this.ZDQYTableData1 = data.slice(0,index)
-        _this.ZDQYTableData2 = data.slice(index,data.length)
+        _this.ZDQYTableShow = true
+        if(res.code === '200'){
+          let data = res.data
+          let index = data.length / 2
+          _this.ZDQYTableData1 = data.slice(0,index)
+          _this.ZDQYTableData2 = data.slice(index,data.length)
+        }
       })
     },
     getPopListData(id: string|number,newVal: string,page: number,url?: string){

@@ -15,7 +15,9 @@ export interface IeAreaState {
   // 其他数量
   otherCount: number
   // 区域列表
-  areaList: any[]
+  areaList: any[],
+  // 加载完成
+  loading:boolean
 }
 
 @Module({ dynamic: true, store, name: 'EArea' })
@@ -26,6 +28,7 @@ class EArea extends VuexModule implements IeAreaState {
   public unitCount = 0
   public otherCount = 0
   public areaList = []
+  public loading = false
   // 设置当前区域代码
   @Mutation
   private SET_QYDM(qydm: string){
@@ -57,6 +60,10 @@ class EArea extends VuexModule implements IeAreaState {
       this.areaList = areaList
     }
   }
+  @Mutation
+  private SET_LOADING(data:boolean){
+    this.loading = data
+  }
 
   @Action
   public setQydm(qydm: string) {
@@ -66,7 +73,9 @@ class EArea extends VuexModule implements IeAreaState {
   @Action
   public getEnterpriseDistribution(data: number | string) {
     return new Promise(resolve=>{
+      this.SET_LOADING(false)
       enterpriseDistribution(data).then(res=>{
+        this.SET_LOADING(true)
         if((res as any).code === '200'){
           let { data } = res as any
           this.SET_AGENCY_COUNT(data.agencyTotal)
