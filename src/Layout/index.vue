@@ -196,7 +196,7 @@ export default class extends mixins(ResizeMixin) {
 }
 .layout {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   ::v-deep .el-header {
@@ -253,7 +253,7 @@ export default class extends mixins(ResizeMixin) {
   }
   ::v-deep.el-main{
     padding:10px 24px;
-    height: calc(100% - 100px);
+    min-height: calc(100% - 100px);
   }
   .drag {
     width: 70px;
