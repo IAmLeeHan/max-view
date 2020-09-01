@@ -595,9 +595,13 @@ export default Vue.extend({
     currentQydm(){
       return EAreaModule.currentQydm
     },
+    zdxShow(){
+      let _this = this as any
+      return _this.ZDXBarShow || _this.ZDXRoseShow || _this.ZDXRingShow
+    },
     mainItem(){
       let _this = this as any
-      return EAreaModule.loading &&_this.XZZDListShow && _this.ZLshow && _this.ZLFXshow && _this.XZshow && _this.XZZDechartsShow && _this.showZDXDate && _this.ZDXBarShow && _this.showMap && _this.QYCYshow
+      return EAreaModule.loading &&_this.XZZDListShow && _this.ZLshow && _this.ZLFXshow && _this.XZshow && _this.XZZDechartsShow && _this.zdxShow && _this.QYCYshow
     }
   },
   watch:{
@@ -971,6 +975,7 @@ export default Vue.extend({
          _this.ZDXWrap = false
           _this.ZDXShowUnit = true
         _this.ZDXBarShow = true
+        _this.ZDXActive = 0
           break;
         case 2:
           _this.ZDXEchartsData = _this.ZDXData.industry.data
