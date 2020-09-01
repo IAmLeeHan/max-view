@@ -344,6 +344,7 @@ export default Vue.extend({
       handler(newVal,oldVal){
         let _this = this as any
         let urlA2 = _this.$getModUrl('a','a2')
+        _this.CHshow = false;
         enterpriseIndustry(newVal,urlA2).then((res: any)=>{
           _this.CHshow = true; 
           if(res.code === '200'){
@@ -352,6 +353,7 @@ export default Vue.extend({
           }
         })
         let urlA3 = _this.$getModUrl('a','a3')
+        _this.JYshow = false;
         operatingConditions(newVal,urlA3).then((res: any)=>{
           _this.JYshow = true;
           if(res.code === '200'){
@@ -359,6 +361,7 @@ export default Vue.extend({
           }
         })
         let urlA4 = _this.$getModUrl('a','a4')
+        _this.ZCshow = false;
         registeredCapital(newVal,urlA4).then((res: any)=>{
           _this.ZCshow = true;
           if(res.code === '200'){
@@ -392,6 +395,7 @@ export default Vue.extend({
           _this.getZDQYList(id,newVal,urlA5)
         })
         let urlA6 = _this.$getModUrl('a','a6')
+        _this.XLshow = false;
         businessNatureType(newVal,urlA6).then((res: any)=>{
           _this.XLshow = true;
           if(res.code === '200'){
@@ -402,6 +406,7 @@ export default Vue.extend({
           }
         })
         let urlA7 = _this.$getModUrl('a','a7')
+        _this.GMshow = false;
         enterpriseSize(newVal,urlA7).then((res: any)=>{
           _this.GMshow = true;
           if(res.code === '200'){
@@ -409,6 +414,7 @@ export default Vue.extend({
           }
         })
         let urlA8 = _this.$getModUrl('a','a8')
+        _this.CSshow = false;
         established(newVal,urlA8).then((res: any)=>{
           _this.CSshow = true;
           if(res.code === '200'){
@@ -436,7 +442,6 @@ export default Vue.extend({
       if(time2>0){
         _this.timerA2 = window.setInterval(()=>{
           let urlA2 = _this.$getModUrl('a','a2')
-          
           enterpriseIndustry(_this.currentQydm,urlA2).then((res: any)=>{
             _this.CHshow = true; 
             if(res.code === '200'){
@@ -551,6 +556,7 @@ export default Vue.extend({
           "pageNum": 1,
           "pageSize":6 
         }
+      _this.ZDQYTableShow = false
       keyEnterprise(dataA5,url).then((res: any)=>{
         _this.ZDQYTableShow = true
         if(res.code === '200' && res.data && res.data.length>0){

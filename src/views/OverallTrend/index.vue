@@ -612,6 +612,7 @@ export default Vue.extend({
       handler(newVal,oldVal){
         let _this = this as any
         let urlB1 = _this.$getModUrl('b','b1')
+        _this.ZLshow = false
         totalEnterprise(newVal,urlB1).then((res: any)=>{
           _this.ZLshow = true
           if(res.code === '200'){
@@ -623,6 +624,7 @@ export default Vue.extend({
           }
         })
         let urlB2 = _this.$getModUrl('b','b2')
+        _this.ZLFXshow = false
         IndustrialEnterprises(newVal,urlB2).then((res: any)=>{
           _this.ZLFXshow = true
           if(res.code === '200'){
@@ -634,6 +636,7 @@ export default Vue.extend({
           }
         })
         let urlB3 = _this.$getModUrl('b','b3')
+        _this.XZshow = false
         newBusinessTrends(newVal,urlB3).then((res: any)=>{
           _this.XZshow = true
           if(res.code === '200'){
@@ -683,10 +686,13 @@ export default Vue.extend({
         })
 
         let urlB5 = _this.$getModUrl('b','b5')
+        _this.ZDXBarShow = false
+        _this.showZDXDate = false
+        _this.ZDXWrap = false
         revocationOfBusinessTrends(newVal,urlB5).then((res: any)=>{
-          _this.ZDXBarShow = true
-         _this.showZDXDate = true
-         _this.ZDXWrap = false
+        _this.ZDXBarShow = true
+        _this.showZDXDate = true
+        _this.ZDXWrap = false
           _this.ZDXShowUnit = true
           if(res.code === '200'){
             _this.ZDXData = res.data
@@ -697,6 +703,7 @@ export default Vue.extend({
           }
         })
         let urlE1 = _this.$getModUrl('e','e1')
+        _this.QYZBShow = false
         getE1(formData({qydm:newVal}),urlE1).then((res: any)=>{
           _this.QYZBShow = true
           if(res.code === '200'){
@@ -717,6 +724,7 @@ export default Vue.extend({
           _this.LDQYAllData = res.data.flowArea
         })
         let urlB7 = _this.$getModUrl('b','b7')
+        _this.QYCYshow = false
         scaleOfRegionalEmployees(newVal,urlB7).then((res: any)=>{
           _this.QYCYshow = true
           if(res.code === '200'){
