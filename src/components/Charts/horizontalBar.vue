@@ -84,7 +84,13 @@ export default class extends mixins(ResizeMixin) {
             show: false,
             type: "value",
             max: function(value) {
-              return value.max*1>1000?value.max + 4000:value.max + 50;
+              if(value.max <= 200){
+                return value.max + 40
+              }else if(value.max > 200 && value.max <= 1000){
+                return value.max + 400
+              }else{
+                return value.max + 4000
+              }
             }
           }
         ],
