@@ -234,6 +234,8 @@ export default Vue.extend({
         .card-panel-num{
           font-size: 18px;
           color: #1DD6CE;
+          font-family: Arial;
+          // font-weight: bold;
         }
         span{
           font-size: 14px;

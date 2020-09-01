@@ -1,7 +1,7 @@
 <template>
   <div 
-    class="industryItem" 
-    v-loading="loading"
+    v-loading="loading" 
+    class="industryItem"
     element-loading-text="拼命加载中"
     element-loading-spinner="el-icon-loading"
     element-loading-background="rgba(0, 0, 0, 0.8)"
@@ -139,23 +139,25 @@
           {{ item.hydmName }}
         </div>
         <!-- <div class="num">{{item.num}}万家</div> -->
-        <div
-          class="per"
-          :class="[item.rata>0?'up':'down']"
-        >
-          {{ item.rata | rata }}%
-        </div>
-        <div
-          v-if="item.rata>0"
-          class="flag up"
-        >
-          ↑
-        </div>
-        <div
-          v-else
-          class="flag down"
-        >
-          ↓
+        <div class="perBox">
+          <div
+            class="per"
+            :class="[item.rata>0?'up':'down']"
+          >
+            {{ item.rata | rata }}%
+          </div>
+          <div
+            v-if="item.rata>0"
+            class="flag up"
+          >
+            ↑
+          </div>
+          <div
+            v-else
+            class="flag down"
+          >
+            ↓
+          </div>
         </div>
       </div>
     </div>
@@ -175,7 +177,6 @@ import {getAreaCode,getAdvantageLeftData,getAdvantageMiddleData,getAdvantageRigh
 import { formData } from '@/utils/index'
 import mixins from '@/components/polling/index.vue'
 export default Vue.extend({
-  mixins:[mixins],
   filters:{
     rata:function(val: any){
       if(val){
@@ -205,6 +206,7 @@ export default Vue.extend({
       }
     }
   },
+  mixins:[mixins],
   props:{
     title:{
       type:String,
@@ -293,7 +295,7 @@ export default Vue.extend({
       this.$emit("getIndustry",params)
     },
     //获取数据
-    getData(val:any){
+    getData(val: any){
       this.loading = true
       let _this = this as any
       //区域支柱行业
@@ -517,9 +519,11 @@ export default Vue.extend({
       .content{
         width:150px;
       }
-      .per{
-        width:40px;
+      .perBox{
         text-align: center;
+        width:70px;
+        display:flex;
+        justify-content: center;
       }
       .up{
         color:#46DB96;

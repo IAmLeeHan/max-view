@@ -82,7 +82,7 @@ export default Vue.extend({
       }
     }
   },
-  mixins:[mixins],
+  // mixins:[mixins],
   props:{
     title:{
       type:String,
@@ -168,7 +168,7 @@ export default Vue.extend({
             //获取对外投资活跃企业数据
             this.getEnterpriseData(this.active)
             //启动轮询
-            _this.pollingLabel()
+            // _this.pollingLabel()
           }
       })
     },

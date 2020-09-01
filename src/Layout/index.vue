@@ -56,7 +56,7 @@
       >
         <div class="title">
           <h1>企业云图</h1>
-          <span @click="setting = !setting">{{ setting?'取消':'设置默认页' }}</span>
+          <!-- <span @click="setting = !setting">{{ setting?'取消':'设置默认页' }}</span> -->
         </div>
         <div class="save">
           <el-button v-if="setting">
@@ -186,6 +186,7 @@ export default class extends mixins(ResizeMixin) {
       width: 18px;
       height: 18px;
       color: #fff;
+      opacity: .5;
     }
     span {
       font-size: 14px;
@@ -200,18 +201,20 @@ export default class extends mixins(ResizeMixin) {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   ::v-deep .el-header {
-    height: 100px !important;
+    height: 80px !important;
     background: url("~img/bg_top.png") no-repeat;
     background-size: 100% 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    // align-items: center;
     position: relative;
     h1 {
       font-size: 30px;
       font-weight: bold;
       color: rgba(255, 255, 255, 1);
       letter-spacing: 6px;
+      margin-top:20px;
+      line-height: 30px;
       background: linear-gradient(
         0deg,
         rgba(255, 255, 255, 1) 12.5732421875%,
@@ -232,7 +235,9 @@ export default class extends mixins(ResizeMixin) {
         justify-content: center;
         border-right: 1px solid rgba(67, 245, 255, 0.6);
         padding: 0 20px;
+        opacity: .5;
         &:hover {
+          opacity: 1;
           cursor: pointer;
         }
         &:last-child {
@@ -253,7 +258,7 @@ export default class extends mixins(ResizeMixin) {
   }
   ::v-deep.el-main{
     padding:10px 24px;
-    min-height: calc(100% - 100px);
+    min-height: calc(100% - 80px);
   }
   .drag {
     width: 70px;

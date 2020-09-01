@@ -19,13 +19,12 @@ export default Vue.extend({
     },
     mounted(){
         // // this.govModNext = 1
-        // console.log(this.govModNext,this.govModNextSleep)
+        console.log(this.govModNext,this.govModNextSleep)
         // _this.$nextTick(()=>{
             
         // })
     },
     beforeDestroy(){
-        console.log(1111)
         let _this = this as any
         window.clearInterval(_this.timer)
         _this.timer = null

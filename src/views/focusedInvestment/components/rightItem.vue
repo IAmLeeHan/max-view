@@ -31,7 +31,7 @@
           class="rankItem"
         >
           <div class="name">
-            {{ item.govE4Hydm }}
+            {{ item.hyName }}
           </div>
           <div class="num">
             {{ item.govE4Money }}{{ item.govUnitName }}
@@ -150,6 +150,8 @@ export default Vue.extend({
       getE4(formData({qydm:this.areaCode}),urlA1).then((res: any)=>{
         if(res.code === "200"){
           this.rankTopData = JSON.parse(res.data)
+          console.log(this.rankTopData)
+
         }
       })
     },
@@ -159,7 +161,6 @@ export default Vue.extend({
       let urlA1 = _this.$getModUrl('e','e5')
       getE5(formData({qydm:this.areaCode,pageNum:1,size:9}),urlA1).then((res: any)=>{
         if(res.code === "200"){
-          // console.log(JSON.parse(res.data))
           this.rankBottomData = JSON.parse(res.data).records
           if(this.rankBottomData.length){
             this.zczb = this.rankBottomData[0].govE5Zczb

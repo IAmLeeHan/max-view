@@ -92,6 +92,7 @@ export default class extends mixins(ResizeMixin) {
           selectedMode: "single",
           data: (_this as any).echartsData,
           label: {
+            fontSize: 10,
             formatter: (params:any) => {
               return _this.$formatNum(params.value) + ' ' + params.percent + '%'
             }

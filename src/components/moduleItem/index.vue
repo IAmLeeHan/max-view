@@ -128,6 +128,7 @@ export default Vue.extend({
         padding-bottom: 6px;
         &:hover{
           cursor: pointer;
+          color: #43F6FF;
         }
         &.active{
           color: #43F6FF;

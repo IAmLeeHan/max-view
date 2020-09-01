@@ -60,7 +60,7 @@
             {{ item.mbqyName }}
           </div>
           <div class="num">
-            {{ item.govE2Money }}{{ item.govUnitName }}
+            {{ item.govE2Money | thousands(that)}}{{ item.govUnitName }}
           </div>
           <div class="per">
             {{ item.govE2Rate | rate }}%
@@ -105,7 +105,7 @@
             {{ item.mbqyName }}
           </div>
           <div class="num">
-            {{ item.govE2Size }}{{ item.govUnitName }}
+            {{ item.govE2Size | thousands(that)}}{{ item.govUnitName }}
           </div>
           <div class="per">
             {{ item.govE2Rate | rate }}%
@@ -120,16 +120,11 @@
 <script lang="ts">
 import Vue from "vue";
 import {getE2} from "@/api/focusedInvestment"
-
+import mixins from '@/components/polling/index.vue'
 import { formData } from '@/utils/index'
 export default Vue.extend({
-  filters:{
-    rate:function(val: number){
-      if(val){
-        return parseInt(val*100 + '')
-      }
-    }
-  },
+  mixins:[mixins],
+  
   props:{
     title:{
       type:String,
@@ -150,6 +145,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      that:this,
       active:0,
       moneyIndex:1,
       numIndex:1,
@@ -168,53 +164,88 @@ export default Vue.extend({
     }
   },
   watch:{
-    moneyIndex(){
-      this.getLeftTopData()
-    },
-    numIndex(){
-      this.getLeftBottomData()
-    },
+    // moneyIndex(){
+    //   this.getLeftTopData()
+    // },
+    // numIndex(){
+    //   this.getLeftBottomData()
+    // },
     areaCode(){
-      this.getLeftTopData()
-      this.getLeftBottomData()
+      let _this = this as any
+      window.clearInterval(_this.timer)
+      _this.timer = null
+      _this.loop = 0
+      this.getLeftTopData(this.moneyIndex)
+      this.getLeftBottomData(this.numIndex)
     }
   },
   created(){
+    let _this = this as any
+    console.log(_this.$formatNum("1111111"))
     //获取区域外来资本概况money
-    this.getLeftTopData()
+    this.getLeftTopData(this.moneyIndex)
     //获取区域外来资本概况size
-    this.getLeftBottomData()
+    this.getLeftBottomData(this.numIndex)
+    setTimeout(() => {
+      //启动轮询
+      _this.pollingLabel()
+    }, 2000);
   },
   methods: {
     //切换投资金额top10
     moneyChange(val: number){
-      this.moneyIndex = val
+      // this.moneyIndex = val
+      this.getLeftTopData(val)
     },
     //切换投资数量top10
     numChange(val: number){
-      this.numIndex = val
+      // this.numIndex = val
+      this.getLeftBottomData(val)
     },
     //获取区域外来资本概况money
-    getLeftTopData(){
+    getLeftTopData(val: any){
         let _this = this as any
         let urlA1 = _this.$getModUrl('e','e2')
-        getE2(formData({qydm:(this as any).areaCode,label:this.moneyIndex,type:'money'}),urlA1).then((res: any)=>{
-          if(res.code === "200"){
+        getE2(formData({qydm:(this as any).areaCode,label:val,type:'money'}),urlA1).then((res: any)=>{
+          if(res.code === "200" && JSON.parse(res.data).length){
             this.rankListMoney = JSON.parse(res.data)
+            this.moneyIndex = val
           }
         })
     },
     //获取区域外来资本概况size
-    getLeftBottomData(){
+    getLeftBottomData(val: any){
         let _this = this as any
         let urlA1 = _this.$getModUrl('e','e2')
-        getE2(formData({qydm:(this as any).areaCode,label:this.numIndex,type:'size'}),urlA1).then((res: any)=>{
+        getE2(formData({qydm:(this as any).areaCode,label:val,type:'size'}),urlA1).then((res: any)=>{
           if(res.code === "200"){
             this.rankListNum = JSON.parse(res.data)
+            this.numIndex = val
           }
         })
+    },
+    //轮询切换label
+    changeLabel(val: any){
+      //获取区域外来资本概况money
+      this.getLeftTopData(val)
+      //获取区域外来资本概况size
+      this.getLeftBottomData(val)
     }
-  }
+  },
+  filters:{
+    rate:function(val: number){
+      if(val){
+        return parseInt(val*100 + '')
+      }
+    },
+    thousands:function(val: any,that: any){
+      if(val){
+        return that.$formatNum(val)
+      }else{
+        return ""
+      }
+    }
+  },
 });
 </script>
 

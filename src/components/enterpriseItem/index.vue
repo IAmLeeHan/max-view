@@ -65,7 +65,10 @@
       v-if="type==='starEnterprise'"
       class="rankMiddleBox rankBox"
     >
-      <div class="rankContent" v-if="rankList.length">
+      <div
+        v-if="rankList.length"
+        class="rankContent"
+      >
         <div>全国排名</div>
         <div v-show="flag!==0">
           省排名
@@ -107,7 +110,10 @@
       v-if="type==='potentialEnterprise'"
       class="rankRightBox rankBox"
     >
-      <div class="rankContent" v-if="rankList.length">
+      <div
+        v-if="rankList.length"
+        class="rankContent"
+      >
         <span>增长率</span>
       </div>
       <div
@@ -152,12 +158,15 @@
     </div>
     <!-- 查看更多 -->
     <div class="checkMore">
-      <span @click="checkMore" v-if="rankList.length"> 查看更多></span>
+      <span
+        v-if="rankList.length"
+        @click="checkMore"
+      > 查看更多></span>
     </div>
     <div
+      v-if="rankList.length"
       class="echarts"
       :class="{pillarEnterprise: type==='pillarEnterprise',starEnterprise: type==='starEnterprise',potentialEnterprise: type==='potentialEnterprise'}"
-      v-if="rankList.length"
     >
       <!-- echart标签栏 -->
       <div class="echartLabelBox">
@@ -266,6 +275,7 @@ export default Vue.extend({
   },
   watch:{
     areaCode(){
+      console.log(this.areaCode,111)
       this.getLabelList()
       this.judgeArea()
     }
@@ -274,6 +284,7 @@ export default Vue.extend({
       //判断当前绑定的地区层级
       this.judgeArea()
       this.getLabelList()
+      console.log(this.areaCode,22)
   },
   methods: {
     changeActive(i: number){

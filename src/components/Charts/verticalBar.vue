@@ -57,7 +57,7 @@ export default class extends mixins(ResizeMixin) {
     _this.chart.clear();
     
     let nameList = [];
-    let data = [];
+    let data:any = [];
     let data2: any[] = [];
     let all = 0;
     for(let i in _this.echartsData){
@@ -79,11 +79,18 @@ export default class extends mixins(ResizeMixin) {
       },
       tooltip : {
         trigger: 'axis',
-        formatter: function(params: any){
-          return params[0].name +'：'+ _this.$formatNum(data2[params[0].dataIndex]) +_this.unit
+        formatter: (params: any)=>{
+          if(_this.showPercentage){
+            return params[0].name +'：'+ _this.$formatNum(data2[params[0].dataIndex]) +_this.unit + " " + data[params[0].dataIndex] + '%'
+          }else{
+            return params[0].name +'：'+ _this.$formatNum(data2[params[0].dataIndex]) +_this.unit
+          }
         },
         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
           type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        },
+        textStyle:{
+          fontSize:12
         }
       },
       grid: {
@@ -110,7 +117,8 @@ export default class extends mixins(ResizeMixin) {
             color: '#fff',
             // align: 'center',
             textStyle: {
-              fontSize: 11
+              fontSize: 10,
+              fontWeight: "lighter"
             },
             interval:0,
             rotate:_this.rotate,
@@ -174,15 +182,17 @@ export default class extends mixins(ResizeMixin) {
               }
             },
             // formatter:'{value}%',
-            color: '#fff'
+            color: '#fff',
+            fontWeight: "lighter",
+            fontSize: 10
           },
           axisLine: {
             show: false
           },
           splitLine: {
             lineStyle: {
-              color: 'rgba(234,234,234,0.5)',
-              type:'dashed'
+              color: 'rgba(234,234,234,0.2)',
+              type:'dotted'
             }
           }
         }

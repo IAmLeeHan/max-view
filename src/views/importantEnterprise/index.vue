@@ -4,7 +4,7 @@
       title="区域核心企业分析"
       class="advantageIndustryItem"
       :type="'pillarEnterprise'"
-      :area-code="selectedArea.code"
+      :area-code="selectedArea.selectedValue"
       @checkMore="checkMore"
       @getEchartData="getEchartData"
     >
@@ -35,7 +35,7 @@
       title="区域明星企业分析"
       class="advantageIndustryItem"
       :type="'starEnterprise'"
-      :area-code="selectedArea.code"
+      :area-code="selectedArea.selectedValue"
       @checkMore="checkMore"
       @getEchartData="getEchartData"
     >
@@ -66,7 +66,7 @@
       title="区域潜力企业分析"
       class="advantageIndustryItem"
       :type="'potentialEnterprise'"
-      :area-code="selectedArea.code"
+      :area-code="selectedArea.selectedValue"
       @checkMore="checkMore"
       @getEchartData="getEchartData"
     >
@@ -97,7 +97,7 @@
       v-if="showDialog"
       :type="type"
       :label-list="labelList"
-      :area-code="selectedArea.code"
+      :area-code="selectedArea.selectedValue"
       @closeDialog="closeDialog"
     ></checkMoreDialog>
     <!-- 地区切换 -->
@@ -171,8 +171,8 @@ export default Vue.extend({
       },
       dataCity:[],
       selectedArea:{
-        code:"",
-        name:"",
+        parentNode:"",
+        parentName:"",
         selectedLabel:"",
         selectedValue:""
       },
@@ -180,8 +180,8 @@ export default Vue.extend({
     }
   },
   created(){
-    this.selectedArea.name = this.$store.state.user.govInfoName
-    this.selectedArea.code = this.$store.state.user.govInfoQydm
+    // this.selectedArea.name = this.$store.state.user.govInfoName
+    // this.selectedArea.code = this.$store.state.user.govInfoQydm
     this.selectedArea.selectedLabel = this.$store.state.user.govInfoName
     this.selectedArea.selectedValue = this.$store.state.user.govInfoQydm
     this.getareaMap()
@@ -202,21 +202,22 @@ export default Vue.extend({
       let el: any = this.$refs.cascader
       el.dropDownVisible = false;
       if(el.getCheckedNodes()[0].level !== 3){
-        this.selectedArea.code = el.getCheckedNodes()[0].value
-        this.selectedArea.name = el.getCheckedNodes()[0].label
+        this.selectedArea.parentNode = el.getCheckedNodes()[0].value
+        this.selectedArea.parentName = el.getCheckedNodes()[0].label
         this.selectedArea.selectedLabel = el.getCheckedNodes()[0].label
         this.selectedArea.selectedValue = el.getCheckedNodes()[0].value
       }else{
-        this.selectedArea.code = el.getCheckedNodes()[0].parent.value
-        this.selectedArea.name = el.getCheckedNodes()[0].parent.label
+        this.selectedArea.parentNode = el.getCheckedNodes()[0].parent.value
+        this.selectedArea.parentName = el.getCheckedNodes()[0].parent.label
         this.selectedArea.selectedLabel = el.getCheckedNodes()[0].label
-
+        this.selectedArea.selectedValue = el.getCheckedNodes()[0].value
       }
+      console.log(this.selectedArea)
     },
     //获取区域层级
     getareaMap(){
-      let adminCode = this.selectedArea.code
-      getAreaCode(formData({adminCode:(this as any).selectedArea.code})).then(res=>{
+      let adminCode = this.$store.state.user.govInfoQydm
+      getAreaCode(formData({adminCode:adminCode})).then(res=>{
         if((res as any).code === "200"){
           this.dataCity = res.data
           let firstIndex,secondIndex,thirdIndex = 0
@@ -227,7 +228,7 @@ export default Vue.extend({
                 item.childs.map((second: any)=>{
                   if(second.code.substr(0,4) === adminCode.substr(0,4)){
                     this.valueCity.push(second.code)
-                    if(second.childs && second.childs,length){
+                    if(second.childs && second.childs.length){
                       second.childs.map((third: any)=>{
                         if(third.code === adminCode){
                           this.valueCity.push(adminCode)
@@ -239,8 +240,19 @@ export default Vue.extend({
               }
             }
           })
+          if(this.valueCity.length === 3){
+              this.dataCity.map((item: any)=>{
+                item.childs.map((second: any)=>{
+                  if(second.code === this.valueCity[1]){
+                    this.selectedArea.parentNode = second.code
+                    this.selectedArea.parentName = second.name
+                  }
+                })
+              })
+          }
         }
       })
+      console.log(this.selectedArea)
     },
     //获取echart数据
     getEchartData(val: any){

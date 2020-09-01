@@ -63,11 +63,14 @@ export default class extends mixins(ResizeMixin) {
       legend: {
         bottom: 12,
         padding: [0, 5],
-        itemWidth: 14,
+        itemWidth: 10,
+        itemHeight:10,
         // itemGap:30,
         left: "center",
         textStyle: {
-          color: "#fff"
+          color: "#fff",
+          fontSize: 10,
+          fontWeight: "normal"
         },
         data: this.echartsData.map((item: any)=> item.name)
       },
@@ -78,6 +81,9 @@ export default class extends mixins(ResizeMixin) {
           center: ["50%", "40%"],
           startAngle: 60, //起始角度
           selectedMode: "single",
+          label: {
+            fontSize: 10,
+          },
           data:(this as any).echartsData
         }
       ]

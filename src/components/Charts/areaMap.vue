@@ -75,7 +75,7 @@ export default class extends mixins(ResizeMixin) {
   }
   private mapGet(data: any,total: number){
     let _this = this
-     echarts.registerMap((_this as any).areaInfo.name, data);
+     echarts.registerMap((_this as any).areaInfo.parentName, data);
         let d: any = {};
         for(let i in data.features){
             d[data.features[i].properties.adcode] = data.features[i].properties.center
@@ -127,7 +127,7 @@ export default class extends mixins(ResizeMixin) {
             },
             geo: {
                 // map: '青岛市',
-                map:(_this as any).areaInfo.name,
+                map:(_this as any).areaInfo.parentName,
                 zoom:1,
                 label: {
                     show: false,
@@ -160,7 +160,8 @@ export default class extends mixins(ResizeMixin) {
       total += Number(item.value*1)
     })
     if(this.echartData.length){
-      MapModule.SetCurrentMap(formData({adminCode:(this as any).areaInfo.code})).then(res=>{
+      console.log(this.areaInfo)
+      MapModule.SetCurrentMap(formData({adminCode:(this as any).areaInfo.parentNode})).then(res=>{
           _this.mapGet(MapModule.currentMap,total)
          
       })

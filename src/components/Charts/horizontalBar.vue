@@ -22,6 +22,8 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: '200px' }) private height!: string
   @Prop({ default:'' }) private unit!: string
   @Prop({ default: () =>[] }) private echartsData!: any[]
+  @Prop({ default:'#53B9FF' }) private lineColor!:string
+  // @Prop({ default:'#8adaff' }) private hoverColor!:string
 
   private barWidth = 12
 
@@ -62,7 +64,8 @@ export default class extends mixins(ResizeMixin) {
         subtextStyle: {
           color: "#fff"
         },
-        left: "right"
+        left: "right",
+        top:'-6%'
       },
       tooltip: {
         trigger: "axis",
@@ -75,8 +78,8 @@ export default class extends mixins(ResizeMixin) {
       grid: {
         left: "2%",
         right: "2%",
-        top: "18%",
-        bottom: "-15%",
+        top: "10%",
+        bottom: "-10%",
         containLabel: true
       },
         xAxis: [
@@ -123,17 +126,23 @@ export default class extends mixins(ResizeMixin) {
             normal: {
               color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
                 { offset: 0, color: "#010A2B" },
-                { offset: 1, color: "#53B9FF" }
+                { offset: 1, color: _this.lineColor }
               ]),
               barBorderRadius: 6
-            }
+            },
+            // emphasis: {
+            //   color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+            //     { offset: 0, color: "#010A2B" },
+            //     { offset: 1, color: _this.hoverColor }
+            //   ]),
+            // }
           },
           data: pieValue,
           label: {
             normal: {
               show: true,
               position: "right",
-              color: "#53B9FF",
+              color: _this.lineColor,
               formatter: (params: any) => {
                 return _this.$formatNum(params.value);
               },
@@ -143,7 +152,10 @@ export default class extends mixins(ResizeMixin) {
                   color: "#75787D"
                 }
               }
-            }
+            },
+            // emphasis:{
+            //   color: _this.hoverColor
+            // }
           }
         }
       ]

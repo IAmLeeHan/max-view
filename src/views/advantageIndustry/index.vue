@@ -195,7 +195,7 @@ export default Vue.extend({
                 item.childs.map((second: any)=>{
                   if(second.code.substr(0,4) === adminCode.substr(0,4)){
                     this.valueCity.push(second.code)
-                    if(second.childs && second.childs,length){
+                    if(second.childs && second.childs.length){
                       second.childs.map((third: any)=>{
                         if(third.code === adminCode){
                           this.valueCity.push(adminCode)
@@ -239,7 +239,7 @@ export default Vue.extend({
                   }
                 })
               })
-              this.leftLabelList = leftArr.filter((item:any)=>{
+              this.leftLabelList = leftArr.filter((item: any)=>{
                 return item.hasValue
               })
             }
@@ -251,7 +251,7 @@ export default Vue.extend({
                   }
                 })
               })
-              this.MiddleLabelList = midddleArr.filter((item:any)=>{
+              this.MiddleLabelList = midddleArr.filter((item: any)=>{
                 return item.hasValue
               })
             }
@@ -263,7 +263,7 @@ export default Vue.extend({
                   }
                 })
               })
-              this.rightLabelList = rightArr.filter((item:any)=>{
+              this.rightLabelList = rightArr.filter((item: any)=>{
                 return item.hasValue
               })
             }

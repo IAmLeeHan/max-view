@@ -3,6 +3,8 @@
     <leftItem
       title="区域外来资本概况"
       class="leftItem"
+      :gov-mod-next="nextE2"
+      :gov-mod-next-sleep="sleepE2"
       :area-code="selectedArea.code"
     >
     </leftItem>
@@ -28,8 +30,8 @@
         :sub-title="subTitle"
         :type="'middleBottom'"
         :area-code="selectedArea.code"
-        :gov-mod-next="1"
-        :gov-mod-next-sleep="5"
+        :gov-mod-next="nextE3"
+        :gov-mod-next-sleep="sleepE3"
         @checkMore="checkMore"
       ></middleBottom>
     </div>
@@ -115,6 +117,12 @@ export default Vue.extend({
     }
   },
   computed:{
+    nextE2(){
+      return getGovModNext('e','e2')
+    },
+    sleepE2(){
+      return getGovModNext('e','e2')
+    },
     nextE3(){
       return getGovModNext('e','e3')
     },
@@ -162,7 +170,7 @@ export default Vue.extend({
                 item.childs.map((second: any)=>{
                   if(second.code.substr(0,4) === adminCode.substr(0,4)){
                     this.valueCity.push(second.code)
-                    if(second.childs && second.childs,length){
+                    if(second.childs && second.childs.length){
                       second.childs.map((third: any)=>{
                         if(third.code === adminCode){
                           this.valueCity.push(adminCode)

@@ -39,36 +39,6 @@ export default class extends mixins(ResizeMixin) {
       this.initChart()
     })
   }
-  private echartsData = [
-    {
-      value: "5890",
-      name: "制造业"
-    },
-    {
-      value: "4100",
-      name: "进出口"
-    },
-    {
-      value: "3370",
-      name: "建筑业"
-    },
-    {
-      value: "2400",
-      name: "服务业"
-    },
-    {
-      value: "1600",
-      name: "石化化工"
-    },
-    {
-      value: "1000",
-      name: "服装"
-    },
-    {
-      value: "800",
-      name: "其他"
-    }
-  ]
   // mounted() {
   //   this.$nextTick(() => {
   //     this.initChart()
@@ -104,7 +74,7 @@ export default class extends mixins(ResizeMixin) {
         bottom: 12,
         padding: [0, 5],
         itemWidth: 14,
-        right: 30,
+        right: 10,
         top:"center",
         textStyle: {
           color: "#fff"

@@ -164,6 +164,7 @@
             v-if="CSshow"
             id="established"
             slot="echarts"
+            line-color="#40DCD6"
             :echarts-data="established"
             height="100%"
             width="100%"
