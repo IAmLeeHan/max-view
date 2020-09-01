@@ -46,67 +46,24 @@ export default class extends mixins(ResizeMixin) {
   
   @Watch("areaInfo",{ immediate: true,deep:true })
   private changeAreaInfo(){
-    this.$nextTick(() => {
+    // this.$nextTick(() => {
 
-      this.chart = echarts.init(document.getElementById(this.id) as any);
-      this.initChart(this.chart)
-    })
+    //   this.chart = echarts.init(document.getElementById(this.id) as any);
+    //   this.initChart(this.chart)
+    // })
   }
   @Watch("echartData",{
     immediate: true,deep:true
   })
   private changeData(){
-    // console.log(this.echartData)
+    this.$nextTick(() => {
+      this.chart = echarts.init(document.getElementById(this.id) as any);
+      this.initChart(this.chart)
+    })
   }
-  private echartsData = [
-    {
-        value:5890,
-        name:'平度市',
-        
-    },
-    {
-        value:4100,
-        name:'莱西市'
-    },
-    {
-        value:3370,
-        name:'即墨市'
-    },
-    {
-        value:2400,
-        name:'胶州市'
-    },
-    {
-        value:1600,
-        name:'黄岛区'
-    },
-    {
-        value:1200,
-        name:'崂山区'
-    },
-    {
-        value:1000,
-        name:'城阳区'
-    },
-    {
-        value:800,
-        name:'李沧区'
-    },
-    {
-        value:700,
-        name:'市北区'
-    },
-    {
-        value:600,
-        name:'市南区'
-    }
-  ]
   private colorList2 = ["#D31F9A","#00A2FF","#DEF427","#10D5C0","#ED694F","#F8A10B","#40CFE9","#5A45DA","#CB7BFD","#86ED32"]
   mounted() {
     this.chart = echarts.init(document.getElementById(this.id) as any);
-    this.$nextTick(() => {
-      this.initChart(this.chart)
-    })
   }
 
   beforeDestroy() {
@@ -141,7 +98,7 @@ export default class extends mixins(ResizeMixin) {
                     brushType: 'stroke'
                 },
                 label: {
-                    show: true,
+                    show: false,
                     position: 'right',
                     formatter: '{b}',
                 },
@@ -202,10 +159,12 @@ export default class extends mixins(ResizeMixin) {
     _this.echartData.map((item: any)=>{
       total += Number(item.value*1)
     })
-    MapModule.SetCurrentMap(formData({adminCode:(this as any).areaInfo.code})).then(res=>{
-        _this.mapGet(MapModule.currentMap,total)
-       
-    })
+    if(this.echartData.length){
+      MapModule.SetCurrentMap(formData({adminCode:(this as any).areaInfo.code})).then(res=>{
+          _this.mapGet(MapModule.currentMap,total)
+         
+      })
+    }
   }
 }
 </script>
@@ -217,7 +176,7 @@ export default class extends mixins(ResizeMixin) {
     align-items: center;
     .legendBox{
       width:50%;
-      height:70%;
+      height:60%;
       .r_box_ul{
           /*width:50%;*/
           width:100%;

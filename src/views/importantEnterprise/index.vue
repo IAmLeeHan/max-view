@@ -96,6 +96,8 @@
     <checkMoreDialog
       v-if="showDialog"
       :type="type"
+      :label-list="labelList"
+      :area-code="selectedArea.code"
       @closeDialog="closeDialog"
     ></checkMoreDialog>
     <!-- 地区切换 -->
@@ -173,7 +175,8 @@ export default Vue.extend({
         name:"",
         selectedLabel:"",
         selectedValue:""
-      }
+      },
+      labelList:[]
     }
   },
   created(){
@@ -182,13 +185,14 @@ export default Vue.extend({
     this.selectedArea.selectedLabel = this.$store.state.user.govInfoName
     this.selectedArea.selectedValue = this.$store.state.user.govInfoQydm
     this.getareaMap()
-    console.log(JSON.parse(this.$store.state.user.indexList))
+    // console.log(JSON.parse(this.$store.state.user.indexList))
   },
   methods:{
     //判断点击的是哪个查看更多
-    checkMore(val: string){
-      this.type = val
+    checkMore(val: any){
+      this.type = val.type
       this.showDialog = true
+      this.labelList = val.labelList
     },
     //关闭弹窗
     closeDialog(){
@@ -243,36 +247,54 @@ export default Vue.extend({
       if(val.type === "pillarEnterprise"){
         if(val.data.zczb){
           this.coreEnterprise.zczb = val.data.zczb
+        }else{
+          this.coreEnterprise.zczb = []
         }
         if(val.data.clsj){
           this.coreEnterprise.clsj = val.data.clsj
+        }else{
+          this.coreEnterprise.clsj = []
         }
         if(val.data.qyfb){
           this.coreEnterprise.fbdq = val.data.qyfb
           // console.log(this.coreEnterprise.fbdq)
+        }else{
+          this.coreEnterprise.fbdq = []
         }
       }
       if(val.type === "starEnterprise"){
         if(val.data.zczb){
           this.starEnterprise.zczb = val.data.zczb
+        }else{
+          this.starEnterprise.zczb = []
         }
         if(val.data.clsj){
           this.starEnterprise.clsj = val.data.clsj
+        }else{
+          this.starEnterprise.clsj = []
         }
         if(val.data.qyfb){
           this.starEnterprise.fbdq = val.data.qyfb
           
+        }else{
+          this.starEnterprise.fbdq = []
         }
       }
       if(val.type === "starEnterprise"){
         if(val.data.zczb){
           this.potentialEnterprise.zczb = val.data.zczb
+        }else{
+          this.potentialEnterprise.zczb = []
         }
         if(val.data.clsj){
           this.potentialEnterprise.clsj = val.data.clsj
+        }else{
+          this.potentialEnterprise.clsj = []
         }
         if(val.data.qyfb){
           this.potentialEnterprise.fbdq = val.data.qyfb
+        }else{
+          this.potentialEnterprise.fbdq = []
         }
       }
     }
@@ -289,7 +311,7 @@ export default Vue.extend({
   justify-content: space-between;
   .advantageIndustryItem{
       width:610px;
-      height:100%;
+      height:960px;
       overflow: hidden;
   }
   .search_box{

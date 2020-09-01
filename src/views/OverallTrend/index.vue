@@ -1,77 +1,74 @@
 <template>
-  <div 
-    class="enterpriseAreaOverview" 
-    v-loading="!mainItem"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.8)"
-  >
-    <div class="left">
-      <moduleItem
-        title="企业总量变化"
-        class="industryDistribution"
-        :sub-title="DateList"
-        :gov-mod-next="nextB1"
-        :gov-mod-next-sleep="sleepB1"
-        @changeCH="changeB1Active"
-      >
-        <doubleEchartLee
-          v-if="ZLshow"
-          id="industryDistribution"
-          slot="echarts"
-          height="100%"
-          width="100%"
-          :unit="ZLunit"
-          :echarts-data="ZLEchartsData"
-        ></doubleEchartLee>
-      </moduleItem>
-      <moduleItem
-        title="产业企业总量分析"
-        class="operatingStatusDistribution"
-        :sub-title="DateList"
-        :gov-mod-next="nextB2"
-        :gov-mod-next-sleep="sleepB2"
-        @changeCH="changeB2Active"
-      >
-        <stackedChart
-          v-if="ZLFXshow"
-          id="operatingStatusDistribution"
-          slot="echarts"
-          height="100%"
-          width="100%"
-          :unit="ZLFXunit"
-          :echarts-data="ZLFXEchartsData"
-        ></stackedChart>
-      </moduleItem>
-      <moduleItem
-        title="新增企业趋势"
-        class="registeredCapitalDistribution"
-        :sub-title="newEnterprise"
-        :gov-mod-next="nextB3"
-        :gov-mod-next-sleep="sleepB3"
-        @changeCH="changeB3Active"
-      >
-        <verticalBar
-          v-if="XZshow"
-          id="registeredCapitalDistribution"
-          slot="echarts"
-          height="100%"
-          width="100%"
-          echarts-name="统计最新6个月数据"
-          :show-percentage="false"
-          :echarts-data="XZEchartsData"
-          :unit="XZunit"
-        ></verticalBar>
-      </moduleItem>
-    </div>
-    <div class="middle">
-      <mainItem
-        class="enterpriseDistribution"
-        :org-list="OrgList"
-        title="企业分布"
-        show-bg
-      ></mainItem>
-      <!-- <div class="regionalNews">
+  <div>
+    <div 
+      :class="['enterpriseAreaOverview',{blur: !mainItem}]"
+    >
+      <div class="left">
+        <moduleItem
+          title="企业总量变化"
+          class="industryDistribution"
+          :sub-title="DateList"
+          :gov-mod-next="nextB1"
+          :gov-mod-next-sleep="sleepB1"
+          @changeCH="changeB1Active"
+        >
+          <doubleEchartLee
+            v-if="ZLshow"
+            id="industryDistribution"
+            slot="echarts"
+            height="100%"
+            width="100%"
+            :unit="ZLunit"
+            :echarts-data="ZLEchartsData"
+          ></doubleEchartLee>
+        </moduleItem>
+        <moduleItem
+          title="产业企业总量分析"
+          class="operatingStatusDistribution"
+          :sub-title="DateList"
+          :gov-mod-next="nextB2"
+          :gov-mod-next-sleep="sleepB2"
+          @changeCH="changeB2Active"
+        >
+          <stackedChart
+            v-if="ZLFXshow"
+            id="operatingStatusDistribution"
+            slot="echarts"
+            height="100%"
+            width="100%"
+            :unit="ZLFXunit"
+            :echarts-data="ZLFXEchartsData"
+          ></stackedChart>
+        </moduleItem>
+        <moduleItem
+          title="新增企业趋势"
+          class="registeredCapitalDistribution"
+          :sub-title="newEnterprise"
+          :gov-mod-next="nextB3"
+          :gov-mod-next-sleep="sleepB3"
+          @changeCH="changeB3Active"
+        >
+          <verticalBar
+            v-if="XZshow"
+            id="registeredCapitalDistribution"
+            slot="echarts"
+            height="100%"
+            width="100%"
+            echarts-name="统计最新6个月数据"
+            :show-percentage="false"
+            :echarts-data="XZEchartsData"
+            :unit="XZunit"
+          ></verticalBar>
+        </moduleItem>
+      </div>
+      <div class="middle">
+        <mainItem
+          class="enterpriseDistribution"
+          :org-list="OrgList"
+          title="企业分布"
+          show-bg
+        ></mainItem>
+        <!-- <div class="regionalNews">
         <h6>区域快讯：</h6>
         <p>市南区9企业获得全国信用企业荣誉称号</p>
         <div class="more">
@@ -79,304 +76,306 @@
           <i class="el-icon-arrow-right"></i>
         </div>
       </div>-->
-      <moduleItem
-        ref="son"
-        class="distributionOfKeyEnterprises"
-        :sub-title="KeyEnterprises"
-        :gov-mod-next="nextB4"
-        :gov-mod-next-sleep="sleepB4"
-        title="新增重点企业数量趋势"
-        @changeCH="changeB4Active"
-      >
-        <div
-          slot="echarts"
-          style="height:100%"
+        <moduleItem
+          ref="son"
+          class="distributionOfKeyEnterprises"
+          :sub-title="KeyEnterprises"
+          :gov-mod-next="nextB4"
+          :gov-mod-next-sleep="sleepB4"
+          title="新增重点企业数量趋势"
+          @changeCH="changeB4Active"
         >
-          <div class="NewKeyEnterprisesBox">
-            <div class="echartsBox">
-              <verticalBar
-                v-if="XZZDechartsShow"
-                id="NewKeyEnterprises"
-                width="100%"
-                height="100%"
-                :echarts-data="XZZDRecharts"
-                :unit="XZZDunit"
-              ></verticalBar>
-            </div>
-            <div class="tableBox">
-              <table>
-                <tr
-                  v-for="(t,i) in XZZDList"
-                  :key="i"
-                >
-                  <td>
-                    <img
-                      v-if="i < 3"
-                      :src="require('img/px_'+ (i+1) +'.png')"
-                    >
-                    <div
-                      v-else
-                      class="index"
-                    >
-                      <span>{{ i+1 }}</span>
-                    </div>
-                    <span class="name">{{ t.govX315OrgName }}</span>
+          <div
+            slot="echarts"
+            style="height:100%"
+          >
+            <div class="NewKeyEnterprisesBox">
+              <div class="echartsBox">
+                <verticalBar
+                  v-if="XZZDechartsShow"
+                  id="NewKeyEnterprises"
+                  width="100%"
+                  height="100%"
+                  :echarts-data="XZZDRecharts"
+                  :unit="XZZDunit"
+                ></verticalBar>
+              </div>
+              <div class="tableBox">
+                <table>
+                  <tr
+                    v-for="(t,i) in XZZDList"
+                    :key="i"
+                  >
+                    <td>
+                      <img
+                        v-if="i < 3"
+                        :src="require('img/px_'+ (i+1) +'.png')"
+                      >
+                      <div
+                        v-else
+                        class="index"
+                      >
+                        <span>{{ i+1 }}</span>
+                      </div>
+                      <span class="name">{{ t.govX315OrgName }}</span>
                     <!-- <span class="money">{{ t.govB6Money }}</span>
                       <span class="percentage">{{ t.govB6Rate }}</span> -->
-                  </td>
-                </tr>
-                <div class="getMore">
-                  <p @click="showMore(currentId)">
-                    <span>查看更多</span>
-                    <i class="el-icon-arrow-right"></i>
-                  </p>
-                </div>
-              </table>
-            </div>
-          </div>
-        </div>
-      </moduleItem>
-    </div>
-    <div class="right">
-      <moduleItem
-        title="注吊销企业趋势"
-        class="businessNatureType"
-        :sub-title="revocationOfEnterprise"
-        :gov-mod-next="nextB5"
-        :gov-mod-next-sleep="sleepB5"
-        @changeCH="changeB5Active"
-      >
-        <ul
-          v-if="showZDXDate"
-          slot="Date"
-          class="Date"
-        >
-          <li
-            v-for="(t,i) in DateList"
-            :key="i"
-            :class="{active: ZDXActive === i}"
-            @click="changeZDXDate(t.value,i)"
-          >
-            {{ t.name }}
-          </li>
-        </ul>
-        <verticalBar
-          v-if="ZDXBarShow"
-          id="businessNatureType"
-          slot="echarts"
-          height="100%"
-          width="100%"
-          :unit="ZDXunit"
-          :echarts-data="ZDXEchartsData"
-          :show-unit="ZDXShowUnit"
-          :wrap="ZDXWrap"
-        ></verticalBar>
-        <RosePieChart
-          v-if="ZDXRoseShow"
-          id="businessNatureType"
-          slot="echarts"
-          height="100%"
-          width="100%"
-          :echarts-data="ZDXEchartsData"
-        ></RosePieChart>
-        <ringChart
-          v-if="ZDXRingShow"
-          id="businessNatureType"
-          slot="echarts"
-          height="100%"
-          width="100%"
-          :echarts-data="ZDXEchartsData"
-        ></ringChart>
-        <!-- <el-button class="directory" slot="button">企业迁出名录 ></el-button> -->
-      </moduleItem>
-      <moduleItem
-        title="区域资本来源分析"
-        class="enterpriseSize"
-        :sub-title="QYZBList"
-        :gov-mod-next="nextB6"
-        :gov-mod-next-sleep="sleepB6"
-        @changeCH="changeQYZBView"
-      >
-        <div
-          v-if="showMap"
-          slot="echarts"
-          style="height:100%;width:100%;"
-        >
-          <div class="enterpriseSizeBox">
-            <div class="flowchartsBox">
-              <flowChart
-                v-if="QYZBShow"
-                id="enterpriseSize"
-                :echarts-data="QYZBEchartsData"
-                height="100%"
-                width="100%"
-              ></flowChart>
-            </div>
-            <div class="sort">
-              <h6>资本来源</h6>
-              <div 
-                v-for="(t,i) in QYZBSort"
-                :key="i"
-                class="item"
-                :style="{color: itemStyle(i)}"
-              >
-                <i>●</i>
-                <span>{{ t.value }}</span>
+                    </td>
+                  </tr>
+                  <div class="getMore" v-if="XZZDList.length>0">
+                    <p @click="showMore(currentId)">
+                      <span>查看更多</span>
+                      <i class="el-icon-arrow-right"></i>
+                    </p>
+                  </div>
+                </table>
               </div>
-              <h5
-                class="moreButton"
-                @click="$router.push({name: 'focusedInvestment'})"
-              >
-                <span>查看更多 ></span>
-              </h5>
             </div>
           </div>
-        </div>
-        <div 
-          v-else
-          slot="echarts"
-          width="100%"
-          height="100%"
+        </moduleItem>
+      </div>
+      <div class="right">
+        <moduleItem
+          title="注吊销企业趋势"
+          class="businessNatureType"
+          :sub-title="revocationOfEnterprise"
+          :gov-mod-next="nextB5"
+          :gov-mod-next-sleep="sleepB5"
+          @changeCH="changeB5Active"
         >
-          <div class="LDQYtable">
-            <ul
-              v-if="showZDXDate"
-              class="Date"
+          <ul
+            v-if="showZDXDate"
+            slot="Date"
+            class="Date"
+          >
+            <li
+              v-for="(t,i) in DateList"
+              :key="i"
+              :class="{active: ZDXActive === i}"
+              @click="changeZDXDate(t.value,i)"
             >
-              <li
-                v-for="(t,i) in LDQYList"
-                :key="i"
-                :class="{active: QYLDActive === i}"
-                @click="changeQYLDType(t.value,i)"
-              >
-                {{ t.name }}
-              </li>
-            </ul>
-            <div class="TableBox">
-              <table>
-                <tr
-                  v-for="(t,i) in LDQYTableData1"
+              {{ t.name }}
+            </li>
+          </ul>
+          <verticalBar
+            v-if="ZDXBarShow"
+            id="businessNatureType"
+            slot="echarts"
+            height="100%"
+            width="100%"
+            :unit="ZDXunit"
+            :echarts-data="ZDXEchartsData"
+            :show-unit="ZDXShowUnit"
+            :wrap="ZDXWrap"
+          ></verticalBar>
+          <RosePieChart
+            v-if="ZDXRoseShow"
+            id="businessNatureType"
+            slot="echarts"
+            height="100%"
+            width="100%"
+            :echarts-data="ZDXEchartsData"
+          ></RosePieChart>
+          <ringChart
+            v-if="ZDXRingShow"
+            id="businessNatureType"
+            slot="echarts"
+            height="100%"
+            width="100%"
+            :echarts-data="ZDXEchartsData"
+          ></ringChart>
+        <!-- <el-button class="directory" slot="button">企业迁出名录 ></el-button> -->
+        </moduleItem>
+        <moduleItem
+          title="区域资本来源分析"
+          class="enterpriseSize"
+          :sub-title="QYZBList"
+          :gov-mod-next="nextB6"
+          :gov-mod-next-sleep="sleepB6"
+          @changeCH="changeQYZBView"
+        >
+          <div
+            v-if="showMap"
+            slot="echarts"
+            style="height:100%;width:100%;"
+          >
+            <div class="enterpriseSizeBox">
+              <div class="flowchartsBox">
+                <flowChart
+                  v-if="QYZBShow"
+                  id="enterpriseSize"
+                  :echarts-data="QYZBEchartsData"
+                  height="100%"
+                  width="100%"
+                ></flowChart>
+              </div>
+              <div class="sort">
+                <h6>资本来源</h6>
+                <div 
+                  v-for="(t,i) in QYZBSort"
                   :key="i"
+                  class="item"
+                  :style="{color: itemStyle(i)}"
                 >
-                  <td>
-                    <img
-                      v-if="i < 3"
-                      :src="require('img/px_'+ (i+1) +'.png')"
-                    >
-                    <div
-                      v-else
-                      class="index"
-                    >
-                      <span>{{ i+1 }}</span>
-                    </div>
-                    <span class="name">{{ t.govB6QydmName }}</span>
-                    <span class="money">{{ t.govB6Money }}</span>
-                    <span class="percentage">{{ t.govB6Rate }}</span>
-                  </td>
-                </tr>
-              </table>
-              <table>
-                <tr
-                  v-for="(t,i) in LDQYTableData2"
-                  :key="i"
+                  <i>●</i>
+                  <span>{{ t.value }}</span>
+                </div>
+                <h5
+                  class="moreButton"
+                  @click="$router.push({name: 'focusedInvestment'})"
                 >
-                  <td>
-                    <img
-                      v-if="LDQYTableData1.length + i < 3"
-                      :src="require('img/px_'+ (i+2) +'.png')"
-                    >
-                    <div
-                      v-else
-                      class="index"
-                    >
-                      <span>{{ i+LDQYTableData1.length+1 }}</span>
-                    </div>
-                    <span class="name">{{ t.govB6QydmName }}</span>
-                    <span class="money">{{ t.govB6Money }}</span>
-                    <span class="percentage">{{ t.govB6Rate }}</span>
-                  </td>
-                </tr>
-              </table>
+                  <span>查看更多 ></span>
+                </h5>
+              </div>
             </div>
           </div>
+          <div 
+            v-else
+            slot="echarts"
+            width="100%"
+            height="100%"
+          >
+            <div class="LDQYtable">
+              <ul
+                v-if="showZDXDate"
+                class="Date"
+              >
+                <li
+                  v-for="(t,i) in LDQYList"
+                  :key="i"
+                  :class="{active: QYLDActive === i}"
+                  @click="changeQYLDType(t.value,i)"
+                >
+                  {{ t.name }}
+                </li>
+              </ul>
+              <div class="TableBox">
+                <table>
+                  <tr
+                    v-for="(t,i) in LDQYTableData1"
+                    :key="i"
+                  >
+                    <td>
+                      <img
+                        v-if="i < 3"
+                        :src="require('img/px_'+ (i+1) +'.png')"
+                      >
+                      <div
+                        v-else
+                        class="index"
+                      >
+                        <span>{{ i+1 }}</span>
+                      </div>
+                      <span class="name">{{ t.govB6QydmName }}</span>
+                      <span class="money">{{ t.govB6Money }}</span>
+                      <span class="percentage">{{ t.govB6Rate }}</span>
+                    </td>
+                  </tr>
+                </table>
+                <table>
+                  <tr
+                    v-for="(t,i) in LDQYTableData2"
+                    :key="i"
+                  >
+                    <td>
+                      <img
+                        v-if="LDQYTableData1.length + i < 3"
+                        :src="require('img/px_'+ (i+2) +'.png')"
+                      >
+                      <div
+                        v-else
+                        class="index"
+                      >
+                        <span>{{ i+LDQYTableData1.length+1 }}</span>
+                      </div>
+                      <span class="name">{{ t.govB6QydmName }}</span>
+                      <span class="money">{{ t.govB6Money }}</span>
+                      <span class="percentage">{{ t.govB6Rate }}</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </moduleItem>
+        <moduleItem
+          title="区域从业人员规模分析"
+          class="established"
+        >
+          <verticalBar
+            v-if="QYCYshow"
+            id="theScaleOfRegionalEmployees"
+            slot="echarts"
+            height="100%"
+            width="100%"
+            :show-percentage="false"
+            :unit="QYCYunit"
+            :rotate="0"
+            :echarts-data="QYCYEchartsData"
+          ></verticalBar>
+        </moduleItem>
+      </div>
+      <listPopups>
+        <div
+          slot="ListPopups-header"
+          class="myHeader"
+        >
+          <div class="title">
+            <h1>新增重点企业数量趋势</h1>
+          </div>  
+          <ul
+            v-if="KeyEnterprises.length>0"
+            :class="{margin: KeyEnterprises.length<=3}"  
+          >
+            <li 
+              v-for="(item,index) in KeyEnterprises" 
+              :key="index"
+              :class="[{active: popActive === index},{disabled: item.disabled}]"
+              @click="changePopActive(index,item.value)"
+            >
+              {{ item.name }}
+            </li>
+          </ul>
         </div>
-      </moduleItem>
-      <moduleItem
-        title="区域从业人员规模分析"
-        class="established"
-      >
-        <verticalBar
-          v-if="QYCYshow"
-          id="theScaleOfRegionalEmployees"
-          slot="echarts"
-          height="100%"
-          width="100%"
-          :show-percentage="false"
-          :unit="QYCYunit"
-          :rotate="0"
-          :echarts-data="QYCYEchartsData"
-        ></verticalBar>
-      </moduleItem>
-    </div>
-    <listPopups>
-      <div
-        slot="ListPopups-header"
-        class="myHeader"
-      >
-        <div class="title">
-          <h1>新增重点企业数量趋势</h1>
-        </div>  
         <ul
-          v-if="KeyEnterprises.length>0"
-          :class="{margin: KeyEnterprises.length<=3}"  
+          slot="ListPopups-content"
+          class="myContent"
         >
           <li 
-            v-for="(item,index) in KeyEnterprises" 
-            :key="index"
-            :class="[{active: popActive === index},{disabled: item.disabled}]"
-            @click="changePopActive(index,item.value)"
+            v-for="(t,i) in XZZDList"
+            :key="i"
+            class="item"
           >
-            {{ item.name }}
+            <img
+              v-if="i + 1 <= 3"
+              :src="require('img/px_'+ (i + 1) +'.png')"
+            >
+            <div
+              v-else
+              class="index"
+            >
+              <span>{{ i + 1 }}</span>
+            </div>
+            <span class="name">{{ t.govX315OrgName }}</span>
           </li>
         </ul>
-      </div>
-      <ul
-        slot="ListPopups-content"
-        class="myContent"
-      >
-        <li 
-          v-for="(t,i) in XZZDList"
-          :key="i"
-          class="item"
+        <div
+          slot="other"
+          class="pageBox"
         >
-          <img
-            v-if="i + 1 <= 3"
-            :src="require('img/px_'+ (i + 1) +'.png')"
+          <el-pagination
+            :current-page="currentPage"
+            :page-size="10"
+            background
+            layout="total, prev, pager, next"
+            :total="popCount"
+            @current-change="handleCurrentChange"
           >
-          <div
-            v-else
-            class="index"
-          >
-            <span>{{ i + 1 }}</span>
-          </div>
-          <span class="name">{{ t.govX315OrgName }}</span>
-        </li>
-      </ul>
-      <div
-        slot="other"
-        class="pageBox"
-      >
-        <el-pagination
-          :current-page="currentPage"
-          :page-size="10"
-          background
-          layout="total, prev, pager, next"
-          :total="popCount"
-          @current-change="handleCurrentChange"
-        >
-        </el-pagination>
-      </div>
-    </listPopups>
+          </el-pagination>
+        </div>
+      </listPopups>
+    </div>
+    <lottie v-if="!mainItem"></lottie>
   </div>
 </template>
 
@@ -391,6 +390,7 @@ import flowChart from "@/components/Charts/flowChart.vue";
 import RosePieChart from "@/components/Charts/RosePieChart.vue";
 import ringChart from "@/components/Charts/ringChart.vue";
 import listPopups from '@/components/listPopups/index.vue';
+import lottie from '@/components/lottie/index.vue';
 import { EAreaModule } from '@/store/modules/eArea';
 import { AppModule } from "@/store/modules/app"
 import {getE1} from "@/api/focusedInvestment";
@@ -423,7 +423,8 @@ export default Vue.extend({
     flowChart,
     RosePieChart,
     ringChart,
-    listPopups
+    listPopups,
+    lottie
   },
   data() {
     return {
@@ -646,23 +647,35 @@ export default Vue.extend({
         getB4Tags(newVal).then(res=>{
           let rule = getTagRule('b','b4')
           let data = _this.$getTags('b','b4')
-          data.map((item:any)=>{
+          data.map((item: any)=>{
             if(!res.data.includes((item.value) * 1)){
               if(rule === 1){
                 item.disabled = true
               }else{
-                data = data.filter((item:any)=>{
+                data = data.filter((item: any)=>{
                   return res.data.includes((item.value) * 1)
                 })
               }
             }
           })
-          _this.KeyEnterprises = data || []
-          let hasDataTag = _this.KeyEnterprises.filter((item:any)=>{
+          if(res.data.length<=0){
+            _this.KeyEnterprises = _this.$getTags('b','b4')
+            _this.KeyEnterprises.map((item:any)=>{
+              item.disabled = true
+            })
+          }else{
+            _this.KeyEnterprises = data || []
+          }
+          let hasDataTag = _this.KeyEnterprises.filter((item: any)=>{
             return !item.disabled
           })
           let urlB4 = _this.$getModUrl('b','b4')
-          let id = (hasDataTag[0].value) * 1
+          let id
+          if(res.data.length<=0){
+            id = (_this.KeyEnterprises[0].value) * 1
+          }else{
+            id = (hasDataTag[0].value) * 1
+          }
           _this.currentId = id
           _this.getXZZDList(id,newVal,urlB4)
         })
@@ -954,7 +967,7 @@ export default Vue.extend({
           break;
       }
     },
-    changeB4Active(val:any){
+    changeB4Active(val: any){
       let _this = this as any;
       _this.currentId = val;
       let urlB4 = _this.$getModUrl('b','b5')
@@ -1074,14 +1087,14 @@ export default Vue.extend({
           break;
       }
     },
-    getXZZDList(id:string|number,newVal:string,url?:string){
+    getXZZDList(id: string|number,newVal: string,url?: string){
       let _this = this as any;
       // b4a 趋势图
       let b4aData = {
         "govLabel": id,
         "qydm": newVal
       }
-      trendsNewKeyEnterprises(b4aData).then((res:any)=>{
+      trendsNewKeyEnterprises(b4aData).then((res: any)=>{
         _this.XZZDechartsShow = true
         if(res.code === '200'){
           _this.XZZDRecharts = res.data
@@ -1096,7 +1109,7 @@ export default Vue.extend({
           "pageNum": 1,
           "pageSize": 6
       }
-      trendsNewKeyEnterprisesT(b4Data).then((res:any)=>{
+      trendsNewKeyEnterprisesT(b4Data).then((res: any)=>{
         _this.XZZDListShow = true
         if(res.code === '200'){
           _this.XZZDList = res.data
@@ -1110,7 +1123,7 @@ export default Vue.extend({
         "govLabel": id,
         "qydm": newVal
       }
-      trendsNewKeyEnterprises(b4aData).then((res:any)=>{
+      trendsNewKeyEnterprises(b4aData).then((res: any)=>{
         if(res.code === '200'){
           _this.XZZDRecharts = res.data
         }
@@ -1124,7 +1137,7 @@ export default Vue.extend({
           "pageNum": page,
           "pageSize": 10
       }
-      trendsNewKeyEnterprisesT(b4Data).then((res:any)=>{
+      trendsNewKeyEnterprisesT(b4Data).then((res: any)=>{
         if(res.code === '200'){
           _this.XZZDList = res.data
           _this.popCount = res.count
@@ -1160,6 +1173,9 @@ export default Vue.extend({
   height: 100%;
   display: flex;
   justify-content: space-between;
+  &.blur{
+    filter: blur(5px);
+  }
   .left {
     /* background: #fff; */
     width: 480px;

@@ -6,6 +6,8 @@
       :type="'pillarIndustry'"
       :label-list="leftLabelList"
       :area-code="selectedArea.code"
+      :gov-mod-next="nextC1"
+      :gov-mod-next-sleep="sleepC1"
       @getIndustry="getIndustry"
     >
       <doubleEchart
@@ -23,6 +25,8 @@
       :top10data="starData"
       :label-list="MiddleLabelList"
       :area-code="selectedArea.code"
+      :gov-mod-next="nextC2"
+      :gov-mod-next-sleep="sleepC2"
       @getIndustry="getIndustry"
     >
       <doubleEchart
@@ -40,6 +44,8 @@
       :top10data="potentialData"
       :label-list="rightLabelList"
       :area-code="selectedArea.code"
+      :gov-mod-next="nextC3"
+      :gov-mod-next-sleep="sleepC3"
       @getIndustry="getIndustry"
     >
       <doubleEchart
@@ -75,6 +81,11 @@ import industryItem from '@/components/industryItem/index.vue'
 import doubleEchart from '@/components/Charts/doubleEchart.vue'
 import {getAreaCode,getAdvantageLeftData,getAdvantageMiddleData,getAdvantageRightData,showLabel} from "@/api/advantageIndustry"
 import { formData } from '@/utils/index'
+import {
+  getGovModNext,
+  getGovModNextSleep,
+  getGovModSleep
+} from '@/utils/getsleep';
 export default Vue.extend({
   components:{
     industryItem,
@@ -107,6 +118,26 @@ export default Vue.extend({
       MiddleLabelList:[] as any,
       rightLabelList:[] as any,
     }
+  },
+  computed:{
+    nextC1(){
+      return getGovModNext('c','c1')
+    },
+    sleepC1(){
+      return getGovModNext('c','c1')
+    },
+    nextC2(){
+      return getGovModNext('c','c2')
+    },
+    sleepC2(){
+      return getGovModNext('c','c2')
+    },
+    nextC3(){
+      return getGovModNext('c','c3')
+    },
+    sleepC3(){
+      return getGovModNext('c','c3')
+    },
   },
   created(){
     this.selectedArea.name = this.$store.state.user.govInfoName
@@ -181,15 +212,18 @@ export default Vue.extend({
     },
     //判断是否显示label
     _showLabel(){
+      let leftArr = [] as any
+      let midddleArr = [] as any
+      let rightArr = [] as any
       JSON.parse(this.$store.state.user.indexList).map((item: any)=>{
         if(item.govIndexId === "c"){
           item.modules.map((_item: any)=>{
             if(_item.govModId === 'c1'){
-              this.leftLabelList = this.operateLabel(_item.govModLabels)
+              leftArr = this.operateLabel(_item.govModLabels)
             }else if(_item.govModId === 'c2'){
-              this.MiddleLabelList = this.operateLabel(_item.govModLabels)
+              midddleArr = this.operateLabel(_item.govModLabels)
             }else if(_item.govModId === 'c3'){
-              this.rightLabelList = this.operateLabel(_item.govModLabels)
+              rightArr = this.operateLabel(_item.govModLabels)
             }
           })
         }
@@ -198,30 +232,39 @@ export default Vue.extend({
       showLabel(formData({qydm:adminCode})).then((res: any)=>{
         if(res.code === "200"){
             if(res.data.c1 && res.data.c1.length){
-              this.leftLabelList.map((item: any)=>{
+              leftArr.map((item: any)=>{
                 res.data.c1.map((_item: any)=>{
                   if(item.id == _item.label && _item.count>0){
                     this.$set(item,'hasValue',true)
                   }
                 })
               })
+              this.leftLabelList = leftArr.filter((item:any)=>{
+                return item.hasValue
+              })
             }
             if(res.data.c2 && res.data.c2.length){
-              this.MiddleLabelList.map((item: any)=>{
+              midddleArr.map((item: any)=>{
                 res.data.c2.map((_item: any)=>{
                   if(item.id == _item.label && _item.count>0){
                     this.$set(item,'hasValue',true)
                   }
                 })
               })
+              this.MiddleLabelList = midddleArr.filter((item:any)=>{
+                return item.hasValue
+              })
             }
             if(res.data.c1 && res.data.c1.length){
-              this.rightLabelList.map((item: any)=>{
+              rightArr.map((item: any)=>{
                 res.data.c3.map((_item: any)=>{
                   if(item.id == _item.label && _item.count>0){
                     this.$set(item,'hasValue',true)
                   }
                 })
+              })
+              this.rightLabelList = rightArr.filter((item:any)=>{
+                return item.hasValue
               })
             }
         }
@@ -260,7 +303,7 @@ export default Vue.extend({
   justify-content: space-between;
   .advantageIndustryItem{
       width:610px;
-      height:100%;
+      height:960px;
       overflow: hidden;
   }
   .search_box{

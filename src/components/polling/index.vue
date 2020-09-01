@@ -25,6 +25,7 @@ export default Vue.extend({
         // })
     },
     beforeDestroy(){
+        console.log(1111)
         let _this = this as any
         window.clearInterval(_this.timer)
         _this.timer = null
@@ -42,12 +43,12 @@ export default Vue.extend({
                     _this.timer = window.setInterval(()=>{
                         _this.loop ++
                         if(_this.loop <= _this.labelList.length - 1){
-                            _this.changeActive(_this.labelList[_this.loop].id)
+                            _this.changeLabel(_this.labelList[_this.loop].id)
                         }else{
                             _this.loop = 0
-                            _this.changeActive(_this.labelList[_this.loop].id)
+                            _this.changeLabel(_this.labelList[_this.loop].id)
                         }
-                    },2000)
+                    },_this.govModNextSleep * 1000)
                 }
             }
         }

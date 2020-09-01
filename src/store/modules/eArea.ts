@@ -15,9 +15,9 @@ export interface IeAreaState {
   // 其他数量
   otherCount: number
   // 区域列表
-  areaList: any[],
+  areaList: any[]
   // 加载完成
-  loading:boolean
+  loading: boolean
 }
 
 @Module({ dynamic: true, store, name: 'EArea' })
@@ -61,7 +61,7 @@ class EArea extends VuexModule implements IeAreaState {
     }
   }
   @Mutation
-  private SET_LOADING(data:boolean){
+  private SET_LOADING(data: boolean){
     this.loading = data
   }
 

@@ -27,6 +27,7 @@ export default class extends mixins(ResizeMixin) {
      immediate: true,deep:true
   })
   private changeData(){
+    this.pieData = []
     this.echartData.map((item: any)=>{
       let val = {
         name:item.key,

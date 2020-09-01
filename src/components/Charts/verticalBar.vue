@@ -26,7 +26,7 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: ()=>[] }) private echartsData!: any[]
   @Prop({ default: false }) private wrap!: boolean
   @Prop({ default: true }) private showUnit!: boolean
-  @Prop({ default: 40}) private rotate!:number
+  @Prop({ default: 40}) private rotate!: number
 
   private barWidth = 12
 

@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
   // 获取b4/b4atags
-  export const getB4Tags = (data:any,url?:string) => 
+  export const getB4Tags = (data: any,url?: string) => 
   request({
     url:`${url?url:''}/gov/trend/analyze/tag`,
     headers:{

@@ -243,7 +243,7 @@ export default Vue.extend({
         text-align: center;
       }
       .moneyLabel2{
-        width:80px;
+        width:100px;
         text-align: center;
       }
       .numLabel{
@@ -273,7 +273,7 @@ export default Vue.extend({
             text-align: center;
           }
           .num2{
-            width:80px;
+            width:100px;
             text-align: center;
           }
           .per{

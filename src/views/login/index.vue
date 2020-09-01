@@ -102,7 +102,7 @@
 import Vue from "vue";
 import { Route } from "vue-router";
 import { Dictionary } from "vue-router/types/router";
-import { Form as ElForm, Input } from "element-ui";
+import { Form as ElForm, Input, Message } from "element-ui";
 import { isValidUsername } from "@/utils/validate";
 import { UserModule } from "@/store/modules/user";
 import getDefault from '@/utils/defaultPage'
@@ -163,14 +163,14 @@ export default Vue.extend({
 
     validateUsername: (rule: any, value: string, callback: Function) => {
       if (!isValidUsername(value)) {
-        callback(new Error("Please enter the correct user name"));
+        callback(new Error("请输入账号"));
       } else {
         callback();
       }
     },
     validatePassword: (rule: any, value: string, callback: Function) => {
       if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
+        callback(new Error("密码不能小于六位"));
       } else {
         callback();
       }
@@ -185,6 +185,21 @@ export default Vue.extend({
       }
     },
     handleLogin() {
+      let _this = this as any;
+      if(_this.loginForm.username.length<=0){
+        _this.$message({
+          type:'error',
+          message:'请输入用户名。'
+        })
+        return
+      }
+      if(_this.loginForm.password.length<=0){
+        _this.$message({
+          type:'error',
+          message:'请输入密码。'
+        })
+        return
+      }
       ((this as any).$refs.loginForm as ElForm).validate(
         async(valid: boolean) => {
           if (valid) {

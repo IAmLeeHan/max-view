@@ -1,65 +1,61 @@
 <template>
-  <div class="enterpriseAreaOverview"
-    v-loading="!mainItem"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.8)"
-  >
-    <div class="left">
-      <moduleItem
-        :sub-title="subTitle"
-        title="产业/行业分布"
-        class="industryDistribution"
-        :gov-mod-next="nextA2"
-        :gov-mod-next-sleep="sleepA2"
-        @changeCH="changeActive"
-      >
-        <pieChart
-          v-if="CHshow"
-          id="industryDistribution"
-          slot="echarts"
-          height="100%"
-          width="100%"
-          :echarts-data="CHChartData"
-        ></pieChart>
-      </moduleItem>
-      <moduleItem
-        title="经营状况分布"
-        class="operatingStatusDistribution"
-      >
-        <RosePieChart
-          v-if="JYshow"
-          id="operatingStatusDistribution"
-          slot="echarts"
-          height="100%"
-          width="100%"
-          :echarts-data="JYChartData"
-        ></RosePieChart>
-      </moduleItem>
-      <moduleItem
-        title="注册资本分布"
-        class="registeredCapitalDistribution"
-      >
-        <horizontalBar
-          v-if="ZCshow"
-          id="registeredCapitalDistribution"
-          slot="echarts"
-          height="100%"
-          width="100%"
-          :echarts-data="registeredCapitalDistribution"
-          :unit="ZCunit"
-        ></horizontalBar>
-      </moduleItem>
-    </div>
-    <div class="middle">
-      <!-- :org-list="OrgList" -->
-      <mainItem
-        ref="mainItem"
-        class="enterpriseDistribution"
-        title="企业分布"
-        show-bg
-      ></mainItem>
-      <!-- <div class="regionalNews">
+  <div>
+    <div :class="['enterpriseAreaOverview',{blur: !mainItem}]">
+      <div class="left">
+        <moduleItem
+          :sub-title="subTitle"
+          title="产业/行业分布"
+          class="industryDistribution"
+          :gov-mod-next="nextA2"
+          :gov-mod-next-sleep="sleepA2"
+          @changeCH="changeActive"
+        >
+          <pieChart
+            v-if="CHshow"
+            id="industryDistribution"
+            slot="echarts"
+            height="100%"
+            width="100%"
+            :echarts-data="CHChartData"
+          ></pieChart>
+        </moduleItem>
+        <moduleItem
+          title="经营状况分布"
+          class="operatingStatusDistribution"
+        >
+          <RosePieChart
+            v-if="JYshow"
+            id="operatingStatusDistribution"
+            slot="echarts"
+            height="100%"
+            width="100%"
+            :echarts-data="JYChartData"
+          ></RosePieChart>
+        </moduleItem>
+        <moduleItem
+          title="注册资本分布"
+          class="registeredCapitalDistribution"
+        >
+          <horizontalBar
+            v-if="ZCshow"
+            id="registeredCapitalDistribution"
+            slot="echarts"
+            height="100%"
+            width="100%"
+            :echarts-data="registeredCapitalDistribution"
+            :unit="ZCunit"
+          ></horizontalBar>
+        </moduleItem>
+      </div>
+      <div class="middle">
+        <!-- :org-list="OrgList" -->
+        <mainItem
+          ref="mainItem"
+          class="enterpriseDistribution"
+          title="企业分布"
+          show-bg
+        ></mainItem>
+        <!-- <div class="regionalNews">
         <h6>区域快讯：</h6>
         <p>市南区9企业获得全国信用企业荣誉称号</p>
         <div class="more">
@@ -67,172 +63,174 @@
           <i class="el-icon-arrow-right"></i>
         </div>
       </div>-->
-      <moduleItem
-        ref="son"
-        class="distributionOfKeyEnterprises"
-        :sub-title="KeyEnterprises"
-        :gov-mod-next="nextA5"
-        :gov-mod-next-sleep="sleepA5"
-        title="重点企业分布"
-        @changeCH="changeA5Active"
-      >
-        <div slot="echarts">
-          <div class="TableBox">
-            <table>
-              <tr
-                v-for="(t,i) in ZDQYTableData1"
-                :key="i"
-              >
-                <td>
-                  <img
-                    v-if="i < 3"
-                    :src="require('img/px_'+ (i+1) +'.png')"
-                  >
-                  <div
-                    v-else
-                    class="index"
-                  >
-                    <span>{{ i+1 }}</span>
-                  </div>
-                  <span class="name">{{ t.govX315OrgName }}</span>
+        <moduleItem
+          ref="son"
+          class="distributionOfKeyEnterprises"
+          :sub-title="KeyEnterprises"
+          :gov-mod-next="nextA5"
+          :gov-mod-next-sleep="sleepA5"
+          title="重点企业分布"
+          @changeCH="changeA5Active"
+        >
+          <div slot="echarts">
+            <div class="TableBox">
+              <table>
+                <tr
+                  v-for="(t,i) in ZDQYTableData1"
+                  :key="i"
+                >
+                  <td>
+                    <img
+                      v-if="i < 3"
+                      :src="require('img/px_'+ (i+1) +'.png')"
+                    >
+                    <div
+                      v-else
+                      class="index"
+                    >
+                      <span>{{ i+1 }}</span>
+                    </div>
+                    <span class="name">{{ t.govX315OrgName }}</span>
                   <!-- <span class="money">{{ t.govB6Money }}</span>
                     <span class="percentage">{{ t.govB6Rate }}</span> -->
-                </td>
-              </tr>
-            </table>
-            <table>
-              <tr
-                v-for="(t,i) in ZDQYTableData2"
-                :key="i"
-              >
-                <td>
-                  <img
-                    v-if="ZDQYTableData1.length + i < 3"
-                    :src="require('img/px_'+ (i+2) +'.png')"
-                  >
-                  <div
-                    v-else
-                    class="index"
-                  >
-                    <span>{{ i+ZDQYTableData1.length+1 }}</span>
-                  </div>
-                  <span class="name">{{ t.govX315OrgName }}</span>
+                  </td>
+                </tr>
+              </table>
+              <table>
+                <tr
+                  v-for="(t,i) in ZDQYTableData2"
+                  :key="i"
+                >
+                  <td>
+                    <img
+                      v-if="ZDQYTableData1.length + i < 3"
+                      :src="require('img/px_'+ (i+2) +'.png')"
+                    >
+                    <div
+                      v-else
+                      class="index"
+                    >
+                      <span>{{ i+ZDQYTableData1.length+1 }}</span>
+                    </div>
+                    <span class="name">{{ t.govX315OrgName }}</span>
                   <!-- <span class="money">{{ t.govB6Money }}</span>
                     <span class="percentage">{{ t.govB6Rate }}</span> -->
-                </td>
-              </tr>
-            </table>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="getMore">
+              <p>
+                <span @click="showMore(currentId)">查看更多</span>
+                <i class="el-icon-arrow-right"></i>
+              </p>
+            </div>
           </div>
-          <div class="getMore">
-            <p>
-              <span @click="showMore(currentId)">查看更多</span>
-              <i class="el-icon-arrow-right"></i>
-            </p>
+        </moduleItem>
+      </div>
+      <div class="right">
+        <moduleItem
+          title="企业性质/类型分布"
+          class="businessNatureType"
+        >
+          <verticalBar
+            v-if="XLshow"
+            id="businessNatureType"
+            slot="echarts"
+            height="100%"
+            width="100%"
+            :echarts-data="businessNatureData"
+            :unit="XLunit"
+          ></verticalBar>
+        </moduleItem>
+        <moduleItem
+          title="企业规模分布"
+          class="enterpriseSize"
+        >
+          <ringChart
+            v-if="GMshow"
+            id="enterpriseSize"
+            slot="echarts"
+            height="100%"
+            width="100%"
+            :echarts-data="GMEchartsData"
+          ></ringChart>
+        </moduleItem>
+        <moduleItem
+          title="成立时间分布"
+          class="established"
+        >
+          <horizontalBar
+            v-if="CSshow"
+            id="established"
+            slot="echarts"
+            :echarts-data="established"
+            height="100%"
+            width="100%"
+          ></horizontalBar>
+        </moduleItem>
+      </div>
+      <listPopups>
+        <div
+          slot="ListPopups-header"
+          class="myHeader"
+        >
+          <div class="title">
+            <h1>重点企业分布</h1>
           </div>
-        </div>
-      </moduleItem>
-    </div>
-    <div class="right">
-      <moduleItem
-        title="企业性质/类型分布"
-        class="businessNatureType"
-      >
-        <verticalBar
-          v-if="XLshow"
-          id="businessNatureType"
-          slot="echarts"
-          height="100%"
-          width="100%"
-          :echarts-data="businessNatureData"
-          :unit="XLunit"
-        ></verticalBar>
-      </moduleItem>
-      <moduleItem
-        title="企业规模分布"
-        class="enterpriseSize"
-      >
-        <ringChart
-          v-if="GMshow"
-          id="enterpriseSize"
-          slot="echarts"
-          height="100%"
-          width="100%"
-          :echarts-data="GMEchartsData"
-        ></ringChart>
-      </moduleItem>
-      <moduleItem
-        title="成立时间分布"
-        class="established"
-      >
-        <horizontalBar
-          v-if="CSshow"
-          id="established"
-          slot="echarts"
-          :echarts-data="established"
-          height="100%"
-          width="100%"
-        ></horizontalBar>
-      </moduleItem>
-    </div>
-    <listPopups>
-      <div
-        slot="ListPopups-header"
-        class="myHeader"
-      >
-        <div class="title">
-          <h1>重点企业分布</h1>
+          <ul
+            v-if="KeyEnterprises.length>0"
+            :class="{margin: KeyEnterprises.length<=3}"  
+          >
+            <li 
+              v-for="(item,index) in KeyEnterprises" 
+              :key="index"
+              :class="[{active: popActive === index},{disabled: item.disabled}]"
+              @click="changePopActive(index,item.value)"
+            >
+              {{ item.name }}
+            </li>
+          </ul>
         </div>
         <ul
-          v-if="KeyEnterprises.length>0"
-          :class="{margin: KeyEnterprises.length<=3}"  
+          slot="ListPopups-content"
+          class="myContent"
         >
           <li 
-            v-for="(item,index) in KeyEnterprises" 
-            :key="index"
-            :class="[{active: popActive === index},{disabled: item.disabled}]"
-            @click="changePopActive(index,item.value)"
+            v-for="(t,i) in popListData"
+            :key="i"
+            class="item"
           >
-            {{ item.name }}
+            <img
+              v-if="i + 1 <= 3"
+              :src="require('img/px_'+ (i + 1) +'.png')"
+            >
+            <div
+              v-else
+              class="index"
+            >
+              <span>{{ i + 1 }}</span>
+            </div>
+            <span class="name">{{ t.govX315OrgName }}</span>
           </li>
         </ul>
-      </div>
-      <ul
-        slot="ListPopups-content"
-        class="myContent"
-      >
-        <li 
-          v-for="(t,i) in popListData"
-          :key="i"
-          class="item"
+        <div
+          slot="other"
+          class="pageBox"
         >
-          <img
-            v-if="i + 1 <= 3"
-            :src="require('img/px_'+ (i + 1) +'.png')"
+          <el-pagination
+            :current-page="currentPage"
+            :page-size="10"
+            background
+            layout="total, prev, pager, next"
+            :total="popCount"
+            @current-change="handleCurrentChange"
           >
-          <div
-            v-else
-            class="index"
-          >
-            <span>{{ i + 1 }}</span>
-          </div>
-          <span class="name">{{ t.govX315OrgName }}</span>
-        </li>
-      </ul>
-      <div
-        slot="other"
-        class="pageBox"
-      >
-        <el-pagination
-          :current-page="currentPage"
-          :page-size="10"
-          background
-          layout="total, prev, pager, next"
-          :total="popCount"
-          @current-change="handleCurrentChange"
-        >
-        </el-pagination>
-      </div>
-    </listPopups>
+          </el-pagination>
+        </div>
+      </listPopups>
+    </div>
+    <lottie v-if="!mainItem"></lottie>
   </div>
 </template>
 
@@ -247,6 +245,7 @@ import horizontalBar from "@/components/Charts/horizontalBar.vue";
 import verticalBar from "@/components/Charts/verticalBar.vue";
 import ringChart from "@/components/Charts/ringChart.vue";
 import listPopups from '@/components/listPopups/index.vue'
+import lottie from '@/components/lottie/index.vue';
 import { getIndexList } from '@/utils/session';
 import { AppModule } from '@/store/modules/app';
 import { EAreaModule } from '@/store/modules/eArea';
@@ -276,7 +275,8 @@ export default Vue.extend({
     horizontalBar,
     verticalBar,
     ringChart,
-    listPopups
+    listPopups,
+    lottie
   },
   data() {
     return {
@@ -561,10 +561,10 @@ export default Vue.extend({
           let hasDataTag = _this.KeyEnterprises.filter((item: any)=>{
             return !item.disabled
           })
-          let curIndex = hasDataTag.findIndex((item:any)=>{
+          let curIndex = hasDataTag.findIndex((item: any)=>{
             return item.value == id
           })
-          _this.$refs.son.active = _this.KeyEnterprises.findIndex((item:any)=>{
+          _this.$refs.son.active = _this.KeyEnterprises.findIndex((item: any)=>{
             return item.value === hasDataTag[curIndex-1].value
           })
         }
@@ -632,6 +632,9 @@ export default Vue.extend({
   height: 100%;
   display: flex;
   justify-content: space-between;
+  &.blur{
+    filter: blur(5px);
+  }
   .left {
     /* background: #fff; */
     width: 480px;

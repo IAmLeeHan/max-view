@@ -75,11 +75,11 @@ export default class extends mixins(ResizeMixin) {
   }
   private barWidth = 12
 
-  mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
-  }
+  // mounted() {
+  //   this.$nextTick(() => {
+  //     this.initChart()
+  //   })
+  // }
 
   beforeDestroy() {
     if (!this.chart) {

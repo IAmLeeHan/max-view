@@ -8,10 +8,11 @@
         <div class="labelBox">
           <div
             v-for="(item,index) in labelList" 
+            v-if="item.hasValue"
             :key="index"
             class="labelItem"
-            :class="{labelSelected: labelIndex===index}"
-            @click="changeLabel(index)"
+            :class="{labelSelected: labelIndex===item.id}"
+            @click="changeLabel(item.id)"
           >
             {{ item.label }}
           </div>
@@ -24,7 +25,7 @@
       <div class="bottom">
         <!-- 区域核心企业分析 -->
         <div
-          v-if="type==='pillarIndustry'"
+          v-if="type==='pillarEnterprise'"
           class="rankLeftBox rankBox"
         >
           <div
@@ -40,22 +41,26 @@
               {{ index+1 }}
             </div>
             <div class="content leftContent">
-              {{ item.name }}
+              {{ item.x315OrgName }}
             </div>
             <div class="num leftNum">
-              {{ item.num }}万人
+              {{ item.counts }}{{ item.unit }}
             </div>
           </div>
         </div>
         <!-- 区域明星企业分析 -->
         <div
-          v-if="type==='starIndustry'"
+          v-if="type==='starEnterprise'"
           class="rankMiddleBox rankBox"
         >
           <div class="rankContent">
             <div>全国排名</div>
-            <div>省排名</div>
-            <div>市排名</div>
+            <div v-show="flag!==0">
+              省排名
+            </div>
+            <div v-show="flag===2">
+              市排名
+            </div>
           </div>
           <div
             v-for="(item,index) in rankList"
@@ -70,25 +75,25 @@
               {{ index+1 }}
             </div>
             <div class="content middleContent">
-              {{ item.name }}
+              {{ item.x315OrgName }}
             </div>
             <div class="num middleNum">
-              {{ item.num }}万人
+              {{ item.counts }}{{ item.unit }}
             </div>
             <div class="cityRank rank">
-              {{ item.cityRank }}
+              {{ item.spm | spm }}
             </div>
             <div class="provinceRank rank">
-              {{ item.provinceRank }}
+              {{ item.sfpm | rank }}
             </div>
             <div class="countryRank rank">
-              {{ item.countryRank }}
+              {{ item.qgpm | rank }}
             </div>
           </div>
         </div>
         <!-- 区域潜力企业分析 -->
         <div
-          v-if="type==='potentialIndustry'"
+          v-if="type==='potentialEnterprise'"
           class="rankRightBox rankBox"
         >
           <div class="rankContent">
@@ -107,28 +112,30 @@
               {{ index+1 }}
             </div>
             <div class="content rightContent">
-              {{ item.name }}
+              {{ item.x315OrgName }}
             </div>
             <div class="num rightNum">
-              {{ item.num }}万人
+              {{ item.counts }}{{ item.unit }}
             </div>
-            <div
-              class="per up"
-              :class="[item.flag?'up':'down']"
-            >
-              {{ item.per }}%
-            </div>
-            <div
-              v-if="item.flag"
-              class="flag up"
-            >
-              ↑
-            </div>
-            <div
-              v-else
-              class="flag down"
-            >
-              ↓
+            <div class="perBox">
+              <div
+                class="per"
+                :class="[item.rata?'up':'down']"
+              >
+                {{ item.rata | rata }}%
+              </div>
+              <div
+                v-if="item.rata>0"
+                class="flag up"
+              >
+                ↑
+              </div>
+              <div
+                v-else
+                class="flag down"
+              >
+                ↓
+              </div>
             </div>
           </div>
         </div>
@@ -141,7 +148,7 @@
               :pager-count="5"
               :current-page="current"
               layout="total, prev, pager, next"
-              :total="100"
+              :total="total"
               @current-change="handleCurrentChange"
             />
           </div>
@@ -155,16 +162,43 @@
 <script lang="ts">
 import Vue from "vue";
 import {getLeftDialogPage,getMiddleDialogPage,getRightDialogPage} from "@/api/importantEnterprise"
-
+import { formData } from '@/utils/index'
 export default Vue.extend({
   filters:{
     type:function(val: string){
-      if(val === "pillarIndustry"){
+      if(val === "pillarEnterprise"){
         return "区域核心企业分析"
-      }else if(val === "starIndustry"){
+      }else if(val === "starEnterprise"){
         return "区域明星企业分析"
       }else{
         return "区域潜力企业分析"
+      }
+    },
+    rata:function(val: any){
+      if(val){
+        return Math.abs(parseInt(val*100 + ''))
+      }else{
+        return "-"
+      }
+    },
+    //省排名 全国排名
+    rank:function(val: any){
+      if(val){
+        if(val*1>999){
+          return "999+"
+        }else{
+          return val
+        }
+      }
+    },
+    //市排名
+    spm:function(val: any){
+      if(val){
+        if(val.split("/")[0]*1>999){
+          return "999+"
+        }else{
+          return val
+        }
       }
     }
   },
@@ -172,88 +206,39 @@ export default Vue.extend({
     type:{
       type:String,
       default:""
+    },
+    areaCode:{
+      type:String,
+      default:""
+    },
+    labelList:{
+      type:Array,
+      default:[] as any
     }
   },
   data() {
     return {
-      labelList:[
-        {
-          label:"企业数量"
-        },
-        {
-          label:"参保人数"
-        },
-        {
-          label:"营收/产值"
-        },
-        {
-          label:"税收"
-        },
-        {
-          label:"出口"
-        },
-        {
-          label:"进口"
-        },
-        {
-          label:"吸引资本"
-        },
-      ],
       labelIndex:0,
-      rankList:[
-        {
-          name:"制造业",
-          num:1,
-          cityRank:'1/1000',
-          provinceRank:2,
-          countryRank:38,
-          per:10,
-          flag:true
-        },
-        {
-          name:"制造业",
-          num:2
-        },
-        {
-          name:"制造业",
-          num:3
-        },
-        {
-          name:"制造业",
-          num:4
-        },
-        {
-          name:"制造业",
-          num:5
-        },
-        {
-          name:"制造业",
-          num:6
-        },
-        {
-          name:"制造业",
-          num:7
-        },
-        {
-          name:"制造业",
-          num:8
-        },
-        {
-          name:"制造业",
-          num:9
-        },
-        {
-          name:"制造业",
-          num:10
-        },
-      ],
-      current:1
+      rankList:[],
+      current:1,
+      total:0,
+      flag:0,//0:省，1市，2区
     }
+  },
+  created(){
+    if(this.labelList.length){
+      this.labelIndex = this.labelList[0].id
+    }
+    //判断当前绑定的地区层级
+    this.judgeArea()
+    //获取数据
+    this.getPageData()
   },
   methods:{
     //切换选项
     changeLabel(index: any){
       this.labelIndex = index
+      this.getPageData()
     },
     //关闭弹窗
     close(){
@@ -261,8 +246,51 @@ export default Vue.extend({
     },
     handleCurrentChange(val: number){
       this.current = val
+      this.getPageData()
+    },
+    //获取数据
+    getPageData(){
+      let _this = this as any
+      if(this.type === 'pillarEnterprise'){
+        let urlA1 = _this.$getModUrl('d','d1')
+        getLeftDialogPage(formData({qydm:this.areaCode,label:this.labelIndex,page:this.current,size:10}),urlA1).then((res: any)=>{
+            if(res.code === "200"){
+              this.rankList = JSON.parse(res.data).records
+              this.total = JSON.parse(res.data).total
+            }
+        })
+      }
+      if(this.type === 'starEnterprise'){
+        let urlA1 = _this.$getModUrl('d','d1')
+        getMiddleDialogPage(formData({qydm:this.areaCode,label:this.labelIndex,page:this.current,size:10}),urlA1).then((res: any)=>{
+            if(res.code === "200"){
+              this.rankList = JSON.parse(res.data).records
+              this.total = JSON.parse(res.data).total
+            }
+        })
+      }
+      if(this.type === 'potentialEnterprise'){
+        let urlA1 = _this.$getModUrl('d','d1')
+        getRightDialogPage(formData({qydm:this.areaCode,label:this.labelIndex,page:this.current,size:10}),urlA1).then((res: any)=>{
+            if(res.code === "200"){
+              this.rankList = JSON.parse(res.data).records
+              this.total = JSON.parse(res.data).total
+            }
+        })
+      }
+    },
+    //判断层级
+    judgeArea(){
+      if(this.areaCode.indexOf("0000")!==-1){
+        this.flag = 0
+      }else if(this.areaCode.indexOf("0000") ===-1 && this.areaCode.indexOf("00")!==-1){
+        this.flag = 1
+      }else if(this.areaCode.indexOf("0000") ===-1 && this.areaCode.indexOf("00")===-1){
+        this.flag = 2
+      }
     }
   },
+  
 });
 </script>
 
@@ -363,9 +391,6 @@ export default Vue.extend({
                         text-overflow: ellipsis;
                         white-space: nowrap;
                       }
-                      .num{
-                        width:50px;
-                      }
                   }
                   .top1{
                     background: url("../../../assets/images/01.png")no-repeat, rgba(114,255,250,0.08);
@@ -394,7 +419,7 @@ export default Vue.extend({
                 // margin-top:25px;
                 .rankContent{
                   width:884px;
-                  margin:10px 0 5px 0;
+                  margin:10px auto 5px ;
                   div{
                     float:right;
                     font-size: 12px;
@@ -413,7 +438,7 @@ export default Vue.extend({
                     width:400px;
                   }
                   .num{
-                    width:104px;
+                    width:134px;
                   }
                 }
                 
@@ -422,33 +447,39 @@ export default Vue.extend({
                 .rankContent{
                   width:884px;
                   height:13px;
-                  margin:10px 0 5px 0;
+                  margin:10px auto 5px;
                   span{
                     float:right;
                     font-size: 12px;
                     color:#3DD3CF;
                     margin-bottom:5px;
-                    padding:0px 20px;
-                    margin-right:40px;
+                    display:block;
+                    width:150px;
+                    text-align: center;
                   }
+                }
+                .perBox{
+                  width:150px;
+                  text-align: center;
                 }
                 .up{
                   display:inline-block;
-                  width:15px;
+                  
                   color:#46DB96;
-                  margin-left:140px;
                 }
                 .down{
                   display:inline-block;
-                  width:15px;
+                  
                   color:#F93B3B;
-                  margin-left:140px;
                 }
                 .flag{
                   margin-left:10px;
                 } 
                 .rightContent{
-                  width:520px!important;
+                  width:585px!important;
+                }
+                .num{
+                  width:100px;
                 }
               }
               .pageBox{

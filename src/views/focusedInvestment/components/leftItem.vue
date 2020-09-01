@@ -198,7 +198,7 @@ export default Vue.extend({
     getLeftTopData(){
         let _this = this as any
         let urlA1 = _this.$getModUrl('e','e2')
-        getE2(formData({qydm:(this as any).areaCode,label:this.moneyIndex,type:'monye'}),urlA1).then((res: any)=>{
+        getE2(formData({qydm:(this as any).areaCode,label:this.moneyIndex,type:'money'}),urlA1).then((res: any)=>{
           if(res.code === "200"){
             this.rankListMoney = JSON.parse(res.data)
           }

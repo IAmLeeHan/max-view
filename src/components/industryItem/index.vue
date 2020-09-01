@@ -1,5 +1,11 @@
 <template>
-  <div class="industryItem">
+  <div 
+    class="industryItem" 
+    v-loading="loading"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)"
+  >
     <!-- 标题及右侧选项栏 -->
     <div class="header">
       <div class="title">
@@ -27,7 +33,6 @@
     <div class="labelBox">
       <div
         v-for="(item,index) in labelList"
-        v-if="item.hasValue"
         :key="index"
         class="labelItem"
         :class="{selected: labelIndex===item.id}"
@@ -168,7 +173,9 @@
 import Vue from "vue";
 import {getAreaCode,getAdvantageLeftData,getAdvantageMiddleData,getAdvantageRightData,showLabel} from "@/api/advantageIndustry"
 import { formData } from '@/utils/index'
+import mixins from '@/components/polling/index.vue'
 export default Vue.extend({
+  mixins:[mixins],
   filters:{
     rata:function(val: any){
       if(val){
@@ -230,22 +237,36 @@ export default Vue.extend({
       labelIndex:0,
       top10Data:[] as any,
       itemIndex:0,
+      loading:true,
       flag:0,//0:省，1市，2区
     }
   },
   watch: {
     areaCode(){
+      let _this = this as any
+      window.clearInterval(_this.timer)
+      _this.timer = null
+      _this.loop = 0
       this.judgeArea()
-      this.getData()
-
+      this.getData(this.labelIndex)
+    },
+    labelList(){
+      if(this.labelList.length){
+        this.labelIndex = this.labelList[0].id
+        this.getData(this.labelList[0].id)
+      }
     }
   },
   created(){
-    this.labelIndex = this.labelList[0].id
+    let _this = this as any
     //判断当前绑定的地区层级
     this.judgeArea()
     //获取数据
-    this.getData()
+    // this.getData(this.labelIndex)
+    setTimeout(()=>{
+      //启动标签轮询
+      _this.pollingLabel()
+    },2000)
   },
   methods: {
     changeActive(i: number){
@@ -253,8 +274,9 @@ export default Vue.extend({
     },
     //切换标签栏
     changeLabel(val: number){
-      (this as any).labelIndex = val
-      this.getData()
+      // (this as any).labelIndex = val
+      // console.log(val)
+      this.getData(val)
     },
     //选中某个列表
     selectedItem(val: number){
@@ -271,13 +293,14 @@ export default Vue.extend({
       this.$emit("getIndustry",params)
     },
     //获取数据
-    getData(){
+    getData(val:any){
+      this.loading = true
       let _this = this as any
       //区域支柱行业
-      
       if(this.type === "pillarIndustry"){
           let urlA1 = _this.$getModUrl('c','c1')
-          getAdvantageLeftData(formData({qydm:this.areaCode,label:this.labelIndex}),urlA1).then((res: any)=>{
+          getAdvantageLeftData(formData({qydm:this.areaCode,label:val}),urlA1).then((res: any)=>{
+            this.loading = false
             if(res.code === "200" && JSON.parse(res.data).length){
               this.top10Data = JSON.parse(res.data)
               this.itemIndex = this.top10Data[0].hydmCode
@@ -286,13 +309,15 @@ export default Vue.extend({
                 data:this.top10Data[0].charts
               }
               this.$emit("getIndustry",params)
+              this.labelIndex = val
             }
           })
       }
       //区域明星行业
       if(this.type === "starIndustry"){
           let urlA1 = _this.$getModUrl('c','c2')
-          getAdvantageMiddleData(formData({qydm:this.areaCode,label:this.labelIndex}),urlA1).then((res: any)=>{
+          getAdvantageMiddleData(formData({qydm:this.areaCode,label:val}),urlA1).then((res: any)=>{
+            this.loading = false
             if(res.code === "200" && JSON.parse(res.data).length){
               this.top10Data = JSON.parse(res.data)
               this.itemIndex = this.top10Data[0].hydmCode
@@ -301,13 +326,15 @@ export default Vue.extend({
                 data:this.top10Data[0].charts
               }
               this.$emit("getIndustry",params)
+              this.labelIndex = val
             }
           })
       }
       //区域潜力行业
       if(this.type === "potentialIndustry"){
           let urlA1 = _this.$getModUrl('c','c3')
-          getAdvantageRightData(formData({qydm:this.areaCode,label:this.labelIndex}),urlA1).then((res: any)=>{
+          getAdvantageRightData(formData({qydm:this.areaCode,label:val}),urlA1).then((res: any)=>{
+            this.loading = false
             if(res.code === "200" && JSON.parse(res.data).length){
               this.top10Data = JSON.parse(res.data)
               this.itemIndex = this.top10Data[0].hydmCode
@@ -317,6 +344,7 @@ export default Vue.extend({
                 data:this.top10Data[0].charts
               }
               this.$emit("getIndustry",params)
+              this.labelIndex = val
             }
           })
       }

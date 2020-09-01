@@ -29,7 +29,7 @@
         :type="'middleBottom'"
         :area-code="selectedArea.code"
         :gov-mod-next="1"
-        :gov-mod-next-sleep="sleepE3"
+        :gov-mod-next-sleep="5"
         @checkMore="checkMore"
       ></middleBottom>
     </div>

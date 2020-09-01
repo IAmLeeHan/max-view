@@ -65,10 +65,14 @@
       v-if="type==='starEnterprise'"
       class="rankMiddleBox rankBox"
     >
-      <div class="rankContent">
+      <div class="rankContent" v-if="rankList.length">
         <div>全国排名</div>
-        <div>省排名</div>
-        <div>市排名</div>
+        <div v-show="flag!==0">
+          省排名
+        </div>
+        <div v-show="flag===2">
+          市排名
+        </div>
       </div>
       <div
         v-for="(item,index) in rankList"
@@ -89,13 +93,13 @@
           {{ item.counts }}{{ item.unit }}
         </div>
         <div class="cityRank rank">
-          {{ item.spm }}
+          {{ item.spm | spm }}
         </div>
         <div class="provinceRank rank">
-          {{ item.sfpm }}
+          {{ item.sfpm | rank }}
         </div>
         <div class="countryRank rank">
-          {{ item.qgpm }}
+          {{ item.qgpm | rank }}
         </div>
       </div>
     </div>
@@ -103,7 +107,7 @@
       v-if="type==='potentialEnterprise'"
       class="rankRightBox rankBox"
     >
-      <div class="rankContent">
+      <div class="rankContent" v-if="rankList.length">
         <span>增长率</span>
       </div>
       <div
@@ -124,33 +128,36 @@
         <div class="num rightNum">
           {{ item.counts }}{{ item.unit }}
         </div>
-        <div
-          class="per up"
-          :class="[item.rata>0?'up':'down']"
-        >
-          {{ item.rata }}%
-        </div>
-        <div
-          v-if="item.rata>0"
-          class="flag up"
-        >
-          ↑
-        </div>
-        <div
-          v-else
-          class="flag down"
-        >
-          ↓
+        <div class="perBox">
+          <div
+            class="per"
+            :class="[item.rata>0?'up':'down']"
+          >
+            {{ item.rata | rata }}%
+          </div>
+          <div
+            v-if="item.rata>0"
+            class="flag up"
+          >
+            ↑
+          </div>
+          <div
+            v-else
+            class="flag down"
+          >
+            ↓
+          </div>
         </div>
       </div>
     </div>
     <!-- 查看更多 -->
     <div class="checkMore">
-      <span @click="checkMore"> 查看更多></span>
+      <span @click="checkMore" v-if="rankList.length"> 查看更多></span>
     </div>
     <div
       class="echarts"
       :class="{pillarEnterprise: type==='pillarEnterprise',starEnterprise: type==='starEnterprise',potentialEnterprise: type==='potentialEnterprise'}"
+      v-if="rankList.length"
     >
       <!-- echart标签栏 -->
       <div class="echartLabelBox">
@@ -187,6 +194,35 @@ import Vue from "vue";
 import {getEnterpriseLeftData,getEnterpriseMiddleData,getEnterpriseRightData,getLeftLabelList,getMiddleLabelList,getrightLabelList, getRightDialogPage} from "@/api/importantEnterprise"
 import { formData } from '@/utils/index'
 export default Vue.extend({
+  filters:{
+    rata:function(val: any){
+      if(val){
+        return Math.abs(parseInt(val*100 + ''))
+      }else{
+        return "-"
+      }
+    },
+    //省排名 全国排名
+    rank:function(val: any){
+      if(val){
+        if(val*1>999){
+          return "999+"
+        }else{
+          return val
+        }
+      }
+    },
+    //市排名
+    spm:function(val: any){
+      if(val){
+        if(val.split("/")[0]*1>999){
+          return "999+"
+        }else{
+          return val
+        }
+      }
+    }
+  },
   props:{
     title:{
       type:String,
@@ -206,65 +242,13 @@ export default Vue.extend({
       type:String,
       default:""
     },
-    // rankList:{
-    //   type:Array,
-    //   default:()=>{
-    //     return []
-    //   }
-    // },
   },
   data() {
     return {
       active:0,
       labelList:[] as any,
       labelIndex:0,
-      rankList:[
-        {
-          name:"制造业",
-          num:1,
-          cityRank:'1/1000',
-          provinceRank:2,
-          countryRank:38,
-          per:10,
-          flag:true
-        },
-        {
-          name:"制造业",
-          num:2
-        },
-        {
-          name:"制造业",
-          num:3
-        },
-        {
-          name:"制造业",
-          num:4
-        },
-        {
-          name:"制造业",
-          num:5
-        },
-        {
-          name:"制造业",
-          num:6
-        },
-        {
-          name:"制造业",
-          num:7
-        },
-        {
-          name:"制造业",
-          num:8
-        },
-        {
-          name:"制造业",
-          num:9
-        },
-        {
-          name:"制造业",
-          num:10
-        },
-      ],
+      rankList:[],
       echartLabelList:[
         {
           label:"注册资本分布"
@@ -276,15 +260,19 @@ export default Vue.extend({
           label:"区域分布"
         },
       ],
-      echartLabelIndex:0
+      echartLabelIndex:0,
+      flag:0,//0:省，1市，2区
     }
   },
   watch:{
     areaCode(){
       this.getLabelList()
+      this.judgeArea()
     }
   },
   created(){
+      //判断当前绑定的地区层级
+      this.judgeArea()
       this.getLabelList()
   },
   methods: {
@@ -301,7 +289,11 @@ export default Vue.extend({
     },
     //点击查看更多
     checkMore(){
-      this.$emit("checkMore",this.type)
+      let val = {
+        type:this.type,
+        labelList:this.labelList
+      }
+      this.$emit("checkMore",val)
     },
     //获取标签
     getLabelList(){
@@ -380,49 +372,49 @@ export default Vue.extend({
             }
           })
       }
-      if(this.labelList.length){
-        this.labelIndex = this.labelList[0].id
-        if(this.type === 'pillarEnterprise'){
-          let urlA1 = _this.$getModUrl('d','d1')
-          getEnterpriseLeftData(formData({qydm:this.areaCode,label:this.labelIndex})).then((res: any)=>{
-            if(res.code === "200"){
-              this.rankList = JSON.parse(res.data).zdqyfxTopDtos
-              let val = {
-                type:this.type,
-                data:JSON.parse(res.data)
-              }
-              this.$emit("getEchartData",val)
-              // console.log(JSON.parse(res.data))
+      this.labelIndex = this.labelList[0].id
+      if(this.type === 'pillarEnterprise'){
+        let urlA1 = _this.$getModUrl('d','d1')
+        getEnterpriseLeftData(formData({qydm:this.areaCode,label:this.labelIndex})).then((res: any)=>{
+          if(res.code === "200"){
+            this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            let val = {
+              type:this.type,
+              data:JSON.parse(res.data)
             }
-          })
-        }
-        if(this.type === 'starEnterprise'){
-          let urlA1 = _this.$getModUrl('d','d2')
-          getEnterpriseMiddleData(formData({qydm:this.areaCode,label:this.labelIndex})).then((res: any)=>{
-            if(res.code === "200"){
-              this.rankList = JSON.parse(res.data).zdqyfxTopDtos
-              let val = {
-                type:this.type,
-                data:JSON.parse(res.data)
-              }
-              this.$emit("getEchartData",val)
-            }
-          })
-        }
-        if(this.type === 'potentialEnterprise'){
-          let urlA1 = _this.$getModUrl('d','d3')
-          getEnterpriseRightData(formData({qydm:this.areaCode,label:this.labelIndex})).then((res: any)=>{
-            if(res.code === "200"){
-              this.rankList = JSON.parse(res.data).zdqyfxTopDtos
-              let val = {
-                type:this.type,
-                data:JSON.parse(res.data)
-              }
-              this.$emit("getEchartData",val)
-            }
-          })
-        }
+            this.$emit("getEchartData",val)
+            // console.log(JSON.parse(res.data))
+          }
+        })
       }
+      if(this.type === 'starEnterprise'){
+        let urlA1 = _this.$getModUrl('d','d2')
+        getEnterpriseMiddleData(formData({qydm:this.areaCode,label:this.labelIndex})).then((res: any)=>{
+          if(res.code === "200"){
+            this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            let val = {
+              type:this.type,
+              data:JSON.parse(res.data)
+            }
+            this.$emit("getEchartData",val)
+          }
+        })
+      }
+      if(this.type === 'potentialEnterprise'){
+        let urlA1 = _this.$getModUrl('d','d3')
+        getEnterpriseRightData(formData({qydm:this.areaCode,label:this.labelIndex})).then((res: any)=>{
+          if(res.code === "200"){
+            this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            let val = {
+              type:this.type,
+              data:JSON.parse(res.data)
+            }
+            this.$emit("getEchartData",val)
+            // console.log(JSON.parse(res.data))
+          }
+        })
+      }
+      
     },
     //处理标签方法
     operateLabel(val: any){
@@ -437,6 +429,16 @@ export default Vue.extend({
         })
         return newArr
     },
+    //判断层级
+    judgeArea(){
+      if(this.areaCode.indexOf("0000")!==-1){
+        this.flag = 0
+      }else if(this.areaCode.indexOf("0000") ===-1 && this.areaCode.indexOf("00")!==-1){
+        this.flag = 1
+      }else if(this.areaCode.indexOf("0000") ===-1 && this.areaCode.indexOf("00")===-1){
+        this.flag = 2
+      }
+    }
   },
 });
 </script>
@@ -570,9 +572,6 @@ export default Vue.extend({
           .num{
             width:50px;
           }
-          .per{
-            width:25px;
-          }
       }
       .top1{
         background: url("../../assets/images/01.png")no-repeat, rgba(114,255,250,0.08);
@@ -636,30 +635,39 @@ export default Vue.extend({
   .rankRightBox{
     .rankContent{
       width:100%;
-      height:13px;
+      height:16px;
       margin:10px 0 5px 0;
       span{
         float:right;
         font-size: 12px;
         color:#3DD3CF;
         margin-bottom:5px;
-        padding:0px 20px;
-        margin-right:40px;
+        display:block;
+        width:100px;
+        text-align: center;
+        height:16px;
       }
+    }
+    .perBox{
+      width:100px!important;
+      text-align: center;
+      display:flex;
+      justify-content: center;
     }
     .up{
       color:#46DB96;
-      margin-left:55px;
     }
     .down{
       color:#F93B3B;
-      margin-left:55px;
     }
     .flag{
       margin-left:5px;
     } 
     .rightContent{
       width:320px!important;
+    }
+    .num{
+      width:100px!important;
     }
   }
   .checkMore{

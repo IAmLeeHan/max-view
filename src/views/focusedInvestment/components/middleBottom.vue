@@ -15,10 +15,9 @@
       >
         <li 
           v-for="(item,index) in labelList" 
-          v-if="item.hasValue"
           :key="index"
           :class="{active: active === item.id}"
-          @click="changeActive(item.id)"
+          @click="changeLabel(item.id)"
         >
           {{ item.label }}
         </li>
@@ -113,6 +112,10 @@ export default Vue.extend({
   },
   watch:{
     areaCode(){
+      let _this = this as any
+      window.clearInterval(_this.timer)
+      _this.timer = null
+      _this.loop = 0
       this.getLabel()
     }
   },
@@ -122,9 +125,9 @@ export default Vue.extend({
   },
   methods: {
     //切换label
-    changeActive(val: number){
-      this.active = val
-      this.getEnterpriseData()
+    changeLabel(val: number){
+      // this.active = val
+      this.getEnterpriseData(val)
     },
     //点击查看更多
     checkMore(){
@@ -158,11 +161,14 @@ export default Vue.extend({
                 }
               })
             })
+            this.labelList = this.labelList.filter((item: any)=>{
+              return item.hasValue
+            })
             this.active = this.labelList[0].id
             //获取对外投资活跃企业数据
-            this.getEnterpriseData()
+            this.getEnterpriseData(this.active)
             //启动轮询
-            // _this.pollingLabel()
+            _this.pollingLabel()
           }
       })
     },
@@ -180,12 +186,13 @@ export default Vue.extend({
         return newArr
     },
     //获取对外投资活跃企业数据
-    getEnterpriseData(){
+    getEnterpriseData(val: any){
       let _this = this as any
       let urlA1 = _this.$getModUrl('e','e3')
-      getE3(formData({qydm:this.areaCode,label:this.active,pageNum:1,size:7}),urlA1).then((res: any)=>{
-          if(res.code === "200"){
+      getE3(formData({qydm:this.areaCode,label:val,pageNum:1,size:7}),urlA1).then((res: any)=>{
+          if(res.code === "200" && res.data && JSON.parse(res.data).records.length){
             this.rankList = JSON.parse(res.data).records
+            this.active = val
           }
       })
     }
