@@ -71,7 +71,7 @@
         <div
           v-for="(t,i) in indexList"
           :key="i"
-          class="echartsItem"
+          :class="['echartsItem',{checked:t.govIndexPath === $route.name}]"
           @click="checkView(t.govIndexPath)"
         >
           <img
@@ -349,25 +349,50 @@ export default class extends mixins(ResizeMixin) {
       justify-content: center;
       margin: 0 40px 55px 0;
       position: relative;
+      overflow: hidden;
       &:hover {
         cursor: pointer;
+        img{
+          border-radius: 10px;
+          border: 4px solid rgba(82,200,244,1);
+        }
+        span{
+          color: rgba(82,200,244,1);
+        }
+        .defaultImg{
+          border: none;
+        }
+      }
+      &.checked{
+        img{
+          border-radius: 10px;
+          border: 4px solid rgba(82,200,244,1);
+        }
+        span{
+          color: rgba(82,200,244,1);
+        }
+        .defaultImg{
+          border: none;
+        }
       }
       .defaultImg{
         width: 77px;
         height: 77px;
         position: absolute;
-        left: 0;
-        top: 0;
+        left: -3px;
+        top: -3px;
         border:none;
+        z-index: 1;
       }
       img {
         width: 300px;
         height: 168px;
         border: 1px solid rgba(82, 200, 244, 1);
+        border-radius: 10px;
       }
       span {
         margin-top: 22px;
-        font-size: 14px;
+        font-size: 16px;
         color: #fff;
       }
       ::v-deep.el-radio {

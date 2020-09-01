@@ -72,7 +72,7 @@ export default Vue.extend({
         position: absolute;
         right: 20px;
         color: #fff;
-        font-size: 12px;
+        font-size: 28px;
         &:hover{
           cursor: pointer;
         }
