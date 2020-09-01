@@ -66,6 +66,20 @@ service.interceptors.response.use(
         })
       }
 
+      if (res.code === '777') {
+        MessageBox.alert(
+          '密码错误！',
+          {
+            confirmButtonText: '确定',
+            // cancelButtonText: '取消',
+            type: 'warning'
+          }
+        ).then(() => {
+        UserModule.ResetToken()
+        location.reload() // To prevent bugs from vue-router
+        })
+      }
+
       if(res.code === '999'){
         if(getRefresh()){
           UserModule.Login()

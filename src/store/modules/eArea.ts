@@ -75,7 +75,7 @@ class EArea extends VuexModule implements IeAreaState {
     return new Promise(resolve=>{
       this.SET_LOADING(false)
       enterpriseDistribution(data).then(res=>{
-        this.SET_LOADING(true)
+        // this.SET_LOADING(true)
         if((res as any).code === '200'){
           let { data } = res as any
           this.SET_AGENCY_COUNT(data.agencyTotal)

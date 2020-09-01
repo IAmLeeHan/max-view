@@ -195,6 +195,9 @@ export default class extends mixins(ResizeMixin) {
           series:series
       };
       (_that as any).chart.setOption(option as EChartOption<EChartOption.SeriesBar>,true);
+
+      this.$store.commit('SET_LOADING',true)
+
   }
 
   private init(){
