@@ -64,7 +64,9 @@ export default class extends mixins(ResizeMixin) {
       color: _this.colorList,
       tooltip: {
         trigger: "item",
-        formatter: "{b} : {c} ({d}%)"
+        formatter: (params:any) => {
+              return params.name + ' ' +  _this.$formatNum(params.value) + ' ' + params.percent + '%'
+            }
       },
       legend: {
         bottom: _this.vertical ? 30 : 0,
@@ -90,7 +92,9 @@ export default class extends mixins(ResizeMixin) {
           selectedMode: "single",
           data: (_this as any).echartsData,
           label: {
-            formatter: "{c} {d}%"
+            formatter: (params:any) => {
+              return _this.$formatNum(params.value) + ' ' + params.percent + '%'
+            }
           },
           emphasis: {
             itemStyle: {

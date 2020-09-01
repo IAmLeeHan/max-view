@@ -55,7 +55,7 @@
             height="100%"
             width="100%"
             echarts-name="统计最新6个月数据"
-            :show-percentage="false"
+            :show-percentage="isParcent"
             :echarts-data="XZEchartsData"
             :unit="XZunit"
           ></verticalBar>
@@ -438,6 +438,7 @@ export default Vue.extend({
       ZLFX:[],
       ZLFXEchartsData:[],
       XZshow:false,
+      isParcent:false,
       XZData:[],
       XZEchartsData:[],
       XZunit:'',
@@ -637,6 +638,7 @@ export default Vue.extend({
           _this.XZshow = true
           if(res.code === '200'){
             _this.XZData = res.data
+            _this.isParcent = true
             _this.XZEchartsData = res.data.orgCount.data
             if(res.data.orgCount.unit){
               _this.XZunit = res.data.orgCount.unit
@@ -951,6 +953,7 @@ export default Vue.extend({
       switch (val * 1) {
         case 1:
           _this.XZEchartsData = _this.XZData.orgCount.data
+          _this.isParcent = true
           if(_this.XZData.orgCount.unit){
             _this.XZunit = _this.XZData.orgCount.unit
           }
@@ -958,6 +961,7 @@ export default Vue.extend({
           break;
         case 2:
           _this.XZEchartsData = _this.XZData.industry.data
+          _this.isParcent = false
           if(_this.XZData.industry.unit){
             _this.XZunit = _this.XZData.industry.unit
           }

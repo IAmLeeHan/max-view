@@ -201,7 +201,7 @@ export default class extends mixins(ResizeMixin) {
   background-size: 100% 100%;
   ::v-deep .el-header {
     height: 100px !important;
-    background: url("~img/header.png") no-repeat;
+    background: url("~img/bg_top.png") no-repeat;
     background-size: 100% 100%;
     display: flex;
     justify-content: center;
@@ -258,15 +258,17 @@ export default class extends mixins(ResizeMixin) {
   .drag {
     width: 70px;
     height: 70px;
-    background: rgba(25, 32, 80, 0.9);
-    box-shadow: 0px -1px 13px 0px rgba(0, 163, 248, 0.6);
+    opacity: .9;
+    background-image: radial-gradient(circle, #192050, #1c2357,#2474b2);
+    // box-shadow: 0px -1px 13px 0px rgba(0, 163, 248, 0.6);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     &:hover {
       cursor: pointer;
-      background: rgba(25, 32, 80, 1);
+      opacity: 1;
+      background-image: radial-gradient(circle, #192050, #1c2357,#2474b2);
       .svg-icon {
         opacity: 1;
       }

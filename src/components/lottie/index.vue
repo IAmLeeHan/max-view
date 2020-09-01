@@ -5,8 +5,8 @@
   >
     <Lottie
       :options="defaultOptions"
-      :height="50"
-      :width="50"
+      :height="100"
+      :width="100"
     />
   </div>
 </template>
@@ -37,7 +37,7 @@ export default {
     .loadShadow{
         width: 100vw;
         height: 100vh;
-        background: rgba(0,0,0,.8);
+        background: rgba(1,14,58,.7);
         position: fixed;
         left: 0;
         right: 0;

@@ -42,6 +42,7 @@ export default class extends mixins(ResizeMixin) {
   }
 
   private initChart() {
+    let _this = this as any;
     this.chart = echarts.init(document.getElementById(this.id) as HTMLDivElement)
     this.chart.setOption({
       color:[
@@ -55,7 +56,9 @@ export default class extends mixins(ResizeMixin) {
       ],
       tooltip:{
         trigger: "item",
-        formatter: "{b} : {c} ({d}%)"
+        formatter: (params:any) => {
+              return params.name + ' ' +  _this.$formatNum(params.value) + ' ' + params.percent + '%'
+            }
       },
       legend: {
         bottom: 12,

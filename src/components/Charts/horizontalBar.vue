@@ -129,7 +129,7 @@ export default class extends mixins(ResizeMixin) {
               position: "right",
               color: "#53B9FF",
               formatter: (params: any) => {
-                return params.value;
+                return _this.$formatNum(params.value);
               },
               rich: {
                 value: {

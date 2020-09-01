@@ -436,6 +436,7 @@ export default Vue.extend({
       if(time2>0){
         _this.timerA2 = window.setInterval(()=>{
           let urlA2 = _this.$getModUrl('a','a2')
+          
           enterpriseIndustry(_this.currentQydm,urlA2).then((res: any)=>{
             _this.CHshow = true; 
             if(res.code === '200'){

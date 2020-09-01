@@ -52,7 +52,7 @@ export default class extends mixins(ResizeMixin) {
   }
 
   private initChart() {
-    let _this = this;
+    let _this = this as any;
     _this.chart  =echarts.init(document.getElementById(_this.id) as HTMLDivElement);
     _this.chart.clear();
     
@@ -80,7 +80,7 @@ export default class extends mixins(ResizeMixin) {
       tooltip : {
         trigger: 'axis',
         formatter: function(params: any){
-          return params[0].name +':'+ data2[params[0].dataIndex]+_this.unit
+          return params[0].name +'：'+ _this.$formatNum(data2[params[0].dataIndex]) +_this.unit
         },
         axisPointer : {            // 坐标轴指示器，坐标轴触发有效
           type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
@@ -208,7 +208,7 @@ export default class extends mixins(ResizeMixin) {
               show: true,
               color:'#4ABBBF',
               formatter: function(params: any){
-                  return data2[params.dataIndex]
+                  return _this.$formatNum(data2[params.dataIndex])
               },
               position: 'top'
             },

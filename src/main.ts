@@ -23,9 +23,11 @@ import '@/utils/rem.ts'
 
 import getTags from '@/utils/getTags'
 import getModUrl from '@/utils/getModUrl'
+import { formatNum } from '@/utils/index'
 
 Vue.prototype.$getTags = getTags
 Vue.prototype.$getModUrl = getModUrl
+Vue.prototype.$formatNum = formatNum
 
 Vue.use(ElementUI, {
   size: AppModule.size, // Set element-ui default size

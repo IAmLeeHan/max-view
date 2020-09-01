@@ -61,11 +61,11 @@ export default class extends mixins(ResizeMixin) {
                 html += "<div>"+params[1].marker+params[1].seriesName+":"+params[1].data.num+"%"+"</div>"
               }else{
                 html += "<div>"+params[1].name+"</div>"
-                html += "<div>"+params[1].marker+params[1].seriesName+":"+params[1].value+"%"+"</div>"
+                html += "<div>"+params[1].marker+params[1].seriesName+":"+ _this.$formatNum(params[1].value) +"%"+"</div>"
               }
             }
             if(params[0]){
-              html += "<div>"+params[0].marker+params[0].seriesName+":"+params[0].value+"</div>"
+              html += "<div>"+params[0].marker+params[0].seriesName+":"+ _this.$formatNum(params[0].value) +"</div>"
             }
             html += "</div>"
             return html
@@ -157,7 +157,7 @@ export default class extends mixins(ResizeMixin) {
               show: true,
               color: '#4ABBBF',
               formatter: function(params: any) {
-                return params.data.num
+                return _this.$formatNum(params.data)
               },
               position: 'top'
             },
