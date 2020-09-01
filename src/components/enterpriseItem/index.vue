@@ -96,7 +96,7 @@
           {{ item.counts }}{{ item.unit }}
         </div>
         <div class="cityRank rank">
-          {{ item.spm | spm }}
+          {{ item.spm | rank }}
         </div>
         <div class="provinceRank rank">
           {{ item.sfpm | rank }}
@@ -211,7 +211,7 @@ export default Vue.extend({
         return "-"
       }
     },
-    //省排名 全国排名
+    //市排名 省排名 全国排名
     rank:function(val: any){
       if(val){
         if(val*1>999){
@@ -221,16 +221,6 @@ export default Vue.extend({
         }
       }
     },
-    //市排名
-    spm:function(val: any){
-      if(val){
-        if(val.split("/")[0]*1>999){
-          return "999+"
-        }else{
-          return val
-        }
-      }
-    }
   },
   props:{
     title:{
@@ -275,7 +265,6 @@ export default Vue.extend({
   },
   watch:{
     areaCode(){
-      console.log(this.areaCode,111)
       this.getLabelList()
       this.judgeArea()
     }
@@ -284,7 +273,8 @@ export default Vue.extend({
       //判断当前绑定的地区层级
       this.judgeArea()
       this.getLabelList()
-      console.log(this.areaCode,22)
+      // console.log(this.areaCode,22)
+      // console.log(JSON.parse(this.$store.state.user.indexList))
   },
   methods: {
     changeActive(i: number){
@@ -292,7 +282,9 @@ export default Vue.extend({
     },
     //切换标签栏
     changeLabel(val: number){
-      (this as any).labelIndex = val
+      // (this as any).labelIndex = val
+      this.getData(val)
+      
     },
     //切换echart标签
     changeEchartLabel(val: number){
@@ -384,47 +376,7 @@ export default Vue.extend({
           })
       }
       this.labelIndex = this.labelList[0].id
-      if(this.type === 'pillarEnterprise'){
-        let urlA1 = _this.$getModUrl('d','d1')
-        getEnterpriseLeftData(formData({qydm:this.areaCode,label:this.labelIndex})).then((res: any)=>{
-          if(res.code === "200"){
-            this.rankList = JSON.parse(res.data).zdqyfxTopDtos
-            let val = {
-              type:this.type,
-              data:JSON.parse(res.data)
-            }
-            this.$emit("getEchartData",val)
-            // console.log(JSON.parse(res.data))
-          }
-        })
-      }
-      if(this.type === 'starEnterprise'){
-        let urlA1 = _this.$getModUrl('d','d2')
-        getEnterpriseMiddleData(formData({qydm:this.areaCode,label:this.labelIndex})).then((res: any)=>{
-          if(res.code === "200"){
-            this.rankList = JSON.parse(res.data).zdqyfxTopDtos
-            let val = {
-              type:this.type,
-              data:JSON.parse(res.data)
-            }
-            this.$emit("getEchartData",val)
-          }
-        })
-      }
-      if(this.type === 'potentialEnterprise'){
-        let urlA1 = _this.$getModUrl('d','d3')
-        getEnterpriseRightData(formData({qydm:this.areaCode,label:this.labelIndex})).then((res: any)=>{
-          if(res.code === "200"){
-            this.rankList = JSON.parse(res.data).zdqyfxTopDtos
-            let val = {
-              type:this.type,
-              data:JSON.parse(res.data)
-            }
-            this.$emit("getEchartData",val)
-            // console.log(JSON.parse(res.data))
-          }
-        })
-      }
+      this.getData(this.labelIndex)
       
     },
     //处理标签方法
@@ -448,6 +400,54 @@ export default Vue.extend({
         this.flag = 1
       }else if(this.areaCode.indexOf("0000") ===-1 && this.areaCode.indexOf("00")===-1){
         this.flag = 2
+      }
+    },
+    //获取数据
+    getData(value: any){
+      let _this = this as any
+      if(this.type === 'pillarEnterprise'){
+        let urlA1 = _this.$getModUrl('d','d1')
+        getEnterpriseLeftData(formData({qydm:this.areaCode,label:value})).then((res: any)=>{
+          if(res.code === "200"){
+            this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            let val = {
+              type:this.type,
+              data:JSON.parse(res.data)
+            }
+            this.$emit("getEchartData",val)
+            // console.log(JSON.parse(res.data))
+            _this.labelIndex = value
+          }
+        })
+      }
+      if(this.type === 'starEnterprise'){
+        let urlA1 = _this.$getModUrl('d','d2')
+        getEnterpriseMiddleData(formData({qydm:this.areaCode,label:value})).then((res: any)=>{
+          if(res.code === "200"){
+            this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            let val = {
+              type:this.type,
+              data:JSON.parse(res.data)
+            }
+            this.$emit("getEchartData",val)
+            _this.labelIndex = value
+          }
+        })
+      }
+      if(this.type === 'potentialEnterprise'){
+        let urlA1 = _this.$getModUrl('d','d3')
+        getEnterpriseRightData(formData({qydm:this.areaCode,label:value})).then((res: any)=>{
+          if(res.code === "200"){
+            this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            let val = {
+              type:this.type,
+              data:JSON.parse(res.data)
+            }
+            this.$emit("getEchartData",val)
+            // console.log(JSON.parse(res.data))
+            _this.labelIndex = value
+          }
+        })
       }
     }
   },
@@ -624,6 +624,10 @@ export default Vue.extend({
     }
     .rankItem{
       width:100%;
+      .num{
+        width:100px;
+        margin-left:10px;
+      }
       .rank{
         width:70px;
         text-align: center;
@@ -638,7 +642,7 @@ export default Vue.extend({
         margin-left:10px;
       }
       .content{
-        width:230px;
+        width:170px;
       }
     }
     

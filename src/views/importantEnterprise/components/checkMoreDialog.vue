@@ -32,13 +32,13 @@
             v-for="(item,index) in rankList"
             :key="index"
             class="rankItem"
-            :class="{top1: index===0,top2: index===1,top3: index===2}"
+            :class="{top1: index===0&&current===1,top2: index===1&&current===1,top3: index===2&&current===1}"
           >
             <div
               class="index"
-              :class="{top: index+1<=3}"
+              :class="{top: index+1<=3&&current===1}"
             >
-              {{ index+1 }}
+              {{ (((current-1)*10)+index)+1 }}
             </div>
             <div class="content leftContent">
               {{ item.x315OrgName }}
@@ -66,13 +66,13 @@
             v-for="(item,index) in rankList"
             :key="index"
             class="rankItem"
-            :class="{top1: index===0,top2: index===1,top3: index===2}"
+            :class="{top1: index===0&&current===1,top2: index===1&&current===1,top3: index===2&&current===1}"
           >
             <div
               class="index"
-              :class="{top: index+1<=3}"
+              :class="{top: index+1<=3&&current===1}"
             >
-              {{ index+1 }}
+              {{ (((current-1)*10)+index)+1 }}
             </div>
             <div class="content middleContent">
               {{ item.x315OrgName }}
@@ -103,13 +103,13 @@
             v-for="(item,index) in rankList"
             :key="index"
             class="rankItem"
-            :class="{top1: index===0,top2: index===1,top3: index===2}"
+            :class="{top1: index===0&&current===1,top2: index===1&&current===1,top3: index===2&&current===1}"
           >
             <div
               class="index"
-              :class="{top: index+1<=3}"
+              :class="{top: index+1<=3&&current===1}"
             >
-              {{ index+1 }}
+              {{ (((current-1)*10)+index)+1 }}
             </div>
             <div class="content rightContent">
               {{ item.x315OrgName }}
@@ -237,6 +237,7 @@ export default Vue.extend({
   methods:{
     //切换选项
     changeLabel(index: any){
+      this.current = 1
       this.labelIndex = index
       this.getPageData()
     },

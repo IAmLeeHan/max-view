@@ -43,7 +43,7 @@
             <div
               class="index"
             >
-              {{ index+1 }}
+              {{ (((current-1)*10)+index)+1 }}
             </div>
             <div class="name ">
               {{ item.orgName }}
@@ -75,7 +75,7 @@
             <div
               class="index"
             >
-              {{ (index+1) }}
+              {{ (((current-1)*10)+index)+1 }}
             </div>
             <div class="name">
               {{ item.orgName }}
