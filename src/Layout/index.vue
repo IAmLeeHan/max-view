@@ -231,11 +231,7 @@ export default class extends mixins(ResizeMixin) {
       letter-spacing: 6px;
       margin-top:20px;
       line-height: 30px;
-      background: linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 1) 12.5732421875%,
-        rgba(133, 254, 255, 1) 100%
-      );
+      background: linear-gradient( #FFFFFF 12.5732421875%, #85FEFF 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }

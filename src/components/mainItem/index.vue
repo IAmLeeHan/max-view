@@ -176,7 +176,7 @@ export default Vue.extend({
             font-size: 18px;
             color: rgba(255, 255, 255, 1);
             font-weight: bold;
-            background:linear-gradient(0deg,rgba(216,255,252,1) 0%, rgba(59,234,236,1) 99.21875%);
+            background:linear-gradient(rgba(216,255,252,1) 0%, rgba(59,234,236,1) 99.21875%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
           }

@@ -114,6 +114,7 @@ export default class extends mixins(ResizeMixin) {
             splitLine: {
               show: false
             },
+            inverse:true
             // max:'dataMax'
           }
         ],
