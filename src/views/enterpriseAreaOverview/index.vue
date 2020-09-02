@@ -352,6 +352,8 @@ export default Vue.extend({
             _this.CHData = res.data
             _this.CHChartData = res.data.cyfb
           }
+        }).catch((error:any)=>{
+          _this.CHshow = true;
         })
         let urlA3 = _this.$getModUrl('a','a3')
         _this.JYshow = false;
@@ -360,6 +362,8 @@ export default Vue.extend({
           if(res.code === '200'){
             _this.JYChartData = res.data.data
           }
+        }).catch((error:any)=>{
+          _this.JYshow = true;
         })
         let urlA4 = _this.$getModUrl('a','a4')
         _this.ZCshow = false;
@@ -371,6 +375,8 @@ export default Vue.extend({
               _this.ZCunit = res.data.unit
             }
           }
+        }).catch((error:any)=>{
+          _this.ZCshow = true;
         })
         areaTags((this as any).currentQydm).then(res=>{
           let rule = getTagRule('a','a5')
@@ -388,7 +394,7 @@ export default Vue.extend({
           })
           if(res.data.length<=0){
             _this.KeyEnterprises = _this.$getTags('a','a5')
-            _this.KeyEnterprises.map((item: any)=>{
+            _this.KeyEnterprises.map((item:any)=>{
               item.disabled = true
             })
           }else{
@@ -417,6 +423,8 @@ export default Vue.extend({
               _this.XLunit = res.data.unit
             }
           }
+        }).catch((error:any)=>{
+          _this.XLshow = true;
         })
         let urlA7 = _this.$getModUrl('a','a7')
         _this.GMshow = false;
@@ -425,6 +433,8 @@ export default Vue.extend({
           if(res.code === '200'){
             _this.GMEchartsData = res.data.data
           }
+        }).catch((error:any)=>{
+          _this.GMshow = true;
         })
         let urlA8 = _this.$getModUrl('a','a8')
         _this.CSshow = false;
@@ -436,6 +446,8 @@ export default Vue.extend({
               _this.CSunit = res.data.unit
             }
           }
+        }).catch((error:any)=>{
+          _this.CSshow = true;
         })
       }
     },
@@ -461,6 +473,8 @@ export default Vue.extend({
               _this.CHData = res.data
               _this.CHChartData = res.data.cyfb
             }
+          }).catch((error:any)=>{
+            _this.CHshow = true;
           })
         },time2)
       }
@@ -473,6 +487,8 @@ export default Vue.extend({
             if(res.code === '200'){
               _this.JYChartData = res.data.data
             }
+          }).catch((error:any)=>{
+            _this.JYshow = true;
           })
         },time3)
       }
@@ -488,6 +504,8 @@ export default Vue.extend({
                 _this.ZCunit = res.data.unit
               }
             }
+          }).catch((error:any)=>{
+            _this.ZCshow = true;
           })
         },time4)
       }
@@ -510,6 +528,8 @@ export default Vue.extend({
                 _this.XLunit = res.data.unit
               }
             }
+          }).then((error:any)=>{
+            _this.XLshow = true;
           })
         },time6)
       }
@@ -522,6 +542,8 @@ export default Vue.extend({
             if(res.code === '200'){
               _this.GMEchartsData = res.data.data
             }
+          }).catch((error)=>{
+            _this.GMshow = true;
           })
         },time7)
       }
@@ -537,6 +559,8 @@ export default Vue.extend({
                 _this.CSunit = res.data.unit
               }
             }
+          }).catch((error:any)=>{
+            _this.CSshow = true;
           })
         },time8)
       }
@@ -588,6 +612,8 @@ export default Vue.extend({
             return item.value === hasDataTag[curIndex-1].value
           })
         }
+      }).catch((error:any)=>{
+        _this.ZDQYTableShow = true
       })
     },
     getPopListData(id: string|number,newVal: string,page: number,url?: string){
@@ -800,12 +826,14 @@ export default Vue.extend({
   }
   .myHeader{
     width: 100%;
+    height: 18px;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     .title{
       padding: 0 30px;
       h1{
         font-size: 18px;
+        line-height: 18px;
         color: #FFFFFF;
         background: linear-gradient(0deg, #91E9EB 0%, #FFFFFF 100%);
         -webkit-background-clip: text;
@@ -815,7 +843,7 @@ export default Vue.extend({
     ul{
       display: flex;
       flex: 1;
-      padding-right:20px; 
+      padding-right:20px;
       align-items: flex-end;
       // justify-content: space-around;
       &.margin{
@@ -831,12 +859,13 @@ export default Vue.extend({
         font-size: 14px;
         color: #fff;
         margin-left: 20px;
+        padding-bottom: 6px;
         &:hover{
           cursor: pointer;
         }
         &.active{
-          padding-bottom: 3px;
           color: #43F6FF;
+          padding-bottom: 3px;
           border-bottom:3px solid #43F6FF;
         }
         &.disabled{

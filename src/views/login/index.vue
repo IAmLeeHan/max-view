@@ -187,6 +187,7 @@ export default Vue.extend({
     handleLogin() {
       let _this = this as any;
       if(_this.loginForm.username.length<=0){
+        _this.$message.closeAll();
         _this.$message({
           type:'error',
           message:'请输入用户名。'
@@ -194,6 +195,7 @@ export default Vue.extend({
         return
       }
       if(_this.loginForm.password.length<=0){
+        _this.$message.closeAll();
         _this.$message({
           type:'error',
           message:'请输入密码。'

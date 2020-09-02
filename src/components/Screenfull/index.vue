@@ -41,8 +41,10 @@ export default Vue.extend({
       }
     },
     click() {
+      let _this = this as any
       if (!sf.isEnabled) {
-        this.$message({
+        _this.$message.closeAll();
+        _this.$message({
           message: "you browser can not work",
           type: "warning"
         });

@@ -109,6 +109,7 @@ class User extends VuexModule implements IUserState {
             setIndexList(indexList)
             resolve(res)
           }else{
+            (Message as any).closeAll();
             Message({
               type:'error',
               message:(res as any).msg
@@ -153,6 +154,7 @@ class User extends VuexModule implements IUserState {
 
             resolve(res)
           }else{
+            (Message as any).closeAll();
             Message({
               type:'error',
               message:(res as any).msg

@@ -67,16 +67,15 @@ service.interceptors.response.use(
       }
 
       if (res.code === '777') {
-        MessageBox.alert(
-          '密码错误！',
-          {
-            confirmButtonText: '确定',
-            // cancelButtonText: '取消',
-            type: 'warning'
+        (Message as any).closeAll();
+        Message({
+          message:'密码错误！',
+          type:'error',
+          duration:1000,
+          onClose:()=>{
+            UserModule.ResetToken()
+            location.reload() // To prevent bugs from vue-router
           }
-        ).then(() => {
-        UserModule.ResetToken()
-        location.reload() // To prevent bugs from vue-router
         })
       }
 

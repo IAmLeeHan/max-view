@@ -54,7 +54,6 @@
             slot="echarts"
             height="100%"
             width="100%"
-            echarts-name="统计最新6个月数据"
             :show-percentage="isParcent"
             :echarts-data="XZEchartsData"
             :unit="XZunit"
@@ -345,7 +344,7 @@
           class="myContent"
         >
           <li 
-            v-for="(t,i) in XZZDList"
+            v-for="(t,i) in popXZZDList"
             :key="i"
             class="item"
           >
@@ -550,6 +549,7 @@ export default Vue.extend({
       timerB7:null,
       KeyEnterprises:[],
       XZZDList:[],
+      popXZZDList:[],
       XZZDRecharts:[],
       XZZDunit:'家',
       currentPage:1,
@@ -1154,7 +1154,7 @@ export default Vue.extend({
       }
       trendsNewKeyEnterprisesT(b4Data).then((res: any)=>{
         if(res.code === '200'){
-          _this.XZZDList = res.data
+          _this.popXZZDList = res.data
           _this.popCount = res.count
         }
       })
