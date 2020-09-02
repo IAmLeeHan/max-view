@@ -3,11 +3,14 @@
     class="loadShadow"
     @mousewheel="mousewheel"
   >
+  <div class="box">
     <Lottie
       :options="defaultOptions"
-      :height="100"
-      :width="100"
+      :height="200"
+      :width="200"
     />
+    <span class="loading">loading...</span>
+  </div>
   </div>
 </template>
  
@@ -48,5 +51,14 @@ export default {
         align-items: center;
         justify-content: center;
         z-index: 9998;
+        .box{
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            .loading{
+                color: #00ffff;
+            }
+        }
     }
 </style>
