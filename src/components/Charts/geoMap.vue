@@ -228,9 +228,10 @@ export default class extends mixins(ResizeMixin) {
         this.selectedPT.pop();
       }else{
         (this as any).selectedPT = ["china"];
+        EAreaModule.setQydm('100000')
         EAreaModule.getEnterpriseDistribution('100000')
         MapModule.SetCurrentMap(formData({adminCode:'100000'})).then(res=>{
-          this.mapGet(name,MapModule.currentMap, this.chart);
+          this.mapGet('中国',MapModule.currentMap, this.chart);
         })
       }
       this.changeInit();
