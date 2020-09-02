@@ -60,7 +60,7 @@
             {{ item.mbqyName }}
           </div>
           <div class="num">
-            {{ item.govE2Money | thousands(that)}}{{ item.govUnitName }}
+            {{ item.govE2Money | thousands(that) }}{{ item.govUnitName }}
           </div>
           <div class="per">
             {{ item.govE2Rate | rate }}%
@@ -105,7 +105,7 @@
             {{ item.mbqyName }}
           </div>
           <div class="num">
-            {{ item.govE2Size | thousands(that)}}{{ item.govUnitName }}
+            {{ item.govE2Size | thousands(that) }}{{ item.govUnitName }}
           </div>
           <div class="per">
             {{ item.govE2Rate | rate }}%
@@ -123,6 +123,20 @@ import {getE2} from "@/api/focusedInvestment"
 import mixins from '@/components/polling/index.vue'
 import { formData } from '@/utils/index'
 export default Vue.extend({
+  filters:{
+    rate:function(val: number){
+      if(val){
+        return parseInt(val*100 + '')
+      }
+    },
+    thousands:function(val: any,that: any){
+      if(val){
+        return that.$formatNum(val)
+      }else{
+        return ""
+      }
+    }
+  },
   mixins:[mixins],
   
   props:{
@@ -230,20 +244,6 @@ export default Vue.extend({
       this.getLeftTopData(val)
       //获取区域外来资本概况size
       this.getLeftBottomData(val)
-    }
-  },
-  filters:{
-    rate:function(val: number){
-      if(val){
-        return parseInt(val*100 + '')
-      }
-    },
-    thousands:function(val: any,that: any){
-      if(val){
-        return that.$formatNum(val)
-      }else{
-        return ""
-      }
     }
   },
 });

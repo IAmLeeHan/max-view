@@ -22,7 +22,7 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: '200px' }) private height!: string
   @Prop({ default:'' }) private unit!: string
   @Prop({ default: () =>[] }) private echartsData!: any[]
-  @Prop({ default:'#53B9FF' }) private lineColor!:string
+  @Prop({ default:'#53B9FF' }) private lineColor!: string
   // @Prop({ default:'#8adaff' }) private hoverColor!:string
 
   private barWidth = 12

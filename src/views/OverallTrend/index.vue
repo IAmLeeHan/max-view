@@ -122,7 +122,10 @@
                       <span class="percentage">{{ t.govB6Rate }}</span> -->
                     </td>
                   </tr>
-                  <div class="getMore" v-if="XZZDList.length>0">
+                  <div
+                    v-if="XZZDList.length>0"
+                    class="getMore"
+                  >
                     <p @click="showMore(currentId)">
                       <span>查看更多</span>
                       <i class="el-icon-arrow-right"></i>
@@ -665,7 +668,7 @@ export default Vue.extend({
           })
           if(res.data.length<=0){
             _this.KeyEnterprises = _this.$getTags('b','b4')
-            _this.KeyEnterprises.map((item:any)=>{
+            _this.KeyEnterprises.map((item: any)=>{
               item.disabled = true
             })
           }else{

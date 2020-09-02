@@ -56,7 +56,7 @@ export default class extends mixins(ResizeMixin) {
       ],
       tooltip:{
         trigger: "item",
-        formatter: (params:any) => {
+        formatter: (params: any) => {
               return params.name + ' ' +  _this.$formatNum(params.value) + ' ' + params.percent + '%'
             }
       },

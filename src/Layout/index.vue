@@ -71,7 +71,7 @@
         <div
           v-for="(t,i) in indexList"
           :key="i"
-          :class="['echartsItem',{checked:t.govIndexPath === $route.name}]"
+          :class="['echartsItem',{checked: t.govIndexPath === $route.name}]"
           @click="checkView(t.govIndexPath)"
         >
           <img

@@ -388,7 +388,7 @@ export default Vue.extend({
           })
           if(res.data.length<=0){
             _this.KeyEnterprises = _this.$getTags('a','a5')
-            _this.KeyEnterprises.map((item:any)=>{
+            _this.KeyEnterprises.map((item: any)=>{
               item.disabled = true
             })
           }else{

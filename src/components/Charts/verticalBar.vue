@@ -57,7 +57,7 @@ export default class extends mixins(ResizeMixin) {
     _this.chart.clear();
     
     let nameList = [];
-    let data:any = [];
+    let data: any = [];
     let data2: any[] = [];
     let all = 0;
     for(let i in _this.echartsData){
