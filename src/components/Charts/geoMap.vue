@@ -215,7 +215,7 @@ export default class extends mixins(ResizeMixin) {
   }
 
   private goBack(){
-      if(this.selectedPT.length > 1){
+      if(this.selectedPT.length > 2){
         let name = this.selectedPT[this.selectedPT.length-2];
         if(name in MapModule.provinces){
           let qydm = (MapModule as any).provinces[name].qydm
