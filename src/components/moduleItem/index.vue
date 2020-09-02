@@ -77,6 +77,7 @@ export default Vue.extend({
   .header {
     height: 36px;
     display: flex;
+    padding-right: 4px;
     align-items: flex-end;
     justify-content: space-between;
     .title {
@@ -95,7 +96,7 @@ export default Vue.extend({
           font-size: 18px;
           color: rgba(255, 255, 255, 1);
           font-weight: bold;
-          background:linear-gradient(rgba(216,255,252,1) 0%, rgba(59,234,236,1) 99.21875%);
+          background:linear-gradient(0deg,rgba(216,255,252,1) 0%, rgba(59,234,236,1) 99.21875%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
@@ -111,10 +112,10 @@ export default Vue.extend({
       display: flex;
       flex: 1;
       align-items: center;
-      padding-right:20px; 
-      justify-content: space-around;
+      // padding-right:20px; 
+      justify-content: flex-end;
       &.margin{
-        justify-content: center;
+        justify-content: flex-end;
         li{
           margin-left: 40px;
           &:first-child{

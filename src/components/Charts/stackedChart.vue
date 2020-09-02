@@ -22,6 +22,8 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: '200px' }) private height!: string
   @Prop({ default: '家' }) private unit!: string
   @Prop({ default: () =>[] }) private echartsData!: any[]
+  @Prop({ default: false }) private wrap!: boolean
+  @Prop({ default:40 }) private rotate!:number
 
   @Watch('echartsData')
   private changeData(){
@@ -80,7 +82,7 @@ export default class extends mixins(ResizeMixin) {
     grid: {
         left: "4%",
         right: "0",
-        bottom: "-2%",
+        bottom: "2%",
         top: "20%",
         containLabel: true
     },
@@ -104,43 +106,80 @@ export default class extends mixins(ResizeMixin) {
     xAxis: [{
         type: "category",
         data: _this.echartsData.name,
-        axisTick: {
-          show: false
-        },
+        // axisTick: {
+        //   show: false
+        // },
         axisLabel: {
           show: true,
           textStyle: {
             color: "#DFDFDF",
             fontSize: 10
           },
-          rotate:40
+          rotate:_this.rotate,
+          formatter:function(value: any){  
+              let ret = "";//拼接加\n返回的类目项  
+              let maxLength = 5;//每项显示文字个数  
+              let valLength = value.length;//X轴类目项的文字个数  
+              let rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数  
+              if(_this.wrap){
+                if (rowN > 1)//如果类目项的文字大于3,  
+                {  
+                  for (let i = 0; i < rowN; i++) {  
+                      let temp = "";//每次截取的字符串  
+                      let start = i * maxLength;//开始截取的位置  
+                      let end = start + maxLength;//结束截取的位置  
+                      //这里也可以加一个是否是最后一行的判断
+                      if(i + 1 === rowN){
+                        temp = value.substring(start, end);  
+                      }else if(i === 0){
+                        if(_this.rotate>0){
+                          temp = "\n" + value.substring(start, end) + "\n";  
+                        }else{
+                          temp = value.substring(start, end) + "\n";  
+                        }
+                      }else{
+                        temp = value.substring(start, end) + "\n";  
+                      }
+                      ret += temp; //凭借最终的字符串
+                  }
+                  return ret;  
+                } else {  
+                  return value;  
+                }  
+              }else{
+                return value
+              }
+            } 
           // formatter: "{value}"
         },
         axisLine: {
-          show: false
-        }
+            lineStyle: {
+              color: '#B9B9B9',
+              type:'solid'
+            }
+          },
     }],
     yAxis: [{
         type: "value",
         axisTick: {
             show: false
         },
-        axisLine: {
-            show: false
-        },
         axisLabel: {
-            show: true,
+          show: true,
             textStyle: {
-                color: "#DFDFDF",
+              color: "#DFDFDF",
                 fontSize: 12
             }
         },
-        splitLine: {
-          lineStyle: {
-            color: 'rgba(234,234,234,0.5)',
-            type: 'dashed'
+        axisLine: {
+            show: false
+          },
+          splitLine: {
+            lineStyle: {
+              color: 'rgba(234,234,234,0.2)',
+              type:'dotted'
+            }
           }
-        }
     }],
     series: [{
             name: "第一产业",

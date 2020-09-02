@@ -835,7 +835,7 @@ export default Vue.extend({
         font-size: 18px;
         line-height: 18px;
         color: #FFFFFF;
-        background: linear-gradient(0deg, #91E9EB 0%, #FFFFFF 100%);
+        background: linear-gradient(180deg, #91E9EB 0%, #FFFFFF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }

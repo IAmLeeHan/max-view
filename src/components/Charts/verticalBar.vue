@@ -134,12 +134,15 @@ export default class extends mixins(ResizeMixin) {
                       let temp = "";//每次截取的字符串  
                       let start = i * maxLength;//开始截取的位置  
                       let end = start + maxLength;//结束截取的位置  
-                      //这里也可以加一个是否是最后一行的判断，但是不加也没有影响，那就不加吧
-
+                      //这里也可以加一个是否是最后一行的判断
                       if(i + 1 === rowN){
                         temp = value.substring(start, end);  
                       }else if(i === 0){
-                        temp = "\n" + value.substring(start, end) + "\n";  
+                        if(_this.rotate>0){
+                          temp = "\n" + value.substring(start, end) + "\n";  
+                        }else{
+                          temp = value.substring(start, end) + "\n";  
+                        }
                       }else{
                         temp = value.substring(start, end) + "\n";  
                       }

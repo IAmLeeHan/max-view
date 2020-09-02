@@ -19,6 +19,8 @@
             height="100%"
             width="100%"
             :unit="ZLunit"
+            :wrap="ZLwrap"
+            :rotate="ZLrotate"
             :echarts-data="ZLEchartsData"
           ></doubleEchartLee>
         </moduleItem>
@@ -37,6 +39,8 @@
             height="100%"
             width="100%"
             :unit="ZLFXunit"
+            :rotate="ZLFXrotate"
+            :wrap="ZLFwrap"
             :echarts-data="ZLFXEchartsData"
           ></stackedChart>
         </moduleItem>
@@ -57,6 +61,8 @@
             :show-percentage="isParcent"
             :echarts-data="XZEchartsData"
             :unit="XZunit"
+            :wrap="XZwrap"
+            :rotate="XZrotate"
           ></verticalBar>
         </moduleItem>
       </div>
@@ -169,6 +175,7 @@
             :echarts-data="ZDXEchartsData"
             :show-unit="ZDXShowUnit"
             :wrap="ZDXWrap"
+            :rotate="ZDXrotate"
           ></verticalBar>
           <RosePieChart
             v-if="ZDXRoseShow"
@@ -433,13 +440,19 @@ export default Vue.extend({
       // 企业总量
       ZLunit:'',
       ZLshow:false,
+      ZLwrap:false,
+      ZLrotate:40,
       ZLData:[],
       ZLEchartsData:[],
       ZLFXshow:false,
+      ZLFXrotate:40,
+      ZLFwrap:false,
       ZLFXunit:'',
       ZLFX:[],
       ZLFXEchartsData:[],
       XZshow:false,
+      XZrotate:40,
+      XZwrap:false,
       isParcent:false,
       XZData:[],
       XZEchartsData:[],
@@ -476,6 +489,7 @@ export default Vue.extend({
       ZDXShowUnit:true,
       ZDXActive:0,
       ZDXWrap:false,
+      ZDXrotate:40,
       showZDXDate:false,
       revocationOfEnterprise: [
         {
@@ -905,6 +919,8 @@ export default Vue.extend({
       _this.CHshow = false
       switch (val * 1) {
         case 1:
+          _this.ZLwrap = false,
+          _this.ZLrotate = 40,
           _this.ZLEchartsData = _this.ZLData.month.data
           if(_this.ZLData.month.unit){
             _this.ZLunit = _this.ZLData.month.unit
@@ -912,6 +928,8 @@ export default Vue.extend({
           _this.CHshow = true
           break;
         case 2:
+          _this.ZLwrap = true,
+          _this.ZLrotate = 0,
           _this.ZLEchartsData = _this.ZLData.season.data
           if(_this.ZLData.season.unit){
             _this.ZLunit = _this.ZLData.season.unit
@@ -919,6 +937,8 @@ export default Vue.extend({
           _this.CHshow = true
           break;
         case 3:
+          _this.ZLwrap = false,
+          _this.ZLrotate = 0,
           _this.ZLEchartsData = _this.ZLData.year.data
           if(_this.ZLData.year.unit){
             _this.ZLunit = _this.ZLData.year.unit
@@ -938,6 +958,8 @@ export default Vue.extend({
           if(_this.ZLFXData.month.unit){
             _this.ZLFXunit = _this.ZLFXData.month.unit
           }
+          _this.ZLFXrotate = 40
+          _this.ZLFwrap = false
           _this.CHshow = true
           break;
         case 2:
@@ -945,6 +967,8 @@ export default Vue.extend({
           if(_this.ZLFXData.season.unit){
             _this.ZLFXunit = _this.ZLFXData.season.unit
           }
+          _this.ZLFXrotate = 0
+          _this.ZLFwrap = true
           _this.CHshow = true
           break;
         case 3:
@@ -952,6 +976,8 @@ export default Vue.extend({
           if(_this.ZLFXData.year.unit){
             _this.ZLFXunit = _this.ZLFXData.year.unit
           }
+          _this.ZLFXrotate = 0
+          _this.ZLFwrap = false
           _this.CHshow = true
           break;
         default:
@@ -963,6 +989,8 @@ export default Vue.extend({
       _this.CHshow = false
       switch (val * 1) {
         case 1:
+          _this.XZrotate = 40
+          _this.XZwrap = false
           _this.XZEchartsData = _this.XZData.orgCount.data
           _this.isParcent = true
           if(_this.XZData.orgCount.unit){
@@ -971,6 +999,8 @@ export default Vue.extend({
           _this.CHshow = true
           break;
         case 2:
+          _this.XZrotate = 0
+          _this.XZwrap = true
           _this.XZEchartsData = _this.XZData.industry.data
           _this.isParcent = false
           if(_this.XZData.industry.unit){
@@ -1001,7 +1031,7 @@ export default Vue.extend({
           }
          _this.showZDXDate = true
          _this.ZDXWrap = false
-          _this.ZDXShowUnit = true
+         _this.ZDXShowUnit = true
         _this.ZDXBarShow = true
         _this.ZDXActive = 0
           break;
@@ -1012,7 +1042,7 @@ export default Vue.extend({
           }
           _this.showZDXDate = false
           _this.ZDXWrap = false
-          _this.ZDXShowUnit = true
+         _this.ZDXShowUnit = true
           _this.ZDXRoseShow = true
           break;
         case 3:
@@ -1024,7 +1054,7 @@ export default Vue.extend({
           }
           _this.showZDXDate = false
           _this.ZDXWrap = false
-          _this.ZDXShowUnit = false
+         _this.ZDXShowUnit = false
           _this.ZDXRingShow = true
           break;
         default:
@@ -1041,7 +1071,8 @@ export default Vue.extend({
           if(_this.ZDXData.orgCount.month.unit){
             _this.ZDXunit = _this.ZDXData.orgCount.month.unit
           }
-         _this.ZDXWrap = false
+          _this.ZDXWrap = false
+          _this.ZDXrotate = 40
           _this.ZDXShowUnit = true
           _this.ZDXshow = true
           break;
@@ -1050,7 +1081,8 @@ export default Vue.extend({
           if(_this.ZDXData.orgCount.season.unit){
             _this.ZDXunit = _this.ZDXData.orgCount.season.unit
           }
-         _this.ZDXWrap = true
+           _this.ZDXWrap = true
+            _this.ZDXrotate = 0
           _this.ZDXShowUnit = true
           _this.ZDXshow = true
           break;
@@ -1059,7 +1091,8 @@ export default Vue.extend({
           if(_this.ZDXData.orgCount.year.unit){
             _this.ZDXunit = _this.ZDXData.orgCount.year.unit
           }
-         _this.ZDXWrap = false
+          _this.ZDXWrap = false
+            _this.ZDXrotate = 0
           _this.ZDXShowUnit = true
           _this.ZDXshow = true
           break;
@@ -1391,6 +1424,8 @@ export default Vue.extend({
             }
           }
           h6{
+            font-weight: normal;
+            font-size: 18px;
             color: #FFFFFF;
           }
           .moreButton{
@@ -1512,7 +1547,7 @@ export default Vue.extend({
       h1{
         font-size: 18px;
         color: #FFFFFF;
-        background: linear-gradient(0deg, #91E9EB 0%, #FFFFFF 100%);
+        background: linear-gradient(180deg, #91E9EB 0%, #FFFFFF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
