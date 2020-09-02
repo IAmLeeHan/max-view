@@ -81,14 +81,14 @@
                 >
                   <td>
                     <img
-                      v-if="i < 3"
+                      v-if="t.govIsOrder === 1 && i < 3"
                       :src="require('img/px_'+ (i+1) +'.png')"
                     >
                     <div
                       v-else
                       class="index"
                     >
-                      <span>{{ i+1 }}</span>
+                      <span>{{ t.govIsOrder === 1 ? t.govOrder : i + 1  }}</span>
                     </div>
                     <span class="name">{{ t.govX315OrgName }}</span>
                   <!-- <span class="money">{{ t.govB6Money }}</span>
@@ -103,14 +103,14 @@
                 >
                   <td>
                     <img
-                      v-if="ZDQYTableData1.length + i < 3"
+                      v-if="t.govIsOrder === 1 && ZDQYTableData1.length + i < 3"
                       :src="require('img/px_'+ (i+2) +'.png')"
                     >
                     <div
                       v-else
                       class="index"
                     >
-                      <span>{{ i+ZDQYTableData1.length+1 }}</span>
+                      <span>{{t.govIsOrder === 1 ? t.govOrder : i+ZDQYTableData1.length+1 }}</span>
                     </div>
                     <span class="name">{{ t.govX315OrgName }}</span>
                   <!-- <span class="money">{{ t.govB6Money }}</span>
@@ -203,14 +203,14 @@
             class="item"
           >
             <img
-              v-if="i + 1 <= 3"
+              v-if="t.govIsOrder === 1 && i + 1 <= 3"
               :src="require('img/px_'+ (i + 1) +'.png')"
             >
             <div
               v-else
               class="index"
             >
-              <span>{{ i + 1 }}</span>
+              <span>{{ t.govIsOrder === 1 ? t.govOrder : i + 1 }}</span>
             </div>
             <span class="name">{{ t.govX315OrgName }}</span>
           </li>

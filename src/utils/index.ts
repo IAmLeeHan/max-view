@@ -99,12 +99,16 @@ export const formData = (data: any) => {
   )
   return formData
 }
-export const formatNum = (strNum: string) => {
-  if(strNum.length&&strNum.length <= 3) {
-      return strNum;
+export const formatNum = (strNum: any) => {
+  let newStr
+  if(strNum){
+    newStr = strNum.toString()
   }
-  if(!/^(\+|-)?(\d+)(\.\d+)?$/.test(strNum)) {
-      return strNum;
+  if(newStr.length <= 3) {
+      return newStr;
+  }
+  if(!/^(\+|-)?(\d+)(\.\d+)?$/.test(newStr)) {
+      return newStr;
   }
   let a = RegExp.$1,
       b = RegExp.$2,
