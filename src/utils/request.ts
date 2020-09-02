@@ -97,7 +97,7 @@ service.interceptors.response.use(
   },
   (error) => {
     if(error.config.url === "/gov/common/errorLog"){
-      if(error.message === "Request failed with status code 500"){
+      if(error.message === "Request failed with status code 500" || error.code === 502){
         MessageBox.alert(
           '服务器错误,请联系客服',
           {
