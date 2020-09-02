@@ -100,7 +100,7 @@ export const formData = (data: any) => {
   return formData
 }
 export const formatNum = (strNum:string) => {
-  if(strNum.length <= 3) {
+  if(strNum.length&&strNum.length <= 3) {
       return strNum;
   }
   if(!/^(\+|-)?(\d+)(\.\d+)?$/.test(strNum)) {

@@ -86,6 +86,10 @@ export default class extends mixins(ResizeMixin) {
     },
     tooltip: {
         trigger: "axis",
+        // formatter:(params:any)=>{
+        //   console.log(params,"params");
+          
+        // },
         axisPointer: {
             type: "shadow"
         },
@@ -157,7 +161,7 @@ export default class extends mixins(ResizeMixin) {
             data: thirdData
         }
     ]
-    } as EChartOption<EChartOption.SeriesBar>)
+    } as any as EChartOption<EChartOption.SeriesBar>)
   }
 }
 </script>

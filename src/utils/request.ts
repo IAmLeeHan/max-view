@@ -7,7 +7,7 @@ import { errorLog } from '@/api/users'
 
 const service = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  timeout: 1000 * 30,
+  timeout: 1000 * 120,
   withCredentials: false // send cookies when cross-domain requests
 })
 

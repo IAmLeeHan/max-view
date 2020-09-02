@@ -83,7 +83,11 @@ export default class extends mixins(ResizeMixin) {
         })
       })
     }else{
-      this.mapGet(`中国`,`/map/china2.json`, this.chart);
+      EAreaModule.getEnterpriseDistribution(UserModule.govInfoQydm).then(res=>{
+        MapModule.SetCurrentMap(formData({adminCode:UserModule.govInfoQydm})).then(res=>{
+          this.mapGet(`中国`,MapModule.currentMap, this.chart);
+        })
+      })
     }
   }
 
@@ -251,7 +255,7 @@ export default class extends mixins(ResizeMixin) {
               let qydm = (MapModule as any).provinces[name].qydm
               EAreaModule.setQydm(qydm)
               EAreaModule.getEnterpriseDistribution(qydm)
-              MapModule.SetCurrentMap(qydm).then(res=>{
+              MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
                 _that.mapGet(name,MapModule.currentMap, _that.chart)
               })
           }else if(name in MapModule.cityMap){

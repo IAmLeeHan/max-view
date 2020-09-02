@@ -4,7 +4,7 @@
     @click="click"
   >
     <svg-icon :name="isFullscreen? 'exit-fullscreen': 'icon_big'" />
-    <span>{{ isFullscreen?'最小化':'最大化' }}</span>
+    <span>{{ isFullscreen?'退出全屏':'最大化' }}</span>
   </div>
 </template>
 

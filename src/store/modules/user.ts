@@ -195,6 +195,7 @@ class User extends VuexModule implements IUserState {
           localStorage.clear()
           this.SET_TOKEN('')
           this.SET_KEEP_LOGGED_IN('0')
+          location.reload()
           resolve(res)
         }else{
           throw Error('登出失败！')

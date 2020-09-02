@@ -3,7 +3,7 @@ const enterpriseAreaOverview = {
   component:()=>import('@/views/enterpriseAreaOverview/index.vue'),
   name:'EnterpriseAreaOverview',
   meta:{
-    title:'企业区域概况',
+    title:'区域企业概况',
     bg:'bg_one'
   }
 }

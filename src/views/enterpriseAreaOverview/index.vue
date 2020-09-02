@@ -350,7 +350,7 @@ export default Vue.extend({
           _this.CHshow = true; 
           if(res.code === '200'){
             _this.CHData = res.data
-            _this.CHChartData = res.data.hyfb
+            _this.CHChartData = res.data.cyfb
           }
         })
         let urlA3 = _this.$getModUrl('a','a3')
@@ -386,12 +386,24 @@ export default Vue.extend({
               }
             }
           })
-          _this.KeyEnterprises = data || []
+          if(res.data.length<=0){
+            _this.KeyEnterprises = _this.$getTags('a','a5')
+            _this.KeyEnterprises.map((item:any)=>{
+              item.disabled = true
+            })
+          }else{
+            _this.KeyEnterprises = data || []
+          }
           let hasDataTag = _this.KeyEnterprises.filter((item: any)=>{
             return !item.disabled
           })
           let urlA5 = _this.$getModUrl('a','a5')
-          let id = (hasDataTag[0].value) * 1
+          let id
+          if(res.data.length<=0){
+            id = (_this.KeyEnterprises[0].value) * 1
+          }else{
+            id = (hasDataTag[0].value) * 1
+          }
           _this.currentId = id
           _this.getZDQYList(id,newVal,urlA5)
         })
@@ -447,7 +459,7 @@ export default Vue.extend({
             _this.CHshow = true; 
             if(res.code === '200'){
               _this.CHData = res.data
-              _this.CHChartData = res.data.hyfb
+              _this.CHChartData = res.data.cyfb
             }
           })
         },time2)
@@ -598,10 +610,10 @@ export default Vue.extend({
       let _this = this as any
       _this.CHshow = false
       if(val * 1 === 1){
-        _this.CHChartData = _this.CHData.hyfb
+        _this.CHChartData = _this.CHData.cyfb
         _this.CHshow = true
       }else{
-        _this.CHChartData = _this.CHData.cyfb
+        _this.CHChartData = _this.CHData.hyfb
         _this.CHshow = true
       }
     },
