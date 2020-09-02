@@ -202,7 +202,9 @@
 import Vue from "vue";
 import {getEnterpriseLeftData,getEnterpriseMiddleData,getEnterpriseRightData,getLeftLabelList,getMiddleLabelList,getrightLabelList, getRightDialogPage} from "@/api/importantEnterprise"
 import { formData } from '@/utils/index'
+import mixins from '@/components/polling/index.vue'
 export default Vue.extend({
+  mixins:[mixins],
   filters:{
     rata:function(val: any){
       if(val){
@@ -265,6 +267,10 @@ export default Vue.extend({
   },
   watch:{
     areaCode(){
+      let _this = this as any
+      window.clearInterval(_this.timer)
+      _this.timer = null
+      _this.loop = 0
       this.getLabelList()
       this.judgeArea()
     }
@@ -376,6 +382,9 @@ export default Vue.extend({
           })
       }
       this.labelIndex = this.labelList[0].id
+      //开启标签轮询
+      _this.pollingLabel()
+      //获取数据
       this.getData(this.labelIndex)
       
     },
@@ -415,7 +424,7 @@ export default Vue.extend({
               data:JSON.parse(res.data)
             }
             this.$emit("getEchartData",val)
-            // console.log(JSON.parse(res.data))
+            
             _this.labelIndex = value
           }
         })
@@ -430,6 +439,7 @@ export default Vue.extend({
               data:JSON.parse(res.data)
             }
             this.$emit("getEchartData",val)
+            console.log(JSON.parse(res.data),111)
             _this.labelIndex = value
           }
         })
@@ -459,7 +469,7 @@ export default Vue.extend({
 .importantEnterpriseItem {
   width: 100%;
   padding: 20px;
-  background: url('~img/border.png') no-repeat;
+  background: url('~img/image_14.png') no-repeat;
   background-size: 100% 100%;
   .header {
     height: 36px;
@@ -528,7 +538,7 @@ export default Vue.extend({
     flex-wrap: wrap;
     margin-top:30px;
     .labelItem{
-        width:95px;
+        padding: 0px 30px;
         height: 38px;
         background:rgba(67,246,255,0.08);	      
         font-size: 14px;
@@ -601,9 +611,11 @@ export default Vue.extend({
       .per{
         width:25px;
       }
-      
+      .num{
+        width:100px;
+      }
       .leftContent{
-        width:470px;
+        width:420px;
       }     
     }
     

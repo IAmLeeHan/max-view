@@ -1,10 +1,12 @@
 <template>
-  <div class="advantageIndustry">
+  <div class="importantEnterprise">
     <enterpriseItem
       title="区域核心企业分析"
       class="advantageIndustryItem"
       :type="'pillarEnterprise'"
       :area-code="selectedArea.selectedValue"
+      :gov-mod-next="nextD1"
+      :gov-mod-next-sleep="sleepD1"
       @checkMore="checkMore"
       @getEchartData="getEchartData"
     >
@@ -36,6 +38,8 @@
       class="advantageIndustryItem"
       :type="'starEnterprise'"
       :area-code="selectedArea.selectedValue"
+      :gov-mod-next="nextD2"
+      :gov-mod-next-sleep="sleepD2"
       @checkMore="checkMore"
       @getEchartData="getEchartData"
     >
@@ -67,6 +71,8 @@
       class="advantageIndustryItem"
       :type="'potentialEnterprise'"
       :area-code="selectedArea.selectedValue"
+      :gov-mod-next="nextD3"
+      :gov-mod-next-sleep="sleepD3"
       @checkMore="checkMore"
       @getEchartData="getEchartData"
     >
@@ -112,7 +118,7 @@
         @change="handleChange"
       ></el-cascader>
       <div class="rightArrow">
-        <i class="el-icon-arrow-right"></i>
+        <i class="el-icon-arrow-right" @click="showList"></i>
       </div>
     </div>
   </div>
@@ -130,7 +136,11 @@ import {getAreaCode} from "@/api/advantageIndustry"
 import {getEnterpriseLeftData,getEnterpriseMiddleData,getEnterpriseRightData} from "@/api/importantEnterprise"
 
 import { formData } from '@/utils/index'
-
+import {
+  getGovModNext,
+  getGovModNextSleep,
+  getGovModSleep
+} from '@/utils/getsleep';
 export default Vue.extend({
   components:{
     enterpriseItem,
@@ -178,6 +188,26 @@ export default Vue.extend({
       },
       labelList:[]
     }
+  },
+  computed:{
+    nextD1(){
+      return getGovModNext('d','d1')
+    },
+    sleepD1(){
+      return getGovModNext('d','d1')
+    },
+    nextD2(){
+      return getGovModNext('d','d2')
+    },
+    sleepD2(){
+      return getGovModNext('d','d2')
+    },
+    nextD3(){
+      return getGovModNext('d','d3')
+    },
+    sleepD3(){
+      return getGovModNext('d','d3')
+    },
   },
   created(){
     // this.selectedArea.name = this.$store.state.user.govInfoName
@@ -240,7 +270,7 @@ export default Vue.extend({
               }
             }
           })
-          if(this.valueCity.length === 3){
+          if(adminCode.indexOf("0000")===-1&&adminCode.indexOf("00")===-1){
               this.dataCity.map((item: any)=>{
                 item.childs.map((second: any)=>{
                   if(second.code === this.valueCity[1]){
@@ -249,6 +279,9 @@ export default Vue.extend({
                   }
                 })
               })
+          }else{
+            this.selectedArea.parentName = this.$store.state.user.govInfoName
+            this.selectedArea.parentNode = this.$store.state.user.govInfoQydm
           }
         }
       })
@@ -309,6 +342,11 @@ export default Vue.extend({
           this.potentialEnterprise.fbdq = []
         }
       }
+    },
+    //点击显示区域弹窗
+    showList(){
+      let el: any = this.$refs.cascader
+      el.toggleDropDownVisible()
     }
   }
 });
@@ -316,11 +354,12 @@ export default Vue.extend({
 
 
 <style lang="scss" scope>
-.advantageIndustry{
+.importantEnterprise{
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: space-between;
+  margin-top:20px;
   .advantageIndustryItem{
       width:610px;
       height:960px;
@@ -333,8 +372,8 @@ export default Vue.extend({
     color:#fff;
     width:450px;
     height:44px;
-    box-shadow:0px -1px 9px 0px rgba(0,163,248,0.6);
-    display:flex;
+    background:url("../../assets/images/selectedArea.png");
+    background-size: 100% 100%;    display:flex;
     align-items:center;
     .el-icon-location{
       font-size: 12px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="advantageIndustry">
+  <div class="focusedInvestment">
     <leftItem
       title="区域外来资本概况"
       class="leftItem"
@@ -60,7 +60,7 @@
         @change="handleChange"
       ></el-cascader>
       <div class="rightArrow">
-        <i class="el-icon-arrow-right"></i>
+        <i class="el-icon-arrow-right" @click="showList"></i>
       </div>
     </div>
   </div>
@@ -194,6 +194,11 @@ export default Vue.extend({
           this.flowEchartData = JSON.parse(res.data)
         }
       })
+    },
+    //点击显示区域弹窗
+    showList(){
+      let el: any = this.$refs.cascader
+      el.toggleDropDownVisible()
     }
   }
 });
@@ -202,12 +207,13 @@ export default Vue.extend({
 
 <style lang="scss" scope>
 
-.advantageIndustry{
+.focusedInvestment{
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: space-between;
   // position: relative;
+  margin-top:30px;
   .leftItem{
       width:450px;
       height:940px;
@@ -239,9 +245,10 @@ export default Vue.extend({
     color:#fff;
     width:450px;
     height:44px;
-    box-shadow:0px -1px 9px 0px rgba(0,163,248,0.6);
     display:flex;
     align-items:center;
+    background:url("../../assets/images/selectedArea.png");
+    background-size: 100% 100%;
     .el-icon-location{
       font-size: 12px;
       color:#40cbd3;

@@ -254,7 +254,7 @@ export default Vue.extend({
 .leftItemBox {
   width: 100%;
   padding: 20px;
-  background: url('~img/border.png') no-repeat;
+  background: url('~img/image_14.png') no-repeat;
   background-size: 100% 100%;
   .header {
     height: 36px;

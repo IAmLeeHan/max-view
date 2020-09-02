@@ -1,10 +1,6 @@
 <template>
   <div 
-    v-loading="loading" 
     class="industryItem"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.8)"
   >
     <!-- 标题及右侧选项栏 -->
     <div class="header">
@@ -50,7 +46,7 @@
         v-for="(item,index) in top10Data"
         :key="index"
         class="rankItem"
-        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex}"
+        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex&&index>2,itemSelected1:item.hydmCode===itemIndex&&index===0,itemSelected2:item.hydmCode===itemIndex&&index===1,itemSelected3:item.hydmCode===itemIndex&&index===2}"
         @click="selectedItem(item.hydmCode)"
       >
         <div
@@ -92,7 +88,7 @@
         v-for="(item,index) in top10Data"
         :key="index"
         class="rankItem"
-        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex}"
+        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex&&index>2,itemSelected1:item.hydmCode===itemIndex&&index===0,itemSelected2:item.hydmCode===itemIndex&&index===1,itemSelected3:item.hydmCode===itemIndex&&index===2}"
         @click="selectedItem(item.hydmCode)"
       >
         <div
@@ -126,7 +122,7 @@
         v-for="(item,index) in top10Data"
         :key="index"
         class="rankItem"
-        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex}"
+        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex&&index>2,itemSelected1:item.hydmCode===itemIndex&&index===0,itemSelected2:item.hydmCode===itemIndex&&index===1,itemSelected3:item.hydmCode===itemIndex&&index===2}"
         @click="selectedItem(item.hydmCode)"
       >
         <div
@@ -167,6 +163,8 @@
     >
       <slot name="echarts"></slot>
     </div>
+    <!-- 加载动画 -->
+    <!-- <lottie class="loading" v-if="loading"></lottie> -->
   </div>
 </template>
 
@@ -176,7 +174,11 @@ import Vue from "vue";
 import {getAreaCode,getAdvantageLeftData,getAdvantageMiddleData,getAdvantageRightData,showLabel} from "@/api/advantageIndustry"
 import { formData } from '@/utils/index'
 import mixins from '@/components/polling/index.vue'
+import lottie from '@/components/lottie/index.vue';
 export default Vue.extend({
+  components:{
+    lottie
+  },
   filters:{
     rata:function(val: any){
       if(val){
@@ -370,9 +372,11 @@ export default Vue.extend({
 <style lang="scss" scope>
 .industryItem {
   width: 100%;
+  height:100%;
   padding: 20px;
-  background: url('~img/border.png') no-repeat;
+  background: url('~img/image_14.png') no-repeat;
   background-size: 100% 100%;
+  position: relative;
   .header {
     height: 36px;
     display: flex;
@@ -440,7 +444,7 @@ export default Vue.extend({
     flex-wrap: wrap;
     margin-top:30px;
     .labelItem{
-        width:140px;
+        // width:141px;
         height: 38px;
         background:rgba(67,246,255,0.08);	      
         font-size: 14px;
@@ -449,6 +453,7 @@ export default Vue.extend({
         line-height:38px;
         cursor: pointer;
         margin-bottom:5px;
+        padding:0px 30px;
     }
     .selected{
       background:rgba(67,246,255,0.24);
@@ -505,6 +510,15 @@ export default Vue.extend({
       }
       .itemSelected{
         background:rgba(67,246,255,0.24);
+      }
+      .itemSelected1{
+        background: url("../../assets/images/01.png")no-repeat, rgba(67,246,255,0.24);
+      }
+      .itemSelected2{
+        background: url("../../assets/images/02.png")no-repeat, rgba(67,246,255,0.24);
+      }
+      .itemSelected3{
+        background: url("../../assets/images/03.png")no-repeat, rgba(67,246,255,0.24);
       }
   }
   .rankLeftBox{
@@ -580,6 +594,12 @@ export default Vue.extend({
   }
   .potentialIndustry{
       height: calc(100% - 500px);
+  }
+  // 加载动画样式
+  .loading{
+    width:610px;
+    height:960px;
+    position:absolute;
   }
 }
 </style>

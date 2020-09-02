@@ -89,8 +89,8 @@ export default class extends mixins(ResizeMixin) {
           }
         },
         legend: {
-          left: 'left',
-          top: 8,
+          left:25,
+          top: 30,
           itemWidth: 14,
           itemHeight: 4,
           textStyle: {
@@ -99,10 +99,10 @@ export default class extends mixins(ResizeMixin) {
           data: unitList
         },
         grid: {
-          left: '2%',
+          left: '4%',
           right: '4%',
-          top: '22%',
-          bottom: '2%',
+          top: '25%',
+          bottom: '5%',
           containLabel: true
         },
         xAxis: [
@@ -144,13 +144,13 @@ export default class extends mixins(ResizeMixin) {
             scale: true,
             splitLine: {
               lineStyle: {
-                color: 'rgba(234,234,234,0.5)',
-                type: 'dashed'
+                color: 'rgba(234,234,234,0.2)',
+                type: 'dotted'
               }
             },
             axisLabel:{
               color: '#fff'
-            }
+            },
           },
           {
             axisTick: {

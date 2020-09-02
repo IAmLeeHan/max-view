@@ -67,7 +67,7 @@
         :show-all-levels="false"
         @change="handleChange"
       ></el-cascader>
-      <div class="rightArrow">
+      <div class="rightArrow" @click="showList">
         <i class="el-icon-arrow-right"></i>
       </div>
     </div>
@@ -290,6 +290,11 @@ export default Vue.extend({
         })
         return newArr
     },
+    //点击显示区域弹窗
+    showList(){
+      let el: any = this.$refs.cascader
+      el.toggleDropDownVisible()
+    }
   }
 });
 </script>
@@ -301,6 +306,7 @@ export default Vue.extend({
   height: 100%;
   display: flex;
   justify-content: space-between;
+  margin-top:20px;
   .advantageIndustryItem{
       width:610px;
       height:960px;
@@ -313,9 +319,10 @@ export default Vue.extend({
     color:#fff;
     width:450px;
     height:44px;
-    box-shadow:0px -1px 9px 0px rgba(0,163,248,0.6);
     display:flex;
     align-items:center;
+    background:url("../../assets/images/selectedArea.png");
+    background-size: 100% 100%;
     .el-icon-location{
       font-size: 12px;
       color:#40cbd3;

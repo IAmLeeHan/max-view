@@ -19,7 +19,7 @@ export default Vue.extend({
     },
     mounted(){
         // // this.govModNext = 1
-        console.log(this.govModNext,this.govModNextSleep)
+        // console.log(this.govModNext,this.govModNextSleep)
         // _this.$nextTick(()=>{
             
         // })
@@ -34,10 +34,10 @@ export default Vue.extend({
         pollingLabel(){
             let _this = this as any
             if(_this.labelList.length<=0){
-                console.log("没有sub");
+                // console.log("没有sub");
             }else{
                 if(_this.govModNext === 0){
-                    console.log("不切换");
+                    // console.log("不切换");
                 }else{
                     _this.timer = window.setInterval(()=>{
                         _this.loop ++
