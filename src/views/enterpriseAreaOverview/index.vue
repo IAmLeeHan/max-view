@@ -88,7 +88,7 @@
                       v-else
                       class="index"
                     >
-                      <span>{{ t.govIsOrder === 1 ? t.govOrder : i + 1  }}</span>
+                      <span>{{ t.govIsOrder === 1 ? t.govOrder : i + 1 }}</span>
                     </div>
                     <span class="name">{{ t.govX315OrgName }}</span>
                   <!-- <span class="money">{{ t.govB6Money }}</span>
@@ -110,7 +110,7 @@
                       v-else
                       class="index"
                     >
-                      <span>{{t.govIsOrder === 1 ? t.govOrder : i+ZDQYTableData1.length+1 }}</span>
+                      <span>{{ t.govIsOrder === 1 ? t.govOrder : i+ZDQYTableData1.length+1 }}</span>
                     </div>
                     <span class="name">{{ t.govX315OrgName }}</span>
                   <!-- <span class="money">{{ t.govB6Money }}</span>
@@ -352,7 +352,7 @@ export default Vue.extend({
             _this.CHData = res.data
             _this.CHChartData = res.data.cyfb
           }
-        }).catch((error:any)=>{
+        }).catch((error: any)=>{
           _this.CHshow = true;
         })
         let urlA3 = _this.$getModUrl('a','a3')
@@ -362,7 +362,7 @@ export default Vue.extend({
           if(res.code === '200'){
             _this.JYChartData = res.data.data
           }
-        }).catch((error:any)=>{
+        }).catch((error: any)=>{
           _this.JYshow = true;
         })
         let urlA4 = _this.$getModUrl('a','a4')
@@ -375,7 +375,7 @@ export default Vue.extend({
               _this.ZCunit = res.data.unit
             }
           }
-        }).catch((error:any)=>{
+        }).catch((error: any)=>{
           _this.ZCshow = true;
         })
         areaTags((this as any).currentQydm).then(res=>{
@@ -394,7 +394,7 @@ export default Vue.extend({
           })
           if(res.data.length<=0){
             _this.KeyEnterprises = _this.$getTags('a','a5')
-            _this.KeyEnterprises.map((item:any)=>{
+            _this.KeyEnterprises.map((item: any)=>{
               item.disabled = true
             })
           }else{
@@ -423,7 +423,7 @@ export default Vue.extend({
               _this.XLunit = res.data.unit
             }
           }
-        }).catch((error:any)=>{
+        }).catch((error: any)=>{
           _this.XLshow = true;
         })
         let urlA7 = _this.$getModUrl('a','a7')
@@ -433,7 +433,7 @@ export default Vue.extend({
           if(res.code === '200'){
             _this.GMEchartsData = res.data.data
           }
-        }).catch((error:any)=>{
+        }).catch((error: any)=>{
           _this.GMshow = true;
         })
         let urlA8 = _this.$getModUrl('a','a8')
@@ -446,7 +446,7 @@ export default Vue.extend({
               _this.CSunit = res.data.unit
             }
           }
-        }).catch((error:any)=>{
+        }).catch((error: any)=>{
           _this.CSshow = true;
         })
       }
@@ -473,7 +473,7 @@ export default Vue.extend({
               _this.CHData = res.data
               _this.CHChartData = res.data.cyfb
             }
-          }).catch((error:any)=>{
+          }).catch((error: any)=>{
             _this.CHshow = true;
           })
         },time2)
@@ -487,7 +487,7 @@ export default Vue.extend({
             if(res.code === '200'){
               _this.JYChartData = res.data.data
             }
-          }).catch((error:any)=>{
+          }).catch((error: any)=>{
             _this.JYshow = true;
           })
         },time3)
@@ -504,7 +504,7 @@ export default Vue.extend({
                 _this.ZCunit = res.data.unit
               }
             }
-          }).catch((error:any)=>{
+          }).catch((error: any)=>{
             _this.ZCshow = true;
           })
         },time4)
@@ -528,7 +528,7 @@ export default Vue.extend({
                 _this.XLunit = res.data.unit
               }
             }
-          }).then((error:any)=>{
+          }).then((error: any)=>{
             _this.XLshow = true;
           })
         },time6)
@@ -559,7 +559,7 @@ export default Vue.extend({
                 _this.CSunit = res.data.unit
               }
             }
-          }).catch((error:any)=>{
+          }).catch((error: any)=>{
             _this.CSshow = true;
           })
         },time8)
@@ -612,7 +612,7 @@ export default Vue.extend({
             return item.value === hasDataTag[curIndex-1].value
           })
         }
-      }).catch((error:any)=>{
+      }).catch((error: any)=>{
         _this.ZDQYTableShow = true
       })
     },
@@ -878,7 +878,7 @@ export default Vue.extend({
     }
   }
   .myContent{
-    padding:30px;
+    padding:30px 30px 20px 30px;
     .item{
       display: flex;
       align-items: center;
@@ -911,7 +911,7 @@ export default Vue.extend({
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    padding:0 30px 20px 30px;
+    padding:0 22px 20px 30px;
     .el-pagination{
       .el-pagination__total{
         color: #FEFEFE;

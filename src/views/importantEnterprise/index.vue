@@ -118,7 +118,10 @@
         @change="handleChange"
       ></el-cascader>
       <div class="rightArrow">
-        <i class="el-icon-arrow-right" @click="showList"></i>
+        <i
+          class="el-icon-arrow-right"
+          @click="showList"
+        ></i>
       </div>
     </div>
   </div>

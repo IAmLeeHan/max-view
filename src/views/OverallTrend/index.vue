@@ -266,7 +266,7 @@
                         v-else
                         class="index"
                       >
-                        <span>{{  t.govIsOrder === 1 ? t.govOrder : i+1 }}</span>
+                        <span>{{ t.govIsOrder === 1 ? t.govOrder : i+1 }}</span>
                       </div>
                       <span class="name">{{ t.govB6QydmName }}</span>
                       <span class="money">{{ t.govB6Money }}</span>
@@ -356,7 +356,7 @@
               v-else
               class="index"
             >
-              <span>{{t.govIsOrder === 1 ? t.govOrder : i + 1 }}</span>
+              <span>{{ t.govIsOrder === 1 ? t.govOrder : i + 1 }}</span>
             </div>
             <span class="name">{{ t.govX315OrgName }}</span>
           </li>
@@ -1554,7 +1554,7 @@ export default Vue.extend({
     }
   }
   .myContent{
-    padding:30px;
+    padding:30px 30px 20px 30px;
     .item{
       display: flex;
       align-items: center;
@@ -1587,7 +1587,7 @@ export default Vue.extend({
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    padding:0 30px 20px 30px;
+    padding:0 22px 20px 30px;
     .el-pagination{
       .el-pagination__total{
         color: #FEFEFE;

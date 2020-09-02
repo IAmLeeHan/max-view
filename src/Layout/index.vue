@@ -24,7 +24,7 @@
               </el-dropdown-item>
               <el-dropdown-item>
                 <div
-                  class="dropdownItem"
+                  class="dropdownItem logout"
                   @click="logout"
                 >
                   <svg-icon name="icon_out"></svg-icon>
@@ -168,6 +168,10 @@ export default class extends mixins(ResizeMixin) {
 </script>
 
 <style lang="scss" scoped>
+ ::v-deep.el-dropdown-selfdefine{
+    display: flex;
+    align-items: center;
+  }
 ::v-deep.el-dropdown-menu {
   min-width: 180px;
   background: rgb(21, 127, 167);
@@ -177,21 +181,33 @@ export default class extends mixins(ResizeMixin) {
     display: none !important;
   }
   .el-dropdown-menu__item {
+    .dropdownItem {
+      display: flex;
+      align-items: center;
+      
+      .svg-icon {
+        width: 18px!important;
+        height: 18px!important;
+        color: #fff;
+        opacity: 1;
+      }
+      span {
+        font-size: 14px;
+        color: #fff;
+        margin-left: 10px;
+      }
+    }
     &:hover {
-      background: rgba(110, 192, 223);
-    }
-  }
-  .dropdownItem {
-    .svg-icon {
-      width: 18px;
-      height: 18px;
-      color: #fff;
-      opacity: .5;
-    }
-    span {
-      font-size: 14px;
-      color: #fff;
-      margin-left: 10px;
+      background: rgba(0,0,0,0);
+      cursor:default;
+      .logout{
+        &:hover{
+          cursor: pointer;
+          .svg-icon,span{
+            color: rgb(110,192,223);
+          }
+        }
+      }
     }
   }
 }
@@ -244,8 +260,8 @@ export default class extends mixins(ResizeMixin) {
           border: none;
         }
         .svg-icon {
-          /* width: 22px!important; */
-          /* height: 22px!important; */
+          width: 22px!important;
+          height: 22px!important;
           color: #43f5ff;
         }
         span {

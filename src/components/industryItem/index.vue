@@ -46,7 +46,7 @@
         v-for="(item,index) in top10Data"
         :key="index"
         class="rankItem"
-        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex&&index>2,itemSelected1:item.hydmCode===itemIndex&&index===0,itemSelected2:item.hydmCode===itemIndex&&index===1,itemSelected3:item.hydmCode===itemIndex&&index===2}"
+        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex&&index>2,itemSelected1: item.hydmCode===itemIndex&&index===0,itemSelected2: item.hydmCode===itemIndex&&index===1,itemSelected3: item.hydmCode===itemIndex&&index===2}"
         @click="selectedItem(item.hydmCode)"
       >
         <div
@@ -88,7 +88,7 @@
         v-for="(item,index) in top10Data"
         :key="index"
         class="rankItem"
-        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex&&index>2,itemSelected1:item.hydmCode===itemIndex&&index===0,itemSelected2:item.hydmCode===itemIndex&&index===1,itemSelected3:item.hydmCode===itemIndex&&index===2}"
+        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex&&index>2,itemSelected1: item.hydmCode===itemIndex&&index===0,itemSelected2: item.hydmCode===itemIndex&&index===1,itemSelected3: item.hydmCode===itemIndex&&index===2}"
         @click="selectedItem(item.hydmCode)"
       >
         <div
@@ -122,7 +122,7 @@
         v-for="(item,index) in top10Data"
         :key="index"
         class="rankItem"
-        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex&&index>2,itemSelected1:item.hydmCode===itemIndex&&index===0,itemSelected2:item.hydmCode===itemIndex&&index===1,itemSelected3:item.hydmCode===itemIndex&&index===2}"
+        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex&&index>2,itemSelected1: item.hydmCode===itemIndex&&index===0,itemSelected2: item.hydmCode===itemIndex&&index===1,itemSelected3: item.hydmCode===itemIndex&&index===2}"
         @click="selectedItem(item.hydmCode)"
       >
         <div

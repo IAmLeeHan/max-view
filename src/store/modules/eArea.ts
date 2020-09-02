@@ -85,7 +85,7 @@ class EArea extends VuexModule implements IeAreaState {
           this.SET_AREA_LIST(data.areaList)
           resolve(res)
         }
-      }).catch((error:any)=>{
+      }).catch((error: any)=>{
         console.log(error,"error");
         
         this.SET_LOADING(true)

@@ -204,7 +204,6 @@ import {getEnterpriseLeftData,getEnterpriseMiddleData,getEnterpriseRightData,get
 import { formData } from '@/utils/index'
 import mixins from '@/components/polling/index.vue'
 export default Vue.extend({
-  mixins:[mixins],
   filters:{
     rata:function(val: any){
       if(val){
@@ -224,6 +223,7 @@ export default Vue.extend({
       }
     },
   },
+  mixins:[mixins],
   props:{
     title:{
       type:String,

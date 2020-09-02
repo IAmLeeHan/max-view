@@ -1,6 +1,7 @@
 <template>
   <div
     id="screenfull"
+    class="screenfull"
     @click="click"
   >
     <svg-icon :name="isFullscreen? 'exit-fullscreen': 'icon_big'" />
@@ -55,3 +56,10 @@ export default Vue.extend({
   }
 });
 </script>
+
+<style lang="scss" scoped>
+  .screenfull{
+    display:flex;
+    align-items: center;
+  }
+</style>
