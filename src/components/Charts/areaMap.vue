@@ -88,7 +88,15 @@ export default class extends mixins(ResizeMixin) {
             let code = _this.echartData[i].key
             let value = Number(_this.echartData[i].value);
             let scale = 4 - i*0.2
-            
+            let effectData = [] as any
+            let val = {
+              name:name,
+              value:""
+            }
+            if(d[code]&&value){
+              val.value = d[code].concat(value)
+              effectData.push(val)
+            }
             bb = {
                 type: 'effectScatter',
                 coordinateSystem: 'geo',
@@ -110,10 +118,11 @@ export default class extends mixins(ResizeMixin) {
                 itemStyle: {
                     color: _this.colorList2[i%10]
                 },
-                data: [{
-                    name: name,
-                    value: d[code].concat(value)
-                }]
+                // data: [{
+                //     name: name,
+                //     value: d[code].concat(value)
+                // }]
+                data:effectData
             };
             series.push(bb);
         }
@@ -161,7 +170,6 @@ export default class extends mixins(ResizeMixin) {
       total += Number(item.value*1)
     })
     if(this.echartData.length){
-      console.log(this.areaInfo)
       MapModule.SetCurrentMap(formData({adminCode:(this as any).areaInfo.parentNode})).then(res=>{
           _this.mapGet(MapModule.currentMap,total)
          

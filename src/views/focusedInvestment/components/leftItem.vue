@@ -195,7 +195,6 @@ export default Vue.extend({
   },
   created(){
     let _this = this as any
-    console.log(_this.$formatNum("1111111"))
     //获取区域外来资本概况money
     this.getLeftTopData(this.moneyIndex)
     //获取区域外来资本概况size

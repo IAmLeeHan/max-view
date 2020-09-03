@@ -245,7 +245,6 @@ export default Vue.extend({
         this.selectedArea.selectedLabel = el.getCheckedNodes()[0].label
         this.selectedArea.selectedValue = el.getCheckedNodes()[0].value
       }
-      console.log(this.selectedArea)
     },
     //获取区域层级
     getareaMap(){

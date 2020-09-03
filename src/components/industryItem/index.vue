@@ -263,7 +263,7 @@ export default Vue.extend({
   },
   created(){
     let _this = this as any
-    console.log(JSON.parse(_this.$store.state.user.indexList))
+    // console.log(JSON.parse(_this.$store.state.user.indexList))
     //判断当前绑定的地区层级
     this.judgeArea()
     //获取数据

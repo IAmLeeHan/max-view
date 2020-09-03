@@ -26,7 +26,6 @@ export default class extends mixins(ResizeMixin) {
      immediate: true,deep:true
   })
   private changeData(){
-    console.log(this.echartData)
     this.seriesData = []
     this.echartData.map((item: any)=>{
       let val = {

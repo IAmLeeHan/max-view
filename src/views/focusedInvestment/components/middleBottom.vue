@@ -205,7 +205,7 @@ export default Vue.extend({
 .middleBottomBox {
   width: 100%;
   padding: 20px;
-  background: url('~img/border.png') no-repeat;
+  background: url('~img/img_k2.png') no-repeat;
   background-size: 100% 100%;
   overflow-y: auto;
   // margin-top:20px;
