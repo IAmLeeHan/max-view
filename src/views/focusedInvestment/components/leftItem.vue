@@ -343,6 +343,7 @@ export default Vue.extend({
           color:#fff;
           background:rgba(91,239,253,0.18);
           cursor: pointer;
+          font-size: 14px;
         }
         .moneySelected{
           background:rgba(91,239,253,0.55)

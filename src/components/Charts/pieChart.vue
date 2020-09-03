@@ -63,13 +63,13 @@ export default class extends mixins(ResizeMixin) {
       legend: {
         bottom: 12,
         padding: [0, 5],
-        itemWidth: 10,
-        itemHeight:10,
+        itemWidth: 12,
+        itemHeight:12,
         // itemGap:30,
         left: "center",
         textStyle: {
           color: "#fff",
-          fontSize: 10,
+          fontSize: 12,
           fontWeight: "normal"
         },
         data: this.echartsData.map((item: any)=> item.name)

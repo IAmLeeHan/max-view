@@ -71,12 +71,12 @@ export default class extends mixins(ResizeMixin) {
       legend: {
         bottom: _this.vertical ? 30 : 0,
         padding: _this.vertical ? [5,0] :[0, 5],
-        itemWidth: 10,
-        itemHeight: 10,
+        itemWidth: 12,
+        itemHeight: 12,
         left: _this.vertical ? "right" : "center",
         orient:_this.vertical ? "vertical" : "horizontal",
         textStyle: {
-          fontSize: 10,
+          fontSize: 12,
           // fontWeight:'300',
           color: "#fff"
         },

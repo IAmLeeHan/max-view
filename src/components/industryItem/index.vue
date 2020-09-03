@@ -31,8 +31,10 @@
         v-for="(item,index) in labelList"
         :key="index"
         class="labelItem"
-        :class="{selected: labelIndex===item.id}"
+        :class="{selected: labelIndex===item.id,hover:hoverIndex===item.id&&labelIndex!==hoverIndex}"
         @click="changeLabel(item.id,item.label)"
+        @mouseenter="hover(item.id)"
+        @mouseleave="hoverLeave()"
       >
         {{ item.label }}
       </div>
@@ -237,6 +239,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      hoverIndex:-1,
       active:0,
       labelIndex:0,
       labelName:"",
@@ -276,6 +279,12 @@ export default Vue.extend({
     },2000)
   },
   methods: {
+    hoverLeave(){
+      this.hoverIndex = -1
+    },
+    hover(val: any){
+      this.hoverIndex = val
+    },
     changeActive(i: number){
       (this as any).active = i
     },
@@ -463,6 +472,10 @@ export default Vue.extend({
         cursor: pointer;
         margin-bottom:5px;
         padding:0px 30px;
+    }
+    .hover{
+      background:rgba(67,246,255,0.16);
+      color:#43F6FF;
     }
     .selected{
       background:rgba(67,246,255,0.24);

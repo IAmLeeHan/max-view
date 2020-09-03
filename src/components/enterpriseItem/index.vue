@@ -29,8 +29,10 @@
         v-for="(item,index) in labelList"
         :key="index"
         class="labelItem"
-        :class="{selected: labelIndex===item.id}"
+        :class="{selected: labelIndex===item.id,hover:hoverIndex===item.id&&labelIndex!==hoverIndex}"
         @click="changeLabel(item.id)"
+        @mouseenter="hover(item.id)"
+        @mouseleave="hoverLeave()"
       >
         {{ item.label }}
       </div>
@@ -247,6 +249,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      hoverIndex:-1,
       active:0,
       labelList:[] as any,
       labelIndex:0,
@@ -284,6 +287,12 @@ export default Vue.extend({
       // console.log(JSON.parse(this.$store.state.user.indexList))
   },
   methods: {
+    hoverLeave(){
+      this.hoverIndex = -1
+    },
+    hover(val: any){
+      this.hoverIndex = val
+    },
     changeActive(i: number){
       (this as any).active = i
     },
@@ -574,6 +583,10 @@ export default Vue.extend({
         cursor: pointer;
         margin-bottom:5px;
     }
+    .hover{
+      background:rgba(67,246,255,0.16);
+      color:#43F6FF;
+    }
     .selected{
       background:rgba(67,246,255,0.24);
       color:#43F6FF;
@@ -750,7 +763,7 @@ export default Vue.extend({
   }
   .echarts{
     width: 100%;
-    margin-top:10px;
+    margin-top:20px;
     // height: calc(100% - 36px);
   }
   .pillarEnterprise{

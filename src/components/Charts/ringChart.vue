@@ -62,15 +62,15 @@ export default class extends mixins(ResizeMixin) {
             }
       },
       legend: {
-        bottom: 25,
+        bottom: 0,
         padding:[0,0],
         left: 'center',
         textStyle:{
-          fontSize:10,
+          fontSize:12,
           color:'#fff'
         },
-        itemWidth:10,
-        itemHeight: 10,
+        itemWidth:12,
+        itemHeight: 12,
         data: dataName
       },
       series: [
