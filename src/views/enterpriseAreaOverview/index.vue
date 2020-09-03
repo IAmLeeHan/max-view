@@ -596,7 +596,7 @@ export default Vue.extend({
           "pageNum": 1,
           "pageSize":6 
         }
-      _this.ZDQYTableShow = false
+      // _this.ZDQYTableShow = false
       keyEnterprise(dataA5,url).then((res: any)=>{
         _this.ZDQYTableShow = true
         if(res.code === '200' && res.data && res.data.length>0){

@@ -129,7 +129,7 @@ export default class extends mixins(ResizeMixin) {
             
           },
           emphasis: {
-            color: 'rgba(37, 43, 61, .8)', //悬浮背景
+            color: 'rgba(37, 43, 61, .1)', //悬浮背景
             borderWidth: .1
           }
         }
