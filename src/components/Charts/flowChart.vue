@@ -204,11 +204,11 @@ export default class extends mixins(ResizeMixin) {
         {
           type: 'effectScatter',
           coordinateSystem: 'geo',
-          zlevel: 2,
+          zlevel: 0,
           rippleEffect: { //涟漪特效
             period: 10, //动画时间，值越小速度越快
             brushType: 'stroke', //波纹绘制方式 stroke, fill
-            scale: 0 //波纹圆环最大限制，值越大波纹越大
+            scale: 3 //波纹圆环最大限制，值越大波纹越大
           },
           label: {
             normal: {
@@ -227,7 +227,7 @@ export default class extends mixins(ResizeMixin) {
           },
           symbol: 'circle',
           symbolSize: function(val: any) {
-              return 10; //圆环大小
+              return 8; //圆环大小
           },
           itemStyle: {
             normal: {
@@ -244,11 +244,11 @@ export default class extends mixins(ResizeMixin) {
         {
           type: 'effectScatter',
           coordinateSystem: 'geo',
-          zlevel: 2,
+          zlevel: 0,
           rippleEffect: { //涟漪特效
             period: 10, //动画时间，值越小速度越快
             brushType: 'stroke', //波纹绘制方式 stroke, fill
-            scale: 0 //波纹圆环最大限制，值越大波纹越大
+            scale: 3 //波纹圆环最大限制，值越大波纹越大
           },
           label: {
             normal: {
@@ -267,7 +267,7 @@ export default class extends mixins(ResizeMixin) {
           },
           symbol: 'circle',
           symbolSize: function(val: any) {
-              return 4; //圆环大小
+              return 8; //圆环大小
           },
           itemStyle: {
             normal: {

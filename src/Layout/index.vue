@@ -182,6 +182,7 @@ export default class extends mixins(ResizeMixin) {
     display: none !important;
   }
   .el-dropdown-menu__item {
+    margin:10px 0;
     .dropdownItem {
       display: flex;
       align-items: center;
@@ -204,7 +205,7 @@ export default class extends mixins(ResizeMixin) {
         &:hover{
           cursor: pointer;
           .svg-icon,span{
-            color: rgb(110,192,223);
+            color: #00ffff;
           }
         }
       }
