@@ -190,15 +190,16 @@ class User extends VuexModule implements IUserState {
       throw Error('LogOut: token is undefined!')
     }
     return new Promise(resolve=>{
-      logout()
-      removeRefresh()
-      removeToken()
-      resetRouter()
-      localStorage.clear()
-      this.SET_TOKEN('')
-      this.SET_KEEP_LOGGED_IN('0')
-      location.reload()
-      resolve()
+      logout().then(()=>{
+        removeRefresh()
+        removeToken()
+        resetRouter()
+        localStorage.clear()
+        this.SET_TOKEN('')
+        this.SET_KEEP_LOGGED_IN('0')
+        location.reload()
+        resolve()
+      })
     })
   }
 }

@@ -349,6 +349,8 @@ export default Vue.extend({
     currentQydm:{
       immediate:true,
       handler(newVal,oldVal){
+        console.log(newVal,"newVal");
+        
         let _this = this as any
         let urlA2 = _this.$getModUrl('a','a2')
         _this.CHshow = false;

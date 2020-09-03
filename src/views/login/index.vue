@@ -106,6 +106,8 @@ import { Form as ElForm, Input, Message } from "element-ui";
 import { isValidUsername } from "@/utils/validate";
 import { UserModule } from "@/store/modules/user";
 import getDefault from '@/utils/defaultPage'
+import { EAreaModule } from '@/store/modules/eArea';
+import { getGovInfoQydm } from '@/utils/session'
 export default Vue.extend({
   data() {
     return {
@@ -206,21 +208,23 @@ export default Vue.extend({
         async(valid: boolean) => {
           if (valid) {
             (this as any).loading = true;
-            let res:any = await UserModule.Login((this as any).loginForm);
-            setTimeout(() => {
-              (this as any).loading = false;
-            }, 0.5 * 1000);
-            if(res.code&&res.code === '200'){
-              (this as any).$router
-                .push({
-                  path: (this as any).redirect || getDefault(),
-                  query: (this as any).otherQuery
-                })
-                .catch((err: String) => {
-                  console.log("All Good");
-                });
-              // Just to simulate the time of the request
-            }
+            UserModule.Login((this as any).loginForm).then((res:any)=>{
+              EAreaModule.setQydm(getGovInfoQydm()as any)
+              setTimeout(() => {
+                (this as any).loading = false;
+              }, 0.5 * 1000);
+              if(res.code&&res.code === '200'){
+                (this as any).$router
+                  .push({
+                    path: (this as any).redirect || getDefault(),
+                    query: (this as any).otherQuery
+                  })
+                  .catch((err: String) => {
+                    console.log("All Good");
+                  });
+                // Just to simulate the time of the request
+              }
+            })
           } else {
             return false;
           }
