@@ -27,7 +27,6 @@
     <div class="labelBox">
       <div
         v-for="(item,index) in labelList"
-        v-if="item.hasValue"
         :key="index"
         class="labelItem"
         :class="{selected: labelIndex===item.id}"
@@ -308,13 +307,16 @@ export default Vue.extend({
     },
     //获取标签
     getLabelList(){
+      let leftLabel = [] as any
+      let rightLabel = [] as any
+      let middleLabel = [] as any
       JSON.parse(this.$store.state.user.indexList).map((item: any)=>{
         if(item.govIndexId === "d"){
           if(this.type === 'pillarEnterprise'){
             item.modules.map((_item: any)=>{
               if(_item.govModId === 'd1'){
                 if(_item.govModLabels){
-                  this.labelList = this.operateLabel(_item.govModLabels)
+                  leftLabel = this.operateLabel(_item.govModLabels)
                 }
               }
             })
@@ -323,7 +325,7 @@ export default Vue.extend({
             item.modules.map((_item: any)=>{
               if(_item.govModId === 'd2'){
                 if(_item.govModLabels){
-                  this.labelList = this.operateLabel(_item.govModLabels)
+                  middleLabel = this.operateLabel(_item.govModLabels)
                 }
               }
             })
@@ -332,12 +334,11 @@ export default Vue.extend({
             item.modules.map((_item: any)=>{
               if(_item.govModId === 'd3'){
                 if(_item.govModLabels){
-                  this.labelList = this.operateLabel(_item.govModLabels)
+                  rightLabel = this.operateLabel(_item.govModLabels)
                 }
               }
             })
           }
-
         }
       })
       let _this = this as any
@@ -345,13 +346,23 @@ export default Vue.extend({
           let urlA1 = _this.$getModUrl('d','d1')
           getLeftLabelList(formData({qydm:this.areaCode}),urlA1).then((res: any)=>{
             if(res.code === "200"){
-              this.labelList.map((item: any)=>{
+              leftLabel.map((item: any)=>{
                 res.data.map((_item: any)=>{
                   if(item.id == _item.label && _item.count>0){
                     this.$set(item,'hasValue',true)
                   }
                 })
               })
+              this.labelList = leftLabel.filter((item: any)=>{
+                return item.hasValue
+              })
+              if(this.labelList.length){
+                this.labelIndex = this.labelList[0].id
+              }
+              //开启标签轮询
+              _this.pollingLabel()
+              //获取数据
+              this.getData(this.labelIndex)
             }
           })
       }
@@ -359,39 +370,49 @@ export default Vue.extend({
         let urlA1 = _this.$getModUrl('d','d2')
         getMiddleLabelList(formData({qydm:this.areaCode}),urlA1).then((res: any)=>{
             if(res.code === "200"){
-              this.labelList.map((item: any)=>{
+              middleLabel.map((item: any)=>{
                 res.data.map((_item: any)=>{
                   if(item.id == _item.label && _item.count>0){
                     this.$set(item,'hasValue',true)
                   }
                 })
               })
+              this.labelList = middleLabel.filter((item: any)=>{
+                return item.hasValue
+              })
+              if(this.labelList.length){
+                this.labelIndex = this.labelList[0].id
+              }
+              //开启标签轮询
+              _this.pollingLabel()
+              //获取数据
+              this.getData(this.labelIndex)
             }
           })
       }
       if(this.type === 'potentialEnterprise'){
         let urlA1 = _this.$getModUrl('d','d3')
-        
         getrightLabelList(formData({qydm:this.areaCode}),urlA1).then((res: any)=>{
             if(res.code === "200"){
-              this.labelList.map((item: any)=>{
+              rightLabel.map((item: any)=>{
                 res.data.map((_item: any)=>{
                   if(item.id == _item.label && _item.count>0){
                     this.$set(item,'hasValue',true)
                   }
                 })
               })
+              this.labelList = rightLabel.filter((item: any)=>{
+                return item.hasValue
+              })
+              if(this.labelList.length){
+                this.labelIndex = this.labelList[0].id
+              }
+              //开启标签轮询
+              _this.pollingLabel()
+              //获取数据
+              this.getData(this.labelIndex)
             }
           })
-          console.log(this.labelList,44)
-          this.labelList = this.labelList.filter(((item: any)=>{
-            return item.hasValue
-          }))
-          this.labelIndex = this.labelList[0].id
-          //开启标签轮询
-          _this.pollingLabel()
-          //获取数据
-          this.getData(this.labelIndex)
       }
       
     },
@@ -460,7 +481,6 @@ export default Vue.extend({
               data:JSON.parse(res.data)
             }
             this.$emit("getEchartData",val)
-            console.log(JSON.parse(res.data),333)
             _this.labelIndex = value
           }
         })
