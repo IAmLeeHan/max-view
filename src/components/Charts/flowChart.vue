@@ -99,6 +99,8 @@ export default class extends mixins(ResizeMixin) {
         transitionDuration: 0,
         extraCssText: 'z-index:100',
         formatter: function(params: any, ticket: any, callback: any) {
+          console.log(params,"params");
+          if(!params.data.je)return
           //根据业务自己拓展要显示的内容
           let res = "";
           res = "<span style='color:#fff;'>" + params.name + "</span><br/>金额：" + params.data.je+params.data.unit;
