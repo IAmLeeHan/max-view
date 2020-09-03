@@ -89,8 +89,6 @@ export default class extends mixins(ResizeMixin) {
     tooltip: {
         trigger: "axis",
         formatter: (params: any)=>{
-          console.log(params,"params");
-          
           let data:string = ''
           let date:string = ''
           params.map((item:any)=>{
