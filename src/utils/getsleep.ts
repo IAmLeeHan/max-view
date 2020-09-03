@@ -17,16 +17,20 @@ export function getGovModNext(id: string,moduleId: string){
         return item.govIndexId === id
     })
     
+    if(arr.length>0&&arr[0].modules){
     
-    let modules = arr[0].modules
+        let modules = arr[0].modules
 
-    let module = modules.filter((item: any)=>{
-        return item.govModId === moduleId
-    })
-    if(module.length > 0){
-        return module[0].govModNext
+        let module = modules.filter((item: any)=>{
+            return item.govModId === moduleId
+        })
+        if(module.length > 0){
+            return module[0].govModNext
+        }else{
+            return 0
+        }
     }else{
-        return 0
+        return ""
     }
 }
 
@@ -41,6 +45,7 @@ export function getGovModNextSleep(id: string,moduleId: string){
         return item.govIndexId === id
     })
     
+    if(arr.length>0&&arr[0].modules){
     
     let modules = arr[0].modules
 
@@ -52,6 +57,9 @@ export function getGovModNextSleep(id: string,moduleId: string){
     }else{
         return 0
     }
+}else{
+    return 0
+}
 }
 
 export function getGovModSleep(id: string,moduleId: string){
@@ -65,7 +73,7 @@ export function getGovModSleep(id: string,moduleId: string){
         return item.govIndexId === id
     })
     
-    
+    if(arr.length>0&&arr[0].modules){
     let modules = arr[0].modules
 
     let module = modules.filter((item: any)=>{
@@ -76,4 +84,7 @@ export function getGovModSleep(id: string,moduleId: string){
     }else{
         return 0
     }
+}else{
+    return 0
+}
 }

@@ -12,14 +12,17 @@ export default function getModUrl(id: string,moduleId: string){
         return item.govIndexId === id
     })
     
-    
-    let modules = arr[0].modules
+    if(arr.length>0&&arr[0].modules){
+        let modules = arr[0].modules
 
-    let module = modules.filter((item: any)=>{
-        return item.govModId === moduleId
-    })
-    if(module.length > 0){
-        return module[0].govModUrl
+        let module = modules.filter((item: any)=>{
+            return item.govModId === moduleId
+        })
+        if(module.length > 0){
+            return module[0].govModUrl
+        }else{
+            return ""
+        }
     }else{
         return ""
     }

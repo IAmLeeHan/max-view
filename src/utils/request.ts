@@ -67,16 +67,10 @@ service.interceptors.response.use(
       }
 
       if (res.code === '777') {
-        MessageBox.alert(
-          '账号登录失败，请联系我们了解详情400-800-7975',
-          {
-            confirmButtonText: '确定',
-            // cancelButtonText: '取消',
-            type: 'warning'
-          }
-        ).then(() => {
-        UserModule.ResetToken()
-        location.reload() // To prevent bugs from vue-router
+        (Message as any).closeAll()
+        Message({
+          type:'error',
+          message:'用户名或密码错误',
         })
       }
 
@@ -97,10 +91,12 @@ service.interceptors.response.use(
     }
   },
   (error) => {
-    if(error.config.url === "/gov/common/errorLog"){
-      if(error.message === "Request failed with status code 500" || error.code === 502){
+    console.log(error);
+    
+    if(error.config.url !== "/gov/common/errorLog"){
+      if(error.message === "Request failed with status code 500" || error.message === "Request failed with status code 500" || error.code === 502){
         MessageBox.alert(
-          '服务器错误,请联系客服',
+          '账号登录失败，请联系我们了解详情400-800-7975',
           {
             confirmButtonText: '确定',
             // cancelButtonText: '取消',

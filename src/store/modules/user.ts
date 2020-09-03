@@ -117,6 +117,8 @@ class User extends VuexModule implements IUserState {
             // this.ResetToken()
             resolve()
           }
+        }).catch((err:any)=>{
+          resolve(err)
         })
       }).catch(err=>{
         console.log(err);

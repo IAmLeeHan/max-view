@@ -206,19 +206,21 @@ export default Vue.extend({
         async(valid: boolean) => {
           if (valid) {
             (this as any).loading = true;
-            await UserModule.Login((this as any).loginForm);
-            (this as any).$router
-              .push({
-                path: (this as any).redirect || getDefault(),
-                query: (this as any).otherQuery
-              })
-              .catch((err: String) => {
-                console.log("All Good");
-              });
-            // Just to simulate the time of the request
+            let res:any = await UserModule.Login((this as any).loginForm);
             setTimeout(() => {
               (this as any).loading = false;
             }, 0.5 * 1000);
+            if(res.code&&res.code === '200'){
+              (this as any).$router
+                .push({
+                  path: (this as any).redirect || getDefault(),
+                  query: (this as any).otherQuery
+                })
+                .catch((err: String) => {
+                  console.log("All Good");
+                });
+              // Just to simulate the time of the request
+            }
           } else {
             return false;
           }
