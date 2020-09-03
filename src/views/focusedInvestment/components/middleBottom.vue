@@ -164,7 +164,9 @@ export default Vue.extend({
             this.labelList = this.labelList.filter((item: any)=>{
               return item.hasValue
             })
-            this.active = this.labelList[0].id
+            if(this.labelList.length){
+              this.active = this.labelList[0].id
+            }
             //获取对外投资活跃企业数据
             this.getEnterpriseData(this.active)
             //启动轮询

@@ -169,10 +169,19 @@ export default Vue.extend({
     getIndustry(val: any){
       if(val.type === 'pillarIndustry'){
         this.pillarEchartData = val.data
+        this.pillarEchartData.map((item: any)=>{
+          this.$set(item,'labelName',val.labelName)
+        })
       }else if(val.type === 'starIndustry'){
         this.starEchartData = val.data
+        this.starEchartData.map((item: any)=>{
+          this.$set(item,'labelName',val.labelName)
+        })
       }else if(val.type === 'potentialIndustry'){
         this.potentialEchartData = val.data
+        this.potentialEchartData.map((item: any)=>{
+          this.$set(item,'labelName',val.labelName)
+        })
       }
     },
     //切换区域

@@ -103,19 +103,21 @@ export default class extends mixins(ResizeMixin) {
         }
     },
 
-    xAxis: [{
+    xAxis: [
+      {
         type: "category",
         data: _this.echartsData.name,
-        // axisTick: {
-        //   show: false
-        // },
+        axisTick: {
+          alignWithLabel: true
+        },
         axisLabel: {
           show: true,
-          textStyle: {
-            color: "#DFDFDF",
-            fontSize: 10
-          },
-          rotate:_this.rotate,
+          color: "rgba(255,255,255,.8)",
+          fontSize: 10,
+          fontWeight:'lighter',
+          rotate:0,
+          interval:_this.echartsData.name.length>6?2:0,
+          boundaryGap:true,
           formatter:function(value: any){  
               let ret = "";//拼接加\n返回的类目项  
               let maxLength = 5;//每项显示文字个数  
@@ -154,7 +156,7 @@ export default class extends mixins(ResizeMixin) {
         },
         axisLine: {
             lineStyle: {
-              color: '#B9B9B9',
+              color: '#2f4967',
               type:'solid'
             }
           },
@@ -167,8 +169,8 @@ export default class extends mixins(ResizeMixin) {
         axisLabel: {
           show: true,
             textStyle: {
-              color: "#DFDFDF",
-                fontSize: 12
+              color: "#fff",
+              fontSize: 10
             }
         },
         axisLine: {

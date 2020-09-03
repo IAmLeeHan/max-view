@@ -32,7 +32,7 @@
         :key="index"
         class="labelItem"
         :class="{selected: labelIndex===item.id}"
-        @click="changeLabel(item.id)"
+        @click="changeLabel(item.id,item.label)"
       >
         {{ item.label }}
       </div>
@@ -239,6 +239,7 @@ export default Vue.extend({
     return {
       active:0,
       labelIndex:0,
+      labelName:"",
       top10Data:[] as any,
       itemIndex:0,
       loading:true,
@@ -252,12 +253,13 @@ export default Vue.extend({
       _this.timer = null
       _this.loop = 0
       this.judgeArea()
-      this.getData(this.labelIndex)
+      this.getData(this.labelIndex,this.labelName)
     },
     labelList(){
       if(this.labelList.length){
         this.labelIndex = this.labelList[0].id
-        this.getData(this.labelList[0].id)
+        this.labelName = this.labelList[0].label
+        this.getData(this.labelList[0].id,this.labelList[0].label)
       }
     }
   },
@@ -278,17 +280,18 @@ export default Vue.extend({
       (this as any).active = i
     },
     //切换标签栏
-    changeLabel(val: number){
+    changeLabel(val: number,name: any){
       // (this as any).labelIndex = val
       // console.log(val)
-      this.getData(val)
+      this.getData(val,name)
     },
     //选中某个列表
     selectedItem(val: number){
       this.itemIndex = val
       let params = {
         type:this.type,
-        data:[]
+        data:[],
+        labelName:this.labelName
       }
       this.top10Data.map((item: any)=>{
         if(this.itemIndex === item.hydmCode){
@@ -298,7 +301,7 @@ export default Vue.extend({
       this.$emit("getIndustry",params)
     },
     //获取数据
-    getData(val: any){
+    getData(val: any,name: any){
       this.loading = true
       let _this = this as any
       //区域支柱行业
@@ -311,10 +314,12 @@ export default Vue.extend({
               this.itemIndex = this.top10Data[0].hydmCode
               let params = {
                 type:this.type,
-                data:this.top10Data[0].charts
+                data:this.top10Data[0].charts,
+                labelName:name
               }
               this.$emit("getIndustry",params)
               this.labelIndex = val
+              this.labelName = name
             }
           })
       }
@@ -328,10 +333,12 @@ export default Vue.extend({
               this.itemIndex = this.top10Data[0].hydmCode
               let params = {
                 type:this.type,
-                data:this.top10Data[0].charts
+                data:this.top10Data[0].charts,
+                labelName:name
               }
               this.$emit("getIndustry",params)
-              this.labelIndex = val
+              this.labelIndex = val,
+              this.labelName = name
             }
           })
       }
@@ -346,10 +353,12 @@ export default Vue.extend({
               // console.log(this.top10Data)
               let params = {
                 type:this.type,
-                data:this.top10Data[0].charts
+                data:this.top10Data[0].charts,
+                labelName:name
               }
               this.$emit("getIndustry",params)
-              this.labelIndex = val
+              this.labelIndex = val,
+              this.labelName = name
             }
           })
       }

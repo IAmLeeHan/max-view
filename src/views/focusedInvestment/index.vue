@@ -216,7 +216,7 @@ export default Vue.extend({
   display: flex;
   justify-content: space-between;
   // position: relative;
-  margin-top:30px;
+  margin-top:20px;
   .leftItem{
       width:450px;
       height:940px;

@@ -47,6 +47,7 @@ export default class extends mixins(ResizeMixin) {
     let all = 0;
     let unit = ''
     let unitList = [] as any
+    let labelName = ''
     for(let i in _this.echartsData){
       nameList.push(_this.echartsData[i].year)
       data2.push(_this.echartsData[i].counts);
@@ -54,7 +55,10 @@ export default class extends mixins(ResizeMixin) {
       rateData.push((_this.echartsData[i].addRate*100).toFixed(2))
       unit = _this.echartsData[i].unit
     }
-    unitList.push('企业数量（'+unit+'）')
+    if(_this.echartsData.length){
+      labelName = _this.echartsData[0].labelName
+    }
+    unitList.push(labelName+'（'+unit+'）')
     unitList.push('增长率')
     for(let i in data2){
       let val = {
@@ -179,7 +183,7 @@ export default class extends mixins(ResizeMixin) {
         ],
         series: [
           {
-            name: '企业数量（'+unit+'）',
+            name: labelName+'（'+unit+'）',
             type: 'bar',
             barWidth: '12',
             itemStyle: {

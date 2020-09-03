@@ -104,6 +104,8 @@
                   height="100%"
                   :echarts-data="XZZDRecharts"
                   :unit="XZZDunit"
+                  barColorTop="#8DE8C7"
+                  barColorBottom="#1FA879"
                 ></verticalBar>
               </div>
               <div class="tableBox">
@@ -1300,7 +1302,7 @@ export default Vue.extend({
         }
         table {
           width: 100%;
-          margin-top: 18px;
+          margin-top: 10px;
           position: relative;
           tr {
             width: 100%;
@@ -1392,7 +1394,7 @@ export default Vue.extend({
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
+        font-size: 13px;
         &.active{
           background: rgba(91,239,253,.5);
         }
@@ -1443,14 +1445,14 @@ export default Vue.extend({
           }
           h6{
             font-weight: normal;
-            font-size: 18px;
+            font-size: 14px;
             color: #FFFFFF;
           }
           .moreButton{
             width: 7em;
             font-size: 14px;
             font-weight: 500;
-            color: #249AF2;
+            color: #4decee;
             position: absolute;
             bottom: 0;
             &:hover{
@@ -1480,7 +1482,7 @@ export default Vue.extend({
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 13px;
             &.active{
               background: rgba(91,239,253,.5);
             }

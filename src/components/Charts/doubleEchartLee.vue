@@ -102,20 +102,20 @@ export default class extends mixins(ResizeMixin) {
             },
             axisLine: {
               lineStyle: {
-                color: '#B9B9B9',
+                color: "#2f4967",
                 type: 'solid'
               }
             },
             axisLabel: {
+              show:false,
               color: 'rgba(255,255,255,.8)',
               // align: 'center',
               textStyle: {
                 fontSize: 10,
                 fontWeight:'lighter'
-
               },
-              interval: 0,
-              rotate:_this.rotate,
+              interval: 2,
+              rotate:0,
               formatter:function(value: any){  
               let ret = "";//拼接加\n返回的类目项  
               let maxLength = 5;//每项显示文字个数  
@@ -151,7 +151,64 @@ export default class extends mixins(ResizeMixin) {
               }
             }
             },
-          }
+          },
+          {
+            type: 'category',
+            position:'bottom',
+            data: nameList,
+            axisTick: {
+              alignWithLabel: true
+            },
+            axisLine: {
+              show:false,
+              lineStyle: {
+                color: "#2f4967",
+                type: 'solid'
+              }
+            },
+            axisLabel: {
+              color: 'rgba(255,255,255,.8)',
+              fontSize: 10,
+              fontWeight:'lighter',
+              // align: 'center',
+              interval: 2,
+              rotate:0,
+              formatter:function(value: any){  
+              let ret = "";//拼接加\n返回的类目项  
+              let maxLength = 5;//每项显示文字个数  
+              let valLength = value.length;//X轴类目项的文字个数  
+              let rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数  
+              if(_this.wrap){
+                if (rowN > 1)//如果类目项的文字大于3,  
+                {  
+                  for (let i = 0; i < rowN; i++) {  
+                      let temp = "";//每次截取的字符串  
+                      let start = i * maxLength;//开始截取的位置  
+                      let end = start + maxLength;//结束截取的位置  
+                      //这里也可以加一个是否是最后一行的判断
+                      if(i + 1 === rowN){
+                        temp = value.substring(start, end);  
+                      }else if(i === 0){
+                        if(_this.rotate>0){
+                          temp = "\n" + value.substring(start, end) + "\n";  
+                        }else{
+                          temp = value.substring(start, end) + "\n";  
+                        }
+                      }else{
+                        temp = value.substring(start, end) + "\n";  
+                      }
+                      ret += temp; //凭借最终的字符串
+                  }
+                  return ret;  
+                } else {  
+                  return value;  
+                }  
+              }else{
+                return value
+              }
+            }
+            },
+          },
         ],
         yAxis: [
           {
@@ -161,7 +218,8 @@ export default class extends mixins(ResizeMixin) {
             },
             axisLabel: {
               formatter: '{value}%',
-              color: '#fff'
+              color: '#fff',
+              fontSize:10
             },
             axisLine: {
               show: false
@@ -170,7 +228,7 @@ export default class extends mixins(ResizeMixin) {
             splitLine: {
               lineStyle: {
                 color: 'rgba(234,234,234,0.2)',
-                type: 'dashed'
+                type: 'dotted'
               }
             }
           },
@@ -192,6 +250,7 @@ export default class extends mixins(ResizeMixin) {
             label: {
               show: true,
               color: '#4ABBBF',
+              fontSize:10,
               formatter: function(params: any) {
                 return _this.$formatNum(params.data)
               },

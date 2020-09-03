@@ -27,6 +27,8 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: false }) private wrap!: boolean
   @Prop({ default: true }) private showUnit!: boolean
   @Prop({ default: 40}) private rotate!: number
+  @Prop({ default: '#0AA2E4'}) private barColorTop!: string
+  @Prop({ default: '#0290FF'}) private barColorBottom!: string
 
   private barWidth = 12
 
@@ -104,24 +106,22 @@ export default class extends mixins(ResizeMixin) {
         {
           type : 'category',
           data : nameList,
-          // axisTick: {
-          //   alignWithLabel: true
-          // },
+          axisTick: {
+            alignWithLabel: true
+          },
           axisLine: {
             lineStyle: {
-              color: '#B9B9B9',
+              color: '#2f4967',
               type:'solid'
             }
           },
           axisLabel: {
-            color: '#fff',
+            color: 'rgba(255,255,255,.7)',
+            fontSize: 10,
+            fontWeight: "lighter",
             // align: 'center',
-            textStyle: {
-              fontSize: 10,
-              fontWeight: "lighter"
-            },
-            interval:0,
-            rotate:_this.rotate,
+            interval:nameList.length>6?2:0,
+            rotate:0,
             formatter:function(value: any){  
               let ret = "";//拼接加\n返回的类目项  
               let maxLength = 5;//每项显示文字个数  
@@ -210,8 +210,8 @@ export default class extends mixins(ResizeMixin) {
                 color: new echarts.graphic.LinearGradient(
                     0, 1, 0, 0,
                     [
-                        {offset: 0, color: '#048DEB'},
-                        {offset: 1, color: '#7CE5B8'}
+                        {offset: 0, color: _this.barColorTop},
+                        {offset: 1, color: _this.barColorBottom}
                     ]
                 ),
                 barBorderRadius: [6,6,0,0]
@@ -219,6 +219,7 @@ export default class extends mixins(ResizeMixin) {
             },
             label: {
               show: true,
+              fontSize:10,
               color:'#4ABBBF',
               formatter: function(params: any){
                   return _this.$formatNum(data2[params.dataIndex])
