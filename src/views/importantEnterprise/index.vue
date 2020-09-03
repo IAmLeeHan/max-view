@@ -411,7 +411,7 @@ export default Vue.extend({
 }
 </style>
 <style lang="scss">
-  .el-popper{
+  .el-cascader__dropdown{
     left:25px!important;
     border:none!important;
     background:#1680a8;

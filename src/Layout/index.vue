@@ -108,6 +108,8 @@ import Screenfull from "@/components/Screenfull/index.vue";
 import { UserModule } from "@/store/modules/user";
 import Drag from "@/components/drag/index.vue";
 import Popups from "@/components/popups/index.vue";
+import { EAreaModule } from '@/store/modules/eArea';
+import { getGovInfoQydm } from '@/utils/session'
 
 @Component({
   name: "Layout",
@@ -162,6 +164,7 @@ export default class extends mixins(ResizeMixin) {
       return
     }
     this.handlePopupClose()
+    EAreaModule.setQydm(getGovInfoQydm() as any)
     this.$store.dispatch('SetDialogTableVisible',false)
     this.$router.push({name:path})
   }

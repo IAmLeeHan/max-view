@@ -60,6 +60,7 @@
     <div class="search_box">
       <svg-icon name="icon_dingwei"></svg-icon>
       <el-cascader
+      class="aa"
         ref="cascader"
         v-model="valueCity"
         :options="dataCity"
@@ -368,8 +369,8 @@ export default Vue.extend({
   }
 }
 </style>
-<style lang="scss">
-  .el-popper{
+<style lang="scss" >
+  .el-cascader__dropdown{
     left:25px!important;
     border:none!important;
     background:#1680a8;
