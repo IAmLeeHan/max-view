@@ -167,9 +167,9 @@ export default class extends mixins(ResizeMixin) {
               }
             },
             axisLabel: {
-              color: 'rgba(255,255,255,.8)',
+              color: 'rgba(255,255,255)',
               fontSize: 10,
-              fontWeight:'lighter',
+              // fontWeight:'lighter',
               // align: 'center',
               interval: 2,
               rotate:0,
