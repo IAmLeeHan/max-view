@@ -332,10 +332,13 @@ export default Vue.extend({
                 height:20px;
                 margin-top:20px;
                 line-height:20px;
+                background: linear-gradient(0deg, #91E9EB 0%, #FFFFFF 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
               }
               .labelBox{
                 float:left;
-                margin-left:10px;
+                margin-left:30px;
                 height:20px;
                 margin-top:20px;
                 .labelItem{
@@ -372,7 +375,7 @@ export default Vue.extend({
                       background:rgba(114,255,250,0.08);
                       display:flex;
                       color:#fff;
-                      font-size: 12px;
+                      font-size: 13px;
                       line-height:36px;
                       margin:0 auto 5px;
                       .index{
@@ -391,6 +394,7 @@ export default Vue.extend({
                         overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;
+                        font-size: 14px;
                       }
                   }
                   .top1{

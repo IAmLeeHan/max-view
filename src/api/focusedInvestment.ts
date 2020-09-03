@@ -50,7 +50,17 @@ export const getE4 = (data: any,url? : string) =>
     method:'post',
     data
   })
-//外来资本投资企业
+  //外来资本投资企业
+  export const getE5Pre = (data: any,url? : string) => 
+  request({
+    url:`${url?url:''}/gov/attract/e5pre`,
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    method:'post',
+    data
+  })
+//外来资本投资企业分页
 export const getE5 = (data: any,url? : string) => 
   request({
     url:`${url?url:''}/gov/attract/e5`,

@@ -1,8 +1,9 @@
 <template>
   <div class="MapBox">
     <div class="legendBox">
-      <ul class="fl r_box_ul">
-        <li
+      <div class="fl r_box_ul">
+        <div
+          class="areaItem"
           v-for="(item,index) in echartData"
           :key="index"
         >
@@ -11,8 +12,8 @@
             :style="{backgroundColor: colorList2[index%10]}"
           ></span>
           <span :style="{color: colorList2[index%10]}">{{ item.qyName }}</span>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
     <div
       :id="id"
@@ -146,7 +147,7 @@ export default class extends mixins(ResizeMixin) {
                         color: 'rgba(37, 43, 61, .5)' //悬浮背景
                     }
                 },
-                left:'center'
+                left:'left'
             },
             series: series
         };
@@ -177,16 +178,17 @@ export default class extends mixins(ResizeMixin) {
     align-items: center;
     .legendBox{
       width:50%;
-      height:60%;
+      height:70%;
       .r_box_ul{
-          /*width:50%;*/
           width:100%;
           margin-left:40px;
           height:100%;
           display:flex;
-          flex-direction: column;
+          // flex-direction: column;
           flex-wrap: wrap;
-          li{
+          align-items: center;
+          .areaItem{
+              width:100px;
               font-size: 12px;
               line-height: 24px;
               // margin-right:20px;

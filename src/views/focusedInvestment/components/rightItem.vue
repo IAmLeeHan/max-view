@@ -43,7 +43,7 @@
       </div>
     </div>
     <!-- 投资金额top10结束 -->
-    <div class="header">
+    <div class="header secondHeader">
       <div class="title">
         <p class="leftBK"></p>
         <p class="middleBK">
@@ -92,7 +92,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import {getE4,getE5} from "@/api/focusedInvestment"
+import {getE4,getE5,getE5Pre} from "@/api/focusedInvestment"
 import { formData } from '@/utils/index'
 export default Vue.extend({
   props:{
@@ -159,9 +159,10 @@ export default Vue.extend({
     getBottomData(){
       let _this = this as any
       let urlA1 = _this.$getModUrl('e','e5')
-      getE5(formData({qydm:this.areaCode,pageNum:1,size:9}),urlA1).then((res: any)=>{
+      getE5Pre(formData({qydm:this.areaCode,pageNum:1,size:9}),urlA1).then((res: any)=>{
         if(res.code === "200"){
-          this.rankBottomData = JSON.parse(res.data).records
+          console.log(JSON.parse(res.data))
+          this.rankBottomData = JSON.parse(res.data)
           if(this.rankBottomData.length){
             this.zczb = this.rankBottomData[0].govE5Zczb
           }
@@ -216,6 +217,9 @@ export default Vue.extend({
       color:#fff;
       font-size: 12px;
     }
+  }
+  .secondHeader{
+    margin-top:20px;
   }
   .contentBox{
     width:100%;
@@ -299,7 +303,7 @@ export default Vue.extend({
     margin-top:10px;
     span{
       font-size: 14px;
-      color:#239af1;
+      color:#3DD3CF;
       cursor: pointer;
     }
   }

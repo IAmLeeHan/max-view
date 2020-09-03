@@ -108,7 +108,7 @@
     ></checkMoreDialog>
     <!-- 地区切换 -->
     <div class="search_box">
-      <i class="el-icon-location"></i>
+      <svg-icon name="icon_dingwei"></svg-icon>
       <el-cascader
         ref="cascader"
         v-model="valueCity"
@@ -328,7 +328,7 @@ export default Vue.extend({
           this.starEnterprise.fbdq = []
         }
       }
-      if(val.type === "starEnterprise"){
+      if(val.type === "potentialEnterprise"){
         if(val.data.zczb){
           this.potentialEnterprise.zczb = val.data.zczb
         }else{
@@ -378,7 +378,7 @@ export default Vue.extend({
     background:url("../../assets/images/selectedArea.png");
     background-size: 100% 100%;    display:flex;
     align-items:center;
-    .el-icon-location{
+    .svg-icon{
       font-size: 12px;
       color:#40cbd3;
       margin-left:15px;
@@ -410,4 +410,33 @@ export default Vue.extend({
     }
   }
 }
+</style>
+<style lang="scss">
+  .el-popper{
+    left:25px!important;
+    border:none!important;
+    background:#1680a8;
+    .el-cascader-menu{
+      border-right:1px solid #4c95b1;
+      &:last-child{
+        border-right:none;
+      }
+    }
+    .el-cascader-node{
+      color:#fff;
+    }
+    .el-cascader-node:hover{
+      color:#43f6ff;
+      background:rgba(255,255,255,0.06)
+    }
+    .el-cascader-node.in-active-path, .el-cascader-node.is-selectable.in-checked-path, .el-cascader-node.is-active{
+      color:#43f6ff;
+    }
+  }
+  .popper__arrow{
+    border-bottom-color: #1680a8!important;
+    &::after{
+      border-bottom-color:#1680a8!important;
+    }
+  }
 </style>

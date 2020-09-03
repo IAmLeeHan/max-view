@@ -23,7 +23,7 @@
       </ul>
       <!-- 展示定位 -->
       <div class="locationBox">
-        <i class="el-icon-location" />
+        <svg-icon name="icon_dingwei"></svg-icon>
         <span class="locationName">{{ areaName }}</span>
       </div>
     </div>
@@ -137,7 +137,7 @@ export default Vue.extend({
     }
     .locationBox{
       margin-left:30px;
-      .el-icon-location{
+      .svg-icon{
         font-size: 18px;
         color:#fff;
       }

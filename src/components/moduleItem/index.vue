@@ -113,7 +113,7 @@ export default Vue.extend({
       flex: 1;
       align-items: center;
       // padding-right:20px; 
-      justify-content: flex-end;
+      justify-content: space-around;
       &.margin{
         justify-content: flex-end;
         li{

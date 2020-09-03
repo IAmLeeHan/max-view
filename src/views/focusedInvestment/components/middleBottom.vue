@@ -360,7 +360,7 @@ export default Vue.extend({
     margin-top:10px;
     span{
       font-size: 14px;
-      color:#239af1;
+      color:#3DD3CF;
       cursor: pointer;
     }
   }

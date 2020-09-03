@@ -159,7 +159,7 @@
     <!-- 查看更多 -->
     <div class="checkMore">
       <span
-        v-if="rankList.length"
+        v-if="rankList.length===10"
         @click="checkMore"
       > 查看更多></span>
     </div>
@@ -214,12 +214,14 @@ export default Vue.extend({
     },
     //市排名 省排名 全国排名
     rank:function(val: any){
-      if(val){
+      if(val*1){
         if(val*1>999){
           return "999+"
         }else{
           return val
         }
+      }else{
+        return ""
       }
     },
   },
@@ -369,6 +371,7 @@ export default Vue.extend({
       }
       if(this.type === 'potentialEnterprise'){
         let urlA1 = _this.$getModUrl('d','d3')
+        
         getrightLabelList(formData({qydm:this.areaCode}),urlA1).then((res: any)=>{
             if(res.code === "200"){
               this.labelList.map((item: any)=>{
@@ -380,12 +383,16 @@ export default Vue.extend({
               })
             }
           })
+          console.log(this.labelList,44)
+          this.labelList = this.labelList.filter(((item: any)=>{
+            return item.hasValue
+          }))
+          this.labelIndex = this.labelList[0].id
+          //开启标签轮询
+          _this.pollingLabel()
+          //获取数据
+          this.getData(this.labelIndex)
       }
-      this.labelIndex = this.labelList[0].id
-      //开启标签轮询
-      _this.pollingLabel()
-      //获取数据
-      this.getData(this.labelIndex)
       
     },
     //处理标签方法
@@ -439,7 +446,6 @@ export default Vue.extend({
               data:JSON.parse(res.data)
             }
             this.$emit("getEchartData",val)
-            console.log(JSON.parse(res.data),111)
             _this.labelIndex = value
           }
         })
@@ -454,7 +460,7 @@ export default Vue.extend({
               data:JSON.parse(res.data)
             }
             this.$emit("getEchartData",val)
-            // console.log(JSON.parse(res.data))
+            console.log(JSON.parse(res.data),333)
             _this.labelIndex = value
           }
         })
@@ -700,7 +706,7 @@ export default Vue.extend({
   .checkMore{
     width:100%;
     font-size: 14px;
-    color:#239AF1;
+    color:#3DD3CF;
     text-align: right;
     margin-top:10px;
     span{
@@ -724,6 +730,7 @@ export default Vue.extend({
   }
   .echarts{
     width: 100%;
+    margin-top:10px;
     // height: calc(100% - 36px);
   }
   .pillarEnterprise{

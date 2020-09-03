@@ -29,7 +29,7 @@ export default class extends mixins(ResizeMixin) {
   private fromData = [] as any
   private toData = [] as any
   private sortData = [] as any
-  private colorList = ['#CB7BFD','#DDF327','#0FD5BF','#F3793F']
+  private colorList = ['#f56321','#c1bb1f','#4fb6d2','#1DE9B6']
   @Watch("echartsData",{
      immediate: true,deep:true
   })
@@ -124,21 +124,29 @@ export default class extends mixins(ResizeMixin) {
         zoom: 1.2,
 
         label: {
+          // position: ['10%', '50%'],
+          normal:{
+            show:true,
+            color:'#fff',
+            offset: [500, 0],
+          },
           emphasis: {
-              show: false
+              textStyle: {
+                  color: '#fff'
+              }
           }
         },
         roam: true, //是否允许缩放
         itemStyle: {
           normal: {
-            color: 'rgba(10, 37, 105, 0.5)', //地图背景色
-            borderColor: '#4bf5ff', //省市边界线00fcff 516a89
-            borderWidth: .1,
+            color: '#2b4c8a', //地图背景色
+            borderColor: 'rgb(147, 235, 248)', //省市边界线00fcff 516a89
+            borderWidth: 1,
             
           },
           emphasis: {
-            color: 'rgba(37, 43, 61, .5)', //悬浮背景
-            borderWidth: .1
+            color: '#2268d2', //悬浮背景
+            borderWidth: 1
           }
         }
       },
@@ -158,7 +166,7 @@ export default class extends mixins(ResizeMixin) {
           },
           lineStyle: {
             normal: {
-              width: 1, //尾迹线条宽度
+              width: .3, //尾迹线条宽度
               opacity: 1, //尾迹线条透明度
               curveness: .3, //尾迹线条曲直度
               color:function(params: any){
@@ -192,7 +200,7 @@ export default class extends mixins(ResizeMixin) {
                   position: 'right',
                   offset: [5, 0],
                   color: '#fff',
-                  show: true,
+                  show: false,
                   formatter: function(params: any) { 
                     //圆环显示文字
                     return params.data.name;
