@@ -57,7 +57,7 @@ export default Vue.extend({
   justify-content: center;
   align-items: center;
   background: rgba(0,0,0,.5);
-  z-index: 9998;
+  z-index: 9999;
   .popups{
     width: 1106px;
     max-height: 610px;

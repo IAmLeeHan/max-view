@@ -116,27 +116,29 @@ export default class extends mixins(ResizeMixin) {
             axisTick: {
               alignWithLabel: true
             },
+            axisLabel: {
+              show:true,
+              color: 'rgba(255,255,255)',
+              // align: 'center',
+              textStyle: {
+                fontSize: 10
+              },
+              interval: 0,
+              boundaryGap:true
+              // rotate:40
+            },
             axisLine: {
               lineStyle: {
-                color: '#B9B9B9',
+                color: '#2f4967',
                 type: 'solid'
               }
             },
-            axisLabel: {
-              color: '#fff',
-              // align: 'center',
-              textStyle: {
-                fontSize: 11
-              },
-              interval: 0
-              // rotate:40
-            }
           },
           {
             axisLine:{
               show:true,
               lineStyle: {
-                color: '#B9B9B9',
+                color: 'rgba(67,44,54)',
                 type: 'solid'
               }
             }
@@ -155,6 +157,14 @@ export default class extends mixins(ResizeMixin) {
             axisLabel:{
               color: '#fff'
             },
+            min:0,
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: 'rgba(47,73,103,0.5)',
+                type: 'solid'
+              }
+            },
           },
           {
             axisTick: {
@@ -169,9 +179,13 @@ export default class extends mixins(ResizeMixin) {
               formatter: '{value}%',
               color: '#fff'
             },
-            axisLine: {
-              show: true
-            },
+            // axisLine: {
+            //   show: true,
+            //   lineStyle: {
+            //     color: 'rgba(243,122,63,0.2)',
+            //     type: 'solid'
+            //   }
+            // },
             splitLine: {
               // lineStyle: {
               //   color: 'rgba(234,234,234,0.5)',

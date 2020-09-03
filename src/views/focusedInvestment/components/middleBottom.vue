@@ -268,6 +268,7 @@ export default Vue.extend({
         }
         &:hover{
           cursor: pointer;
+          color: #43F6FF;
         }
         &.active{
           color: #43F6FF;
@@ -290,6 +291,7 @@ export default Vue.extend({
         line-height:30px;
         font-size: 14px;
         color:#43F6FF;
+        
       }
       .nameLabel{
         width:480px;

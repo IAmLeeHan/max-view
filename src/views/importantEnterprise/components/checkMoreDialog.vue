@@ -8,7 +8,6 @@
         <div class="labelBox">
           <div
             v-for="(item,index) in labelList" 
-            v-if="item.hasValue"
             :key="index"
             class="labelItem"
             :class="{labelSelected: labelIndex===item.id}"
@@ -348,6 +347,9 @@ export default Vue.extend({
                   margin-right:20px;
                   cursor: pointer;
                   height:100%;
+                  &:hover{
+                    color:#43F6FF;
+                  }
                 }
                 .labelSelected{
                   color:#43F6FF;

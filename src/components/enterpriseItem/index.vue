@@ -749,12 +749,16 @@ export default Vue.extend({
   .echartLabelBox{
     width:100%;
     display:flex;
+    margin-left:10px;
     .echartLabelItem{
       font-size: 14px;
       color:#fff;
       margin-right:40px;
       cursor: pointer;
       padding-bottom:2px;
+      &:hover{
+        color: #43f6ff;
+      }
     }
     .echartLabelSelected{
       color: #43f6ff;

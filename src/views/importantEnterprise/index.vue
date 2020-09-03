@@ -287,7 +287,7 @@ export default Vue.extend({
           }
         }
       })
-      console.log(this.selectedArea)
+      // console.log(this.selectedArea)
     },
     //获取echart数据
     getEchartData(val: any){

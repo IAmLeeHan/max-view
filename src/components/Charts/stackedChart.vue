@@ -81,7 +81,7 @@ export default class extends mixins(ResizeMixin) {
     },
     grid: {
         left: "4%",
-        right: "0",
+        right: "4%",
         bottom: "2%",
         top: "20%",
         containLabel: true

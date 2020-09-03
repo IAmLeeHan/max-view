@@ -250,6 +250,9 @@ export default Vue.extend({
                   margin-right:20px;
                   cursor: pointer;
                   height:100%;
+                  &:hover{
+                    color:#43F6FF;
+                  }
                 }
                 .labelSelected{
                   color:#43F6FF;

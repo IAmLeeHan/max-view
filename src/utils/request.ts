@@ -54,7 +54,7 @@ service.interceptors.response.use(
       }
       if (res.code === '997') {
         MessageBox.alert(
-          '没有找到首页信息，请联系客服！',
+          '账号已过期/无效账号，请联系我们了解详情400-800-7975',
           {
             confirmButtonText: '确定',
             // cancelButtonText: '取消',
@@ -67,15 +67,16 @@ service.interceptors.response.use(
       }
 
       if (res.code === '777') {
-        (Message as any).closeAll();
-        Message({
-          message:'密码错误！',
-          type:'error',
-          duration:1000,
-          onClose:()=>{
-            UserModule.ResetToken()
-            location.reload() // To prevent bugs from vue-router
+        MessageBox.alert(
+          '账号登录失败，请联系我们了解详情400-800-7975',
+          {
+            confirmButtonText: '确定',
+            // cancelButtonText: '取消',
+            type: 'warning'
           }
+        ).then(() => {
+        UserModule.ResetToken()
+        location.reload() // To prevent bugs from vue-router
         })
       }
 

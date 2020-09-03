@@ -102,7 +102,8 @@ export default class extends mixins(ResizeMixin) {
       legend: {
         bottom: 12,
         padding: [0, 5],
-        itemWidth: 14,
+        itemWidth: 12,
+        itemHeight: 12,
         right: 30,
         top:"center",
         textStyle: {

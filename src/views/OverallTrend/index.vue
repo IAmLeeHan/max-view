@@ -1,7 +1,7 @@
 <template>
   <div>
     <div 
-      :class="['enterpriseAreaOverview',{blur: !mainItem}]"
+      :class="['enterpriseAreaOverview',{blur: !mainItem || showBlur}]"
     >
       <div class="left">
         <moduleItem
@@ -327,69 +327,69 @@
           ></verticalBar>
         </moduleItem>
       </div>
-      <listPopups
-        @popupClose="popupCloseHandler"
-      >
-        <div
-          slot="ListPopups-header"
-          class="myHeader"
-        >
-          <div class="title">
-            <h1>新增重点企业数量趋势</h1>
-          </div>  
-          <ul
-            v-if="KeyEnterprises.length>0"
-            :class="{margin: KeyEnterprises.length<=3}"  
-          >
-            <li 
-              v-for="(item,index) in KeyEnterprises" 
-              :key="index"
-              :class="[{active: popActive === index},{disabled: item.disabled}]"
-              @click="changePopActive(index,item.value)"
-            >
-              {{ item.name }}
-            </li>
-          </ul>
-        </div>
-        <ul
-          slot="ListPopups-content"
-          class="myContent"
-        >
-          <li 
-            v-for="(t,i) in popXZZDList"
-            :key="i"
-            class="item"
-          >
-            <img
-              v-if="t.govIsOrder === 1 && i + 1 <= 3"
-              :src="require('img/px_'+ (i + 1) +'.png')"
-            >
-            <div
-              v-else
-              class="index"
-            >
-              <span>{{ t.govIsOrder === 1 ? t.govOrder : ( currentPage * 10 - 10 ) + i + 1 }}</span>
-            </div>
-            <span class="name">{{ t.govX315OrgName }}</span>
-          </li>
-        </ul>
-        <div
-          slot="other"
-          class="pageBox"
-        >
-          <el-pagination
-            :current-page="currentPage"
-            :page-size="10"
-            background
-            layout="total, prev, pager, next"
-            :total="popCount"
-            @current-change="handleCurrentChange"
-          >
-          </el-pagination>
-        </div>
-      </listPopups>
     </div>
     <lottie v-if="!mainItem"></lottie>
+    <listPopups
+      @popupClose="popupCloseHandler"
+    >
+      <div
+        slot="ListPopups-header"
+        class="myHeader"
+      >
+        <div class="title">
+          <h1>新增重点企业数量趋势</h1>
+        </div>  
+        <ul
+          v-if="KeyEnterprises.length>0"
+          :class="{margin: KeyEnterprises.length<=3}"  
+        >
+          <li 
+            v-for="(item,index) in KeyEnterprises" 
+            :key="index"
+            :class="[{active: popActive === index},{disabled: item.disabled}]"
+            @click="changePopActive(index,item.value)"
+          >
+            {{ item.name }}
+          </li>
+        </ul>
+      </div>
+      <ul
+        slot="ListPopups-content"
+        class="myContent"
+      >
+        <li 
+          v-for="(t,i) in popXZZDList"
+          :key="i"
+          class="item"
+        >
+          <img
+            v-if="t.govIsOrder === 1 && i + 1 <= 3"
+            :src="require('img/px_'+ (i + 1) +'.png')"
+          >
+          <div
+            v-else
+            class="index"
+          >
+            <span>{{ t.govIsOrder === 1 ? t.govOrder : ( currentPage * 10 - 10 ) + i + 1 }}</span>
+          </div>
+          <span class="name">{{ t.govX315OrgName }}</span>
+        </li>
+      </ul>
+      <div
+        slot="other"
+        class="pageBox"
+      >
+        <el-pagination
+          :current-page="currentPage"
+          :page-size="10"
+          background
+          layout="total, prev, pager, next"
+          :total="popCount"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
+      </div>
+    </listPopups>
   </div>
 </template>
 
@@ -626,6 +626,9 @@ export default Vue.extend({
     mainItem(){
       let _this = this as any
       return EAreaModule.loading &&_this.XZZDListShow && _this.ZLshow && _this.ZLFXshow && _this.XZshow && _this.XZZDechartsShow && _this.zdxShow && _this.QYCYshow
+    },
+    showBlur(){
+      return AppModule.ListPopupsShow || AppModule.dialogTableVisible
     }
   },
   watch:{
@@ -1558,107 +1561,107 @@ export default Vue.extend({
       height: 272px;
     }
   }
-  .myHeader{
-    width: 100%;
-    display: flex;
-    align-items: flex-end;
-    .title{
-      padding: 0 30px;
-      h1{
-        font-size: 18px;
-        color: #FFFFFF;
-        background: linear-gradient(180deg, #91E9EB 0%, #FFFFFF 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
+}
+.myHeader{
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  .title{
+    padding: 0 30px;
+    h1{
+      font-size: 18px;
+      color: #FFFFFF;
+      background: linear-gradient(180deg, #91E9EB 0%, #FFFFFF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    ul{
-      display: flex;
-      flex: 1;
-      padding-right:20px; 
-      align-items: flex-start;
-      // justify-content: space-around;
-      &.margin{
-        justify-content: start;
-        li{
-          margin-left: 40px;
-          &:first-child{
-            margin:0;
-          }
-        }
-      }
+  }
+  ul{
+    display: flex;
+    flex: 1;
+    padding-right:20px; 
+    align-items: flex-start;
+    // justify-content: space-around;
+    &.margin{
+      justify-content: start;
       li{
-        font-size: 14px;
+        margin-left: 40px;
+        &:first-child{
+          margin:0;
+        }
+      }
+    }
+    li{
+      font-size: 14px;
+      color: #fff;
+      margin-left: 20px;
+      &:hover{
+        color: #43F6FF;
+        cursor: pointer;
+      }
+      &.active{
+        padding-bottom: 3px;
+        color: #43F6FF;
+        border-bottom:3px solid #43F6FF;
+      }
+      &.disabled{
         color: #fff;
-        margin-left: 20px;
-        &:hover{
-          color: #43F6FF;
-          cursor: pointer;
-        }
-        &.active{
-          padding-bottom: 3px;
-          color: #43F6FF;
-          border-bottom:3px solid #43F6FF;
-        }
-        &.disabled{
-          color: #fff;
-          pointer-events: none;
-          cursor: pointer;
-          opacity: 0.6;
-        }
+        pointer-events: none;
+        cursor: pointer;
+        opacity: 0.6;
       }
     }
   }
-  .myContent{
-    padding:30px 30px 20px 30px;
-    .item{
-      display: flex;
-      align-items: center;
-      width: 100%;
-      height: 36px;
-      background: rgba(255,255,255,.06);
-      margin-bottom: 3px;
-      img{
-        width: 20px;
-        height: 23px;
-        margin:0 20px;
-      }
-      .index{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 20px;
-        height: 23px;
-        font-size: 13px;
-        color: #40DCD6;
-        margin:0 20px;
-      }
-      .name{
-        font-size: 14px;
-        color: #FFFFFF;
-      }
-    }
-  }
-  .pageBox{
-    width: 100%;
+}
+.myContent{
+  padding:30px 30px 20px 30px;
+  .item{
     display: flex;
-    justify-content: flex-end;
-    padding:0 22px 20px 30px;
-    .el-pagination{
-      .el-pagination__total{
-        color: #FEFEFE;
-      }
-      .btn-prev,.btn-next{
-        color: #FEFEFE;
-        background: rgba(255,255,255,.15);
-      }
-      .el-pager{
-        .number,.el-icon{
-          background-color: rgba(255,255,255,.15);
-          color: #fff;
-          &.active{
-            background: #01B4C5;
-          }
+    align-items: center;
+    width: 100%;
+    height: 36px;
+    background: rgba(255,255,255,.06);
+    margin-bottom: 3px;
+    img{
+      width: 20px;
+      height: 23px;
+      margin:0 20px;
+    }
+    .index{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 20px;
+      height: 23px;
+      font-size: 13px;
+      color: #40DCD6;
+      margin:0 20px;
+    }
+    .name{
+      font-size: 14px;
+      color: #FFFFFF;
+    }
+  }
+}
+.pageBox{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding:0 22px 20px 30px;
+  .el-pagination{
+    .el-pagination__total{
+      color: #FEFEFE;
+    }
+    .btn-prev,.btn-next{
+      color: #FEFEFE;
+      background: rgba(255,255,255,.15);
+    }
+    .el-pager{
+      .number,.el-icon{
+        background-color: rgba(255,255,255,.15);
+        color: #fff;
+        &.active{
+          background: #01B4C5;
         }
       }
     }
