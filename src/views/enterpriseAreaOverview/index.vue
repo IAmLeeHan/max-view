@@ -71,6 +71,7 @@
           :gov-mod-next-sleep="sleepA5"
           title="重点企业分布"
           @changeCH="changeA5Active"
+          flexStart
         >
           <div slot="echarts">
             <div class="TableBox">
@@ -171,7 +172,9 @@
           ></horizontalBar>
         </moduleItem>
       </div>
-      <listPopups>
+      <listPopups
+        @popupClose="popupCloseHandler"
+      >
         <div
           slot="ListPopups-header"
           class="myHeader"
@@ -210,7 +213,7 @@
               v-else
               class="index"
             >
-              <span>{{ t.govIsOrder === 1 ? t.govOrder : i + 1 }}</span>
+              <span>{{ t.govIsOrder === 1 ? t.govOrder : (currentPage * 10 - 10) + i +1 }}</span>
             </div>
             <span class="name">{{ t.govX315OrgName }}</span>
           </li>
@@ -659,13 +662,20 @@ export default Vue.extend({
     },
     changePopActive(i: number,t: any){
       let _this = this as any
+      _this.currentPage = 1
       _this.$refs.son.active = i
       _this.popActive = i
       _this.currentId = t
     },
     handleCurrentChange(val: number){
       let _this = this as any
+      _this.currentPage = val
       _this.getPopListData(_this.currentId,_this.currentQydm,val)
+    },
+    popupCloseHandler(){
+      let _this = this as any
+      _this.currentPage = 1
+      _this.getPopListData(_this.currentId,_this.currentQydm,1)
     }
   }
 });
@@ -757,7 +767,7 @@ export default Vue.extend({
               td{
                 width: 100%;
                 display: flex;
-                justify-content: space-between;
+                justify-content: flex-start;
                 align-items: center;
                 border: 0;
                 padding: 0 10px;
@@ -775,10 +785,16 @@ export default Vue.extend({
                   color: #40DCD6;
                 }
                 .name{
-                  flex: 1;
+                  width: 20em;
+                  // flex: 1;
                   font-size: 14px;
                   color: #ffffff;
                   margin-left: 20px;
+                  overflow: hidden;
+                  text-overflow:ellipsis;
+                  white-space: nowrap;
+                  font-size: 12px;
+                  color: #fff;
                 }
                 // .money{
                 //   font-size: 12px;
@@ -844,10 +860,10 @@ export default Vue.extend({
       display: flex;
       flex: 1;
       padding-right:20px;
-      align-items: flex-end;
+      align-items: flex-start;
       // justify-content: space-around;
       &.margin{
-        justify-content: center;
+        justify-content: flex-start;
         li{
           margin-left: 40px;
           &:first-child{
@@ -862,6 +878,7 @@ export default Vue.extend({
         padding-bottom: 6px;
         &:hover{
           cursor: pointer;
+          color: #43F6FF;
         }
         &.active{
           color: #43F6FF;

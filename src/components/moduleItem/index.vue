@@ -10,7 +10,7 @@
       </div>
       <ul
         v-if="subTitle.length>0"
-        :class="{margin: subTitle.length<=3}"  
+        :class="[{margin: subTitle.length<=3},{flexStart:flexStart}]"  
       >
         <li 
           v-for="(item,index) in subTitle" 
@@ -50,6 +50,10 @@ export default Vue.extend({
       default:()=>{
         return []
       }
+    },
+    flexStart:{
+      type:Boolean,
+      default:false
     }
   },
   data() {
@@ -119,11 +123,18 @@ export default Vue.extend({
         li{
           margin-left: 40px;
           &:first-child{
-            margin:0;
+            margin:0px;
           }
         }
       }
+      &.flexStart{
+        justify-content: flex-start;
+        li{
+          margin-left:20px!important;
+        }
+      }
       li{
+        margin-left: 20px;
         font-size: 14px;
         color: #fff;
         padding-bottom: 6px;

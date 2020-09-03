@@ -9,6 +9,7 @@
         <p>
           <Screenfull ref="Screenfull"></Screenfull>
         </p>
+        <p class="line"></p>
         <p>
           <el-dropdown>
             <span>
@@ -248,15 +249,20 @@ export default class extends mixins(ResizeMixin) {
         display: flex;
         align-items: center;
         justify-content: center;
-        border-right: 1px solid rgba(67, 245, 255, 0.6);
         padding: 0 20px;
         opacity: .5;
+        &.line{
+          width: 1px;
+          height: 22px;
+          padding:0;
+          background: #43f5ff;
+          &:hover{
+            cursor: default;
+          }
+        }
         &:hover {
           opacity: 1;
           cursor: pointer;
-        }
-        &:last-child {
-          border: none;
         }
         .svg-icon {
           width: 22px!important;
