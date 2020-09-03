@@ -89,11 +89,15 @@ export default class extends mixins(ResizeMixin) {
     tooltip: {
         trigger: "axis",
         formatter: (params: any)=>{
+          console.log(params,"params");
+          
           let data:string = ''
+          let date:string = ''
           params.map((item:any)=>{
+            date = `<div>${item.name}</div>`
             data += ( `<div style="display:flex;align-items:center"><p style="width:10px;height:10px;border-radius:50%;background:${item.color};margin-right:10px"></p><p>${item.seriesName}：${item.value}</p></div>`)
           })
-          return data
+          return date + data
         },
         axisPointer: {
             type: "shadow"
