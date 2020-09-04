@@ -10,7 +10,7 @@
       </div>
       <ul
         v-if="subTitle.length>0"
-        :class="[{margin: subTitle.length<=3},{flexStart:flexStart}]"  
+        :class="[{margin: subTitle.length<=3},{flexStart: flexStart}]"  
       >
         <li 
           v-for="(item,index) in subTitle" 

@@ -88,8 +88,8 @@
           :gov-mod-next="nextB4"
           :gov-mod-next-sleep="sleepB4"
           title="新增重点企业数量趋势"
+          flex-start
           @changeCH="changeB4Active"
-          flexStart
         >
           <div
             slot="echarts"
@@ -104,8 +104,8 @@
                   height="100%"
                   :echarts-data="XZZDRecharts"
                   :unit="XZZDunit"
-                  barColorTop="#8DE8C7"
-                  barColorBottom="#1FA879"
+                  bar-color-top="#8DE8C7"
+                  bar-color-bottom="#1FA879"
                 ></verticalBar>
               </div>
               <div class="tableBox">

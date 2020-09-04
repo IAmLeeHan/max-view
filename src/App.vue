@@ -12,8 +12,26 @@ import {AppModule} from '@/store/modules/app'
 const sf = screenfull
 
 export default Vue.extend({
+  // computed:{
+  //   currentTitle(){
+  //     return AppModule.setCurrentTitle
+  //   }
+  // },
+  // watch:{
+  //   currentTitle:{
+  //     immediate:true,
+  //     handler(newVal,oldVal){
+  //       console.log(newVal,"newVal");
+  //       this.$nextTick(()=>{
+  //         document.getElementsByTagName('title')[0].innerHTML = newVal + '-智慧信用大数据平台'
+  //       })
+  //     }
+  //   }
+  // },
   mounted(){
-    window.addEventListener("keydown", this.KeyDown, true);//监听按键事件
+    this.$nextTick(()=>{
+      window.addEventListener("keydown", this.KeyDown, true);//监听按键事件
+    })
   },
   beforeDestroy(){
     window.removeEventListener("keydown", this.KeyDown, true);//监听按键事件

@@ -91,12 +91,26 @@ service.interceptors.response.use(
     }
   },
   (error) => {
-    console.log(error);
-    
-    if(error.config.url !== "/gov/common/errorLog"){
-      if(error.message === "Request failed with status code 500" || error.message === "Request failed with status code 500" || error.code === 502){
+    let err:any = JSON.parse(JSON.stringify(error));
+    if(err.config.url === '/gov/login'){
+      if(err.name === "Error"){
         MessageBox.alert(
           '账号登录失败，请联系我们了解详情400-800-7975',
+          {
+            confirmButtonText: '确定',
+            // cancelButtonText: '取消',
+            type: 'warning'
+          }
+        ).then(() => {
+          UserModule.ResetToken()
+          location.reload() // To prevent bugs from vue-router
+        })
+      }
+    }
+    if(err.config.url === "/gov/common/errorLog"){
+      if(err.name === "Error"){
+        MessageBox.alert(
+          '系统错误，请联系我们了解详情400-800-7975',
           {
             confirmButtonText: '确定',
             // cancelButtonText: '取消',

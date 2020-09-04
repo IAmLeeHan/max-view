@@ -70,8 +70,8 @@
           :gov-mod-next="nextA5"
           :gov-mod-next-sleep="sleepA5"
           title="重点企业分布"
+          flex-start
           @changeCH="changeA5Active"
-          flexStart
         >
           <div slot="echarts">
             <div class="TableBox">
@@ -349,8 +349,6 @@ export default Vue.extend({
     currentQydm:{
       immediate:true,
       handler(newVal,oldVal){
-        console.log(newVal,"newVal");
-        
         let _this = this as any
         let urlA2 = _this.$getModUrl('a','a2')
         _this.CHshow = false;

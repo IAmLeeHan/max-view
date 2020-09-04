@@ -304,7 +304,11 @@ export default Vue.extend({
         }
         if(val.data.qyfb){
           this.coreEnterprise.fbdq = val.data.qyfb
-          // console.log(this.coreEnterprise.fbdq)
+          this.coreEnterprise.fbdq.map((item: any)=>{
+            if(!item.unitName){
+              item.unitName = val.unitName
+            }
+          })
         }else{
           this.coreEnterprise.fbdq = []
         }
@@ -322,12 +326,17 @@ export default Vue.extend({
         }
         if(val.data.qyfb){
           this.starEnterprise.fbdq = val.data.qyfb
-          
+          this.starEnterprise.fbdq.map((item: any)=>{
+            if(!item.unitName){
+              item.unitName = val.unitName
+            }
+          })
         }else{
           this.starEnterprise.fbdq = []
         }
       }
       if(val.type === "potentialEnterprise"){
+        console.log(val,33)
         if(val.data.zczb){
           this.potentialEnterprise.zczb = val.data.zczb
         }else{
@@ -340,6 +349,11 @@ export default Vue.extend({
         }
         if(val.data.qyfb){
           this.potentialEnterprise.fbdq = val.data.qyfb
+          this.potentialEnterprise.fbdq.map((item: any)=>{
+            if(!item.unitName){
+              item.unitName = val.unitName
+            }
+          })
         }else{
           this.potentialEnterprise.fbdq = []
         }

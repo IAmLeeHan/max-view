@@ -31,7 +31,7 @@
         v-for="(item,index) in labelList"
         :key="index"
         class="labelItem"
-        :class="{selected: labelIndex===item.id,hover:hoverIndex===item.id&&labelIndex!==hoverIndex}"
+        :class="{selected: labelIndex===item.id,hover: hoverIndex===item.id&&labelIndex!==hoverIndex}"
         @click="changeLabel(item.id,item.label)"
         @mouseenter="hover(item.id)"
         @mouseleave="hoverLeave()"
@@ -178,9 +178,9 @@ import { formData } from '@/utils/index'
 import mixins from '@/components/polling/index.vue'
 import lottie from '@/components/lottie/index.vue';
 export default Vue.extend({
-  components:{
-    lottie
-  },
+  // components:{
+  //   lottie
+  // },
   filters:{
     rata:function(val: any){
       if(val){

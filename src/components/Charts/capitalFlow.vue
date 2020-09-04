@@ -29,7 +29,12 @@ export default class extends mixins(ResizeMixin) {
   private fromData = [] as any
   private toData = [] as any
   private sortData = [] as any
-  private colorList = ['#f56321','#c1bb1f','#4fb6d2','#1DE9B6']
+  // 00ffff  00ffcc  61ed95  6795ff  c7ff65
+  // private colorList = ['#f56321','#c1bb1f','#4fb6d2','#1DE9B6'] 
+  // private colorList = ['#f34e2b','#f56f1c','#f58f0e','#d5b314']
+  // private colorList = ['#00ffff','#3de2fa','#1cfdc5','#aaed8a']
+  private colorList = ['#c7ff65','#00ffcc','#61ed95','#00ffff'] 
+
   @Watch("echartsData",{
      immediate: true,deep:true
   })
@@ -190,8 +195,8 @@ export default class extends mixins(ResizeMixin) {
           showEffectOn: 'render',
           zlevel:1,
           rippleEffect: {
-              period: 15,
-              scale: 4,
+              period: 5,
+              scale: 2.5,
               brushType: 'fill'
           },
           hoverAnimation: true,
@@ -227,11 +232,11 @@ export default class extends mixins(ResizeMixin) {
           },
           symbolSize:function(value: any,params: any){
             if(params.dataIndex<5){
-              return 10
+              return 16
             }else if(params.dataIndex>=5 && params.dataIndex <15){
-              return 8
+              return 12
             }else if(params.dataIndex>=15 && params.dataIndex <29){
-              return 6
+              return 8
             }else{
               return 4
             }
@@ -247,6 +252,9 @@ export default class extends mixins(ResizeMixin) {
             period: 10, //动画时间，值越小速度越快
             brushType: 'stroke', //波纹绘制方式 stroke, fill
             scale: 3 //波纹圆环最大限制，值越大波纹越大
+          },
+          tooltip:{
+            show:false
           },
           label: {
             normal: {

@@ -117,7 +117,7 @@ class User extends VuexModule implements IUserState {
             // this.ResetToken()
             resolve()
           }
-        }).catch((err:any)=>{
+        }).catch((err: any)=>{
           resolve(err)
         })
       }).catch(err=>{
@@ -159,7 +159,17 @@ class User extends VuexModule implements IUserState {
             (Message as any).closeAll();
             Message({
               type:'error',
-              message:(res as any).msg
+              message:(res as any).msg,
+              onClose:()=>{
+                removeRefresh()
+                removeToken()
+                resetRouter()
+                localStorage.clear()
+                this.SET_TOKEN('')
+                this.SET_KEEP_LOGGED_IN('0')
+                location.reload()
+                resolve()
+              }
             })
             // this.ResetToken()
             resolve()
@@ -167,6 +177,13 @@ class User extends VuexModule implements IUserState {
         })
       }).catch(err=>{
         console.log(err);
+        removeRefresh()
+        removeToken()
+        resetRouter()
+        localStorage.clear()
+        this.SET_TOKEN('')
+        this.SET_KEEP_LOGGED_IN('0')
+        location.reload()
       })
     }
   }

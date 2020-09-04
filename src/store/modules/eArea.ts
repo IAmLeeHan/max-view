@@ -92,6 +92,27 @@ class EArea extends VuexModule implements IeAreaState {
       })
     })
   }
+  @Action
+  public getEnterpriseDistributionEara(data: number | string) {
+    return new Promise(resolve=>{
+      this.SET_LOADING(false)
+      enterpriseDistribution(data).then(res=>{
+        // this.SET_LOADING(true)
+        if((res as any).code === '200'){
+          let { data } = res as any
+          this.SET_AGENCY_COUNT(data.agencyTotal)
+          this.SET_ORG_COUNT(data.orgCount)
+          this.SET_UNIT_COUNT(data.unitCount)
+          this.SET_OTHER_COUNT(data.otherCount)
+          resolve(res)
+        }
+      }).catch((error: any)=>{
+        console.log(error,"error");
+        
+        this.SET_LOADING(true)
+      })
+    })
+  }
 }
 
 export const EAreaModule = getModule(EArea)

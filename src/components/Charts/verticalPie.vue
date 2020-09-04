@@ -68,7 +68,7 @@ export default class extends mixins(ResizeMixin) {
       ],
       tooltip:{
         trigger: "item",
-        formatter: "{b} : {c} ({d}%)"
+        formatter: "{b}：{c} ({d}%)"
       },
       legend: {
         bottom: 12,

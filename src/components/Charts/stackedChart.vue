@@ -23,7 +23,7 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: '家' }) private unit!: string
   @Prop({ default: () =>[] }) private echartsData!: any[]
   @Prop({ default: false }) private wrap!: boolean
-  @Prop({ default:40 }) private rotate!:number
+  @Prop({ default:40 }) private rotate!: number
 
   @Watch('echartsData')
   private changeData(){
@@ -89,9 +89,9 @@ export default class extends mixins(ResizeMixin) {
     tooltip: {
         trigger: "axis",
         formatter: (params: any)=>{
-          let data:string = ''
-          let date:string = ''
-          params.map((item:any)=>{
+          let data = ''
+          let date = ''
+          params.map((item: any)=>{
             date = `<div>${item.name}</div>`
             data += ( `<div style="display:flex;align-items:center"><p style="width:10px;height:10px;border-radius:50%;background:${item.color};margin-right:10px"></p><p>${item.seriesName}：${item.value}</p></div>`)
           })

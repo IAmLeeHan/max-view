@@ -14,7 +14,7 @@ import { mixins } from 'vue-class-component'
 import ResizeMixin from './mixins/resize'
 import { AnyRecordWithTtl } from 'dns';
 import { log } from 'util';
-import $ from 'jquery';
+import $, { param } from 'jquery';
 import { unregister } from 'register-service-worker';
 import { UserModule } from '@/store/modules/user';
 import { EAreaModule } from '@/store/modules/eArea';
@@ -22,6 +22,8 @@ import {MapModule} from '@/store/modules/map'
 import { use } from 'vue/types/umd'
 import { formData } from '@/utils/index';
 import { getGovModSleep } from '@/utils/getsleep';
+import { AppModule } from '@/store/modules/app'
+import { getGovInfoQydm } from '@/utils/session'
 
 @Component({
   name: 'BarChart'
@@ -35,6 +37,8 @@ export default class extends mixins(ResizeMixin) {
   private selectedPT = []
 
   private timer: any = null
+
+  private isEara: boolean = false
 
   selectedAddress(){
     return this.selectedPT.length>1?this.selectedPT[this.selectedPT.length-1]:"中国"
@@ -71,6 +75,7 @@ export default class extends mixins(ResizeMixin) {
     this.init()
     this.$nextTick(() => {
       this.$emit('sendAddress',this.selectedAddress)
+      AppModule.setCurrentTitle((this as any).selectedAddress)
       // this.initChart()
     })
   }
@@ -117,7 +122,9 @@ export default class extends mixins(ResizeMixin) {
       })
       echarts.registerMap(name, data);
       let img = require('img/image_4.png');
-      let series =  [
+      let series
+      if(!_that.isEara){
+        series =  [
           {
             type:'map3D',
             map:name,
@@ -126,7 +133,7 @@ export default class extends mixins(ResizeMixin) {
               color:'#2b4c8a',
               opacity: 1,
               borderWidth: 0.8,
-              borderColor: '#09fbfe'
+              borderColor: '#09fbfe',
             },
             groundPlane: {
               show: false
@@ -186,7 +193,85 @@ export default class extends mixins(ResizeMixin) {
             // bottom:0,
             data:d
           }
-      ]
+        ]
+      }else{
+        series =  [
+          {
+            type:'map3D',
+            map:name,
+            boxWidth: 100,
+            itemStyle: {
+              color:(params:any)=>{
+                if(params.data.code === EAreaModule.currentQydm){
+                  return '#2268d2'
+                }else{
+                  return '#2b4c8a'
+                }
+              },
+              opacity: 1,
+              borderWidth: 0.8,
+              borderColor: '#09fbfe',
+            },
+            groundPlane: {
+              show: false
+            },
+            label: {
+              show: true,
+              textStyle: {
+                color: '#fff', //地图初始化区域字体颜色
+                fontSize: 14,
+                opacity: 1,
+                backgroundColor: 'rgba(0,0,0,0)'
+                //backgroundColor: 'rgba(53,171,199,0)'
+              },
+            },
+            emphasis: { //当鼠标放上去  地区区域是否显示名称
+              label: {
+                show: false,
+                textStyle: {
+                  color: '#fff',
+                  fontSize: 16,
+                  backgroundColor: 'rgba(0,23,11,0)'
+                }
+              },
+              itemStyle:{
+                color:"#2268d2"
+              }
+            },
+            shading: 'lambert',
+            light: { //光照阴影
+              main: {
+                color: '#00fbff', //光照颜色
+                intensity: 2.4, //光照强度
+                shadowQuality: 'medium', //阴影亮度
+                shadow: true, //是否显示阴影
+                alpha: -40,
+              },
+              ambient: {
+                intensity: 1.2
+              }
+            },
+            viewControl:{
+              autoRotate:false,
+              // distance:90,
+              // minDistance: 40, // [ default: 40 ] 视角通过鼠标控制能拉近到主体的最小距离。在 projection 为'perspective'的时候有效。
+              // maxDistance: 400, // [ default: 400 ] 视角通过鼠标控制能拉远到主体的最大距离。在 projection 为'perspective'的时候有效。
+              // zoomSensitivity: 1, // 缩放操作的灵敏度，值越大越灵敏。默认为1,设置为0后无法缩放。
+              // panSensitivity: 1, // 平移操作的灵敏度，值越大越灵敏。默认为1,设置为0后无法平移。支持使用数组分别设置横向和纵向的平移灵敏度
+              // panMouseButton: 'left',
+              // minBeta: -360,
+              // maxBeta: 360,
+              alpha:60, // 让canvas在x轴有一定的倾斜角度
+              // beta:50
+            },
+            // top:0,
+            // left:0,
+            // right:0,
+            // bottom:0,
+            data:d
+          }
+        ]
+      }
       let option = {
           tooltip:{
               show:true,
@@ -198,7 +283,7 @@ export default class extends mixins(ResizeMixin) {
           },
           series:series
       };
-      (_that as any).chart.setOption(option as EChartOption<EChartOption.SeriesBar>,true);
+      (_that as any).chart.setOption(option as any as EChartOption<EChartOption.SeriesBar>,true);
 
       this.$store.commit('SET_LOADING',true)
 
@@ -215,23 +300,26 @@ export default class extends mixins(ResizeMixin) {
   }
 
   private goBack(){
+      this.isEara = false
       if(this.selectedPT.length > 2){
         let name = this.selectedPT[this.selectedPT.length-2];
         if(name in MapModule.provinces){
           let qydm = (MapModule as any).provinces[name].qydm
           EAreaModule.setQydm(qydm)
-          EAreaModule.getEnterpriseDistribution(qydm)
-          MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
-            this.mapGet(name,MapModule.currentMap, this.chart);
+          EAreaModule.getEnterpriseDistribution(qydm).then(res=>{
+            MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
+              this.mapGet(`${this.selectedPT[this.selectedPT.length-1]}`,MapModule.currentMap, this.chart);
+            })
           })
         }
         this.selectedPT.pop();
       }else{
         (this as any).selectedPT = ["china"];
         EAreaModule.setQydm('100000')
-        EAreaModule.getEnterpriseDistribution('100000')
-        MapModule.SetCurrentMap(formData({adminCode:'100000'})).then(res=>{
-          this.mapGet('中国',MapModule.currentMap, this.chart);
+        EAreaModule.getEnterpriseDistribution('100000').then(res=>{
+          MapModule.SetCurrentMap(formData({adminCode:'100000'})).then(res=>{
+            this.mapGet('中国',MapModule.currentMap, this.chart);
+          })
         })
       }
       this.changeInit();
@@ -244,31 +332,52 @@ export default class extends mixins(ResizeMixin) {
           (_that as any).chart._$handlers.click.length = 0;
       }
       (_that as any).chart.on('click', function(params: any) {
-          // let isinside=$('#chart_map').children()[0].style.cursor;
-          // if( _that.selectedName!==''&&isinside=="pointer"){
-          //
-          // }
-          // let name = _that.selectedName
+          let code  = params.data.code
+          if(code === getGovInfoQydm()){
+            _that.isEara = false
+          }else{
+            _that.isEara = true
+          }
           let name = params.name
           if(name in MapModule.provinces){
               (_that as any).selectedPT = ["china"];
               (_that as any).selectedPT.push(name);
               let qydm = (MapModule as any).provinces[name].qydm
               EAreaModule.setQydm(qydm)
-              EAreaModule.getEnterpriseDistribution(qydm)
-              MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
-                _that.mapGet(name,MapModule.currentMap, _that.chart)
-              })
+              if(_that.isEara){
+                EAreaModule.getEnterpriseDistributionEara(qydm).then(()=>{
+                  _that.mapGet(params.data.name,MapModule.currentMap, _that.chart);
+                })
+              }else{
+                EAreaModule.getEnterpriseDistribution(qydm).then((res:any)=>{
+                  MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
+                    _that.mapGet(name,MapModule.currentMap, _that.chart)
+                  })
+                })
+              }
           }else if(name in MapModule.cityMap){
+            if((_that as any).selectedPT.length < 3){
               (_that as any).selectedPT.push(name)
+            }else{
+              (_that as any).selectedPT[2] = name
+            }
               let qydm = (MapModule as any).cityMap[name]
-              EAreaModule.setQydm(qydm)
-              EAreaModule.getEnterpriseDistribution(qydm)
-              MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
-                _that.mapGet(name,MapModule.currentMap, _that.chart)
-              })
+              EAreaModule.setQydm(params.data.code)
+              if(_that.isEara){
+                EAreaModule.getEnterpriseDistributionEara(qydm).then(()=>{
+                  _that.mapGet(params.data.name,MapModule.currentMap, _that.chart);
+                })
+              }else{
+                EAreaModule.getEnterpriseDistribution(qydm).then((res:any)=>{
+                  MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{     
+                    _that.mapGet(name,MapModule.currentMap, _that.chart)
+                  })
+                })
+              }
           }else{
-              // return false
+            _that.isEara = true
+            EAreaModule.setQydm(params.data.code)
+            _that.mapGet(params.data.name,MapModule.currentMap, _that.chart);
           }
           _that.changeInit();
       });

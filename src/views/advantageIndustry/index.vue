@@ -60,9 +60,9 @@
     <div class="search_box">
       <svg-icon name="icon_dingwei"></svg-icon>
       <el-cascader
-      class="aa"
         ref="cascader"
         v-model="valueCity"
+        class="aa"
         :options="dataCity"
         :props="defaultProps"
         :show-all-levels="false"

@@ -234,19 +234,19 @@ export default Vue.extend({
         color:#43F6FF;
       }
       .nameLabel{
-        width:200px;
+        width:180px;
         margin-left:20px;
       }
       .nameLabel2{
-        width:250px;
+        width:220px;
         margin-left:20px;
       }
       .moneyLabel{
-        width:80px;
+        width:120px;
         text-align: center;
       }
       .moneyLabel2{
-        width:100px;
+        width:130px;
         text-align: center;
       }
       .numLabel{
@@ -264,19 +264,25 @@ export default Vue.extend({
           line-height:36px;
           margin-top:2px;
           .name{
-            width:200px;
+            width:180px;
             margin-left:20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
           .name2{
-            width:250px;
+            width:220px;
             margin-left:20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
           .num{
-            width:80px;
+            width:120px;
             text-align: center;
           }
           .num2{
-            width:100px;
+            width:130px;
             text-align: center;
           }
           .per{

@@ -3,9 +3,9 @@
     <div class="legendBox">
       <div class="fl r_box_ul">
         <div
-          class="areaItem"
-          v-for="(item,index) in echartData"
+          v-for="(item,index) in legendList"
           :key="index"
+          class="areaItem"
         >
           <span
             class="sp_cirle"
@@ -57,11 +57,14 @@ export default class extends mixins(ResizeMixin) {
     immediate: true,deep:true
   })
   private changeData(){
+    console.log(this.echartData,11)
+    this.legendList = []
     this.$nextTick(() => {
       this.chart = echarts.init(document.getElementById(this.id) as any);
       this.initChart(this.chart)
     })
   }
+  private legendList = [] as any
   private colorList2 = ["#D31F9A","#00A2FF","#DEF427","#10D5C0","#ED694F","#F8A10B","#40CFE9","#5A45DA","#CB7BFD","#86ED32"]
   mounted() {
     this.chart = echarts.init(document.getElementById(this.id) as any);
@@ -76,20 +79,30 @@ export default class extends mixins(ResizeMixin) {
   }
   private mapGet(data: any,total: number){
     let _this = this
+    _this.legendList = []
      echarts.registerMap((_this as any).areaInfo.parentName, data);
         let d: any = {};
         for(let i in data.features){
             d[data.features[i].properties.adcode] = data.features[i].properties.center
+        }
+        for(let key in d){
+            _this.echartData.map((_item: any)=>{
+            if(key === _item.key){
+              _this.legendList.push(_item)
+            }
+          })
         }
         let series = [];
         for(let i = 0;i<_this.echartData.length;i++){
             let bb = {};
             let name = _this.echartData[i].qyName;
             let code = _this.echartData[i].key
+            let unitName = _this.echartData[i].unitName
             let value = Number(_this.echartData[i].value);
             let scale = 4 - i*0.2
             let effectData = [] as any
             let val = {
+              unitName:unitName,
               name:name,
               value:""
             }
@@ -130,8 +143,9 @@ export default class extends mixins(ResizeMixin) {
             tooltip:{
               trigger:"item",
               formatter:function(params: any){
+                console.log(params)
                 let res = "";
-                res = "<span style='color:#fff;'>" + params.data.name + "</span><br/>" + params.data.value[2]+"家";
+                res = "<span style='color:#fff;'>" + params.data.name + "</span><br/>" + params.data.value[2]+params.data.unitName;
                 return res
               }
             },

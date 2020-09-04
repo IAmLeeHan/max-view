@@ -24,7 +24,6 @@ export default class extends mixins(ResizeMixin) {
 
   @Watch('echartsData')
   private changeData(){
-    
     this.$nextTick(()=>{
       this.initChart()
     })
@@ -76,14 +75,14 @@ export default class extends mixins(ResizeMixin) {
             if(params[0]){
               if(params[0].seriesName.indexOf("企业数量") !== -1){
                 html += "<div>"+params[0].name+"</div>"
-                html += "<div>"+params[0].marker+params[0].seriesName+":"+_this.$formatNum(params[0].data.num)+"</div>"
+                html += "<div>"+params[0].marker+params[0].seriesName+"："+_this.$formatNum(params[0].data.num)+"</div>"
               }else{
                 html += "<div>"+params[0].name+"</div>"
-                html += "<div>"+params[0].marker+params[0].seriesName+":"+params[0].value+"</div>"
+                html += "<div>"+params[0].marker+params[0].seriesName+"："+params[0].value+"</div>"
               }
             }
             if(params[1]){
-              html += "<div>"+params[1].marker+params[1].seriesName+":"+params[1].value+"%"+"</div>"
+              html += "<div>"+params[1].marker+params[1].seriesName+"："+params[1].value+"%"+"</div>"
             }
             html += "</div>"
             return html

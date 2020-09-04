@@ -208,7 +208,7 @@ export default Vue.extend({
         async(valid: boolean) => {
           if (valid) {
             (this as any).loading = true;
-            UserModule.Login((this as any).loginForm).then((res:any)=>{
+            UserModule.Login((this as any).loginForm).then((res: any)=>{
               EAreaModule.setQydm(getGovInfoQydm()as any)
               setTimeout(() => {
                 (this as any).loading = false;

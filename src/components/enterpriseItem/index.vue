@@ -29,7 +29,7 @@
         v-for="(item,index) in labelList"
         :key="index"
         class="labelItem"
-        :class="{selected: labelIndex===item.id,hover:hoverIndex===item.id&&labelIndex!==hoverIndex}"
+        :class="{selected: labelIndex===item.id,hover: hoverIndex===item.id&&labelIndex!==hoverIndex}"
         @click="changeLabel(item.id)"
         @mouseenter="hover(item.id)"
         @mouseleave="hoverLeave()"
@@ -70,13 +70,18 @@
         v-if="rankList.length"
         class="rankContent"
       >
-        <div>全国排名</div>
-        <div v-show="flag!==0">
-          省排名
+        <div class="indexLabel"></div>
+        <div class="contentLabel"></div>
+        <div class="numLabel"></div>
+        <div  class="rankLabel">
+          <span v-if="flag===2">市排名</span>
+          <span v-else></span>
         </div>
-        <div v-show="flag===2">
-          市排名
+        <div  class="rankLabel">
+          <span v-if="flag!==0">省排名</span>
+          <span v-else></span>
         </div>
+        <div class="rankLabel">全国排名</div>
       </div>
       <div
         v-for="(item,index) in rankList"
@@ -253,7 +258,7 @@ export default Vue.extend({
       active:0,
       labelList:[] as any,
       labelIndex:0,
-      rankList:[],
+      rankList:[] as any,
       echartLabelList:[
         {
           label:"注册资本分布"
@@ -456,9 +461,14 @@ export default Vue.extend({
         getEnterpriseLeftData(formData({qydm:this.areaCode,label:value})).then((res: any)=>{
           if(res.code === "200"){
             this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            let unitName = ''
+            if(this.rankList.length){
+              unitName = this.rankList[0].unit
+            }
             let val = {
               type:this.type,
-              data:JSON.parse(res.data)
+              data:JSON.parse(res.data),
+              unitName:unitName
             }
             this.$emit("getEchartData",val)
             
@@ -471,9 +481,14 @@ export default Vue.extend({
         getEnterpriseMiddleData(formData({qydm:this.areaCode,label:value})).then((res: any)=>{
           if(res.code === "200"){
             this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            let unitName = ''
+            if(this.rankList.length){
+              unitName = this.rankList[0].unit
+            }
             let val = {
               type:this.type,
-              data:JSON.parse(res.data)
+              data:JSON.parse(res.data),
+              unitName:unitName
             }
             this.$emit("getEchartData",val)
             _this.labelIndex = value
@@ -485,9 +500,14 @@ export default Vue.extend({
         getEnterpriseRightData(formData({qydm:this.areaCode,label:value})).then((res: any)=>{
           if(res.code === "200"){
             this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            let unitName = ''
+            if(this.rankList.length){
+              unitName = this.rankList[0].unit
+            }
             let val = {
               type:this.type,
-              data:JSON.parse(res.data)
+              data:JSON.parse(res.data),
+              unitName:unitName
             }
             this.$emit("getEchartData",val)
             _this.labelIndex = value
@@ -665,12 +685,24 @@ export default Vue.extend({
       width:100%;
       margin:10px 0 5px 0;
       height:16px;
-      div{
-        float:right;
+      display:flex;
+      .indexLabel{
+        width:35px;
+        margin-left:15px;
+      }
+      .contentLabel{
+        width:170px;
+      }
+      .numLabel{
+        width:100px;
+        margin-left:10px;
+      }
+      .rankLabel{
         font-size: 12px;
         color:#3DD3CF;
         // margin-bottom:5px;
-        padding:0px 20px;
+        width:70px;
+        text-align: center;
       }
     }
     .rankItem{
@@ -684,13 +716,13 @@ export default Vue.extend({
         text-align: center;
       }
       .cityRank{
-        margin-left:2px;
+        // margin-left:2px;
       }
       .provinceRank{
-        margin-left:5px;
+        // margin-left:5px;
       }
       .countryRank{
-        margin-left:10px;
+        // margin-left:10px;
       }
       .content{
         width:170px;

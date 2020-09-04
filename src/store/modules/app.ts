@@ -1,6 +1,7 @@
 import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators'
 import { getSidebarStatus, getSize, setSidebarStatus, setLanguage, setSize } from '@/utils/cookies'
 import { getLocale } from '@/lang'
+import { getGovInfoName } from '@/utils/session'
 import store from '@/store'
 
 export enum DeviceType {
@@ -18,7 +19,8 @@ export interface IAppState {
   size: string
   isFullscreen: boolean
   dialogTableVisible: boolean
-  ListPopupsShow: boolean
+  ListPopupsShow: boolean,
+  currentTitle:string
 }
 
 @Module({ dynamic: true, store, name: 'app' })
@@ -34,6 +36,7 @@ class App extends VuexModule implements IAppState {
   public isFullscreen = false
   public dialogTableVisible = false
   public ListPopupsShow = false
+  public currentTitle = getGovInfoName() || ''
   @Mutation
   private TOGGLE_SIDEBAR(withoutAnimation: boolean) {
     this.sidebar.opened = !this.sidebar.opened
@@ -83,6 +86,11 @@ class App extends VuexModule implements IAppState {
     this.ListPopupsShow = ListPopupsShow
   }
 
+  @Mutation
+  private SET_CURRENT_TITLE(currentTitle:string){
+    this.currentTitle = currentTitle
+  }
+
   @Action
   public ToggleSideBar(withoutAnimation: boolean) {
     this.TOGGLE_SIDEBAR(withoutAnimation)
@@ -121,6 +129,10 @@ class App extends VuexModule implements IAppState {
   @Action
   public SetListPopupsShow(ListPopupsShow: boolean){
     this.LIST_POPUPS_SHOW(ListPopupsShow)
+  }
+  @Action
+  public setCurrentTitle(currentTitle:string){
+    this.SET_CURRENT_TITLE(currentTitle)
   }
 }
 
