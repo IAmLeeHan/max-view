@@ -104,7 +104,7 @@ export const formatNum = (strNum: any) => {
   if(strNum){
     newStr = strNum.toString()
   }else{
-    return
+    return 0
   }
   if(newStr.length <= 3) {
       return newStr;

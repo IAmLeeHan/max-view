@@ -118,7 +118,7 @@
     </div>
     <div
       v-if="type==='potentialIndustry'"
-      class="rankLeftBox rankBox"
+      class="rankRightBox rankBox"
     >
       <div
         v-for="(item,index) in top10Data"
@@ -554,7 +554,10 @@ export default Vue.extend({
     .rankItem{
       width:280px;
       .content{
-        width:150px;
+        width:120px;
+      }
+      .num{
+        margin-left:5px;
       }
       .perBox{
         text-align: center;
@@ -584,24 +587,54 @@ export default Vue.extend({
         font-size: 12px;
         color:#3DD3CF;
         margin-bottom:5px;
-        width:100px;
+        width:90px;
         text-align: center;
       }
     }
     .rankItem{
       width:100%;
       .content{
-        width:140px;
+        width:150px;
       }
       .num{
-        width:80px;
-        // background: red;
-        text-align: center;
-      }
-      .rank{
         width:100px;
         text-align: center;
       }
+      .rank{
+        width:90px;
+        text-align: center;
+      }
+    }
+    
+  }
+  .rankRightBox{
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: space-between;
+    height:210px;
+    margin-top:25px;
+    margin-bottom:80px;
+    .rankItem{
+      width:280px;
+      .content{
+        width:150px;
+      }
+      .perBox{
+        text-align: center;
+        width:70px;
+        display:flex;
+        justify-content: center;
+      }
+      .up{
+        color:#46DB96;
+      }
+      .down{
+        color:#F93B3B;
+      }
+      .flag{
+        margin-left:5px;
+      }      
     }
     
   }

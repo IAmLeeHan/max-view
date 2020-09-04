@@ -185,8 +185,7 @@ export default class extends mixins(ResizeMixin) {
     })
     if(this.echartData.length){
       MapModule.SetCurrentMap(formData({adminCode:(this as any).areaInfo.parentNode})).then(res=>{
-          _this.mapGet(MapModule.currentMap,total)
-         
+        _this.mapGet(MapModule.currentMap,total)
       })
     }
   }

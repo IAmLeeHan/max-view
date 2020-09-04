@@ -3,6 +3,7 @@ import { MessageBox, Message } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
 import { getToken,getRefresh } from '@/utils/cookies'
 import router from '@/router'
+import Route from 'vue-router'
 import { errorLog } from '@/api/users'
 
 const service = axios.create({
@@ -91,6 +92,8 @@ service.interceptors.response.use(
     }
   },
   (error) => {
+    console.log(Route,"Route");
+    
     let err:any = JSON.parse(JSON.stringify(error));
     if(err.config.url === '/gov/login'){
       if(err.name === "Error"){

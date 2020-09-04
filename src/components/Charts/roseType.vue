@@ -104,7 +104,7 @@ export default class extends mixins(ResizeMixin) {
         padding: [0, 5],
         itemWidth: 12,
         itemHeight: 12,
-        right: 30,
+        right: 10,
         top:"center",
         textStyle: {
           color: "#fff"

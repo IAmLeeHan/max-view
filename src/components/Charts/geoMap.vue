@@ -81,16 +81,26 @@ export default class extends mixins(ResizeMixin) {
   }
 
   private getA1Data(){
-    if(this.selectedPT.length > 1){
-      EAreaModule.getEnterpriseDistribution(UserModule.govInfoQydm).then(res=>{
-        MapModule.SetCurrentMap(formData({adminCode:UserModule.govInfoQydm})).then(res=>{
-          this.mapGet(`${this.selectedPT[this.selectedPT.length-1]}`,MapModule.currentMap, this.chart);
+    let _this = this as any
+    let qydm:string
+    if(UserModule.govInfoQydm.substr(4,6)!=='00'){
+      qydm = UserModule.govInfoQydm.substr(0,4) + '00'
+      EAreaModule.setQydm(UserModule.govInfoQydm)
+      _this.isEara = true
+    }else{
+      qydm = UserModule.govInfoQydm
+      _this.isEara = false
+    }
+    if(_this.selectedPT.length > 1){
+      EAreaModule.getEnterpriseDistribution(qydm).then(res=>{
+        MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
+          _this.mapGet(`${_this.selectedPT[_this.selectedPT.length-1]}`,MapModule.currentMap, _this.chart);
         })
       })
     }else{
-      EAreaModule.getEnterpriseDistribution(UserModule.govInfoQydm).then(res=>{
-        MapModule.SetCurrentMap(formData({adminCode:UserModule.govInfoQydm})).then(res=>{
-          this.mapGet(`中国`,MapModule.currentMap, this.chart);
+      EAreaModule.getEnterpriseDistribution(qydm).then(res=>{
+        MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
+          _this.mapGet(`中国`,MapModule.currentMap, _this.chart);
         })
       })
     }
@@ -112,6 +122,9 @@ export default class extends mixins(ResizeMixin) {
       let d: any[] = []
       data.features.map((item: any)=>{
         EAreaModule.areaList.map((item2: any)=>{
+          if(item2.name.includes('(*)')){
+            item2.name = item2.name.replace('(*)','').trim()
+          }
           if(item.properties.name === item2.name){
             d.push(item2)
           }
@@ -313,6 +326,7 @@ export default class extends mixins(ResizeMixin) {
           })
         }
         this.selectedPT.pop();
+        this.mapGet(`${this.selectedPT[this.selectedPT.length-1]}`,MapModule.currentMap, this.chart);
       }else{
         (this as any).selectedPT = ["china"];
         EAreaModule.setQydm('100000')
@@ -333,10 +347,12 @@ export default class extends mixins(ResizeMixin) {
       }
       (_that as any).chart.on('click', function(params: any) {
           let code  = params.data.code
-          if(code === getGovInfoQydm()){
-            _that.isEara = false
-          }else{
-            _that.isEara = true
+          if(!(getGovInfoQydm() as any).includes('0000')){
+            if(code === getGovInfoQydm()){
+              _that.isEara = false
+            }else{
+              _that.isEara = true
+            }
           }
           let name = params.name
           if(name in MapModule.provinces){
@@ -375,7 +391,8 @@ export default class extends mixins(ResizeMixin) {
                 })
               }
           }else{
-            _that.isEara = true
+            _that.isEara = true;
+            (_that as any).selectedPT.push(params.data.name)
             EAreaModule.setQydm(params.data.code)
             _that.mapGet(params.data.name,MapModule.currentMap, _that.chart);
           }
