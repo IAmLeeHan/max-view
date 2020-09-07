@@ -5,7 +5,7 @@
     >
       <div class="left">
         <moduleItem
-          title="企业总量变化"
+          :title="title1"
           class="industryDistribution"
           :sub-title="DateList"
           :gov-mod-next="nextB1"
@@ -25,7 +25,7 @@
           ></doubleEchartLee>
         </moduleItem>
         <moduleItem
-          title="产业企业总量分析"
+          :title="title2"
           class="operatingStatusDistribution"
           :sub-title="DateList"
           :gov-mod-next="nextB2"
@@ -45,7 +45,7 @@
           ></stackedChart>
         </moduleItem>
         <moduleItem
-          title="新增企业趋势"
+          :title="title3"
           class="registeredCapitalDistribution"
           :sub-title="newEnterprise"
           :gov-mod-next="nextB3"
@@ -70,7 +70,7 @@
         <mainItem
           class="enterpriseDistribution"
           :org-list="OrgList"
-          title="企业分布"
+          :title="title0"
           show-bg
         ></mainItem>
         <!-- <div class="regionalNews">
@@ -87,7 +87,7 @@
           :sub-title="KeyEnterprises"
           :gov-mod-next="nextB4"
           :gov-mod-next-sleep="sleepB4"
-          title="新增重点企业数量趋势"
+          :title="title4"
           flex-start
           @changeCH="changeB4Active"
         >
@@ -147,7 +147,7 @@
       </div>
       <div class="right">
         <moduleItem
-          title="注吊销企业趋势"
+          :title="title5"
           class="businessNatureType"
           :sub-title="revocationOfEnterprise"
           :gov-mod-next="nextB5"
@@ -199,7 +199,7 @@
         <!-- <el-button class="directory" slot="button">企业迁出名录 ></el-button> -->
         </moduleItem>
         <moduleItem
-          title="区域资本来源分析"
+          :title="title6"
           class="enterpriseSize"
           :sub-title="QYZBList"
           :gov-mod-next="nextB6"
@@ -311,7 +311,7 @@
           </div>
         </moduleItem>
         <moduleItem
-          title="区域从业人员规模分析"
+          :title="title7"
           class="established"
         >
           <verticalBar
@@ -408,6 +408,7 @@ import lottie from '@/components/lottie/index.vue';
 import { EAreaModule } from '@/store/modules/eArea';
 import { AppModule } from "@/store/modules/app"
 import {getE1} from "@/api/focusedInvestment";
+import getModName from '@/utils/getModName'
 import {
   getGovModNext,
   getGovModNextSleep,
@@ -629,7 +630,31 @@ export default Vue.extend({
     },
     showBlur(){
       return AppModule.ListPopupsShow || AppModule.dialogTableVisible
-    }
+    },
+    title0(){
+      return getModName('a','a1')
+    },
+    title1(){
+      return getModName('b','b1')
+    },
+    title2(){
+      return getModName('b','b2')
+    },
+    title3(){
+      return getModName('b','b3')
+    },
+    title4(){
+      return getModName('b','b4')
+    },
+    title5(){
+      return getModName('b','b5')
+    },
+    title6(){
+      return getModName('b','b6')
+    },
+    title7(){
+      return getModName('b','b7')
+    },
   },
   watch:{
     currentQydm:{

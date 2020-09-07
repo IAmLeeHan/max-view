@@ -217,10 +217,11 @@ export default Vue.extend({
     }
   }
   .secondHeader{
-    margin-top:20px;
+    margin-top:40px;
   }
   .contentBox{
     width:100%;
+    height:40%;
     margin-top:15px;
     .title{
       width:100%;
@@ -255,13 +256,14 @@ export default Vue.extend({
       }
     }
     .rankBox{
+      height:90%;
       .rankItem{
-          height:35px;
+          height:10%;
           background:rgba(114,255,250,0.08);
           display:flex;
           color:#fff;
+          align-items: center;
           font-size: 12px;
-          line-height:36px;
           margin-top:2px;
           .name{
             width:180px;

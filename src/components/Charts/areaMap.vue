@@ -57,7 +57,6 @@ export default class extends mixins(ResizeMixin) {
     immediate: true,deep:true
   })
   private changeData(){
-    console.log(this.echartData,11)
     this.legendList = []
     this.$nextTick(() => {
       this.chart = echarts.init(document.getElementById(this.id) as any);
@@ -116,7 +115,7 @@ export default class extends mixins(ResizeMixin) {
                 zlevel: 2,
                 rippleEffect: {
                     period: 10,
-                    scale: scale ,
+                    scale: 3 ,
                     brushType: 'stroke'
                 },
                 label: {

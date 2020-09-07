@@ -118,13 +118,10 @@ export default Vue.extend({
       align-items: center;
       // padding-right:20px; 
       justify-content: space-around;
-      &::-webkit-scrollbar{
-        display: none;
-      }
       &.margin{
         justify-content: flex-end;
         li{
-          margin-left: 40px;
+          margin-left: 20px;
           &:first-child{
             margin:0px;
           }
@@ -135,13 +132,12 @@ export default Vue.extend({
         justify-content: space-between;
         overflow: auto;
         li{
-          flex-shrink: 0;
-          margin-left:20px!important;
+          margin-left:0px!important;
         }
       }
       li{
         margin-left: 20px;
-        font-size: 12px;
+        font-size: 14px;
         color: #fff;
         padding-bottom: 6px;
         &:hover{

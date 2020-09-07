@@ -319,6 +319,7 @@ export default Vue.extend({
   }
   .contentBox{
     width:100%;
+    height:45%;
     margin-top:28px;
     .title{
       width:100%;
@@ -351,13 +352,15 @@ export default Vue.extend({
       }
     }
     .rankBox{
+      height:90%;
       .rankItem{
-          height:35px;
+          height:9%;
           background:rgba(114,255,250,0.08);
           display:flex;
+          align-items: center;
           color:#fff;
           font-size: 12px;
-          line-height:36px;
+          // line-height:2%;
           margin-top:2px;
           .index{
             width:30px;

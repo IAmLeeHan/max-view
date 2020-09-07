@@ -261,9 +261,11 @@ export default Vue.extend({
       display: flex;
       flex: 1;
       align-items: center;
+      justify-content: space-between;
       padding-right:20px; 
       float:right;
       margin-top:10px;
+      width:75%;
       &.margin{
         justify-content: center;
         li{
@@ -277,7 +279,6 @@ export default Vue.extend({
         font-size: 14px;
         color: #fff;
         padding-bottom: 6px;
-        margin-right:30px;
         &:last-child{
             margin:0;
         }

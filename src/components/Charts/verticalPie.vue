@@ -86,7 +86,7 @@ export default class extends mixins(ResizeMixin) {
         {
           type: "pie",
           radius: ['30%',"46%"],
-          center: ['50%', '45%'],
+          center: ['50%', '34%'],
           // startAngle: 60, //起始角度
           selectedMode: "single",
           label:{

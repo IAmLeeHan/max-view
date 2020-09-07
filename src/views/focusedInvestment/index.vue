@@ -1,69 +1,71 @@
 <template>
-  <div class="focusedInvestment">
-    <leftItem
-      title="区域外来资本概况"
-      class="leftItem"
-      :gov-mod-next="nextE2"
-      :gov-mod-next-sleep="sleepE2"
-      :area-code="selectedArea.code"
-    >
-    </leftItem>
-    <div class="middleBox">
-      <!-- 区域外来资本流动图 -->
-      <echartItem
-        title="区域外来资本流动图"
-        class="capitalFlowBox"
-        :area-name="selectedArea.name"
-      >
-        <flowChart
-          id="capitalFlow"
-          slot="echarts"
-          height="100%"
-          width="100%"
-          :echarts-data="flowEchartData"
-        ></flowChart>
-      </echartItem>
-      <!-- 对外投资活跃企业 -->
-      <middleBottom
-        class="activeEnterprise"
-        title="对外投资活跃企业"
-        :sub-title="subTitle"
-        :type="'middleBottom'"
+  <div style="height:97%">
+    <div class="focusedInvestment">
+      <leftItem
+        title="区域外来资本概况"
+        class="leftItem"
+        :gov-mod-next="nextE2"
+        :gov-mod-next-sleep="sleepE2"
         :area-code="selectedArea.code"
-        :gov-mod-next="nextE3"
-        :gov-mod-next-sleep="sleepE3"
+      >
+      </leftItem>
+      <div class="middleBox">
+        <!-- 区域外来资本流动图 -->
+        <echartItem
+          title="区域外来资本流动图"
+          class="capitalFlowBox"
+          :area-name="selectedArea.name"
+        >
+          <flowChart
+            id="capitalFlow"
+            slot="echarts"
+            height="100%"
+            width="100%"
+            :echarts-data="flowEchartData"
+          ></flowChart>
+        </echartItem>
+        <!-- 对外投资活跃企业 -->
+        <middleBottom
+          class="activeEnterprise"
+          title="对外投资活跃企业"
+          :sub-title="subTitle"
+          :type="'middleBottom'"
+          :area-code="selectedArea.code"
+          :gov-mod-next="nextE3"
+          :gov-mod-next-sleep="sleepE3"
+          @checkMore="checkMore"
+        ></middleBottom>
+      </div>
+      <rightItem
+        class="rightItem"
+        :type="'rightItem'"
+        :area-code="selectedArea.code"
         @checkMore="checkMore"
-      ></middleBottom>
-    </div>
-    <rightItem
-      class="rightItem"
-      :type="'rightItem'"
-      :area-code="selectedArea.code"
-      @checkMore="checkMore"
-    ></rightItem>
-    <checkMoreDialog
-      v-if="showDialog"
-      :type="type"
-      :label-list="labelInfo.labelList"
-      :area-code="selectedArea.code"
-      @closeDialog="closeDialog"
-    ></checkMoreDialog>
-    <!-- 地区切换 -->
-    <div class="search_box">
-      <svg-icon name="icon_dingwei"></svg-icon>
-      <el-cascader
-        ref="cascader"
-        v-model="valueCity"
-        :options="dataCity"
-        :props="defaultProps"
-        :show-all-levels="false"
-        @change="handleChange"
-      ></el-cascader>
-      <div class="rightArrow">
-        <i
-          class="el-icon-arrow-right"
-          @click="showList"
-        ></i>
+      ></rightItem>
+      <checkMoreDialog
+        v-if="showDialog"
+        :type="type"
+        :label-list="labelInfo.labelList"
+        :area-code="selectedArea.code"
+        @closeDialog="closeDialog"
+      ></checkMoreDialog>
+      <!-- 地区切换 -->
+      <div class="search_box">
+        <svg-icon name="icon_dingwei"></svg-icon>
+        <el-cascader
+          ref="cascader"
+          v-model="valueCity"
+          :options="dataCity"
+          :props="defaultProps"
+          :show-all-levels="false"
+          @change="handleChange"
+        ></el-cascader>
+        <div class="rightArrow">
+          <i
+            class="el-icon-arrow-right"
+            @click="showList"
+          ></i>
+        </div>
       </div>
     </div>
   </div>
@@ -219,27 +221,27 @@ export default Vue.extend({
   margin-top:20px;
   .leftItem{
       width:450px;
-      height:940px;
+      height:100%;
   }
   .middleBox{
     display:flex;
     flex-direction: column;
     // justify-content: space-between;
-    height:940px;
+    height:100%;
     width:930px;
   }
   .capitalFlowBox{
     width:930px;
-    height:500px;
+    height:54%;
   }
   .activeEnterprise{
     width:930px;
-    height:420px;
+    height:46%;
     margin-top:20px;
   }
   .rightItem{
     width:450px;
-    height:940px;
+    height:100%;
   }
   .search_box{
     position: absolute;

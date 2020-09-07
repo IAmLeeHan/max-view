@@ -842,7 +842,7 @@ export default Vue.extend({
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-top:20px;
+        margin-top:8px;
         p {
           font-size: 14px;
           color: #4decee;

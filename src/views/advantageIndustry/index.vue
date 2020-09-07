@@ -1,78 +1,80 @@
 <template>
-  <div class="advantageIndustry">
-    <industryItem
-      title="区域支柱行业"
-      class="advantageIndustryItem"
-      :type="'pillarIndustry'"
-      :label-list="leftLabelList"
-      :area-code="selectedArea.code"
-      :gov-mod-next="nextC1"
-      :gov-mod-next-sleep="sleepC1"
-      @getIndustry="getIndustry"
-    >
-      <doubleEchart
-        id="industryDistribution"
-        slot="echarts"
-        height="100%"
-        width="100%"
-        :echarts-data="pillarEchartData"
-      ></doubleEchart>
-    </industryItem>
-    <industryItem
-      title="区域明星行业"
-      class="advantageIndustryItem"
-      :type="'starIndustry'"
-      :top10data="starData"
-      :label-list="MiddleLabelList"
-      :area-code="selectedArea.code"
-      :gov-mod-next="nextC2"
-      :gov-mod-next-sleep="sleepC2"
-      @getIndustry="getIndustry"
-    >
-      <doubleEchart
-        id="startIndustry"
-        slot="echarts"
-        height="100%"
-        width="100%"
-        :echarts-data="starEchartData"
-      ></doubleEchart>
-    </industryItem>
-    <industryItem
-      title="区域潜力行业"
-      class="advantageIndustryItem"
-      :type="'potentialIndustry'"
-      :top10data="potentialData"
-      :label-list="rightLabelList"
-      :area-code="selectedArea.code"
-      :gov-mod-next="nextC3"
-      :gov-mod-next-sleep="sleepC3"
-      @getIndustry="getIndustry"
-    >
-      <doubleEchart
-        id="registeredCapitalDistribution"
-        slot="echarts"
-        height="100%"
-        width="100%"
-        :echarts-data="potentialEchartData"
-      ></doubleEchart>
-    </industryItem>
-    <!-- 地区切换 -->
-    <div class="search_box">
-      <svg-icon name="icon_dingwei"></svg-icon>
-      <el-cascader
-        ref="cascader"
-        v-model="valueCity"
-        class="aa"
-        :options="dataCity"
-        :props="defaultProps"
-        :show-all-levels="false"
-        @change="handleChange"
-      ></el-cascader>
-      <div
-        class="rightArrow"
-        @click="showList"
+  <div style="height:97%">
+    <div class="advantageIndustry">
+      <industryItem
+        title="区域支柱行业"
+        class="advantageIndustryItem"
+        :type="'pillarIndustry'"
+        :label-list="leftLabelList"
+        :area-code="selectedArea.code"
+        :gov-mod-next="nextC1"
+        :gov-mod-next-sleep="sleepC1"
+        @getIndustry="getIndustry"
       >
-        <i class="el-icon-arrow-right"></i>
+        <doubleEchart
+          id="industryDistribution"
+          slot="echarts"
+          height="100%"
+          width="100%"
+          :echarts-data="pillarEchartData"
+        ></doubleEchart>
+      </industryItem>
+      <industryItem
+        title="区域明星行业"
+        class="advantageIndustryItem"
+        :type="'starIndustry'"
+        :top10data="starData"
+        :label-list="MiddleLabelList"
+        :area-code="selectedArea.code"
+        :gov-mod-next="nextC2"
+        :gov-mod-next-sleep="sleepC2"
+        @getIndustry="getIndustry"
+      >
+        <doubleEchart
+          id="startIndustry"
+          slot="echarts"
+          height="100%"
+          width="100%"
+          :echarts-data="starEchartData"
+        ></doubleEchart>
+      </industryItem>
+      <industryItem
+        title="区域潜力行业"
+        class="advantageIndustryItem"
+        :type="'potentialIndustry'"
+        :top10data="potentialData"
+        :label-list="rightLabelList"
+        :area-code="selectedArea.code"
+        :gov-mod-next="nextC3"
+        :gov-mod-next-sleep="sleepC3"
+        @getIndustry="getIndustry"
+      >
+        <doubleEchart
+          id="registeredCapitalDistribution"
+          slot="echarts"
+          height="100%"
+          width="100%"
+          :echarts-data="potentialEchartData"
+        ></doubleEchart>
+      </industryItem>
+      <!-- 地区切换 -->
+      <div class="search_box">
+        <svg-icon name="icon_dingwei"></svg-icon>
+        <el-cascader
+          ref="cascader"
+          v-model="valueCity"
+          class="aa"
+          :options="dataCity"
+          :props="defaultProps"
+          :show-all-levels="false"
+          @change="handleChange"
+        ></el-cascader>
+        <div
+          class="rightArrow"
+          @click="showList"
+        >
+          <i class="el-icon-arrow-right"></i>
+        </div>
       </div>
     </div>
   </div>
@@ -324,7 +326,7 @@ export default Vue.extend({
   margin-top:20px;
   .advantageIndustryItem{
       width:610px;
-      height:960px;
+      height:100%;
       overflow: hidden;
   }
   .search_box{

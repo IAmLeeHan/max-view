@@ -71,9 +71,14 @@ class EArea extends VuexModule implements IeAreaState {
   }
 
   @Action
+  private SetLoading(data:boolean){
+    this.SET_LOADING(data)
+  }
+
+  @Action
   public getEnterpriseDistribution(data: number | string) {
     return new Promise(resolve=>{
-      this.SET_LOADING(false)
+      // this.SET_LOADING(false)
       enterpriseDistribution(data).then(res=>{
         // this.SET_LOADING(true)
         if((res as any).code === '200'){
@@ -95,7 +100,7 @@ class EArea extends VuexModule implements IeAreaState {
   @Action
   public getEnterpriseDistributionEara(data: number | string) {
     return new Promise(resolve=>{
-      this.SET_LOADING(false)
+      // this.SET_LOADING(false)
       enterpriseDistribution(data).then(res=>{
         // this.SET_LOADING(true)
         if((res as any).code === '200'){
