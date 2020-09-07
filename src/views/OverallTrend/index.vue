@@ -5,6 +5,7 @@
     >
       <div class="left">
         <moduleItem
+          ref="modB1"
           :title="title1"
           class="industryDistribution"
           :sub-title="DateList"
@@ -25,6 +26,7 @@
           ></doubleEchartLee>
         </moduleItem>
         <moduleItem
+          ref="modB2"
           :title="title2"
           class="operatingStatusDistribution"
           :sub-title="DateList"
@@ -45,6 +47,7 @@
           ></stackedChart>
         </moduleItem>
         <moduleItem
+          ref="modB3"
           :title="title3"
           class="registeredCapitalDistribution"
           :sub-title="newEnterprise"
@@ -147,6 +150,7 @@
       </div>
       <div class="right">
         <moduleItem
+          ref="modB5"
           :title="title5"
           class="businessNatureType"
           :sub-title="revocationOfEnterprise"
@@ -199,6 +203,7 @@
         <!-- <el-button class="directory" slot="button">企业迁出名录 ></el-button> -->
         </moduleItem>
         <moduleItem
+          ref="modB6"
           :title="title6"
           class="enterpriseSize"
           :sub-title="QYZBList"
@@ -803,6 +808,7 @@ export default Vue.extend({
       if(time1>0){
         _this.timerB1 = window.setInterval(()=>{
           let urlB1 = _this.$getModUrl('b','b1')
+          _this.$refs.modB1.changeActive(0,1)
         totalEnterprise(newVal,urlB1).then((res: any)=>{
           _this.ZLshow = true
           if(res.code === '200'){
@@ -819,6 +825,7 @@ export default Vue.extend({
       if(time2>0){
         _this.timerB2 = window.setInterval(()=>{
           let urlB2 = _this.$getModUrl('b','b2')
+          _this.$refs.modB2.changeActive(0,1)
         IndustrialEnterprises(newVal,urlB2).then((res: any)=>{
           _this.ZLFXshow = true
           if(res.code === '200'){
@@ -835,6 +842,7 @@ export default Vue.extend({
       if(time3>0){
         _this.timerB3 = window.setInterval(()=>{
           let urlB3 = _this.$getModUrl('b','b3')
+          _this.$refs.modB3.changeActive(0,1)
         newBusinessTrends(newVal,urlB3).then((res: any)=>{
           _this.XZshow = true
           if(res.code === '200'){
@@ -858,6 +866,7 @@ export default Vue.extend({
       if(time5>0){
         _this.timerB5 = window.setInterval(()=>{
           let urlB5 = _this.$getModUrl('b','b5')
+          _this.$refs.modB5.changeActive(0,1)
         revocationOfBusinessTrends(newVal,urlB5).then((res: any)=>{
           _this.ZDXBarShow = true
          _this.showZDXDate = true
@@ -877,6 +886,7 @@ export default Vue.extend({
       if(time6>0){
         _this.timerB6 = window.setInterval(()=>{
           let urlE1 = _this.$getModUrl('e','e1')
+          _this.$refs.modB6.changeActive(0,1)
         getE1(formData({qydm:newVal}),urlE1).then((res: any)=>{
           _this.QYZBShow = true
           if(res.code === '200'){
@@ -1268,21 +1278,25 @@ export default Vue.extend({
     /* background: #fff; */
     width: 480px;
     .industryDistribution {
-      height: 36%;
+      height: 35%;
+      min-height: 325px;
       margin-bottom: 16px;
     }
     .operatingStatusDistribution {
-      height: 36%;
+      height: 35%;
+      min-height: 325px;
       margin-bottom: 16px;
     }
     .registeredCapitalDistribution {
       height: 25%;
+      min-height: 272px;
     }
   }
   .middle {
     width: 872px;
     .enterpriseDistribution {
-      height: calc(72% + 16px);
+      height: calc(70% + 16px);
+      min-height: 666px;
       margin-bottom: 16px;
     }
     .regionalNews {
@@ -1314,6 +1328,7 @@ export default Vue.extend({
     }
     .distributionOfKeyEnterprises {
       height: 25%;
+      min-height: 272px;
       background-image: url("~img/border-md.png");
       .NewKeyEnterprisesBox {
         height: 100%;
@@ -1409,7 +1424,8 @@ export default Vue.extend({
     /* background: #fff; */
     width: 480px;
     .businessNatureType {
-      height: 36%;
+      height: 35%;
+      min-height: 325px;
       margin-bottom: 16px;
     }
     .Date{
@@ -1445,7 +1461,8 @@ export default Vue.extend({
       border: none;
     }
     .enterpriseSize {
-      height: 36%;
+      height: 35%;
+      min-height: 325px;
       margin-bottom: 16px;
       .enterpriseSizeBox{
         display: flex;
@@ -1584,6 +1601,7 @@ export default Vue.extend({
     }
     .established {
       height: 25%;
+      min-height: 272px;
     }
   }
 }

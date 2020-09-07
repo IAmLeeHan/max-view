@@ -3,6 +3,7 @@
     <div :class="['enterpriseAreaOverview',{blur: !mainItem || showBlur}]">
       <div class="left">
         <moduleItem
+          ref="modA2"
           :sub-title="subTitle"
           :title="title2"
           class="industryDistribution"
@@ -497,6 +498,7 @@ export default Vue.extend({
       let time2 = getGovModSleep('a','a2') * 1000
       if(time2>0){
         _this.timerA2 = window.setInterval(()=>{
+          _this.$refs.modA2.changeActive(0,1)
           let urlA2 = _this.$getModUrl('a','a2')
           enterpriseIndustry(_this.currentQydm,urlA2).then((res: any)=>{
             _this.CHshow = true; 
@@ -723,21 +725,26 @@ export default Vue.extend({
     /* background: #fff; */
     width: 480px;
     .industryDistribution {
-      height: 36%;
+      height: 35%;
+      min-height: 325px;
       margin-bottom: 16px;
     }
     .operatingStatusDistribution {
-      height: 36%;
+      height: 35%;
+      min-height: 325px;
       margin-bottom: 16px;
     }
     .registeredCapitalDistribution {
       height: 25%;
+      min-height: 272px;
     }
   }
   .middle {
     width: 872px;
+    margin: 0 20px;
     .enterpriseDistribution {
-      height: calc(72% + 16px);
+      height: calc(70% + 16px);
+      min-height: 666px;
       margin-bottom: 16px;
     }
     .regionalNews {
@@ -769,6 +776,7 @@ export default Vue.extend({
     }
     .distributionOfKeyEnterprises {
       height: 25%;
+      min-height: 272px;
       background-image: url("~img/border-md.png");
       .TableBox{
           width: 100%;
@@ -842,7 +850,7 @@ export default Vue.extend({
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-top:8px;
+        margin-top:20px;
         p {
           font-size: 14px;
           color: #4decee;
@@ -857,15 +865,18 @@ export default Vue.extend({
     /* background: #fff; */
     width: 480px;
     .businessNatureType {
-      height: 36%;
+      height: 35%;
+      min-height: 325px;
       margin-bottom: 16px;
     }
     .enterpriseSize {
-      height: 36%;
+      height: 35%;
+      min-height: 325px;
       margin-bottom: 16px;
     }
     .established {
       height: 25%;
+      min-height: 272px;
     }
   }
 }

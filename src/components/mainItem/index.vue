@@ -158,6 +158,12 @@ export default Vue.extend({
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    @media screen and (max-width: 1200px){
+      .headerLeft{
+        width: 200px;
+        flex-wrap: wrap;
+      }
+    }
     .headerLeft{
       display: flex;
       .title {
@@ -189,6 +195,7 @@ export default Vue.extend({
         }
       }
       .position{
+        flex: 1;
         display: flex;
         align-items: center;
         p{
