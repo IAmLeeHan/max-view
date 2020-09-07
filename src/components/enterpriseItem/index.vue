@@ -75,7 +75,7 @@
         <div class="contentLabel"></div>
         <div class="numLabel"></div>
         <div class="rankLabel">
-          <span v-if="flag===2">市排名</span>
+          <span v-if="flag===2&&!Municipality">市排名</span>
           <span v-else></span>
         </div>
         <div class="rankLabel">
@@ -105,7 +105,7 @@
           {{ item.counts }}{{ item.unit }}
         </div>
         <div class="cityRank rank">
-          {{ item.spm | rank }}
+          {{ item.spm | spm(that) }}
         </div>
         <div class="provinceRank rank">
           {{ item.sfpm | rank }}
@@ -222,7 +222,7 @@ export default Vue.extend({
         return "-"
       }
     },
-    //市排名 省排名 全国排名
+    // 省排名 全国排名
     rank:function(val: any){
       if(val*1){
         if(val*1>999){
@@ -234,6 +234,22 @@ export default Vue.extend({
         return ""
       }
     },
+    //市排名
+    spm:function(val: any,that: any){
+      if(that.flag === 2 && that.Municipality){
+        return ""
+      }else{
+        if(val){
+          if(val*1>999){
+            return "999+"
+          }else{
+            return val
+          }
+        }else{
+          return ""
+        }
+      }
+    }
   },
   mixins:[mixins],
   props:{
@@ -258,6 +274,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      that:this,
       hoverIndex:-1,
       active:0,
       labelList:[] as any,
@@ -276,6 +293,7 @@ export default Vue.extend({
       ],
       echartLabelIndex:0,
       flag:0,//0:省，1市，2区
+      Municipality:false,//直辖市
     }
   },
   watch:{
@@ -467,6 +485,11 @@ export default Vue.extend({
         this.flag = 1
       }else if(this.areaCode.indexOf("0000") ===-1 && this.areaCode.indexOf("00")===-1){
         this.flag = 2
+      }
+      if(this.flag === 2){
+        if(this.areaCode.substr(0,2)==="11" || this.areaCode.substr(0,2)==="12" || this.areaCode.substr(0,2)==="31" || this.areaCode.substr(0,2)==="50"){
+          this.Municipality = true
+        }
       }
     },
     //获取数据

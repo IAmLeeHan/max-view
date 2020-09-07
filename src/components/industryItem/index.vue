@@ -81,7 +81,7 @@
           省排名
         </div>
         <div
-          v-show="flag===2"
+          v-show="flag===2&&!Municipality"
           class="rankLabelItem"
         >
           市排名
@@ -107,7 +107,7 @@
           {{ item.counts }}{{ item.unit }}
         </div>
         <div class="rank cityRank">
-          {{ item.spm | spm }}
+          {{ item.spm | spm(that) }}
         </div>
         <div class="rank provinceRank">
           {{ item.sfpm | rank }}
@@ -201,12 +201,16 @@ export default Vue.extend({
       }
     },
     //市排名
-    spm:function(val: any){
-      if(val){
-        if(val.split("/")[0]*1>999){
-          return "999+"
-        }else{
-          return val
+    spm:function(val: any,that: any){
+      if(that.flag === 2 && that.Municipality){
+        return ""
+      }else{
+        if(val){
+          if(val.split("/")[0]*1>999){
+            return "999+"
+          }else{
+            return val
+          }
         }
       }
     }
@@ -240,6 +244,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      that:this,
       hoverIndex:-1,
       active:0,
       labelIndex:0,
@@ -247,7 +252,8 @@ export default Vue.extend({
       top10Data:[] as any,
       itemIndex:0,
       loading:true,
-      flag:0,//0:省，1市，2区
+      flag:0,//0:省，1市，2区,
+      Municipality:false,//直辖市
     }
   },
   watch: {
@@ -387,6 +393,11 @@ export default Vue.extend({
         this.flag = 1
       }else if(this.areaCode.indexOf("0000") ===-1 && this.areaCode.indexOf("00")===-1){
         this.flag = 2
+      }
+      if(this.flag === 2){
+        if(this.areaCode.substr(0,2)==="11" || this.areaCode.substr(0,2)==="12" || this.areaCode.substr(0,2)==="31" || this.areaCode.substr(0,2)==="50"){
+          this.Municipality = true
+        }
       }
     }
   }
@@ -555,20 +566,15 @@ export default Vue.extend({
       }
   }
   .rankLeftBox{
-    display:flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: space-between;
-    height:210px;
-    margin-top:25px;
-    margin-bottom:80px;
+    margin-top:20px;
     .rankItem{
-      width:280px;
+      width:100%;
       .content{
-        width:120px;
+        width:390px;
       }
       .num{
-        margin-left:5px;
+        width:125px;
+        text-align: center;
       }
       .perBox{
         text-align: center;
@@ -619,21 +625,15 @@ export default Vue.extend({
     
   }
   .rankRightBox{
-    display:flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: space-between;
-    height:210px;
-    margin-top:25px;
-    margin-bottom:80px;
+    margin-top:20px;
     .rankItem{
-      width:280px;
+      width:100%;
       .content{
-        width:150px;
+        width:390px;
       }
       .perBox{
         text-align: center;
-        width:70px;
+        width:120px;
         display:flex;
         justify-content: center;
       }
@@ -653,13 +653,13 @@ export default Vue.extend({
     width: 100%;
   }
   .pillarIndustry{
-      height: calc(100% - 500px);
+      height: calc(100% - 570px);
   }
   .starIndustry{
       height: calc(100% - 570px);
   }
   .potentialIndustry{
-      height: calc(100% - 500px);
+      height: calc(100% - 570px);
   }
   // 加载动画样式
   .loading{

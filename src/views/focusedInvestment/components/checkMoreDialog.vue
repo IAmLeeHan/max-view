@@ -365,7 +365,7 @@ export default Vue.extend({
                   margin:10px 0 5px 0;
                   span{
                     display:block;
-                    width:120px;
+                    width:150px;
                     float:right;
                     font-size: 12px;
                     color:#3DD3CF;
@@ -376,11 +376,11 @@ export default Vue.extend({
                 }
                 
                 .name{
-                  width:628px!important;
+                  width:600px!important;
                   margin-left:30px;
                 }
                 .money{
-                  width:120px;
+                  width:150px;
                   text-align: center;
                 }
               }
