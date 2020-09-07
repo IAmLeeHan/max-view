@@ -315,18 +315,31 @@ export default class extends mixins(ResizeMixin) {
   private goBack(){
       this.isEara = false
       if(this.selectedPT.length > 2){
-        let name = this.selectedPT[this.selectedPT.length-2];
-        if(name in MapModule.provinces){
-          let qydm = (MapModule as any).provinces[name].qydm
-          EAreaModule.setQydm(qydm)
-          EAreaModule.getEnterpriseDistribution(qydm).then(res=>{
-            MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
-              this.mapGet(`${this.selectedPT[this.selectedPT.length-1]}`,MapModule.currentMap, this.chart);
+        if(this.selectedPT.length<3){
+          let name = this.selectedPT[this.selectedPT.length-2];
+          if(name in MapModule.provinces){
+            let qydm = (MapModule as any).provinces[name].qydm
+            EAreaModule.setQydm(qydm)
+            EAreaModule.getEnterpriseDistribution(qydm).then(res=>{
+              MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
+                this.mapGet(`${this.selectedPT[this.selectedPT.length-1]}`,MapModule.currentMap, this.chart);
+              })
             })
-          })
+          }
+          this.selectedPT.pop();
+        }else{
+          let name = this.selectedPT[this.selectedPT.length-2];
+          if(name in MapModule.cityMap){
+            let qydm = (MapModule as any).cityMap[name]
+            EAreaModule.setQydm(qydm)
+            EAreaModule.getEnterpriseDistribution(qydm).then(res=>{
+              MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
+                this.mapGet(`${this.selectedPT[this.selectedPT.length-1]}`,MapModule.currentMap, this.chart);
+              })
+            })
+          }
+          this.selectedPT.pop();
         }
-        this.selectedPT.pop();
-        this.mapGet(`${this.selectedPT[this.selectedPT.length-1]}`,MapModule.currentMap, this.chart);
       }else{
         (this as any).selectedPT = ["china"];
         EAreaModule.setQydm('100000')
@@ -392,7 +405,11 @@ export default class extends mixins(ResizeMixin) {
               }
           }else{
             _that.isEara = true;
-            (_that as any).selectedPT.push(params.data.name)
+            if(_that.selectedPT.length > 3){
+              (_that as any).selectedPT[3] = (params.data.name)
+            }else{
+              (_that as any).selectedPT.push(params.data.name)
+            }
             EAreaModule.setQydm(params.data.code)
             _that.mapGet(params.data.name,MapModule.currentMap, _that.chart);
           }
