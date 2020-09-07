@@ -197,28 +197,25 @@ export default Vue.extend({
       return getGovModNext('d','d1')
     },
     sleepD1(){
-      return getGovModNext('d','d1')
+      return getGovModNextSleep('d','d1')
     },
     nextD2(){
       return getGovModNext('d','d2')
     },
     sleepD2(){
-      return getGovModNext('d','d2')
+      return getGovModNextSleep('d','d2')
     },
     nextD3(){
       return getGovModNext('d','d3')
     },
     sleepD3(){
-      return getGovModNext('d','d3')
+      return getGovModNextSleep('d','d3')
     },
   },
   created(){
-    // this.selectedArea.name = this.$store.state.user.govInfoName
-    // this.selectedArea.code = this.$store.state.user.govInfoQydm
     this.selectedArea.selectedLabel = this.$store.state.user.govInfoName
     this.selectedArea.selectedValue = this.$store.state.user.govInfoQydm
     this.getareaMap()
-    // console.log(JSON.parse(this.$store.state.user.indexList))
   },
   methods:{
     //判断点击的是哪个查看更多

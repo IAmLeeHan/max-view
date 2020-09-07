@@ -94,7 +94,7 @@ service.interceptors.response.use(
   (error) => {
     console.log(Route,"Route");
     
-    let err:any = JSON.parse(JSON.stringify(error));
+    let err: any = JSON.parse(JSON.stringify(error));
     if(err.config.url === '/gov/login'){
       if(err.name === "Error"){
         MessageBox.alert(

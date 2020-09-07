@@ -9,9 +9,9 @@
         >
           <span
             class="sp_cirle"
-            :style="{backgroundColor: colorList2[index%10]}"
+            :style="{backgroundColor: colorList2[index%20]}"
           ></span>
-          <span :style="{color: colorList2[index%10]}">{{ item.qyName }}</span>
+          <span :style="{color: colorList2[index%20]}">{{ item.qyName }}</span>
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@ export default class extends mixins(ResizeMixin) {
     })
   }
   private legendList = [] as any
-  private colorList2 = ["#D31F9A","#00A2FF","#DEF427","#10D5C0","#ED694F","#F8A10B","#40CFE9","#5A45DA","#CB7BFD","#86ED32"]
+  private colorList2 = ["#D31F9A","#00A2FF","#DEF427","#10D5C0","#ED694F","#F8A10B","#40CFE9","#5A45DA","#CB7BFD","#86ED32",'#c76972',"#c9a544","#329dcf","#ffb676","#a432f4","#f4cd32","#656ff0","#3a98f9","#57eb8b"]
   mounted() {
     this.chart = echarts.init(document.getElementById(this.id) as any);
   }
@@ -129,7 +129,7 @@ export default class extends mixins(ResizeMixin) {
                 // },
                 symbolSize:12,
                 itemStyle: {
-                    color: _this.colorList2[i%10]
+                    color: _this.colorList2[i%20]
                 },
                 // data: [{
                 //     name: name,

@@ -19,7 +19,7 @@ export default Vue.extend({
     },
     mounted(){
         // // this.govModNext = 1
-        // console.log(this.govModNext,this.govModNextSleep)
+        console.log(this.govModNext,this.govModNextSleep)
         // _this.$nextTick(()=>{
             
         // })
@@ -42,10 +42,10 @@ export default Vue.extend({
                     _this.timer = window.setInterval(()=>{
                         _this.loop ++
                         if(_this.loop <= _this.labelList.length - 1){
-                            _this.changeLabel(_this.labelList[_this.loop].id)
+                            _this.changeLabel(_this.labelList[_this.loop].id,_this.labelList[_this.loop].label,_this.labelList[_this.loop].ruleId,_this.labelList[_this.loop].hasValue)
                         }else{
                             _this.loop = 0
-                            _this.changeLabel(_this.labelList[_this.loop].id)
+                            _this.changeLabel(_this.labelList[_this.loop].id,_this.labelList[_this.loop].label,_this.labelList[_this.loop].ruleId,_this.labelList[_this.loop].hasValue)
                         }
                     },_this.govModNextSleep * 1000)
                 }

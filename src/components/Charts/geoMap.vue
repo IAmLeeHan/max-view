@@ -38,11 +38,19 @@ export default class extends mixins(ResizeMixin) {
 
   private timer: any = null
 
-  private isEara: boolean = false
+  private isEara = false
 
   selectedAddress(){
     return this.selectedPT.length>1?this.selectedPT[this.selectedPT.length-1]:"中国"
   }
+  get CurrentQydm(){
+    return EAreaModule.currentQydm
+  }
+
+  // @Watch("CurrentQydm",{ immediate: true,deep:true })
+  // changeWCurrentQydm(){
+
+  // }
 
   mounted() {
     this.chart = echarts.init(document.getElementById('chart_map') as any);
@@ -82,7 +90,7 @@ export default class extends mixins(ResizeMixin) {
 
   private getA1Data(){
     let _this = this as any
-    let qydm:string
+    let qydm: string
     if(UserModule.govInfoQydm.substr(4,6)!=='00'){
       qydm = UserModule.govInfoQydm.substr(0,4) + '00'
       EAreaModule.setQydm(UserModule.govInfoQydm)
@@ -214,7 +222,7 @@ export default class extends mixins(ResizeMixin) {
             map:name,
             boxWidth: 100,
             itemStyle: {
-              color:(params:any)=>{
+              color:(params: any)=>{
                 if(params.data.code === EAreaModule.currentQydm){
                   return '#2268d2'
                 }else{
@@ -305,6 +313,7 @@ export default class extends mixins(ResizeMixin) {
   private init(){
       this.changeInit();
       this.echartsMap();
+      this.getA1Data();
   }
 
   private changeInit(){
@@ -378,7 +387,7 @@ export default class extends mixins(ResizeMixin) {
                   _that.mapGet(params.data.name,MapModule.currentMap, _that.chart);
                 })
               }else{
-                EAreaModule.getEnterpriseDistribution(qydm).then((res:any)=>{
+                EAreaModule.getEnterpriseDistribution(qydm).then((res: any)=>{
                   MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
                     _that.mapGet(name,MapModule.currentMap, _that.chart)
                   })
@@ -397,7 +406,7 @@ export default class extends mixins(ResizeMixin) {
                   _that.mapGet(params.data.name,MapModule.currentMap, _that.chart);
                 })
               }else{
-                EAreaModule.getEnterpriseDistribution(qydm).then((res:any)=>{
+                EAreaModule.getEnterpriseDistribution(qydm).then((res: any)=>{
                   MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{     
                     _that.mapGet(name,MapModule.currentMap, _that.chart)
                   })

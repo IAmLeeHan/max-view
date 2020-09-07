@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height:100%">
     <div 
       :class="['enterpriseAreaOverview',{blur: !mainItem || showBlur}]"
     >
@@ -1243,21 +1243,21 @@ export default Vue.extend({
     /* background: #fff; */
     width: 480px;
     .industryDistribution {
-      height: 326px;
+      height: 36%;
       margin-bottom: 16px;
     }
     .operatingStatusDistribution {
-      height: 324px;
+      height: 36%;
       margin-bottom: 16px;
     }
     .registeredCapitalDistribution {
-      height: 272px;
+      height: 25%;
     }
   }
   .middle {
     width: 872px;
     .enterpriseDistribution {
-      height: 666px;
+      height: calc(72% + 16px);
       margin-bottom: 16px;
     }
     .regionalNews {
@@ -1288,7 +1288,7 @@ export default Vue.extend({
       }
     }
     .distributionOfKeyEnterprises {
-      height: 272px;
+      height: 25%;
       background-image: url("~img/border-md.png");
       .NewKeyEnterprisesBox {
         height: 100%;
@@ -1384,7 +1384,7 @@ export default Vue.extend({
     /* background: #fff; */
     width: 480px;
     .businessNatureType {
-      height: 326px;
+      height: 36%;
       margin-bottom: 16px;
     }
     .Date{
@@ -1420,7 +1420,7 @@ export default Vue.extend({
       border: none;
     }
     .enterpriseSize {
-      height: 324px;
+      height: 36%;
       margin-bottom: 16px;
       .enterpriseSizeBox{
         display: flex;
@@ -1558,7 +1558,7 @@ export default Vue.extend({
       }
     }
     .established {
-      height: 272px;
+      height: 25%;
     }
   }
 }

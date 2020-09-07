@@ -75,7 +75,7 @@ export default class extends mixins(ResizeMixin) {
         itemWidth: 12,
         itemHeight: 12,
         // right: 10,
-        bottom:"10%",
+        bottom:"15%",
         textStyle: {
           color: "#fff"
         },

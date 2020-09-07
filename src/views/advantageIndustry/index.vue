@@ -85,6 +85,7 @@ import industryItem from '@/components/industryItem/index.vue'
 import doubleEchart from '@/components/Charts/doubleEchart.vue'
 import {getAreaCode,getAdvantageLeftData,getAdvantageMiddleData,getAdvantageRightData,showLabel} from "@/api/advantageIndustry"
 import { formData } from '@/utils/index'
+import getTagRule from '@/utils/getTagRule';
 import {
   getGovModNext,
   getGovModNextSleep,
@@ -128,19 +129,19 @@ export default Vue.extend({
       return getGovModNext('c','c1')
     },
     sleepC1(){
-      return getGovModNext('c','c1')
+      return getGovModNextSleep('c','c1')
     },
     nextC2(){
       return getGovModNext('c','c2')
     },
     sleepC2(){
-      return getGovModNext('c','c2')
+      return getGovModNextSleep('c','c2')
     },
     nextC3(){
       return getGovModNext('c','c3')
     },
     sleepC3(){
-      return getGovModNext('c','c3')
+      return getGovModNextSleep('c','c3')
     },
   },
   created(){
@@ -244,41 +245,42 @@ export default Vue.extend({
       let adminCode = this.selectedArea.code
       showLabel(formData({qydm:adminCode})).then((res: any)=>{
         if(res.code === "200"){
-            if(res.data.c1 && res.data.c1.length){
+          if(res.data.c1 && res.data.c1.length){
+              let ruleId = getTagRule("c","c1")
               leftArr.map((item: any)=>{
+                this.$set(item,'ruleId',ruleId)
                 res.data.c1.map((_item: any)=>{
                   if(item.id == _item.label && _item.count>0){
                     this.$set(item,'hasValue',true)
                   }
                 })
               })
-              this.leftLabelList = leftArr.filter((item: any)=>{
-                return item.hasValue
-              })
+              this.leftLabelList = leftArr
             }
             if(res.data.c2 && res.data.c2.length){
+              let ruleId = getTagRule("c","c2")
               midddleArr.map((item: any)=>{
+                this.$set(item,'ruleId',ruleId)
                 res.data.c2.map((_item: any)=>{
                   if(item.id == _item.label && _item.count>0){
                     this.$set(item,'hasValue',true)
                   }
                 })
               })
-              this.MiddleLabelList = midddleArr.filter((item: any)=>{
-                return item.hasValue
-              })
+              this.MiddleLabelList = midddleArr
             }
             if(res.data.c1 && res.data.c1.length){
+              let ruleId = getTagRule("c","c3")
               rightArr.map((item: any)=>{
+                this.$set(item,'ruleId',ruleId)
                 res.data.c3.map((_item: any)=>{
                   if(item.id == _item.label && _item.count>0){
                     this.$set(item,'hasValue',true)
+                    this.$set(item,'ruleId',ruleId)
                   }
                 })
               })
-              this.rightLabelList = rightArr.filter((item: any)=>{
-                return item.hasValue
-              })
+              this.rightLabelList = rightArr
             }
         }
       })

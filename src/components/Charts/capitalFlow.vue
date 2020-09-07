@@ -25,15 +25,14 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: true }) private showPercentage!: boolean
   @Prop({ default: ()=>[] }) private echartsData!: any[]
   private echartData = [] as any
-  // private echartData2 = [] as any
   private fromData = [] as any
   private toData = [] as any
   private sortData = [] as any
-  // 00ffff  00ffcc  61ed95  6795ff  c7ff65
+  // 16a5eb  4fb6d2  5abead  1de9b6
   // private colorList = ['#f56321','#c1bb1f','#4fb6d2','#1DE9B6'] 
   // private colorList = ['#f34e2b','#f56f1c','#f58f0e','#d5b314']
   // private colorList = ['#00ffff','#3de2fa','#1cfdc5','#aaed8a']
-  private colorList = ['#c7ff65','#00ffcc','#61ed95','#00ffff'] 
+  private colorList = ['#1de9b6','#16a5eb','#4fb6d2','#5abead'] 
 
   @Watch("echartsData",{
      immediate: true,deep:true
@@ -132,12 +131,15 @@ export default class extends mixins(ResizeMixin) {
           // position: ['10%', '50%'],
           normal:{
             show:true,
-            color:'#fff',
+            color: 'rgba(255,255,255,0.8)',
+            fontSize:10,
             offset: [500, 0],
           },
           emphasis: {
+              show:false,
               textStyle: {
-                  color: '#fff'
+                  color: 'rgba(255,255,255,0.5)',
+                  fontSize:10
               }
           }
         },
@@ -145,7 +147,7 @@ export default class extends mixins(ResizeMixin) {
         itemStyle: {
           normal: {
             color: '#2b4c8a', //地图背景色
-            borderColor: 'rgb(147, 235, 248)', //省市边界线00fcff 516a89
+            borderColor: '#688cce', //省市边界线00fcff 516a89
             borderWidth: 1,
             
           },
@@ -172,19 +174,20 @@ export default class extends mixins(ResizeMixin) {
           lineStyle: {
             normal: {
               width: .3, //尾迹线条宽度
-              opacity: 1, //尾迹线条透明度
+              opacity: .2, //尾迹线条透明度
               curveness: .3, //尾迹线条曲直度
-              color:function(params: any){
-                  if(params.dataIndex<5){
-                    return _this.colorList[0]
-                  }else if(params.dataIndex>=5 && params.dataIndex <15){
-                    return _this.colorList[1]
-                  }else if(params.dataIndex>=15 && params.dataIndex <29){
-                    return _this.colorList[2]
-                  }else{
-                    return _this.colorList[3]
-                  }
-                },
+              // color:function(params: any){
+              //     if(params.dataIndex<5){
+              //       return _this.colorList[0]
+              //     }else if(params.dataIndex>=5 && params.dataIndex <15){
+              //       return _this.colorList[1]
+              //     }else if(params.dataIndex>=15 && params.dataIndex <29){
+              //       return _this.colorList[2]
+              //     }else{
+              //       return _this.colorList[3]
+              //     }
+              //   },
+              color:"rgba(82,247,206,0.8)"
             }
           },
           data:_this.echartData
@@ -194,10 +197,13 @@ export default class extends mixins(ResizeMixin) {
           coordinateSystem: 'geo',
           showEffectOn: 'render',
           zlevel:1,
+          // rippleEffect: {
+          //     period: 5,
+          //     scale: 2.5,
+          //     brushType: 'fill'
+          // },
           rippleEffect: {
-              period: 5,
-              scale: 2.5,
-              brushType: 'fill'
+            brushType: 'stroke'
           },
           hoverAnimation: true,
           label: {
@@ -207,29 +213,52 @@ export default class extends mixins(ResizeMixin) {
                   color: '#fff',
                   show: false,
                   formatter: function(params: any) { 
+                    console.log(params)
                     //圆环显示文字
                     return params.data.name;
                   },
                   fontSize: 10,
               },
           },
+          // itemStyle: {
+          //     normal: {
+          //       color:function(params: any){
+          //         if(params.dataIndex<5){
+          //           return _this.colorList[0]
+          //         }else if(params.dataIndex>=5 && params.dataIndex <15){
+          //           return _this.colorList[1]
+          //         }else if(params.dataIndex>=15 && params.dataIndex <29){
+          //           return _this.colorList[2]
+          //         }else{
+          //           return _this.colorList[3]
+          //         }
+          //       },
+          //       shadowBlur: 10,
+          //       shadowColor: '#333'
+          //     }
+          // },
           itemStyle: {
-              normal: {
-                color:function(params: any){
-                  if(params.dataIndex<5){
-                    return _this.colorList[0]
-                  }else if(params.dataIndex>=5 && params.dataIndex <15){
-                    return _this.colorList[1]
-                  }else if(params.dataIndex>=15 && params.dataIndex <29){
-                    return _this.colorList[2]
-                  }else{
-                    return _this.colorList[3]
-                  }
+            normal: {
+                color: {
+                    type: 'radial',
+                    x: 0.5,
+                    y: 0.5,
+                    r: 0.5,
+                     colorStops: [{
+                        offset: 0,
+                        color: 'rgba(29,233,182,0.6)'
+                    }, {
+                        offset: 0.8,
+                        color: 'rgba(29,233,182,1)'
+                    }, {
+                        offset: 1,
+                        color: 'rgba(82,247,206,1)'
+                    }],
+                    global: false // 缺省为 false
                 },
-                shadowBlur: 10,
-                shadowColor: '#333'
-              }
-          },
+            }
+
+        },
           symbolSize:function(value: any,params: any){
             if(params.dataIndex<5){
               return 16
@@ -278,7 +307,7 @@ export default class extends mixins(ResizeMixin) {
           itemStyle: {
             normal: {
               show: false,
-              color: '#f00'
+              color: 'yellow'
             }
           },
           data:_this.toData

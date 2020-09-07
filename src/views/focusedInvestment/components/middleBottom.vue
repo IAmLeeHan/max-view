@@ -15,9 +15,10 @@
       >
         <li 
           v-for="(item,index) in labelList" 
+          v-if="(item.ruleId===1)||(item.ruleId===2&&item.hasValue)||(item.ruleId===0)"
           :key="index"
-          :class="{active: active === item.id}"
-          @click="changeLabel(item.id)"
+          :class="{active: active === item.id,noData: (item.ruleId===1&&!item.hasValue)||(item.ruleId===0&&!item.hasValue)}"
+          @click="changeLabel(item.id,item.label,item.ruleId,item.hasValue)"
         >
           {{ item.label }}
         </li>
@@ -74,6 +75,8 @@ import Vue from "vue";
 import {getE3Label,getE3} from "@/api/focusedInvestment"
 import mixins from '@/components/polling/index.vue'
 import { formData } from '@/utils/index'
+import getTagRule from '@/utils/getTagRule';
+
 export default Vue.extend({
   filters:{
     time:function(val: any){
@@ -82,7 +85,7 @@ export default Vue.extend({
       }
     }
   },
-  // mixins:[mixins],
+  mixins:[mixins],
   props:{
     title:{
       type:String,
@@ -124,10 +127,19 @@ export default Vue.extend({
     this.getLabel()
   },
   methods: {
-    //切换label
-    changeLabel(val: number){
-      // this.active = val
-      this.getEnterpriseData(val)
+    // //切换label
+    // changeLabel(val: number){
+    //   // this.active = val
+    //   this.getEnterpriseData(val)
+    // },
+    //切换标签栏
+    changeLabel(val: number,name: any,ruleId: any,hasValue: any){
+      if((ruleId===1&&hasValue)||(ruleId===0&&hasValue)){
+        this.getEnterpriseData(val)
+      }
+      if(ruleId===2){
+        this.getEnterpriseData(val)
+      }
     },
     //点击查看更多
     checkMore(){
@@ -141,6 +153,7 @@ export default Vue.extend({
     getLabel(){
       let _this = this as any
       let urlA1 = _this.$getModUrl('e','e3')
+      let ruleId = getTagRule("e","e3")
       getE3Label(formData({qydm:this.areaCode}),urlA1).then((res: any)=>{
           if(res.code === "200"){
             let data = ""
@@ -155,22 +168,24 @@ export default Vue.extend({
             })
             this.labelList = this.operateLabel(data)
             this.labelList.map((item: any)=>{
+              this.$set(item,'ruleId',ruleId)
               res.data.map((_item: any)=>{
                 if(item.id == _item.label && _item.count>0){
                   this.$set(item,'hasValue',true)
                 }
               })
             })
-            this.labelList = this.labelList.filter((item: any)=>{
+            let arr = this.labelList.filter((item: any)=>{
               return item.hasValue
             })
-            if(this.labelList.length){
-              this.active = this.labelList[0].id
+            if(arr.length){
+              this.active = arr[0].id
             }
+            console.log(this.labelList)
             //获取对外投资活跃企业数据
             this.getEnterpriseData(this.active)
             //启动轮询
-            // _this.pollingLabel()
+            _this.pollingLabel()
           }
       })
     },
@@ -262,7 +277,7 @@ export default Vue.extend({
         font-size: 14px;
         color: #fff;
         padding-bottom: 6px;
-        margin-right:40px;
+        margin-right:30px;
         &:last-child{
             margin:0;
         }
@@ -273,6 +288,10 @@ export default Vue.extend({
         &.active{
           color: #43F6FF;
           border-bottom:1px solid #43F6FF;
+        }
+        &.noData{
+          color:rgba(255, 255, 255, 0.5);
+          pointer-events: none;
         }
       }
     }

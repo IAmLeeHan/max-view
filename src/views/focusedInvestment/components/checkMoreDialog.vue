@@ -11,9 +11,10 @@
         >
           <div
             v-for="(item,index) in labelList" 
+            v-if="(item.ruleId===1)||(item.ruleId===2&&item.hasValue)||(item.ruleId===0)"
             :key="index"
             class="labelItem"
-            :class="{labelSelected: labelIndex===item.id}"
+            :class="{labelSelected: labelIndex===item.id,noData: (item.ruleId===1&&!item.hasValue)||(item.ruleId===0&&!item.hasValue)}"
             @click="changeLabel(item.id)"
           >
             {{ item.label }}
@@ -257,6 +258,10 @@ export default Vue.extend({
                 .labelSelected{
                   color:#43F6FF;
                   border-bottom:3px solid #43F6FF;
+                }
+                .noData{
+                  color:rgba(255, 255, 255, 0.5);
+                  pointer-events: none;
                 }
               }
               .el-icon-close{

@@ -124,13 +124,13 @@ export default Vue.extend({
       return getGovModNext('e','e2')
     },
     sleepE2(){
-      return getGovModNext('e','e2')
+      return getGovModNextSleep('e','e2')
     },
     nextE3(){
       return getGovModNext('e','e3')
     },
     sleepE3(){
-      return getGovModNext('e','e3')
+      return getGovModNextSleep('e','e3')
     },
   },
   created(){

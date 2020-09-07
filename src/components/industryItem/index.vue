@@ -29,10 +29,11 @@
     <div class="labelBox">
       <div
         v-for="(item,index) in labelList"
+        v-if="(item.ruleId===1)||(item.ruleId===2&&item.hasValue)||(item.ruleId===0)"
         :key="index"
         class="labelItem"
-        :class="{selected: labelIndex===item.id,hover: hoverIndex===item.id&&labelIndex!==hoverIndex}"
-        @click="changeLabel(item.id,item.label)"
+        :class="{selected: labelIndex===item.id,hover: hoverIndex===item.id&&labelIndex!==hoverIndex,noData: (item.ruleId===1&&!item.hasValue)||(item.ruleId===0&&!item.hasValue)}"
+        @click="changeLabel(item.id,item.label,item.ruleId,item.hasValue)"
         @mouseenter="hover(item.id)"
         @mouseleave="hoverLeave()"
       >
@@ -259,10 +260,13 @@ export default Vue.extend({
       this.getData(this.labelIndex,this.labelName)
     },
     labelList(){
-      if(this.labelList.length){
-        this.labelIndex = this.labelList[0].id
-        this.labelName = this.labelList[0].label
-        this.getData(this.labelList[0].id,this.labelList[0].label)
+      let arr = this.labelList.filter((item: any)=>{
+        return item.hasValue
+      })
+      if(arr.length){
+        this.labelIndex = arr[0].id
+        this.labelName =arr[0].label
+        this.getData(arr[0].id,arr[0].label)
       }
     }
   },
@@ -289,10 +293,13 @@ export default Vue.extend({
       (this as any).active = i
     },
     //切换标签栏
-    changeLabel(val: number,name: any){
-      // (this as any).labelIndex = val
-      // console.log(val)
-      this.getData(val,name)
+    changeLabel(val: number,name: any,ruleId: any,hasValue: any){
+      if((ruleId===1&&hasValue)||(ruleId===0&&hasValue)){
+        this.getData(val,name)
+      }
+      if(ruleId===2){
+        this.getData(val,name)
+      }
     },
     //选中某个列表
     selectedItem(val: number){
@@ -491,6 +498,10 @@ export default Vue.extend({
           left:0;
           border-radius: 1px;
       }
+    }
+    .noData{
+      color:rgba(255, 255, 255, 0.5);
+      pointer-events: none;
     }
   }
   .rankBox{

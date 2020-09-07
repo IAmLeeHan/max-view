@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div style="height:100%">
     <div :class="['enterpriseAreaOverview',{blur: !mainItem || showBlur}]">
       <div class="left">
         <moduleItem
           :sub-title="subTitle"
-          title="产业/行业分布"
+          :title="title2"
           class="industryDistribution"
           :gov-mod-next="nextA2"
           :gov-mod-next-sleep="sleepA2"
@@ -20,7 +20,7 @@
           ></pieChart>
         </moduleItem>
         <moduleItem
-          title="经营状况分布"
+          :title="title3"
           class="operatingStatusDistribution"
         >
           <RosePieChart
@@ -33,7 +33,7 @@
           ></RosePieChart>
         </moduleItem>
         <moduleItem
-          title="注册资本分布"
+          :title="title4"
           class="registeredCapitalDistribution"
         >
           <horizontalBar
@@ -52,7 +52,7 @@
         <mainItem
           ref="mainItem"
           class="enterpriseDistribution"
-          title="企业分布"
+          :title="title1"
           show-bg
         ></mainItem>
         <!-- <div class="regionalNews">
@@ -69,7 +69,7 @@
           :sub-title="KeyEnterprises"
           :gov-mod-next="nextA5"
           :gov-mod-next-sleep="sleepA5"
-          title="重点企业分布"
+          :title="title5"
           flex-start
           @changeCH="changeA5Active"
         >
@@ -131,7 +131,7 @@
       </div>
       <div class="right">
         <moduleItem
-          title="企业性质/类型分布"
+          :title="title6"
           class="businessNatureType"
         >
           <verticalBar
@@ -145,7 +145,7 @@
           ></verticalBar>
         </moduleItem>
         <moduleItem
-          title="企业规模分布"
+          :title="title7"
           class="enterpriseSize"
         >
           <ringChart
@@ -158,7 +158,7 @@
           ></ringChart>
         </moduleItem>
         <moduleItem
-          title="成立时间分布"
+          :title="title8"
           class="established"
         >
           <horizontalBar
@@ -254,6 +254,7 @@ import { getIndexList } from '@/utils/session';
 import { AppModule } from '@/store/modules/app';
 import { EAreaModule } from '@/store/modules/eArea';
 import getTagRule from '@/utils/getTagRule';
+import getModName from '@/utils/getModName'
 import axios from 'axios'
 import {
   getGovModNext,
@@ -343,6 +344,30 @@ export default Vue.extend({
     },
     showBlur(){
       return AppModule.ListPopupsShow || AppModule.dialogTableVisible
+    },
+    title1(){
+      return getModName('a','a1')
+    },
+    title2(){
+      return getModName('a','a2')
+    },
+    title3(){
+      return getModName('a','a3')
+    },
+    title4(){
+      return getModName('a','a4')
+    },
+    title5(){
+      return getModName('a','a5')
+    },
+    title6(){
+      return getModName('a','a6')
+    },
+    title7(){
+      return getModName('a','a7')
+    },
+    title8(){
+      return getModName('a','a8')
     }
   },
   watch:{
@@ -698,21 +723,21 @@ export default Vue.extend({
     /* background: #fff; */
     width: 480px;
     .industryDistribution {
-      height: 326px;
+      height: 36%;
       margin-bottom: 16px;
     }
     .operatingStatusDistribution {
-      height: 324px;
+      height: 36%;
       margin-bottom: 16px;
     }
     .registeredCapitalDistribution {
-      height: 272px;
+      height: 25%;
     }
   }
   .middle {
     width: 872px;
     .enterpriseDistribution {
-      height: 666px;
+      height: calc(72% + 16px);
       margin-bottom: 16px;
     }
     .regionalNews {
@@ -743,7 +768,7 @@ export default Vue.extend({
       }
     }
     .distributionOfKeyEnterprises {
-      height: 272px;
+      height: 25%;
       background-image: url("~img/border-md.png");
       .TableBox{
           width: 100%;
@@ -832,15 +857,15 @@ export default Vue.extend({
     /* background: #fff; */
     width: 480px;
     .businessNatureType {
-      height: 326px;
+      height: 36%;
       margin-bottom: 16px;
     }
     .enterpriseSize {
-      height: 324px;
+      height: 36%;
       margin-bottom: 16px;
     }
     .established {
-      height: 272px;
+      height: 25%;
     }
   }
 }

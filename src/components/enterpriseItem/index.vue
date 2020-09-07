@@ -27,10 +27,11 @@
     <div class="labelBox">
       <div
         v-for="(item,index) in labelList"
+        v-if="(item.ruleId===1)||(item.ruleId===2&&item.hasValue)||(item.ruleId===0)"
         :key="index"
         class="labelItem"
-        :class="{selected: labelIndex===item.id,hover: hoverIndex===item.id&&labelIndex!==hoverIndex}"
-        @click="changeLabel(item.id)"
+        :class="{selected: labelIndex===item.id,hover: hoverIndex===item.id&&labelIndex!==hoverIndex,noData: (item.ruleId===1&&!item.hasValue)||(item.ruleId===0&&!item.hasValue)}"
+        @click="changeLabel(item.id,item.label,item.ruleId,item.hasValue)"
         @mouseenter="hover(item.id)"
         @mouseleave="hoverLeave()"
       >
@@ -73,15 +74,17 @@
         <div class="indexLabel"></div>
         <div class="contentLabel"></div>
         <div class="numLabel"></div>
-        <div  class="rankLabel">
+        <div class="rankLabel">
           <span v-if="flag===2">市排名</span>
           <span v-else></span>
         </div>
-        <div  class="rankLabel">
+        <div class="rankLabel">
           <span v-if="flag!==0">省排名</span>
           <span v-else></span>
         </div>
-        <div class="rankLabel">全国排名</div>
+        <div class="rankLabel">
+          全国排名
+        </div>
       </div>
       <div
         v-for="(item,index) in rankList"
@@ -209,6 +212,7 @@ import Vue from "vue";
 import {getEnterpriseLeftData,getEnterpriseMiddleData,getEnterpriseRightData,getLeftLabelList,getMiddleLabelList,getrightLabelList, getRightDialogPage} from "@/api/importantEnterprise"
 import { formData } from '@/utils/index'
 import mixins from '@/components/polling/index.vue'
+import getTagRule from '@/utils/getTagRule';
 export default Vue.extend({
   filters:{
     rata:function(val: any){
@@ -302,10 +306,13 @@ export default Vue.extend({
       (this as any).active = i
     },
     //切换标签栏
-    changeLabel(val: number){
-      // (this as any).labelIndex = val
-      this.getData(val)
-      
+    changeLabel(val: number,name: any,ruleId: any,hasValue: any){
+      if((ruleId===1&&hasValue)||(ruleId===0&&hasValue)){
+        this.getData(val,name)
+      }
+      if(ruleId===2){
+        this.getData(val,name)
+      }
     },
     //切换echart标签
     changeEchartLabel(val: number){
@@ -360,18 +367,21 @@ export default Vue.extend({
           let urlA1 = _this.$getModUrl('d','d1')
           getLeftLabelList(formData({qydm:this.areaCode}),urlA1).then((res: any)=>{
             if(res.code === "200"){
+              let ruleId = getTagRule("d","d1")
               leftLabel.map((item: any)=>{
+                this.$set(item,'ruleId',ruleId)
                 res.data.map((_item: any)=>{
                   if(item.id == _item.label && _item.count>0){
                     this.$set(item,'hasValue',true)
                   }
                 })
               })
-              this.labelList = leftLabel.filter((item: any)=>{
+              this.labelList = leftLabel
+              let arr = this.labelList.filter((item: any)=>{
                 return item.hasValue
               })
-              if(this.labelList.length){
-                this.labelIndex = this.labelList[0].id
+              if(arr.length){
+                this.labelIndex = arr[0].id
               }
               //开启标签轮询
               _this.pollingLabel()
@@ -384,18 +394,21 @@ export default Vue.extend({
         let urlA1 = _this.$getModUrl('d','d2')
         getMiddleLabelList(formData({qydm:this.areaCode}),urlA1).then((res: any)=>{
             if(res.code === "200"){
+              let ruleId = getTagRule("d","d2")
               middleLabel.map((item: any)=>{
+                this.$set(item,'ruleId',ruleId)
                 res.data.map((_item: any)=>{
                   if(item.id == _item.label && _item.count>0){
                     this.$set(item,'hasValue',true)
                   }
                 })
               })
-              this.labelList = middleLabel.filter((item: any)=>{
+              this.labelList = middleLabel
+              let arr = this.labelList.filter((item: any)=>{
                 return item.hasValue
               })
-              if(this.labelList.length){
-                this.labelIndex = this.labelList[0].id
+              if(arr.length){
+                this.labelIndex = arr[0].id
               }
               //开启标签轮询
               _this.pollingLabel()
@@ -408,18 +421,21 @@ export default Vue.extend({
         let urlA1 = _this.$getModUrl('d','d3')
         getrightLabelList(formData({qydm:this.areaCode}),urlA1).then((res: any)=>{
             if(res.code === "200"){
+              let ruleId = getTagRule("d","d3")
               rightLabel.map((item: any)=>{
+                this.$set(item,'ruleId',ruleId)
                 res.data.map((_item: any)=>{
                   if(item.id == _item.label && _item.count>0){
                     this.$set(item,'hasValue',true)
                   }
                 })
               })
-              this.labelList = rightLabel.filter((item: any)=>{
+              this.labelList = rightLabel
+              let arr = this.labelList.filter((item: any)=>{
                 return item.hasValue
               })
-              if(this.labelList.length){
-                this.labelIndex = this.labelList[0].id
+              if(arr.length){
+                this.labelIndex = arr[0].id
               }
               //开启标签轮询
               _this.pollingLabel()
@@ -454,7 +470,7 @@ export default Vue.extend({
       }
     },
     //获取数据
-    getData(value: any){
+    getData(value: any,name?: any){
       let _this = this as any
       if(this.type === 'pillarEnterprise'){
         let urlA1 = _this.$getModUrl('d','d1')
@@ -621,6 +637,10 @@ export default Vue.extend({
           left:0;
           border-radius: 1px;
       }
+    }
+    .noData{
+      color:rgba(255, 255, 255, 0.5);
+      pointer-events: none;
     }
   }
   .rankBox{

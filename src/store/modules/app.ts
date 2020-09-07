@@ -19,8 +19,8 @@ export interface IAppState {
   size: string
   isFullscreen: boolean
   dialogTableVisible: boolean
-  ListPopupsShow: boolean,
-  currentTitle:string
+  ListPopupsShow: boolean
+  currentTitle: string
 }
 
 @Module({ dynamic: true, store, name: 'app' })
@@ -87,7 +87,7 @@ class App extends VuexModule implements IAppState {
   }
 
   @Mutation
-  private SET_CURRENT_TITLE(currentTitle:string){
+  private SET_CURRENT_TITLE(currentTitle: string){
     this.currentTitle = currentTitle
   }
 
@@ -131,7 +131,7 @@ class App extends VuexModule implements IAppState {
     this.LIST_POPUPS_SHOW(ListPopupsShow)
   }
   @Action
-  public setCurrentTitle(currentTitle:string){
+  public setCurrentTitle(currentTitle: string){
     this.SET_CURRENT_TITLE(currentTitle)
   }
 }
