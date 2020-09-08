@@ -134,7 +134,7 @@
                     </td>
                   </tr>
                   <div
-                    v-if="XZZDList.length>0"
+                    v-if="XZZDList.length>6"
                     class="getMore"
                   >
                     <p @click="showMore(currentId)">

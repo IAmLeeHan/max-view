@@ -121,7 +121,7 @@
                 </tr>
               </table>
             </div>
-            <div class="getMore">
+            <div class="getMore" v-if="ZDQYTableData1.length+ZDQYTableData2.length > 6">
               <p>
                 <span @click="showMore(currentId)">查看更多</span>
                 <i class="el-icon-arrow-right"></i>
