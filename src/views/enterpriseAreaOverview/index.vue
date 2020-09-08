@@ -10,6 +10,7 @@
           :gov-mod-next="nextA2"
           :gov-mod-next-sleep="sleepA2"
           @changeCH="changeActive"
+          govKey="a2Key"
         >
           <pieChart
             v-if="CHshow"
@@ -75,6 +76,7 @@
           flex-start
           @changeCH="changeA5Active"
           :showSwiper="false"
+          govKey="a5Key"
         >
           <div slot="echarts">
             <div class="TableBox">
@@ -497,7 +499,6 @@ export default Vue.extend({
       let time2 = getGovModSleep('a','a2') * 1000
       if(time2>0){
         _this.timerA2 = window.setInterval(()=>{
-          _this.$refs.modA2.changeActive(0,1)
           let urlA2 = _this.$getModUrl('a','a2')
           enterpriseIndustry(_this.currentQydm,urlA2).then((res: any)=>{
             _this.CHshow = true; 
@@ -508,6 +509,12 @@ export default Vue.extend({
           }).catch((error: any)=>{
             _this.CHshow = true;
           })
+          if(sessionStorage.getItem('a2Key')){
+            let obj:any = JSON.parse((sessionStorage as any).getItem('a2Key'))
+            _this.$refs.modA2.changeActive(obj.index,obj.value)
+          }else{
+            _this.$refs.modA2.changeActive(0,1)
+          }
         },time2)
       }
       let time3 = getGovModSleep('a','a3') * 1000
@@ -541,13 +548,17 @@ export default Vue.extend({
           })
         },time4)
       }
-      // let time5 = getGovModSleep('a','a5') * 1000
-      // if(time5>0){
-
-      // }
-      // _this.timerA5 = window.setInterval(()=>{
-
-      // },time5)
+      let time5 = getGovModSleep('a','a5') * 1000
+      if(time5>0){
+        _this.timerA5 = window.setInterval(()=>{
+          if(sessionStorage.getItem('a5Key')){
+            let obj:any = JSON.parse((sessionStorage as any).getItem('a5Key'))
+            _this.$refs.modA5.changeActive(obj.index,obj.value)
+          }else{
+            _this.$refs.modA5.changeActive(0,1)
+          }
+        },time5)
+      }
       let time6 = getGovModSleep('a','a6') * 1000
       if(time6>0){
         _this.timerA6 = window.setInterval(()=>{
@@ -606,7 +617,8 @@ export default Vue.extend({
     _this.timerA3 = null 
     window.clearInterval(_this.timerA4)
     _this.timerA4 = null 
-    // _this.timerA5
+    window.clearInterval(_this.timerA5)
+    _this.timerA5 = null 
     window.clearInterval(_this.timerA6)
     _this.timerA6 = null 
     window.clearInterval(_this.timerA7)

@@ -9,6 +9,7 @@
           :title="title1"
           class="industryDistribution"
           :sub-title="DateList"
+          govKey="b1Key"
           :gov-mod-next="nextB1"
           :gov-mod-next-sleep="sleepB1"
           @changeCH="changeB1Active"
@@ -30,6 +31,7 @@
           :title="title2"
           class="operatingStatusDistribution"
           :sub-title="DateList"
+          govKey="b2Key"
           :gov-mod-next="nextB2"
           :gov-mod-next-sleep="sleepB2"
           @changeCH="changeB2Active"
@@ -51,6 +53,7 @@
           :title="title3"
           class="registeredCapitalDistribution"
           :sub-title="newEnterprise"
+          govKey="b3Key"
           :gov-mod-next="nextB3"
           :gov-mod-next-sleep="sleepB3"
           @changeCH="changeB3Active"
@@ -88,6 +91,7 @@
           ref="son"
           class="distributionOfKeyEnterprises"
           :sub-title="KeyEnterprises"
+          govKey="b4Key"
           :gov-mod-next="nextB4"
           :gov-mod-next-sleep="sleepB4"
           :title="title4"
@@ -157,6 +161,7 @@
           :title="title5"
           class="businessNatureType"
           :sub-title="revocationOfEnterprise"
+          govKey="b5Key"
           :gov-mod-next="nextB5"
           :gov-mod-next-sleep="sleepB5"
           @changeCH="changeB5Active"
@@ -210,6 +215,7 @@
           :title="title6"
           class="enterpriseSize"
           :sub-title="QYZBList"
+          govKey="b6Key"
           :gov-mod-next="nextB6"
           :gov-mod-next-sleep="sleepB6"
           @changeCH="changeQYZBView"
@@ -825,7 +831,6 @@ export default Vue.extend({
       if(time1>0){
         _this.timerB1 = window.setInterval(()=>{
           let urlB1 = _this.$getModUrl('b','b1')
-          _this.$refs.modB1.changeActive(0,1)
         totalEnterprise(newVal,urlB1).then((res: any)=>{
           _this.ZLshow = true
           if(res.code === '200'){
@@ -835,6 +840,12 @@ export default Vue.extend({
               _this.ZLunit = res.data.month.unit
             }
           }
+          if(sessionStorage.getItem('b1Key')){
+            let obj:any = JSON.parse((sessionStorage as any).getItem('b1Key'))
+            _this.$refs.modB1.changeActive(obj.index,obj.value)
+          }else{
+            _this.$refs.modB1.changeActive(0,1)
+          }
         })
         },time1)
       }
@@ -842,7 +853,6 @@ export default Vue.extend({
       if(time2>0){
         _this.timerB2 = window.setInterval(()=>{
           let urlB2 = _this.$getModUrl('b','b2')
-          _this.$refs.modB2.changeActive(0,1)
         IndustrialEnterprises(newVal,urlB2).then((res: any)=>{
           _this.ZLFXshow = true
           if(res.code === '200'){
@@ -852,6 +862,12 @@ export default Vue.extend({
               _this.ZLFXunit = res.data.month.unit
             }
           }
+          if(sessionStorage.getItem('b2Key')){
+            let obj:any = JSON.parse((sessionStorage as any).getItem('b2Key'))
+            _this.$refs.modB2.changeActive(obj.index,obj.value)
+          }else{
+            _this.$refs.modB2.changeActive(0,1)
+          }
         })
         },time2)
       }
@@ -859,7 +875,6 @@ export default Vue.extend({
       if(time3>0){
         _this.timerB3 = window.setInterval(()=>{
           let urlB3 = _this.$getModUrl('b','b3')
-          _this.$refs.modB3.changeActive(0,1)
         newBusinessTrends(newVal,urlB3).then((res: any)=>{
           _this.XZshow = true
           if(res.code === '200'){
@@ -869,21 +884,30 @@ export default Vue.extend({
               _this.XZunit = res.data.orgCount.unit
             }
           }
+          if(sessionStorage.getItem('b3Key')){
+            let obj:any = JSON.parse((sessionStorage as any).getItem('b3Key'))
+            _this.$refs.modB3.changeActive(obj.index,obj.value)
+          }else{
+            _this.$refs.modB3.changeActive(0,1)
+          }
         })
         },time3)
       }
-      // let time4 = getGovModSleep('b','b4') * 1000
-      // if(time4>0){
-
-      // }
-      // _this.timerB4 = window.setInterval(()=>{
-
-      // },time4)
+      let time4 = getGovModSleep('b','b4') * 1000
+      if(time4>0){
+        _this.timerB4 = window.setInterval(()=>{
+          if(sessionStorage.getItem('b4Key')){
+            let obj:any = JSON.parse((sessionStorage as any).getItem('b4Key'))
+            _this.$refs.son.changeActive(obj.index,obj.value)
+          }else{
+            _this.$refs.son.changeActive(0,1)
+          }
+        },time4)
+      }
       let time5 = getGovModSleep('b','b5') * 1000
       if(time5>0){
         _this.timerB5 = window.setInterval(()=>{
           let urlB5 = _this.$getModUrl('b','b5')
-          _this.$refs.modB5.changeActive(0,1)
         revocationOfBusinessTrends(newVal,urlB5).then((res: any)=>{
           _this.ZDXBarShow = true
          _this.showZDXDate = true
@@ -896,6 +920,12 @@ export default Vue.extend({
               _this.ZDXunit = res.data.orgCount.month.unit
             }
           }
+          if(sessionStorage.getItem('b5Key')){
+            let obj:any = JSON.parse((sessionStorage as any).getItem('b5Key'))
+            _this.$refs.modB5.changeActive(obj.index,obj.value)
+          }else{
+            _this.$refs.modB5.changeActive(0,1)
+          }
         })
         },time5)
       }
@@ -903,7 +933,6 @@ export default Vue.extend({
       if(time6>0){
         _this.timerB6 = window.setInterval(()=>{
           let urlE1 = _this.$getModUrl('e','e1')
-          _this.$refs.modB6.changeActive(0,1)
         getE1(formData({qydm:newVal}),urlE1).then((res: any)=>{
           _this.QYZBShow = true
           if(res.code === '200'){
@@ -922,6 +951,12 @@ export default Vue.extend({
           _this.LDQYTableData1 = data.slice(0,index)
           _this.LDQYTableData2 = data.slice(index,data.length)
           _this.LDQYAllData = res.data.flowArea
+          if(sessionStorage.getItem('b6Key')){
+            let obj:any = JSON.parse((sessionStorage as any).getItem('b6Key'))
+            _this.$refs.modB6.changeActive(obj.index,obj.value)
+          }else{
+            _this.$refs.modB6.changeActive(0,1)
+          }
         })
         },time6)
       }
@@ -936,6 +971,12 @@ export default Vue.extend({
             if(res.data.unit){
               _this.QYCYunit = res.data.unit
             }
+          }
+          if(sessionStorage.getItem('b7Key')){
+            let obj:any = JSON.parse((sessionStorage as any).getItem('b7Key'))
+            _this.$refs.modB7.changeActive(obj.index,obj.value)
+          }else{
+            _this.$refs.modB7.changeActive(0,1)
           }
         })
         },time7)
@@ -952,7 +993,8 @@ export default Vue.extend({
     _this.timerB3 = null 
     window.clearInterval(_this.timerB4)
     _this.timerB4 = null 
-    // _this.timerB5
+    window.clearInterval(_this.timerB5)
+    _this.timerB5 = null 
     window.clearInterval(_this.timerB6)
     _this.timerB6 = null 
     window.clearInterval(_this.timerB7)

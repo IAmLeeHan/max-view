@@ -79,6 +79,10 @@ export default Vue.extend({
     showSwiper:{
       type:Boolean,
       default:true
+    },
+    govKey:{
+      type:String,
+      default:''
     }
   },
   watch:{
@@ -111,8 +115,13 @@ export default Vue.extend({
   },
   methods: {
     changeActive(i: number,value: any){
-      (this as any).active = i
-      this.$emit('changeCH',value)
+      let _this = this as any
+      _this.active = i
+      let key = _this.govKey
+      if(key){
+        sessionStorage.setItem(key,JSON.stringify({index:i,value:value}))
+      }
+      _this.$emit('changeCH',value)
     }
   },
 });
