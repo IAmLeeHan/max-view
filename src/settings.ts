@@ -12,7 +12,7 @@ interface ISettings {
 
 // You can customize below settings :)
 const settings: ISettings = {
-  title: '智慧信用大数据平台',
+  title: '智慧信用云平台',
   showSettings: true,
   showTagsView: true,
   fixedHeader: false,

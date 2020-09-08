@@ -2,7 +2,7 @@
   <div style="height:97%">
     <div class="advantageIndustry">
       <industryItem
-        title="区域支柱行业"
+        :title="c1Title"
         class="advantageIndustryItem"
         :type="'pillarIndustry'"
         :label-list="leftLabelList"
@@ -20,7 +20,7 @@
         ></doubleEchart>
       </industryItem>
       <industryItem
-        title="区域明星行业"
+        :title="c2Title"
         class="advantageIndustryItem"
         :type="'starIndustry'"
         :top10data="starData"
@@ -39,7 +39,7 @@
         ></doubleEchart>
       </industryItem>
       <industryItem
-        title="区域潜力行业"
+        :title="c3Title"
         class="advantageIndustryItem"
         :type="'potentialIndustry'"
         :top10data="potentialData"
@@ -88,6 +88,7 @@ import doubleEchart from '@/components/Charts/doubleEchart.vue'
 import {getAreaCode,getAdvantageLeftData,getAdvantageMiddleData,getAdvantageRightData,showLabel} from "@/api/advantageIndustry"
 import { formData } from '@/utils/index'
 import getTagRule from '@/utils/getTagRule';
+import getModName from '@/utils/getModName'
 import {
   getGovModNext,
   getGovModNextSleep,
@@ -144,6 +145,15 @@ export default Vue.extend({
     },
     sleepC3(){
       return getGovModNextSleep('c','c3')
+    },
+    c1Title(){
+      return getModName('c','c1')
+    },
+    c2Title(){
+      return getModName('c','c2')
+    },
+    c3Title(){
+      return getModName('c','c3')
     },
   },
   created(){
@@ -327,6 +337,7 @@ export default Vue.extend({
   .advantageIndustryItem{
       width:610px;
       height:100%;
+      min-height:960px;
       overflow: hidden;
   }
   .search_box{

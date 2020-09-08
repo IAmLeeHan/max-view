@@ -71,26 +71,27 @@ export default class extends mixins(ResizeMixin) {
         formatter: "{b}：{c} ({d}%)"
       },
       legend: {
+        top:"center",
         padding: [0, 5],
         itemWidth: 12,
         itemHeight: 12,
-        // right: 10,
-        bottom:"15%",
+        right: 20,
+        bottom:"10%",
         textStyle: {
           color: "#fff"
         },
-        orient:"horizontal" ,
+        orient:"vertical" ,
         data: this.echartData.map((item: any)=> item.key)
       },
       series: [
         {
           type: "pie",
           radius: ['30%',"46%"],
-          center: ['50%', '34%'],
+          center: ['35%', '46%'],
           // startAngle: 60, //起始角度
           selectedMode: "single",
           label:{
-              formatter: '{b} {d}%'
+              formatter: '{d}%'
           },
           data:(this as any).pieData
         }

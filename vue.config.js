@@ -7,7 +7,7 @@ const path = require('path')
 // For example, on Mac: sudo npm run / sudo yarn
 const devServerPort = 9527 // TODO: get this variable from setting.ts
 const mockServerPort = 9528 // TODO: get this variable from setting.ts
-const name = '智慧信用大数据平台' // TODO: get this variable from setting.ts
+const name = '智慧信用云平台' // TODO: get this variable from setting.ts
 
 function resolve(dir) {
   return path.join(__dirname, dir)

@@ -37,7 +37,7 @@
     ></vue-particles>
     <div class="inputForm">
       <div class="name">
-        智慧信用大数据平台
+        智慧信用云平台
       </div>
       <div class="inputBox">
         <!-- <div class="head">

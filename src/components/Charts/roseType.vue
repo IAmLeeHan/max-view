@@ -104,7 +104,7 @@ export default class extends mixins(ResizeMixin) {
         padding: [0, 5],
         itemWidth: 12,
         itemHeight: 12,
-        right: 10,
+        right: 20,
         top:"center",
         textStyle: {
           color: "#fff"
@@ -116,12 +116,12 @@ export default class extends mixins(ResizeMixin) {
         {
           type: "pie",
           radius: ['40%',"56%"],
-          center: ['40%', '50%'],
+          center: ['35%', '46%'],
           startAngle: 60, //起始角度
           selectedMode: "single",
           roseType:"radius",
           label:{
-              formatter: '{b} {d}%'
+              formatter: '{d}%'
           },
           data:(this as any).seriesData
         }

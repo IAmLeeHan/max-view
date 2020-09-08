@@ -2,7 +2,7 @@
   <div style="height:97%">
     <div class="importantEnterprise">
       <enterpriseItem
-        title="区域核心企业分析"
+        :title="d1Title"
         class="advantageIndustryItem"
         :type="'pillarEnterprise'"
         :area-code="selectedArea.selectedValue"
@@ -35,7 +35,7 @@
         ></areaMap>
       </enterpriseItem>
       <enterpriseItem
-        title="区域明星企业分析"
+        :title="d2Title"
         class="advantageIndustryItem"
         :type="'starEnterprise'"
         :area-code="selectedArea.selectedValue"
@@ -68,7 +68,7 @@
         ></areaMap>
       </enterpriseItem>
       <enterpriseItem
-        title="区域潜力企业分析"
+        :title="d3Title"
         class="advantageIndustryItem"
         :type="'potentialEnterprise'"
         :area-code="selectedArea.selectedValue"
@@ -139,7 +139,7 @@ import roseType from '@/components/Charts/roseType.vue'
 import checkMoreDialog from "./components/checkMoreDialog.vue"
 import {getAreaCode} from "@/api/advantageIndustry"
 import {getEnterpriseLeftData,getEnterpriseMiddleData,getEnterpriseRightData} from "@/api/importantEnterprise"
-
+import getModName from '@/utils/getModName'
 import { formData } from '@/utils/index'
 import {
   getGovModNext,
@@ -212,6 +212,15 @@ export default Vue.extend({
     },
     sleepD3(){
       return getGovModNextSleep('d','d3')
+    },
+    d1Title(){
+      return getModName('d','d1')
+    },
+    d2Title(){
+      return getModName('d','d2')
+    },
+    d3Title(){
+      return getModName('d','d3')
     },
   },
   created(){
@@ -378,6 +387,7 @@ export default Vue.extend({
   .advantageIndustryItem{
       width:610px;
       height:100%;
+      min-height:960px;
       overflow: hidden;
   }
   .search_box{

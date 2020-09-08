@@ -23,7 +23,7 @@ export default Vue.extend({
   //     handler(newVal,oldVal){
   //       console.log(newVal,"newVal");
   //       this.$nextTick(()=>{
-  //         document.getElementsByTagName('title')[0].innerHTML = newVal + '-智慧信用大数据平台'
+  //         document.getElementsByTagName('title')[0].innerHTML = newVal + '-智慧信用云平台'
   //       })
   //     }
   //   }

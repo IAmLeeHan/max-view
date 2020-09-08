@@ -708,8 +708,11 @@ export default Vue.extend({
   }
   .rankLeftBox{
     margin-top:25px;
-    
+    height:45%;
     .rankItem{
+      height:8%;
+      display: flex;
+      align-items: center;
       .per{
         width:25px;
       }
@@ -724,6 +727,7 @@ export default Vue.extend({
   }
   .rankMiddleBox{
     // margin-top:25px;
+    height:45%;
     .rankContent{
       width:100%;
       margin:10px 0 5px 0;
@@ -750,6 +754,9 @@ export default Vue.extend({
     }
     .rankItem{
       width:100%;
+      height:8%;
+      display: flex;
+      align-items: center;
       .num{
         width:100px;
         margin-left:10px;
@@ -774,6 +781,7 @@ export default Vue.extend({
     
   }
   .rankRightBox{
+    height:45%;
     .rankContent{
       width:100%;
       height:16px;
@@ -788,6 +796,11 @@ export default Vue.extend({
         text-align: center;
         height:16px;
       }
+    }
+    .rankItem{
+      height:8%;
+      display: flex;
+      align-items: center;
     }
     .perBox{
       width:100px!important;
@@ -846,13 +859,13 @@ export default Vue.extend({
     // height: calc(100% - 36px);
   }
   .pillarEnterprise{
-      height: calc(100% - 600px);
+      height: calc(100% - 64%);
   }
   .starEnterprise{
-      height: calc(100% - 600px);
+      height: calc(100% - 64%);
   }
   .potentialEnterprise{
-      height: calc(100% - 600px);
+      height: calc(100% - 64%);
   }
 }
 </style>
