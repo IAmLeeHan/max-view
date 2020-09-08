@@ -100,7 +100,7 @@
 </template>
 
 <script lang='ts'>
-import { Component } from "vue-property-decorator";
+import { Component,Watch } from "vue-property-decorator";
 import { mixins } from "vue-class-component";
 import { Route, RouteRecord } from "vue-router";
 import ResizeMixin from "./mixin/resize";
@@ -109,6 +109,7 @@ import { UserModule } from "@/store/modules/user";
 import Drag from "@/components/drag/index.vue";
 import Popups from "@/components/popups/index.vue";
 import { EAreaModule } from '@/store/modules/eArea';
+import { AppModule } from '@/store/modules/app'
 import { getGovInfoQydm } from '@/utils/session'
 
 @Component({
@@ -120,6 +121,25 @@ import { getGovInfoQydm } from '@/utils/session'
   }
 })
 export default class extends mixins(ResizeMixin) {
+  // computed:{
+  //   currentTitle(){
+  //     return AppModule.setCurrentTitle
+  //   }
+  // },
+  // watch:{
+  //   currentTitle:{
+  //     immediate:true,
+  //     handler(newVal,oldVal){
+  //       console.log(newVal,"newVal");
+  //       this.$nextTick(()=>{
+  //         document.getElementsByTagName('title')[0].innerHTML = newVal + '-智慧信用云平台'
+  //       })
+  //     }
+  //   }
+  // },
+  get currentTitle(){
+    return AppModule.currentTitle
+  }
   get title() {
     return this.$route.meta.title;
   }
@@ -135,6 +155,14 @@ export default class extends mixins(ResizeMixin) {
   get indexList(){    
     return JSON.parse((UserModule as any).indexList)
   }
+
+  @Watch("currentTitle",{ immediate: true,deep:true })
+    private cahngeCurrentTitle(){
+      let _this = this as any
+      this.$nextTick(()=>{
+        document.getElementsByTagName('title')[0].innerHTML = _this.currentTitle + '-智慧信用云平台'
+      })
+    }
 
   private defaultMap = "";
 

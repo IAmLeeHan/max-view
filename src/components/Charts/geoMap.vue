@@ -102,12 +102,14 @@ export default class extends mixins(ResizeMixin) {
     if(_this.selectedPT.length > 1){
       EAreaModule.getEnterpriseDistribution(qydm).then(res=>{
         MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
+          (EAreaModule as any).SET_LOADING(true)
           _this.mapGet(`${_this.selectedPT[_this.selectedPT.length-1]}`,MapModule.currentMap, _this.chart);
         })
       })
     }else{
       EAreaModule.getEnterpriseDistribution(qydm).then(res=>{
         MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
+          (EAreaModule as any).SET_LOADING(true)
           _this.mapGet(`中国`,MapModule.currentMap, _this.chart);
         })
       })
@@ -311,6 +313,7 @@ export default class extends mixins(ResizeMixin) {
   }
 
   private init(){
+      (EAreaModule as any).SET_LOADING(false)
       this.changeInit();
       this.echartsMap();
       this.getA1Data();
@@ -319,18 +322,21 @@ export default class extends mixins(ResizeMixin) {
   private changeInit(){
     (this as any).selectedAddress = this.selectedPT.length>1?this.selectedPT[this.selectedPT.length-1]:"中国"
     this.$emit('sendAddress',this.selectedAddress)
+    AppModule.setCurrentTitle((this as any).selectedAddress)
   }
 
   private goBack(){
-      this.isEara = false
+      this.isEara = false;
+      (EAreaModule as any).SET_LOADING(false)
       if(this.selectedPT.length > 2){
-        if(this.selectedPT.length<3){
+        if(this.selectedPT.length<=3){
           let name = this.selectedPT[this.selectedPT.length-2];
           if(name in MapModule.provinces){
             let qydm = (MapModule as any).provinces[name].qydm
             EAreaModule.setQydm(qydm)
             EAreaModule.getEnterpriseDistribution(qydm).then(res=>{
               MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
+                (EAreaModule as any).SET_LOADING(true)
                 this.mapGet(`${this.selectedPT[this.selectedPT.length-1]}`,MapModule.currentMap, this.chart);
               })
             })
@@ -343,6 +349,7 @@ export default class extends mixins(ResizeMixin) {
             EAreaModule.setQydm(qydm)
             EAreaModule.getEnterpriseDistribution(qydm).then(res=>{
               MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
+                (EAreaModule as any).SET_LOADING(true)
                 this.mapGet(`${this.selectedPT[this.selectedPT.length-1]}`,MapModule.currentMap, this.chart);
               })
             })
@@ -354,6 +361,7 @@ export default class extends mixins(ResizeMixin) {
         EAreaModule.setQydm('100000')
         EAreaModule.getEnterpriseDistribution('100000').then(res=>{
           MapModule.SetCurrentMap(formData({adminCode:'100000'})).then(res=>{
+            (EAreaModule as any).SET_LOADING(true)
             this.mapGet('中国',MapModule.currentMap, this.chart);
           })
         })
@@ -361,6 +369,7 @@ export default class extends mixins(ResizeMixin) {
       this.changeInit();
   }
   private echartsMap(){
+      (EAreaModule as any).SET_LOADING(false)
       let _that = this;
       (_that as any).chart.clear()
       // let myChart = this.$echarts.init(document.getElementById('chart_map'));
@@ -389,6 +398,7 @@ export default class extends mixins(ResizeMixin) {
               }else{
                 EAreaModule.getEnterpriseDistribution(qydm).then((res: any)=>{
                   MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
+                    (EAreaModule as any).SET_LOADING(true)
                     _that.mapGet(name,MapModule.currentMap, _that.chart)
                   })
                 })
@@ -407,7 +417,8 @@ export default class extends mixins(ResizeMixin) {
                 })
               }else{
                 EAreaModule.getEnterpriseDistribution(qydm).then((res: any)=>{
-                  MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{     
+                  MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{   
+                    (EAreaModule as any).SET_LOADING(true)  
                     _that.mapGet(name,MapModule.currentMap, _that.chart)
                   })
                 })
@@ -420,7 +431,9 @@ export default class extends mixins(ResizeMixin) {
               (_that as any).selectedPT.push(params.data.name)
             }
             EAreaModule.setQydm(params.data.code)
-            _that.mapGet(params.data.name,MapModule.currentMap, _that.chart);
+            EAreaModule.getEnterpriseDistribution(params.data.code).then((res: any)=>{
+              _that.mapGet(params.data.name,MapModule.currentMap, _that.chart);
+            })
           }
           _that.changeInit();
       });
