@@ -112,17 +112,7 @@ service.interceptors.response.use(
     }
     if(err.config.url === "/gov/common/errorLog"){
       if(err.name === "Error"){
-        MessageBox.alert(
-          '系统错误，请联系我们了解详情400-800-7975',
-          {
-            confirmButtonText: '确定',
-            // cancelButtonText: '取消',
-            type: 'warning'
-          }
-        ).then(() => {
-          UserModule.ResetToken()
-          location.reload() // To prevent bugs from vue-router
-        })
+        return false
       }
     }else{
       let data = {
@@ -132,6 +122,28 @@ service.interceptors.response.use(
       }
         errorLog(data)
       }
+    // if(err.config.url === "/gov/common/errorLog"){
+    //   if(err.name === "Error"){
+    //     MessageBox.alert(
+    //       '系统错误，请联系我们了解详情400-800-7975',
+    //       {
+    //         confirmButtonText: '确定',
+    //         // cancelButtonText: '取消',
+    //         type: 'warning'
+    //       }
+    //     ).then(() => {
+    //       UserModule.ResetToken()
+    //       location.reload() // To prevent bugs from vue-router
+    //     })
+    //   }
+    // }else{
+    //   let data = {
+    //     title:'错误信息',
+    //     msg:error,
+    //     extraInfo:'错误时间：' + new Date()
+    //   }
+    //     errorLog(data)
+    //   }
     }
 )
 
