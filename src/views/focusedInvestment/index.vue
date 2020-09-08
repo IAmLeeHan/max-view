@@ -2,7 +2,7 @@
   <div style="height:97%">
     <div class="focusedInvestment">
       <leftItem
-        title="区域外来资本概况"
+        :title="e2Title"
         class="leftItem"
         :gov-mod-next="nextE2"
         :gov-mod-next-sleep="sleepE2"
@@ -12,7 +12,7 @@
       <div class="middleBox">
         <!-- 区域外来资本流动图 -->
         <echartItem
-          title="区域外来资本流动图"
+          :title="e1Title"
           class="capitalFlowBox"
           :area-name="selectedArea.name"
         >
@@ -27,7 +27,7 @@
         <!-- 对外投资活跃企业 -->
         <middleBottom
           class="activeEnterprise"
-          title="对外投资活跃企业"
+          :title="e3Title"
           :sub-title="subTitle"
           :type="'middleBottom'"
           :area-code="selectedArea.code"
@@ -39,6 +39,8 @@
       <rightItem
         class="rightItem"
         :type="'rightItem'"
+        :topTitle="e4Title"
+        :bottomTitle="e5Title"
         :area-code="selectedArea.code"
         @checkMore="checkMore"
       ></rightItem>
@@ -82,6 +84,8 @@ import flowChart from "@/components/Charts/capitalFlow.vue";
 import middleBottom from "./components/middleBottom.vue"
 import {getAreaCode} from "@/api/advantageIndustry"
 import {getE1} from "@/api/focusedInvestment"
+import getModName from '@/utils/getModName'
+
 import {
   getGovModNext,
   getGovModNextSleep,
@@ -133,6 +137,21 @@ export default Vue.extend({
     },
     sleepE3(){
       return getGovModNextSleep('e','e3')
+    },
+    e1Title(){
+      return getModName('e','e1')
+    },
+    e2Title(){
+      return getModName('e','e2')
+    },
+    e3Title(){
+      return getModName('e','e3')
+    },
+    e4Title(){
+      return getModName('e','e4')
+    },
+    e5Title(){
+      return getModName('e','e5')
     },
   },
   created(){

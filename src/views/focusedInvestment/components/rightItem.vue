@@ -5,7 +5,7 @@
       <div class="title">
         <p class="leftBK"></p>
         <p class="middleBK">
-          <span>外来资本投资行业</span>
+          <span>{{topTitle}}</span>
         </p>
         <p class="rightBK"></p>
       </div>
@@ -47,7 +47,7 @@
       <div class="title">
         <p class="leftBK"></p>
         <p class="middleBK">
-          <span>外来资本投资企业</span>
+          <span>{{bottomTitle}}</span>
         </p>
         <p class="rightBK">
         </p>
@@ -113,7 +113,15 @@ export default Vue.extend({
     type:{
       type:String,
       default:""
-    }
+    },
+    topTitle:{
+      type:String,
+      default:'title'
+    },
+    bottomTitle:{
+      type:String,
+      default:'title'
+    },
   },
   data() {
     return {
