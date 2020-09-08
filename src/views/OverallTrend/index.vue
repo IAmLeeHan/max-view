@@ -93,6 +93,7 @@
           :title="title4"
           flex-start
           @changeCH="changeB4Active"
+          :showSwiper="false"
         >
           <div
             slot="echarts"
@@ -268,50 +269,56 @@
                 </li>
               </ul>
               <div class="TableBox">
-                <table>
-                  <tr
-                    v-for="(t,i) in LDQYTableData1"
-                    :key="i"
-                  >
-                    <td>
-                      <img
-                        v-if="t.govIsOrder === 1 && i < 3"
-                        :src="require('img/px_'+ (i+1) +'.png')"
+                <swiper :options="swiperOption">
+                  <swiperSlide>
+                    <table>
+                      <tr
+                        v-for="(t,i) in LDQYTableData1"
+                        :key="i"
                       >
-                      <div
-                        v-else
-                        class="index"
+                        <td>
+                          <img
+                            v-if="t.govIsOrder === 1 && i < 3"
+                            :src="require('img/px_'+ (i+1) +'.png')"
+                          >
+                          <div
+                            v-else
+                            class="index"
+                          >
+                            <span>{{ t.govIsOrder === 1 ? t.govOrder : i+1 }}</span>
+                          </div>
+                          <span class="name">{{ t.govB6QydmName }}</span>
+                          <span class="money">{{ t.govB6Money }}</span>
+                          <span class="percentage">{{ t.govB6Rate }}</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </swiperSlide>   
+                  <swiperSlide>
+                    <table>
+                      <tr
+                        v-for="(t,i) in LDQYTableData2"
+                        :key="i"
                       >
-                        <span>{{ t.govIsOrder === 1 ? t.govOrder : i+1 }}</span>
-                      </div>
-                      <span class="name">{{ t.govB6QydmName }}</span>
-                      <span class="money">{{ t.govB6Money }}</span>
-                      <span class="percentage">{{ t.govB6Rate }}</span>
-                    </td>
-                  </tr>
-                </table>
-                <table>
-                  <tr
-                    v-for="(t,i) in LDQYTableData2"
-                    :key="i"
-                  >
-                    <td>
-                      <img
-                        v-if="LDQYTableData1.length + i < 3"
-                        :src="require('img/px_'+ (i+2) +'.png')"
-                      >
-                      <div
-                        v-else
-                        class="index"
-                      >
-                        <span>{{ i+LDQYTableData1.length+1 }}</span>
-                      </div>
-                      <span class="name">{{ t.govB6QydmName }}</span>
-                      <span class="money">{{ t.govB6Money }}</span>
-                      <span class="percentage">{{ t.govB6Rate }}</span>
-                    </td>
-                  </tr>
-                </table>
+                        <td>
+                          <img
+                            v-if="LDQYTableData1.length + i < 3"
+                            :src="require('img/px_'+ (i+2) +'.png')"
+                          >
+                          <div
+                            v-else
+                            class="index"
+                          >
+                            <span>{{ i+LDQYTableData1.length+1 }}</span>
+                          </div>
+                          <span class="name">{{ t.govB6QydmName }}</span>
+                          <span class="money">{{ t.govB6Money }}</span>
+                          <span class="percentage">{{ t.govB6Rate }}</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </swiperSlide>   
+                </swiper> 
               </div>
             </div>
           </div>
@@ -414,7 +421,9 @@ import lottie from '@/components/lottie/index.vue';
 import { EAreaModule } from '@/store/modules/eArea';
 import { AppModule } from "@/store/modules/app"
 import {getE1} from "@/api/focusedInvestment";
-import getModName from '@/utils/getModName'
+import getModName from '@/utils/getModName';
+import 'swiper/dist/css/swiper.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import {
   getGovModNext,
   getGovModNextSleep,
@@ -436,6 +445,8 @@ import getModUrl from '@/utils/getModUrl';
 import { formData } from '@/utils';
 export default Vue.extend({
   components: {
+    swiper,
+    swiperSlide,
     mainItem,
     moduleItem,
     doubleEchartLee,
@@ -584,7 +595,14 @@ export default Vue.extend({
       currentId:0,
       popCount:0,
       XZZDListShow:false,
-      XZZDechartsShow:false
+      XZZDechartsShow:false,
+      swiperOption:{
+        autoplay:{
+          delay:3000
+        },
+        direction: 'vertical',
+        loop:true
+      }
     };
   },
   computed:{
@@ -1536,60 +1554,64 @@ export default Vue.extend({
         }
         .TableBox{
           width: 100%;
-          height: 100%;
+          height: 200px;
           display: flex;
           position: absolute;
           justify-content: space-between;
-          table{
-            width: 50%;
-            border: 0;
-            border-collapse: collapse;
-            margin-top: 10px;
-            tr{
+          .swiper-container{
+            width: 100%;
+            height: 100%;
+            table{
+              width: 100%;
               border: 0;
-              display: flex;
-              align-items: center;
-              &:nth-of-type(odd){
-                height: 30px;
-                background: rgba(114,255,250,0.12);
-              }
-              &:nth-of-type(even){
-                height: 50px;
-              }
-              td{
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+              border-collapse: collapse;
+              margin-top: 10px;
+              tr{
                 border: 0;
-                padding: 0 10px;
-                img{
-                  width: 20px;
-                  height: 23px;
+                display: flex;
+                align-items: center;
+                &:nth-of-type(odd){
+                  height: 30px;
+                  background: rgba(114,255,250,0.12);
                 }
-                .index{
+                &:nth-of-type(even){
+                  height: 50px;
+                }
+                td{
+                  width: 100%;
                   display: flex;
-                  justify-content: center;
+                  justify-content: space-between;
                   align-items: center;
-                  width: 20px;
-                  height: 23px;
-                  font-size: 13px;
-                  color: #40DCD6;
-                }
-                .name{
-                  font-size: 12px;
-                  color: #ffffff;
-                  // margin-left: 14px;
-                }
-                .money{
-                  font-size: 12px;
-                  color: #D5A32A;
-                  // margin-left: 14px;
-                }
-                .percentage{
-                  font-size: 12px;
-                  color: #D5A32A;
-                  // margin-left: 10px;
+                  border: 0;
+                  padding: 0 10px;
+                  img{
+                    width: 20px;
+                    height: 23px;
+                  }
+                  .index{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 20px;
+                    height: 23px;
+                    font-size: 13px;
+                    color: #40DCD6;
+                  }
+                  .name{
+                    font-size: 12px;
+                    color: #ffffff;
+                    // margin-left: 14px;
+                  }
+                  .money{
+                    font-size: 12px;
+                    color: #D5A32A;
+                    // margin-left: 14px;
+                  }
+                  .percentage{
+                    font-size: 12px;
+                    color: #D5A32A;
+                    // margin-left: 10px;
+                  }
                 }
               }
             }
