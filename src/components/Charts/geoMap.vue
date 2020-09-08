@@ -83,6 +83,7 @@ export default class extends mixins(ResizeMixin) {
     this.init()
     this.$nextTick(() => {
       this.$emit('sendAddress',this.selectedAddress)
+      document.getElementsByTagName('title')[0].innerHTML = AppModule.currentTitle + '-智慧信用云平台'
       AppModule.setCurrentTitle((this as any).selectedAddress)
       // this.initChart()
     })
@@ -105,6 +106,11 @@ export default class extends mixins(ResizeMixin) {
           (EAreaModule as any).SET_LOADING(true)
           _this.mapGet(`${_this.selectedPT[_this.selectedPT.length-1]}`,MapModule.currentMap, _this.chart);
         })
+        if(_this.isEara){
+          EAreaModule.getEnterpriseDistribution(UserModule.govInfoQydm).then((res: any)=>{
+          _this.mapGet(`${_this.selectedPT[_this.selectedPT.length-1]}`,MapModule.currentMap,_this.chart);
+          })
+        }
       })
     }else{
       EAreaModule.getEnterpriseDistribution(qydm).then(res=>{

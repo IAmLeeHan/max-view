@@ -19,7 +19,7 @@ export default Vue.extend({
     },
     mounted(){
         // // this.govModNext = 1
-        console.log(this.govModNext,this.govModNextSleep)
+        // console.log(this.govModNext,this.govModNextSleep)
         // _this.$nextTick(()=>{
             
         // })

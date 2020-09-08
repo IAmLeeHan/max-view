@@ -66,6 +66,7 @@
       </div>-->
         <moduleItem
           ref="son"
+          v-if="KeyEnterprises.length>0"
           class="distributionOfKeyEnterprises"
           :sub-title="KeyEnterprises"
           :gov-mod-next="nextA5"
@@ -73,6 +74,7 @@
           :title="title5"
           flex-start
           @changeCH="changeA5Active"
+          :showSwiper="false"
         >
           <div slot="echarts">
             <div class="TableBox">
@@ -121,7 +123,10 @@
                 </tr>
               </table>
             </div>
-            <div class="getMore" v-if="allTableData > 6">
+            <div
+              v-if="allTableData > 6"
+              class="getMore"
+            >
               <p>
                 <span @click="showMore(currentId)">查看更多</span>
                 <i class="el-icon-arrow-right"></i>

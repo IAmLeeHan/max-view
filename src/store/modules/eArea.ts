@@ -71,7 +71,7 @@ class EArea extends VuexModule implements IeAreaState {
   }
 
   @Action
-  private SetLoading(data:boolean){
+  private SetLoading(data: boolean){
     this.SET_LOADING(data)
   }
 

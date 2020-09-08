@@ -340,7 +340,8 @@ export default Vue.extend({
     checkMore(){
       let val = {
         type:this.type,
-        labelList:this.labelList
+        labelList:this.labelList,
+        labelId:this.labelIndex
       }
       this.$emit("checkMore",val)
     },

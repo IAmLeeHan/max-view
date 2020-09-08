@@ -137,12 +137,16 @@ export default Vue.extend({
     labelList:{
       type:Array,
       default:[] as any
+    },
+    labelId:{
+      type:String,
+      default:""
     }
   },
   data() {
     return {
       
-      labelIndex:0,
+      labelIndex:"",
       rankList:[],
       current:1,
       total:0
@@ -150,7 +154,13 @@ export default Vue.extend({
   },
   created(){
     if(this.type === "middleBottom"){
-      this.labelIndex = this.labelList[0].id
+      if(this.labelId!=''){
+        this.labelIndex = this.labelId
+      }else{
+        if(this.labelList.length){
+          this.labelIndex = this.labelList[0].id
+        }
+      }
     }
     //获取数据
     this.getEnterprise()

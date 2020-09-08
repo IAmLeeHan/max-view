@@ -5,7 +5,7 @@
       <div class="title">
         <p class="leftBK"></p>
         <p class="middleBK">
-          <span>{{topTitle}}</span>
+          <span>{{ topTitle }}</span>
         </p>
         <p class="rightBK"></p>
       </div>
@@ -47,7 +47,7 @@
       <div class="title">
         <p class="leftBK"></p>
         <p class="middleBK">
-          <span>{{bottomTitle}}</span>
+          <span>{{ bottomTitle }}</span>
         </p>
         <p class="rightBK">
         </p>
@@ -271,7 +271,7 @@ export default Vue.extend({
           display:flex;
           color:#fff;
           align-items: center;
-          font-size: 12px;
+          font-size: 13px;
           margin-top:2px;
           .name{
             width:180px;

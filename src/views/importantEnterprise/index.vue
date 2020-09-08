@@ -105,6 +105,7 @@
         :type="type"
         :label-list="labelList"
         :area-code="selectedArea.selectedValue"
+        :labelId="labelIndex"
         @closeDialog="closeDialog"
       ></checkMoreDialog>
       <!-- 地区切换 -->
@@ -141,6 +142,7 @@ import {getAreaCode} from "@/api/advantageIndustry"
 import {getEnterpriseLeftData,getEnterpriseMiddleData,getEnterpriseRightData} from "@/api/importantEnterprise"
 import getModName from '@/utils/getModName'
 import { formData } from '@/utils/index'
+import { AppModule } from '@/store/modules/app'
 import {
   getGovModNext,
   getGovModNextSleep,
@@ -191,7 +193,8 @@ export default Vue.extend({
         selectedLabel:"",
         selectedValue:""
       },
-      labelList:[]
+      labelList:[],
+      labelIndex:""
     }
   },
   computed:{
@@ -234,6 +237,7 @@ export default Vue.extend({
       this.type = val.type
       this.showDialog = true
       this.labelList = val.labelList
+      this.labelIndex = val.labelId
     },
     //关闭弹窗
     closeDialog(){
@@ -253,6 +257,7 @@ export default Vue.extend({
         this.selectedArea.selectedLabel = el.getCheckedNodes()[0].label
         this.selectedArea.selectedValue = el.getCheckedNodes()[0].value
       }
+      AppModule.setCurrentTitle((this as any).selectedArea.selectedLabel)
     },
     //获取区域层级
     getareaMap(){

@@ -94,6 +94,7 @@ import {
   getGovModNextSleep,
   getGovModSleep
 } from '@/utils/getsleep';
+import { AppModule } from '@/store/modules/app'
 export default Vue.extend({
   components:{
     industryItem,
@@ -155,6 +156,15 @@ export default Vue.extend({
     c3Title(){
       return getModName('c','c3')
     },
+    c1ModSleep(){
+      return getGovModSleep("c","c1")
+    },
+    c2ModSleep(){
+      return getGovModSleep("c","c2")
+    },
+    c3ModSleep(){
+      return getGovModSleep("c","c3")
+    }
   },
   created(){
     this.selectedArea.name = this.$store.state.user.govInfoName
@@ -204,6 +214,7 @@ export default Vue.extend({
       el.dropDownVisible = false;
       this.selectedArea.code = el.getCheckedNodes()[0].value
       this.selectedArea.name = el.getCheckedNodes()[0].label
+      AppModule.setCurrentTitle((this as any).selectedArea.name)
       this._showLabel()
     },
     //获取区域层级

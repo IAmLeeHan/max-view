@@ -142,7 +142,6 @@ export default class extends mixins(ResizeMixin) {
             tooltip:{
               trigger:"item",
               formatter:function(params: any){
-                console.log(params)
                 let res = "";
                 res = "<span style='color:#fff;'>" + params.data.name + "</span><br/>" + params.data.value[2]+params.data.unitName;
                 return res

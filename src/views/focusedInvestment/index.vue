@@ -39,8 +39,8 @@
       <rightItem
         class="rightItem"
         :type="'rightItem'"
-        :topTitle="e4Title"
-        :bottomTitle="e5Title"
+        :top-title="e4Title"
+        :bottom-title="e5Title"
         :area-code="selectedArea.code"
         @checkMore="checkMore"
       ></rightItem>
@@ -48,6 +48,7 @@
         v-if="showDialog"
         :type="type"
         :label-list="labelInfo.labelList"
+        :labelId="labelInfo.labelId"
         :area-code="selectedArea.code"
         @closeDialog="closeDialog"
       ></checkMoreDialog>
@@ -85,7 +86,7 @@ import middleBottom from "./components/middleBottom.vue"
 import {getAreaCode} from "@/api/advantageIndustry"
 import {getE1} from "@/api/focusedInvestment"
 import getModName from '@/utils/getModName'
-
+import { AppModule } from '@/store/modules/app'
 import {
   getGovModNext,
   getGovModNextSleep,
@@ -158,6 +159,7 @@ export default Vue.extend({
     this.selectedArea.name = this.$store.state.user.govInfoName
     this.selectedArea.code = this.$store.state.user.govInfoQydm
     this.selectedArea.selected = this.$store.state.user.govInfoName
+    AppModule.setCurrentTitle(this.selectedArea.name)
     this.getareaMap()
     //获取区域外来资本流动图
     this.getEchartData()
@@ -179,6 +181,7 @@ export default Vue.extend({
       this.selectedArea.code = el.getCheckedNodes()[0].value
       this.selectedArea.name = el.getCheckedNodes()[0].label
       this.getEchartData()
+      AppModule.setCurrentTitle((this as any).selectedArea.name)
     },
     //获取区域层级
     getareaMap(){

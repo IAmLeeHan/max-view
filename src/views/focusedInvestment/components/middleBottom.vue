@@ -145,7 +145,8 @@ export default Vue.extend({
     checkMore(){
       let val = {
         type:this.type,
-        labelList:this.labelList
+        labelList:this.labelList,
+        labelId:this.active
       }
       this.$emit("checkMore",val)
     },
@@ -181,7 +182,6 @@ export default Vue.extend({
             if(arr.length){
               this.active = arr[0].id
             }
-            console.log(this.labelList)
             //获取对外投资活跃企业数据
             this.getEnterpriseData(this.active)
             //启动轮询
@@ -337,7 +337,7 @@ export default Vue.extend({
           background:rgba(114,255,250,0.08);
           display:flex;
           color:#fff;
-          font-size: 12px;
+          font-size: 13px;
           line-height:35px;
           margin-top:2px;
           .index{

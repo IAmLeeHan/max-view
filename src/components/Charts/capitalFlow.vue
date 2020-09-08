@@ -213,7 +213,7 @@ export default class extends mixins(ResizeMixin) {
                   color: '#fff',
                   show: false,
                   formatter: function(params: any) { 
-                    console.log(params)
+                    //(params)
                     //圆环显示文字
                     return params.data.name;
                   },
