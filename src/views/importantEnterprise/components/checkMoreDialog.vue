@@ -55,10 +55,16 @@
         >
           <div class="rankContent">
             <div>全国排名</div>
-            <div v-show="flag!==0" class="rank">
+            <div
+              v-show="flag!==0"
+              class="rank"
+            >
               省排名
             </div>
-            <div v-show="flag===2&&!Municipality" class="rank">
+            <div
+              v-show="flag===2&&!Municipality"
+              class="rank"
+            >
               市排名
             </div>
           </div>

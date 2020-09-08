@@ -9,7 +9,7 @@
           :title="title1"
           class="industryDistribution"
           :sub-title="DateList"
-          govKey="b1Key"
+          gov-key="b1Key"
           :gov-mod-next="nextB1"
           :gov-mod-next-sleep="sleepB1"
           @changeCH="changeB1Active"
@@ -31,7 +31,7 @@
           :title="title2"
           class="operatingStatusDistribution"
           :sub-title="DateList"
-          govKey="b2Key"
+          gov-key="b2Key"
           :gov-mod-next="nextB2"
           :gov-mod-next-sleep="sleepB2"
           @changeCH="changeB2Active"
@@ -53,7 +53,7 @@
           :title="title3"
           class="registeredCapitalDistribution"
           :sub-title="newEnterprise"
-          govKey="b3Key"
+          gov-key="b3Key"
           :gov-mod-next="nextB3"
           :gov-mod-next-sleep="sleepB3"
           @changeCH="changeB3Active"
@@ -91,13 +91,13 @@
           ref="son"
           class="distributionOfKeyEnterprises"
           :sub-title="KeyEnterprises"
-          govKey="b4Key"
+          gov-key="b4Key"
           :gov-mod-next="nextB4"
           :gov-mod-next-sleep="sleepB4"
           :title="title4"
           flex-start
+          :show-swiper="false"
           @changeCH="changeB4Active"
-          :showSwiper="false"
         >
           <div
             slot="echarts"
@@ -112,7 +112,7 @@
                   height="100%"
                   :echarts-data="XZZDRecharts"
                   :unit="XZZDunit"
-                  :showUnit="showXZZDUnit"
+                  :show-unit="showXZZDUnit"
                   :interval="true"
                   bar-color-top="#8DE8C7"
                   bar-color-bottom="#1FA879"
@@ -161,7 +161,7 @@
           :title="title5"
           class="businessNatureType"
           :sub-title="revocationOfEnterprise"
-          govKey="b5Key"
+          gov-key="b5Key"
           :gov-mod-next="nextB5"
           :gov-mod-next-sleep="sleepB5"
           @changeCH="changeB5Active"
@@ -215,7 +215,7 @@
           :title="title6"
           class="enterpriseSize"
           :sub-title="QYZBList"
-          govKey="b6Key"
+          gov-key="b6Key"
           :gov-mod-next="nextB6"
           :gov-mod-next-sleep="sleepB6"
           @changeCH="changeQYZBView"
@@ -841,7 +841,7 @@ export default Vue.extend({
             }
           }
           if(sessionStorage.getItem('b1Key')){
-            let obj:any = JSON.parse((sessionStorage as any).getItem('b1Key'))
+            let obj: any = JSON.parse((sessionStorage as any).getItem('b1Key'))
             _this.$refs.modB1.changeActive(obj.index,obj.value)
           }else{
             _this.$refs.modB1.changeActive(0,1)
@@ -863,7 +863,7 @@ export default Vue.extend({
             }
           }
           if(sessionStorage.getItem('b2Key')){
-            let obj:any = JSON.parse((sessionStorage as any).getItem('b2Key'))
+            let obj: any = JSON.parse((sessionStorage as any).getItem('b2Key'))
             _this.$refs.modB2.changeActive(obj.index,obj.value)
           }else{
             _this.$refs.modB2.changeActive(0,1)
@@ -885,7 +885,7 @@ export default Vue.extend({
             }
           }
           if(sessionStorage.getItem('b3Key')){
-            let obj:any = JSON.parse((sessionStorage as any).getItem('b3Key'))
+            let obj: any = JSON.parse((sessionStorage as any).getItem('b3Key'))
             _this.$refs.modB3.changeActive(obj.index,obj.value)
           }else{
             _this.$refs.modB3.changeActive(0,1)
@@ -897,7 +897,7 @@ export default Vue.extend({
       if(time4>0){
         _this.timerB4 = window.setInterval(()=>{
           if(sessionStorage.getItem('b4Key')){
-            let obj:any = JSON.parse((sessionStorage as any).getItem('b4Key'))
+            let obj: any = JSON.parse((sessionStorage as any).getItem('b4Key'))
             _this.$refs.son.changeActive(obj.index,obj.value)
           }else{
             _this.$refs.son.changeActive(0,1)
@@ -921,7 +921,7 @@ export default Vue.extend({
             }
           }
           if(sessionStorage.getItem('b5Key')){
-            let obj:any = JSON.parse((sessionStorage as any).getItem('b5Key'))
+            let obj: any = JSON.parse((sessionStorage as any).getItem('b5Key'))
             _this.$refs.modB5.changeActive(obj.index,obj.value)
           }else{
             _this.$refs.modB5.changeActive(0,1)
@@ -952,7 +952,7 @@ export default Vue.extend({
           _this.LDQYTableData2 = data.slice(index,data.length)
           _this.LDQYAllData = res.data.flowArea
           if(sessionStorage.getItem('b6Key')){
-            let obj:any = JSON.parse((sessionStorage as any).getItem('b6Key'))
+            let obj: any = JSON.parse((sessionStorage as any).getItem('b6Key'))
             _this.$refs.modB6.changeActive(obj.index,obj.value)
           }else{
             _this.$refs.modB6.changeActive(0,1)
@@ -973,7 +973,7 @@ export default Vue.extend({
             }
           }
           if(sessionStorage.getItem('b7Key')){
-            let obj:any = JSON.parse((sessionStorage as any).getItem('b7Key'))
+            let obj: any = JSON.parse((sessionStorage as any).getItem('b7Key'))
             _this.$refs.modB7.changeActive(obj.index,obj.value)
           }else{
             _this.$refs.modB7.changeActive(0,1)

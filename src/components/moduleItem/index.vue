@@ -21,7 +21,7 @@
           {{ item.name }}
         </li>
       </ul>
-       <swiper
+      <swiper
         v-else
         id="#swiper-container"
         ref="mySwiper"
@@ -85,16 +85,6 @@ export default Vue.extend({
       default:''
     }
   },
-  watch:{
-    a(n,o){
-      let _this = this as any
-      let item = _this.subTitle.filter((item:any,i:number)=>{
-        return i === n
-      })
-      let id = item[0].value
-      _this.changeActive(_this.a,id)
-    }
-  },
   data() {
     const that = this as any
     return {
@@ -106,11 +96,21 @@ export default Vue.extend({
         slidesPerView: 'auto',
         resistanceRatio:0.7,
         on:{
-          click:function(swiper:any){
+          click:function(swiper: any){
             that.a = (this as any).clickedIndex
           }
         },
       }
+    }
+  },
+  watch:{
+    a(n,o){
+      let _this = this as any
+      let item = _this.subTitle.filter((item: any,i: number)=>{
+        return i === n
+      })
+      let id = item[0].value
+      _this.changeActive(_this.a,id)
     }
   },
   methods: {

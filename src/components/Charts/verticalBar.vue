@@ -29,7 +29,7 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: 40}) private rotate!: number
   @Prop({ default: '#0AA2E4'}) private barColorTop!: string
   @Prop({ default: '#0290FF'}) private barColorBottom!: string
-  @Prop({ default:false }) private interval!:boolean
+  @Prop({ default:false }) private interval!: boolean
 
   private barWidth = 12
 

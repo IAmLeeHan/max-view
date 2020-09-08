@@ -105,7 +105,7 @@
         :type="type"
         :label-list="labelList"
         :area-code="selectedArea.selectedValue"
-        :labelId="labelIndex"
+        :label-id="labelIndex"
         @closeDialog="closeDialog"
       ></checkMoreDialog>
       <!-- 地区切换 -->
@@ -119,10 +119,12 @@
           :show-all-levels="false"
           @change="handleChange"
         ></el-cascader>
-        <div class="rightArrow" @click="showList">
+        <div
+          class="rightArrow"
+          @click="showList"
+        >
           <i
             class="el-icon-arrow-right"
-            
           ></i>
         </div>
       </div>

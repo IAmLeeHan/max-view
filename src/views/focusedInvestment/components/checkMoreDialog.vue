@@ -32,9 +32,11 @@
           class="rankMiddleBox rankBox"
         >
           <div class="rankContent">
-            <div >法定代表人</div>
+            <div>法定代表人</div>
             <div>成立时间</div>
-            <div class="zczbLabel">注册资本</div>
+            <div class="zczbLabel">
+              注册资本
+            </div>
           </div>
           <div
             v-for="(item,index) in rankList"

@@ -9,8 +9,8 @@
           class="industryDistribution"
           :gov-mod-next="nextA2"
           :gov-mod-next-sleep="sleepA2"
+          gov-key="a2Key"
           @changeCH="changeActive"
-          govKey="a2Key"
         >
           <pieChart
             v-if="CHshow"
@@ -66,17 +66,17 @@
         </div>
       </div>-->
         <moduleItem
-          ref="son"
           v-if="KeyEnterprises.length>0"
+          ref="son"
           class="distributionOfKeyEnterprises"
           :sub-title="KeyEnterprises"
           :gov-mod-next="nextA5"
           :gov-mod-next-sleep="sleepA5"
           :title="title5"
           flex-start
+          :show-swiper="false"
+          gov-key="a5Key"
           @changeCH="changeA5Active"
-          :showSwiper="false"
-          govKey="a5Key"
         >
           <div slot="echarts">
             <div class="TableBox">
@@ -506,15 +506,15 @@ export default Vue.extend({
               _this.CHData = res.data
               _this.CHChartData = res.data.cyfb
             }
+            if(sessionStorage.getItem('a2Key')){
+              let obj: any = JSON.parse((sessionStorage as any).getItem('a2Key'))
+              _this.$refs.modA2.changeActive(obj.index,obj.value)
+            }else{
+              _this.$refs.modA2.changeActive(0,1)
+            }
           }).catch((error: any)=>{
             _this.CHshow = true;
           })
-          if(sessionStorage.getItem('a2Key')){
-            let obj:any = JSON.parse((sessionStorage as any).getItem('a2Key'))
-            _this.$refs.modA2.changeActive(obj.index,obj.value)
-          }else{
-            _this.$refs.modA2.changeActive(0,1)
-          }
         },time2)
       }
       let time3 = getGovModSleep('a','a3') * 1000
@@ -552,10 +552,10 @@ export default Vue.extend({
       if(time5>0){
         _this.timerA5 = window.setInterval(()=>{
           if(sessionStorage.getItem('a5Key')){
-            let obj:any = JSON.parse((sessionStorage as any).getItem('a5Key'))
-            _this.$refs.modA5.changeActive(obj.index,obj.value)
+            let obj: any = JSON.parse((sessionStorage as any).getItem('a5Key'))
+            _this.$refs.son.changeActive(obj.index,obj.value)
           }else{
-            _this.$refs.modA5.changeActive(0,1)
+            _this.$refs.son.changeActive(0,1)
           }
         },time5)
       }

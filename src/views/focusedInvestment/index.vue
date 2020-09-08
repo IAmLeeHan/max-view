@@ -48,7 +48,7 @@
         v-if="showDialog"
         :type="type"
         :label-list="labelInfo.labelList"
-        :labelId="labelInfo.labelId"
+        :label-id="labelInfo.labelId"
         :area-code="selectedArea.code"
         @closeDialog="closeDialog"
       ></checkMoreDialog>
@@ -63,10 +63,12 @@
           :show-all-levels="false"
           @change="handleChange"
         ></el-cascader>
-        <div class="rightArrow" @click="showList">
+        <div
+          class="rightArrow"
+          @click="showList"
+        >
           <i
             class="el-icon-arrow-right"
-            
           ></i>
         </div>
       </div>
