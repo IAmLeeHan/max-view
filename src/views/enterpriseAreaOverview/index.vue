@@ -98,7 +98,7 @@
                   </td>
                 </tr>
               </table>
-              <table>
+              <table v-if="allTableData>3">
                 <tr
                   v-for="(t,i) in ZDQYTableData2"
                   :key="i"
@@ -121,7 +121,7 @@
                 </tr>
               </table>
             </div>
-            <div class="getMore" v-if="ZDQYTableData1.length+ZDQYTableData2.length > 6">
+            <div class="getMore" v-if="allTableData > 6">
               <p>
                 <span @click="showMore(currentId)">查看更多</span>
                 <i class="el-icon-arrow-right"></i>
@@ -314,6 +314,7 @@ export default Vue.extend({
       timerA7:null,
       timerA8:null,
       KeyEnterprises:[],
+      allTableData:0,
       ZDQYTableData1:[],
       ZDQYTableData2:[],
       popListData:[],
@@ -632,8 +633,13 @@ export default Vue.extend({
         if(res.code === '200' && res.data && res.data.length>0){
           let data = res.data
           let index = data.length / 2
-          _this.ZDQYTableData1 = data.slice(0,index)
-          _this.ZDQYTableData2 = data.slice(index,data.length)
+          _this.allTableData = res.count
+          if(data.length>3){
+            _this.ZDQYTableData1 = data.slice(0,index)
+            _this.ZDQYTableData2 = data.slice(index,data.length)
+          }else{
+            _this.ZDQYTableData1 = data
+          }
         }else{
           let hasDataTag = _this.KeyEnterprises.filter((item: any)=>{
             return !item.disabled
@@ -786,7 +792,8 @@ export default Vue.extend({
           // position: absolute;
           justify-content: space-between;
           table{
-            width: 50%;
+            // width: 50%;
+            flex: 1;
             border: 0;
             border-collapse: collapse;
             tr{
