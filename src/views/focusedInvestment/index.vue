@@ -63,10 +63,10 @@
           :show-all-levels="false"
           @change="handleChange"
         ></el-cascader>
-        <div class="rightArrow">
+        <div class="rightArrow" @click="showList">
           <i
             class="el-icon-arrow-right"
-            @click="showList"
+            
           ></i>
         </div>
       </div>
@@ -159,7 +159,9 @@ export default Vue.extend({
     this.selectedArea.name = this.$store.state.user.govInfoName
     this.selectedArea.code = this.$store.state.user.govInfoQydm
     this.selectedArea.selected = this.$store.state.user.govInfoName
-    AppModule.setCurrentTitle(this.selectedArea.name)
+    this.$nextTick(()=>{
+        document.getElementsByTagName('title')[0].innerHTML = this.selectedArea.name + '-智慧信用云平台'
+    })
     this.getareaMap()
     //获取区域外来资本流动图
     this.getEchartData()
@@ -244,6 +246,8 @@ export default Vue.extend({
   .leftItem{
       width:450px;
       height:100%;
+      min-height:960px;
+      margin-bottom:10px;
   }
   .middleBox{
     display:flex;
@@ -255,15 +259,19 @@ export default Vue.extend({
   .capitalFlowBox{
     width:930px;
     height:54%;
+    min-height:520px;
   }
   .activeEnterprise{
     width:930px;
     height:46%;
     margin-top:20px;
+    min-height:420px;
   }
   .rightItem{
     width:450px;
     height:100%;
+    min-height:960px;
+    margin-bottom:10px;
   }
   .search_box{
     position: absolute;

@@ -107,6 +107,7 @@
                   height="100%"
                   :echarts-data="XZZDRecharts"
                   :unit="XZZDunit"
+                  :showUnit="showXZZDUnit"
                   bar-color-top="#8DE8C7"
                   bar-color-bottom="#1FA879"
                 ></verticalBar>
@@ -498,6 +499,7 @@ export default Vue.extend({
       ZDXData:[],
       ZDXEchartsData: [],
       ZDXShowUnit:true,
+      showXZZDUnit:true,
       ZDXActive:0,
       ZDXWrap:false,
       ZDXrotate:40,
@@ -718,21 +720,17 @@ export default Vue.extend({
               }
             }
           })
-          if(res.data.length<=0){
-            _this.KeyEnterprises = _this.$getTags('b','b4')
-            _this.KeyEnterprises.map((item: any)=>{
-              item.disabled = true
-            })
-          }else{
-            _this.KeyEnterprises = data || []
-          }
+          _this.KeyEnterprises = data || []
           let hasDataTag = _this.KeyEnterprises.filter((item: any)=>{
             return !item.disabled
           })
           let urlB4 = _this.$getModUrl('b','b4')
           let id
           if(res.data.length<=0){
-            id = (_this.KeyEnterprises[0].value) * 1
+            _this.XZZDechartsShow = true
+            _this.XZZDListShow = true
+            _this.showXZZDUnit = false
+            return false
           }else{
             id = (hasDataTag[0].value) * 1
           }

@@ -255,8 +255,8 @@ export default Vue.extend({
         text-align: center;
       }
       .moneyLabel2{
-        width:130px;
-        text-align: center;
+        width:150px;
+        text-align: right;
       }
       .numLabel{
         width:80px;
@@ -271,7 +271,7 @@ export default Vue.extend({
           display:flex;
           color:#fff;
           align-items: center;
-          font-size: 13px;
+          font-size: 12px;
           margin-top:2px;
           .name{
             width:180px;
@@ -292,8 +292,8 @@ export default Vue.extend({
             text-align: center;
           }
           .num2{
-            width:130px;
-            text-align: center;
+            width:150px;
+            text-align: right;
           }
           .per{
             width:80px;
@@ -308,6 +308,15 @@ export default Vue.extend({
       }
       .top3{
         background: url("../../../assets/images/03.png")no-repeat, rgba(114,255,250,0.08);
+      }
+    }
+    .money{
+      .rankBox{
+        .rankItem{
+          .num2{
+
+          }
+        }
       }
     }
   }

@@ -170,7 +170,9 @@ export default Vue.extend({
     this.selectedArea.name = this.$store.state.user.govInfoName
     this.selectedArea.code = this.$store.state.user.govInfoQydm
     this.selectedArea.selected = this.$store.state.user.govInfoName
-    
+    this.$nextTick(()=>{
+        document.getElementsByTagName('title')[0].innerHTML = this.selectedArea.name + '-智慧信用云平台'
+    })
     //判断显示label
     this._showLabel()
     this.getareaMap()
@@ -309,12 +311,6 @@ export default Vue.extend({
       })
 
     },
-    //获取左侧数据
-    // _getLeftData(): void{
-    //   getAdvantageLeftData(formData({qydm:"111",label:"222"})).then(res=>{
-         
-    //   })
-    // },
     //处理标签方法
     operateLabel(val: any){
         let arr = val.split(";")
@@ -350,6 +346,7 @@ export default Vue.extend({
       height:100%;
       min-height:960px;
       overflow: hidden;
+      margin-bottom:10px;
   }
   .search_box{
     position: absolute;

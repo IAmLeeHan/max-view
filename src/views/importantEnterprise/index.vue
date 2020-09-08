@@ -119,10 +119,10 @@
           :show-all-levels="false"
           @change="handleChange"
         ></el-cascader>
-        <div class="rightArrow">
+        <div class="rightArrow" @click="showList">
           <i
             class="el-icon-arrow-right"
-            @click="showList"
+            
           ></i>
         </div>
       </div>
@@ -216,6 +216,9 @@ export default Vue.extend({
     sleepD3(){
       return getGovModNextSleep('d','d3')
     },
+    modSleep(){
+      return getGovModNextSleep('d','d3')
+    },
     d1Title(){
       return getModName('d','d1')
     },
@@ -229,6 +232,9 @@ export default Vue.extend({
   created(){
     this.selectedArea.selectedLabel = this.$store.state.user.govInfoName
     this.selectedArea.selectedValue = this.$store.state.user.govInfoQydm
+    this.$nextTick(()=>{
+        document.getElementsByTagName('title')[0].innerHTML = this.selectedArea.selectedLabel + '-智慧信用云平台'
+    })
     this.getareaMap()
   },
   methods:{
@@ -394,6 +400,7 @@ export default Vue.extend({
       height:100%;
       min-height:960px;
       overflow: hidden;
+      margin-bottom:10px;
   }
   .search_box{
     position: absolute;

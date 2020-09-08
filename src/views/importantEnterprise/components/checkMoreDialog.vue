@@ -55,10 +55,10 @@
         >
           <div class="rankContent">
             <div>全国排名</div>
-            <div v-show="flag!==0">
+            <div v-show="flag!==0" class="rank">
               省排名
             </div>
-            <div v-show="flag===2&&!Municipality">
+            <div v-show="flag===2&&!Municipality" class="rank">
               市排名
             </div>
           </div>
@@ -441,7 +441,9 @@ export default Vue.extend({
                   .per{
                     width:25px;
                   }
-                  
+                  .leftNum{
+                    width:150px;
+                  }
                   .leftContent{
                     width:770px;
                   }     
@@ -461,17 +463,28 @@ export default Vue.extend({
                     width:100px;
                     text-align: center;
                   }
+                  .rank{
+                    width:70px;
+                  }
                 }
                 .rankItem{
                   .rank{
                     width:100px;
                     text-align: center;
                   }
+                  .cityRank{
+                    width:70px;
+                  }
+                  .provinceRank{
+                    width:70px;
+                  }
                   .content{
                     width:400px;
                   }
                   .num{
-                    width:134px;
+                    width:194px;
+                    // background:red;
+                    text-align: center;
                   }
                 }
                 
@@ -509,11 +522,12 @@ export default Vue.extend({
                   margin-left:10px;
                 } 
                 .rightContent{
-                  width:585px!important;
+                  width:505px!important;
                 }
                 .num{
-                  width:100px;
+                  width:180px;
                 }
+                
               }
               .pageBox{
                 width:884px;

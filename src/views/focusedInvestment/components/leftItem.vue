@@ -359,7 +359,7 @@ export default Vue.extend({
           display:flex;
           align-items: center;
           color:#fff;
-          font-size: 13px;
+          font-size: 12px;
           // line-height:2%;
           margin-top:2px;
           .index{

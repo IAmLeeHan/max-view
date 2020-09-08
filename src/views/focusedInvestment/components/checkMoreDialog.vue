@@ -32,9 +32,9 @@
           class="rankMiddleBox rankBox"
         >
           <div class="rankContent">
-            <div>法定代表人</div>
+            <div >法定代表人</div>
             <div>成立时间</div>
-            <div>注册资本</div>
+            <div class="zczbLabel">注册资本</div>
           </div>
           <div
             v-for="(item,index) in rankList"
@@ -254,11 +254,13 @@ export default Vue.extend({
                 margin-left:30px;
                 height:20px;
                 margin-top:20px;
+                width:73%;
+                display:flex;
+                justify-content: space-around;
                 .labelItem{
                   display:inline-block;
                   font-size: 14px;
                   color:#fff;
-                  margin-right:20px;
                   cursor: pointer;
                   height:100%;
                   &:hover{
@@ -356,14 +358,20 @@ export default Vue.extend({
                     width:120px;
                     text-align: center;
                   }
+                  .zczbLabel{
+                    width:150px;
+                  }
                 }
                 .rankItem{
                   .rank{
                     width:120px;
                     text-align: center;
                   }
+                  .zczb{
+                    width:150px;
+                  }
                   .name{
-                    width:460px;
+                    width:430px;
                   }
                 }
                 

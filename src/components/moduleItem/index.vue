@@ -9,7 +9,7 @@
         <p class="rightBK"></p>
       </div>
       <ul
-        v-if="subTitle.length>0"
+        v-if="subTitle.length>0&&showSwiper"
         :class="[{margin: subTitle.length<=3},{flexStart: flexStart}]"  
       >
         <li 
@@ -21,6 +21,21 @@
           {{ item.name }}
         </li>
       </ul>
+       <swiper
+        v-else
+        id="#swiper-container"
+        ref="mySwiper"
+        :options="swiperOption"
+        :class="['swiperBox',{margin: subTitle.length<=3},{flexStart: flexStart}]"
+      >
+        <swiper-slide 
+          v-for="(item,index) in subTitle" 
+          :key="index"
+          :class="['swiper_slide',{active: active === index},{disabled: item.disabled}]"
+        >
+          {{ item.name }}
+        </swiper-slide>
+      </swiper>
     </div>
     <div class="DateBox">
       <slot name="Date"></slot>
@@ -38,7 +53,13 @@
 <script lang="ts">
 import Vue from "vue";
 import mixins from './mixins/index.vue';
+import 'swiper/dist/css/swiper.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default Vue.extend({
+  components:{
+    swiper,
+    swiperSlide
+  },
   mixins:[mixins],
   props:{
     title:{
@@ -54,11 +75,38 @@ export default Vue.extend({
     flexStart:{
       type:Boolean,
       default:false
+    },
+    showSwiper:{
+      type:Boolean,
+      default:true
+    }
+  },
+  watch:{
+    a(n,o){
+      let _this = this as any
+      let item = _this.subTitle.filter((item:any,i:number)=>{
+        return i === n
+      })
+      let id = item[0].value
+      _this.changeActive(_this.a,id)
     }
   },
   data() {
+    const that = this as any
     return {
+      a:0,
       active:0,
+      swiperOption: {
+        freeMode: true,
+        freeModeMomentumRatio: 0.5,
+        slidesPerView: 'auto',
+        resistanceRatio:0.7,
+        on:{
+          click:function(swiper:any){
+            that.a = (this as any).clickedIndex
+          }
+        },
+      }
     }
   },
   methods: {
@@ -112,6 +160,7 @@ export default Vue.extend({
         background-size: 100% 70%;
       }
     }
+
     ul{
       display: flex;
       flex: 1;
@@ -136,6 +185,30 @@ export default Vue.extend({
         }
       }
       li{
+        margin-left: 20px;
+        font-size: 14px;
+        color: #fff;
+        padding-bottom: 6px;
+        &:hover{
+          cursor: pointer;
+          color: #43F6FF;
+        }
+        &.active{
+          color: #43F6FF;
+          border-bottom:1px solid #43F6FF;
+        }
+        &.disabled{
+          color: #fff;
+          pointer-events: none;
+          cursor: pointer;
+          opacity: 0.6;
+        }
+      }
+    }
+    .swiperBox{
+      flex: 1;
+      .swiper_slide{
+        width: auto!important;
         margin-left: 20px;
         font-size: 14px;
         color: #fff;

@@ -3,7 +3,7 @@
     <div class="legendBox">
       <div class="fl r_box_ul">
         <div
-          v-for="(item,index) in legendList"
+          v-for="(item,index) in echartData"
           :key="index"
           class="areaItem"
         >
@@ -150,7 +150,7 @@ export default class extends mixins(ResizeMixin) {
             geo: {
                 // map: '青岛市',
                 map:(_this as any).areaInfo.parentName,
-                zoom:1,
+                zoom:0.9,
                 label: {
                     show: false,
                     emphasis: {
@@ -168,7 +168,8 @@ export default class extends mixins(ResizeMixin) {
                         color: 'rgba(37, 43, 61, .5)' //悬浮背景
                     }
                 },
-                left:'left'
+                left:'left',
+                top:"center"
             },
             series: series
         };

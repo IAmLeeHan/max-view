@@ -314,11 +314,11 @@ export default Vue.extend({
         
       }
       .nameLabel{
-        width:480px;
+        width:450px;
         margin-left:20px;
       }
       .capitalLabel{
-        width:110px;
+        width:140px;
         text-align: center;
       }
       .timeLable{
@@ -337,7 +337,7 @@ export default Vue.extend({
           background:rgba(114,255,250,0.08);
           display:flex;
           color:#fff;
-          font-size: 13px;
+          font-size: 12px;
           line-height:35px;
           margin-top:2px;
           .index{
@@ -351,11 +351,11 @@ export default Vue.extend({
             font-size: 22px;
           }
           .name{
-            width:480px;
+            width:450px;
             margin-left:20px;
           }
           .capital{
-            width:110px;
+            width:140px;
             text-align: center;
           }
           .time{

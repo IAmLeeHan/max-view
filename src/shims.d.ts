@@ -24,3 +24,5 @@ declare module 'vue2-dropzone'
 declare module 'vue-image-crop-upload'
 
 declare module 'vue-particles'
+
+declare module 'vue-awesome-swiper'

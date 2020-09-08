@@ -82,7 +82,7 @@
           <span v-if="flag!==0">省排名</span>
           <span v-else></span>
         </div>
-        <div class="rankLabel">
+        <div class="rankLabel countryLabel">
           全国排名
         </div>
       </div>
@@ -742,15 +742,18 @@ export default Vue.extend({
         width:170px;
       }
       .numLabel{
-        width:100px;
+        width:145px;
         margin-left:10px;
       }
       .rankLabel{
         font-size: 12px;
         color:#3DD3CF;
         // margin-bottom:5px;
-        width:70px;
+        width:60px;
         text-align: center;
+      }
+      .countryLabel{
+        width:75px;
       }
     }
     .rankItem{
@@ -759,11 +762,13 @@ export default Vue.extend({
       display: flex;
       align-items: center;
       .num{
-        width:100px;
+        width:145px;
         margin-left:10px;
+        text-align: center;
+        // background:yellow;
       }
       .rank{
-        width:70px;
+        width:60px;
         text-align: center;
       }
       .cityRank{
@@ -773,7 +778,7 @@ export default Vue.extend({
         // margin-left:5px;
       }
       .countryRank{
-        // margin-left:10px;
+        width:75px;
       }
       .content{
         width:170px;
@@ -786,7 +791,7 @@ export default Vue.extend({
     .rankContent{
       width:100%;
       height:16px;
-      margin:10px 0 5px 0;
+      margin:5px 0 5px 0;
       span{
         float:right;
         font-size: 12px;
