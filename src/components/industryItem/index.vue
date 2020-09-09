@@ -178,6 +178,9 @@ import {getAreaCode,getAdvantageLeftData,getAdvantageMiddleData,getAdvantageRigh
 import { formData } from '@/utils/index'
 import mixins from '@/components/polling/index.vue'
 import lottie from '@/components/lottie/index.vue';
+import getTagRule from '@/utils/getTagRule';
+import {getGovModSleep} from '@/utils/getsleep';
+
 export default Vue.extend({
   // components:{
   //   lottie
@@ -235,15 +238,10 @@ export default Vue.extend({
       default:'',
       type:String
     },
-    labelList:{
-      type:Array,
-      default:()=>{
-        return [] as any
-      }
-    }
   },
   data() {
     return {
+      labelList:[],
       that:this,
       hoverIndex:-1,
       active:0,
@@ -254,6 +252,10 @@ export default Vue.extend({
       loading:true,
       flag:0,//0:省，1市，2区,
       Municipality:false,//直辖市
+      c1ModTimer:null,
+      c2ModTimer:null,
+      c3ModTimer:null,
+      modSleep:0
     }
   },
   watch: {
@@ -265,28 +267,15 @@ export default Vue.extend({
       this.judgeArea()
       this.getData(this.labelIndex,this.labelName)
     },
-    labelList(){
-      let arr = this.labelList.filter((item: any)=>{
-        return item.hasValue
-      })
-      if(arr.length){
-        this.labelIndex = arr[0].id
-        this.labelName =arr[0].label
-        this.getData(arr[0].id,arr[0].label)
-      }
-    }
   },
   created(){
+    //页面刷新
+    this.getModSleep()
     let _this = this as any
-    // console.log(JSON.parse(_this.$store.state.user.indexList))
     //判断当前绑定的地区层级
     this.judgeArea()
-    //获取数据
-    // this.getData(this.labelIndex)
-    setTimeout(()=>{
-      //启动标签轮询
-      _this.pollingLabel()
-    },2000)
+    //获取标签数据
+    this.getLabelList(1)
   },
   methods: {
     hoverLeave(){
@@ -399,6 +388,204 @@ export default Vue.extend({
           this.Municipality = true
         }
       }
+    },
+    //获取标签
+    getLabelList(flag: any){
+      let leftLabel = [] as any
+      let rightLabel = [] as any
+      let middleLabel = [] as any
+      JSON.parse(this.$store.state.user.indexList).map((item: any)=>{
+        if(item.govIndexId === "c"){
+          if(this.type === 'pillarIndustry'){
+            item.modules.map((_item: any)=>{
+              if(_item.govModId === 'c1'){
+                if(_item.govModLabels){
+                  leftLabel = this.operateLabel(_item.govModLabels)
+                }
+              }
+            })
+          }
+          if(this.type === 'starIndustry'){
+            item.modules.map((_item: any)=>{
+              if(_item.govModId === 'c2'){
+                if(_item.govModLabels){
+                  middleLabel = this.operateLabel(_item.govModLabels)
+                }
+              }
+            })
+          }
+          if(this.type === 'potentialIndustry'){
+            item.modules.map((_item: any)=>{
+              if(_item.govModId === 'c3'){
+                if(_item.govModLabels){
+                  rightLabel = this.operateLabel(_item.govModLabels)
+                }
+              }
+            })
+          }
+        }
+      })
+      let _this = this as any
+      showLabel(formData({qydm:this.areaCode})).then((res: any)=>{
+        if(res.code === "200"){
+          if(this.type === "pillarIndustry"){
+            if(res.data.c1 && res.data.c1.length){
+              let ruleId = getTagRule("c","c1")
+              leftLabel.map((item: any)=>{
+                this.$set(item,'ruleId',ruleId)
+                res.data.c1.map((_item: any)=>{
+                  if(item.id == _item.label && _item.count>0){
+                    this.$set(item,'hasValue',true)
+                  }
+                })
+              })
+              this.labelList = leftLabel
+              let arr = [] as any
+              arr = this.labelList.filter((item: any)=>{
+                return item.hasValue
+              })
+              if(_this.govModNext || flag){
+                if(arr.length){
+                  this.labelIndex = arr[0].id
+                  this.labelName = arr[0].label
+                }
+              }
+              //开启标签轮询
+              _this.pollingLabel()
+              //获取数据
+              this.getData(this.labelIndex,this.labelName)
+            }
+          }
+          if(this.type === "starIndustry"){
+            if(res.data.c2 && res.data.c2.length){
+              let ruleId = getTagRule("c","c2")
+              middleLabel.map((item: any)=>{
+                this.$set(item,'ruleId',ruleId)
+                res.data.c2.map((_item: any)=>{
+                  if(item.id == _item.label && _item.count>0){
+                    this.$set(item,'hasValue',true)
+                  }
+                })
+              })
+              this.labelList = middleLabel
+              let arr = [] as any
+              arr = this.labelList.filter((item: any)=>{
+                return item.hasValue
+              })
+              if(_this.govModNext || flag){
+                if(arr.length){
+                  this.labelIndex = arr[0].id
+                  this.labelName = arr[0].label
+                }
+              }
+              //开启标签轮询
+              _this.pollingLabel()
+              //获取数据
+              this.getData(this.labelIndex,this.labelName)
+            }
+          }
+          if(this.type === "potentialIndustry"){
+            if(res.data.c3 && res.data.c3.length){
+              let ruleId = getTagRule("c","c3")
+              rightLabel.map((item: any)=>{
+                this.$set(item,'ruleId',ruleId)
+                res.data.c3.map((_item: any)=>{
+                  if(item.id == _item.label && _item.count>0){
+                    this.$set(item,'hasValue',true)
+                  }
+                })
+              })
+              this.labelList = rightLabel
+              let arr = [] as any
+              arr = this.labelList.filter((item: any)=>{
+                return item.hasValue
+              })
+              if(_this.govModNext || flag){
+                if(arr.length){
+                  this.labelIndex = arr[0].id
+                  this.labelName = arr[0].label
+                }
+              }
+              //开启标签轮询
+              _this.pollingLabel()
+              //获取数据
+              this.getData(this.labelIndex,this.labelName)
+            }
+          }
+        }
+      })
+      
+    },
+    //处理标签方法
+    operateLabel(val: any){
+        let arr = val.split(";")
+        let newArr = [] as any
+        arr.map((item: any)=>{
+          let val = {
+            label:item.split(":")[0],
+            id:item.split(":")[1]
+          }
+          newArr.push(val)
+        })
+        return newArr
+    },
+    //获取模块刷新时间
+    getModSleep(){
+      let _this = this as any
+      if(this.type==="pillarIndustry"){
+        this.modSleep = getGovModSleep("c","c1")
+        if(this.modSleep){
+          _this.c1ModTimer = setInterval(() => {
+            setTimeout(()=>{
+              window.clearInterval(_this.timer)
+              _this.timer = null
+              _this.loop = 0
+              _this.getLabelList(0)
+            }, 0)
+          }, this.modSleep*1000)
+        }
+      }
+      if(this.type==="starIndustry"){
+        this.modSleep = getGovModSleep("c","c2")
+        if(this.modSleep){
+          _this.c2ModTimer = setInterval(() => {
+            setTimeout(()=>{
+              window.clearInterval(_this.timer)
+              _this.timer = null
+              _this.loop = 0
+              _this.getLabelList(0)
+            }, 0)
+          }, this.modSleep*1000)
+        }
+      }
+      if(this.type==="potentialIndustry"){
+        this.modSleep = getGovModSleep("c","c3")
+        if(this.modSleep){
+          _this.c3ModTimer = setInterval(() => {
+            setTimeout(()=>{
+              window.clearInterval(_this.timer)
+              _this.timer = null
+              _this.loop = 0
+              _this.getLabelList(0)
+            }, 0)
+          }, this.modSleep*1000)
+        }
+      }
+    }
+  },
+  beforeDestroy(){
+    let _this = this as any
+    if(_this.c1ModTimer){
+      window.clearInterval(_this.c1ModTimer)
+      this.c1ModTimer = null
+    }
+    if(_this.c2ModTimer){
+      window.clearInterval(_this.c2ModTimer)
+      this.c2ModTimer = null
+    }
+    if(_this.c3ModTimer){
+      window.clearInterval(_this.c3ModTimer)
+      this.c3ModTimer = null
     }
   }
 });

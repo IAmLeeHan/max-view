@@ -190,7 +190,8 @@ export default Vue.extend({
     //获取区域层级
     getareaMap(){
       let adminCode = this.selectedArea.code
-      getAreaCode(formData({adminCode:(this as any).selectedArea.code})).then(res=>{
+      let topCode = this.$store.state.user.govInfoTop
+      getAreaCode(formData({adminCode:(this as any).selectedArea.code,topCode:topCode})).then(res=>{
         if((res as any).code === "200"){
           this.dataCity = res.data
           let firstIndex,secondIndex,thirdIndex = 0

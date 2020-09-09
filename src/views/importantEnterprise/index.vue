@@ -270,7 +270,8 @@ export default Vue.extend({
     //获取区域层级
     getareaMap(){
       let adminCode = this.$store.state.user.govInfoQydm
-      getAreaCode(formData({adminCode:adminCode})).then(res=>{
+      let topCode = this.$store.state.user.govInfoTop
+      getAreaCode(formData({adminCode:adminCode,topCode:topCode})).then(res=>{
         if((res as any).code === "200"){
           this.dataCity = res.data
           let firstIndex,secondIndex,thirdIndex = 0
@@ -357,7 +358,6 @@ export default Vue.extend({
         }
       }
       if(val.type === "potentialEnterprise"){
-        console.log(val,33)
         if(val.data.zczb){
           this.potentialEnterprise.zczb = val.data.zczb
         }else{

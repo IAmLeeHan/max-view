@@ -33,20 +33,23 @@ export default Vue.extend({
         //标签轮询
         pollingLabel(){
             let _this = this as any
-            if(_this.labelList.length<=0){
+            let arr = _this.labelList.filter((item: any)=>{
+                return item.hasValue
+            })
+            if(arr.length<=0){
                 // console.log("没有sub");
             }else{
                 if(_this.govModNext === 0){
                     // console.log("不切换");
                 }else{
                     _this.timer = window.setInterval(()=>{
-                        _this.loop ++
-                        if(_this.loop <= _this.labelList.length - 1){
-                            _this.changeLabel(_this.labelList[_this.loop].id,_this.labelList[_this.loop].label,_this.labelList[_this.loop].ruleId,_this.labelList[_this.loop].hasValue)
+                        if(_this.loop <= arr.length - 1){
+                            _this.changeLabel(arr[_this.loop].id,arr[_this.loop].label,arr[_this.loop].ruleId,arr[_this.loop].hasValue)
                         }else{
                             _this.loop = 0
-                            _this.changeLabel(_this.labelList[_this.loop].id,_this.labelList[_this.loop].label,_this.labelList[_this.loop].ruleId,_this.labelList[_this.loop].hasValue)
+                            _this.changeLabel(arr[_this.loop].id,arr[_this.loop].label,arr[_this.loop].ruleId,arr[_this.loop].hasValue)
                         }
+                        _this.loop ++
                     },_this.govModNextSleep * 1000)
                 }
             }

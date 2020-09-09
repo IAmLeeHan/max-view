@@ -213,6 +213,7 @@ import {getEnterpriseLeftData,getEnterpriseMiddleData,getEnterpriseRightData,get
 import { formData } from '@/utils/index'
 import mixins from '@/components/polling/index.vue'
 import getTagRule from '@/utils/getTagRule';
+import {getGovModSleep} from '@/utils/getsleep';
 export default Vue.extend({
   filters:{
     rata:function(val: any){
@@ -274,6 +275,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      modSleep:0,
       that:this,
       hoverIndex:-1,
       active:0,
@@ -294,6 +296,9 @@ export default Vue.extend({
       echartLabelIndex:0,
       flag:0,//0:省，1市，2区
       Municipality:false,//直辖市
+      d1ModTimer:null,
+      d2ModTimer:null,
+      d3ModTimer:null
     }
   },
   watch:{
@@ -302,14 +307,16 @@ export default Vue.extend({
       window.clearInterval(_this.timer)
       _this.timer = null
       _this.loop = 0
-      this.getLabelList()
+      this.getLabelList(1)
       this.judgeArea()
     }
   },
   created(){
+      //获取模块刷新时间
+      this.getModSleep()
       //判断当前绑定的地区层级
       this.judgeArea()
-      this.getLabelList()
+      this.getLabelList(1)
       // console.log(this.areaCode,22)
       // console.log(JSON.parse(this.$store.state.user.indexList))
   },
@@ -325,6 +332,7 @@ export default Vue.extend({
     },
     //切换标签栏
     changeLabel(val: number,name: any,ruleId: any,hasValue: any){
+      let _this = this as any
       if((ruleId===1&&hasValue)||(ruleId===0&&hasValue)){
         this.getData(val,name)
       }
@@ -346,7 +354,7 @@ export default Vue.extend({
       this.$emit("checkMore",val)
     },
     //获取标签
-    getLabelList(){
+    getLabelList(flag: any){
       let leftLabel = [] as any
       let rightLabel = [] as any
       let middleLabel = [] as any
@@ -399,8 +407,11 @@ export default Vue.extend({
               let arr = this.labelList.filter((item: any)=>{
                 return item.hasValue
               })
-              if(arr.length){
-                this.labelIndex = arr[0].id
+              
+              if(_this.govModNext || flag){
+                if(arr.length){
+                  this.labelIndex = arr[0].id
+                }
               }
               //开启标签轮询
               _this.pollingLabel()
@@ -426,8 +437,10 @@ export default Vue.extend({
               let arr = this.labelList.filter((item: any)=>{
                 return item.hasValue
               })
-              if(arr.length){
-                this.labelIndex = arr[0].id
+              if(_this.govModNext || flag){
+                if(arr.length){
+                  this.labelIndex = arr[0].id
+                }
               }
               //开启标签轮询
               _this.pollingLabel()
@@ -453,8 +466,10 @@ export default Vue.extend({
               let arr = this.labelList.filter((item: any)=>{
                 return item.hasValue
               })
-              if(arr.length){
-                this.labelIndex = arr[0].id
+              if(_this.govModNext || flag){
+                if(arr.length){
+                  this.labelIndex = arr[0].id
+                }
               }
               //开启标签轮询
               _this.pollingLabel()
@@ -511,7 +526,6 @@ export default Vue.extend({
               unitName:unitName
             }
             this.$emit("getEchartData",val)
-            
             _this.labelIndex = value
           }
         })
@@ -554,8 +568,67 @@ export default Vue.extend({
           }
         })
       }
+    },
+    //获取模块刷新时间
+    getModSleep(){
+      let _this = this as any
+      if(this.type==="pillarEnterprise"){
+        this.modSleep = getGovModSleep("d","d1")
+        if(this.modSleep){
+          _this.d1ModTimer = setInterval(() => {
+            setTimeout(()=>{
+              window.clearInterval(_this.timer)
+              _this.timer = null
+              _this.loop = 0
+              _this.getLabelList(0)
+            }, 0)
+          }, this.modSleep*1000)
+        }
+      }
+      if(this.type==="starEnterprise"){
+        this.modSleep = getGovModSleep("d","d2")
+        if(this.modSleep){
+          _this.d2ModTimer = setInterval(() => {
+            setTimeout(()=>{
+              window.clearInterval(_this.timer)
+              _this.timer = null
+              _this.loop = 0
+              _this.getLabelList(0)
+            }, 0)
+          }, this.modSleep*1000)
+        }
+      }
+      if(this.type==="potentialEnterprise"){
+        this.modSleep = getGovModSleep("d","d3")
+        if(this.modSleep){
+          _this.d3ModTimer = setInterval(() => {
+            setTimeout(()=>{
+              window.clearInterval(_this.timer)
+              _this.timer = null
+              _this.loop = 0
+              _this.getLabelList(0)
+            }, 0)
+          }, this.modSleep*1000)
+        }
+      }
+      
     }
   },
+  beforeDestroy(){
+    let _this = this as any
+    if(_this.d1ModTimer){
+      window.clearInterval(_this.d1ModTimer)
+      this.d1ModTimer = null
+    }
+    if(_this.d2ModTimer){
+      window.clearInterval(_this.d2ModTimer)
+      this.d2ModTimer = null
+    }
+    if(_this.d3ModTimer){
+      window.clearInterval(_this.d3ModTimer)
+      this.d3ModTimer = null
+    }
+  }
 });
 </script>
 

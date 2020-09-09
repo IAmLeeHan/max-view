@@ -248,7 +248,7 @@ export default class extends mixins(ResizeMixin) {
               }
             },
             label: {
-              show: true,
+              show: data.length>6?false:true,
               color: '#4ABBBF',
               fontSize:10,
               formatter: function(params: any) {

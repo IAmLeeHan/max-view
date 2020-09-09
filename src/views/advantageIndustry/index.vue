@@ -5,7 +5,6 @@
         :title="c1Title"
         class="advantageIndustryItem"
         :type="'pillarIndustry'"
-        :label-list="leftLabelList"
         :area-code="selectedArea.code"
         :gov-mod-next="nextC1"
         :gov-mod-next-sleep="sleepC1"
@@ -24,7 +23,6 @@
         class="advantageIndustryItem"
         :type="'starIndustry'"
         :top10data="starData"
-        :label-list="MiddleLabelList"
         :area-code="selectedArea.code"
         :gov-mod-next="nextC2"
         :gov-mod-next-sleep="sleepC2"
@@ -43,7 +41,6 @@
         class="advantageIndustryItem"
         :type="'potentialIndustry'"
         :top10data="potentialData"
-        :label-list="rightLabelList"
         :area-code="selectedArea.code"
         :gov-mod-next="nextC3"
         :gov-mod-next-sleep="sleepC3"
@@ -121,11 +118,7 @@ export default Vue.extend({
         code:"",
         name:"",
         selected:""
-      },
-      advantageTimer:"" as any,
-      leftLabelList:[] as any,
-      MiddleLabelList:[] as any,
-      rightLabelList:[] as any,
+      },     
     }
   },
   computed:{
@@ -174,7 +167,6 @@ export default Vue.extend({
         document.getElementsByTagName('title')[0].innerHTML = this.selectedArea.name + '-智慧信用云平台'
     })
     //判断显示label
-    this._showLabel()
     this.getareaMap()
     // this.advantageTimer = setInterval(() => {
     //   setTimeout(()=>{
@@ -184,11 +176,6 @@ export default Vue.extend({
   },
   mounted(){
     // console.log(JSON.parse(this.$store.state.user.indexList))
-  },
-  beforeDestroy(){
-    if(this.advantageTimer){
-      clearInterval(this.advantageTimer)
-    }
   },
   methods:{
     //点击某个行业后重新获取echart数据
@@ -217,13 +204,13 @@ export default Vue.extend({
       this.selectedArea.code = el.getCheckedNodes()[0].value
       this.selectedArea.name = el.getCheckedNodes()[0].label
       AppModule.setCurrentTitle((this as any).selectedArea.name)
-      this._showLabel()
     },
     //获取区域层级
     getareaMap(){
       let _this = this as any
       let adminCode = this.selectedArea.code
-      getAreaCode(formData({adminCode:(this as any).selectedArea.code})).then(res=>{
+      let topCode = this.$store.state.user.govInfoTop
+      getAreaCode(formData({adminCode:(this as any).selectedArea.code,topCode:topCode})).then(res=>{
         if((res as any).code === "200"){
           this.dataCity = res.data
           let firstIndex,secondIndex,thirdIndex = 0
@@ -250,80 +237,8 @@ export default Vue.extend({
       })
     },
     //判断是否显示label
-    _showLabel(){
-      let leftArr = [] as any
-      let midddleArr = [] as any
-      let rightArr = [] as any
-      JSON.parse(this.$store.state.user.indexList).map((item: any)=>{
-        if(item.govIndexId === "c"){
-          item.modules.map((_item: any)=>{
-            if(_item.govModId === 'c1'){
-              leftArr = this.operateLabel(_item.govModLabels)
-            }else if(_item.govModId === 'c2'){
-              midddleArr = this.operateLabel(_item.govModLabels)
-            }else if(_item.govModId === 'c3'){
-              rightArr = this.operateLabel(_item.govModLabels)
-            }
-          })
-        }
-      })
-      let adminCode = this.selectedArea.code
-      showLabel(formData({qydm:adminCode})).then((res: any)=>{
-        if(res.code === "200"){
-          if(res.data.c1 && res.data.c1.length){
-              let ruleId = getTagRule("c","c1")
-              leftArr.map((item: any)=>{
-                this.$set(item,'ruleId',ruleId)
-                res.data.c1.map((_item: any)=>{
-                  if(item.id == _item.label && _item.count>0){
-                    this.$set(item,'hasValue',true)
-                  }
-                })
-              })
-              this.leftLabelList = leftArr
-            }
-            if(res.data.c2 && res.data.c2.length){
-              let ruleId = getTagRule("c","c2")
-              midddleArr.map((item: any)=>{
-                this.$set(item,'ruleId',ruleId)
-                res.data.c2.map((_item: any)=>{
-                  if(item.id == _item.label && _item.count>0){
-                    this.$set(item,'hasValue',true)
-                  }
-                })
-              })
-              this.MiddleLabelList = midddleArr
-            }
-            if(res.data.c1 && res.data.c1.length){
-              let ruleId = getTagRule("c","c3")
-              rightArr.map((item: any)=>{
-                this.$set(item,'ruleId',ruleId)
-                res.data.c3.map((_item: any)=>{
-                  if(item.id == _item.label && _item.count>0){
-                    this.$set(item,'hasValue',true)
-                    this.$set(item,'ruleId',ruleId)
-                  }
-                })
-              })
-              this.rightLabelList = rightArr
-            }
-        }
-      })
-
-    },
     //处理标签方法
-    operateLabel(val: any){
-        let arr = val.split(";")
-        let newArr = [] as any
-        arr.map((item: any)=>{
-          let val = {
-            label:item.split(":")[0],
-            id:item.split(":")[1]
-          }
-          newArr.push(val)
-        })
-        return newArr
-    },
+    
     //点击显示区域弹窗
     showList(){
       let el: any = this.$refs.cascader
