@@ -62,6 +62,9 @@ export default class extends mixins(ResizeMixin) {
             }
       },
       legend: {
+        tooltip:{
+            show : true
+        },
         bottom: 0,
         padding:[0,0],
         left: 'center',

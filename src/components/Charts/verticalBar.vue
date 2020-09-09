@@ -30,6 +30,7 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: '#0AA2E4'}) private barColorTop!: string
   @Prop({ default: '#0290FF'}) private barColorBottom!: string
   @Prop({ default:false }) private interval!: boolean
+  @Prop({ default:true }) private showY!: boolean
 
   private barWidth = 12
 
@@ -97,7 +98,7 @@ export default class extends mixins(ResizeMixin) {
         }
       },
       grid: {
-        left: '0',
+        left: _this.showY?'0':-15,
         right: '4%',
         top:'24%',
         bottom: '0%',
@@ -165,6 +166,7 @@ export default class extends mixins(ResizeMixin) {
       ],
       yAxis : [
         {
+          show:_this.showY,
           name: _this.echartsName || '',
           nameTextStyle:{
             color:'#fff',

@@ -54,7 +54,7 @@ export default class extends mixins(ResizeMixin) {
     let thirdData = _this.echartsData.value[legendData[2]]
     _this.chart = echarts.init(document.getElementById(_this.id) as HTMLDivElement)
     _this.chart.clear();
-    _this.chart.setOption({
+    let option = {
       title: {
         subtext: "单位 : " + this.unit,
         subtextStyle: {
@@ -77,7 +77,12 @@ export default class extends mixins(ResizeMixin) {
         itemHeight:4,
         textStyle: {
             color: "#DFDFDF"
-        }
+        },
+        selected:{
+          '第一产业':false,
+          '第二产业':false,
+          '第三产业':true
+        },
     },
     grid: {
         left: "4%",
@@ -207,7 +212,17 @@ export default class extends mixins(ResizeMixin) {
             data: thirdData
         }
     ]
-    } as any as EChartOption<EChartOption.SeriesBar>)
+    }
+    _this.chart.setOption(option as any as EChartOption<EChartOption.SeriesBar>)
+    _this.chart.on('legendselectchanged',function(obj:any){
+      for(let i in option.legend.selected){
+        (option as any).legend.selected[i] = false
+      }
+      console.log(option.legend.selected);
+      
+      (option as any).legend.selected[(obj).name] = true
+      _this.chart.setOption((option as any));
+    })
   }
 }
 </script>

@@ -69,6 +69,7 @@
             :unit="XZunit"
             :wrap="XZwrap"
             :rotate="XZrotate"
+            :showY="false"
           ></verticalBar>
         </moduleItem>
       </div>

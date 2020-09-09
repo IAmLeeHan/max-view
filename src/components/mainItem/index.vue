@@ -34,7 +34,7 @@
             v-for="(item,index) in orgList"
             :key="index"
           >
-            <p>{{ item.name }}</p>
+            <p class="subtitle">{{ item.name }}</p>
             <p>
               <count-to
                 :start-val="0"
@@ -108,22 +108,22 @@ export default Vue.extend({
     },
     orgList(){
       return [
-        {
-          name:'机构总数',
-          value:EAreaModule.agencyTotal
-        },
+        // {
+        //   name:'机构总数',
+        //   value:EAreaModule.agencyTotal
+        // },
         {
           name:'企业',
           value:EAreaModule.orgCount
         },
-        {
-          name:'个体工商户',
-          value:EAreaModule.unitCount
-        },
-        {
-          name:'其他',
-          value:EAreaModule.otherCount
-        }
+        // {
+        //   name:'个体工商户',
+        //   value:EAreaModule.unitCount
+        // },
+        // {
+        //   name:'其他',
+        //   value:EAreaModule.otherCount
+        // }
       ]
     }
   },
@@ -159,12 +159,12 @@ export default Vue.extend({
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    @media screen and (max-width: 1200px){
-      .headerLeft{
-        width: 200px;
-        flex-wrap: wrap;
-      }
-    }
+    // @media screen and (max-width: 1200px){
+    //   .headerLeft{
+    //     width: 200px;
+    //     flex-wrap: wrap;
+    //   }
+    // }
     .headerLeft{
       display: flex;
       .title {
@@ -222,7 +222,7 @@ export default Vue.extend({
       li{
         margin-right: 30px;
         color: #fff;
-        font-size: 14px;
+        font-size: 16px;
         display: flex;
         flex-flow: column;
         justify-content: space-between;
@@ -231,13 +231,16 @@ export default Vue.extend({
         }
         &:first-child{
           .card-panel-num{
-            font-size: 18px;
+            font-size: 24px;
             color: #2DA9FF;
           }
           span{
             font-size: 14px;
             color: #2DA9FF;
           }
+        }
+        .subtitle{
+          margin-bottom: 10px;
         }
         .card-panel-num{
           font-size: 18px;
