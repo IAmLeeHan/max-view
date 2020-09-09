@@ -1,10 +1,11 @@
 import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-decorators'
-import { getGovInfoQydm } from '@/utils/session'
+import { getGovInfoQydm,getGovInfoName } from '@/utils/session'
 import store from '@/store'
 
 import { enterpriseDistribution } from '@/api/area'
 
 export interface IeAreaState {
+  currentName:string
   currentQydm: string
   // 机构总数
   agencyTotal: number
@@ -22,7 +23,8 @@ export interface IeAreaState {
 
 @Module({ dynamic: true, store, name: 'EArea' })
 class EArea extends VuexModule implements IeAreaState {
-  public currentQydm = getGovInfoQydm()?(getGovInfoQydm() as any).substr(0,4) + '00' : '0'
+  public currentQydm = getGovInfoQydm()?(getGovInfoQydm() as any) : '0'
+  public currentName = getGovInfoName()?(getGovInfoName() as any):''
   public agencyTotal = 0
   public orgCount = 0
   public unitCount = 0
@@ -33,6 +35,11 @@ class EArea extends VuexModule implements IeAreaState {
   @Mutation
   private SET_QYDM(qydm: string){
     this.currentQydm = qydm
+  }
+
+  @Mutation
+  private SET_NAME(name:string){
+    this.currentName = name
   }
   // 设置机构数量
   @Mutation
@@ -68,6 +75,11 @@ class EArea extends VuexModule implements IeAreaState {
   @Action
   public setQydm(qydm: string) {
     this.SET_QYDM(qydm)
+  }
+
+  @Action
+  public setName(name:string){
+    this.SET_NAME(name)
   }
 
   @Action

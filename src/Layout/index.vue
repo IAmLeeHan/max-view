@@ -208,7 +208,7 @@ export default class extends mixins(ResizeMixin) {
       return
     }
     this.handlePopupClose()
-    EAreaModule.setQydm(getGovInfoQydm() as any)
+    // EAreaModule.setQydm(getGovInfoQydm() as any)
     this.$store.dispatch('SetDialogTableVisible',false)
     this.$router.push({name:path})
   }

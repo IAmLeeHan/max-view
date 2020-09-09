@@ -51,7 +51,6 @@
           ref="echartsHandle"
           width="100%"
           height="100%"
-          @sendAddress="address"
           @sendQydm="qydmFun"
         ></geoMap>
       </div>
@@ -91,11 +90,13 @@ export default Vue.extend({
   data() {
     return {
       active:0,
-      addressValue:'',
       bg:require('img/img_x.png')
     }
   },
   computed:{
+    addressValue(){
+      return EAreaModule.currentName
+    },
     showNetBg(): string{
       return this.showBg ? "background:url(" + this.bg + ") no-repeat 100% 100% / 100% 100%" :''
     },
@@ -127,9 +128,9 @@ export default Vue.extend({
     }
   },
   methods: {
-    address(val: string){
-      (this as any).addressValue = val
-    },
+    // address(val: string){
+    //   (this as any).addressValue = val
+    // },
     qydmFun(val: string){
       (this as any).qydm = val
     },

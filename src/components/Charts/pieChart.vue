@@ -62,14 +62,14 @@ export default class extends mixins(ResizeMixin) {
       },
       legend: {
         bottom: 12,
-        padding: [0, 5],
-        itemWidth: 12,
-        itemHeight:12,
+        padding: [-5, 5],
+        itemWidth: 10,
+        itemHeight:10,
         // itemGap:30,
         left: "center",
         textStyle: {
           color: "#fff",
-          fontSize: 12,
+          fontSize: 10,
           fontWeight: "normal"
         },
         data: this.echartsData.map((item: any)=> item.name)
@@ -78,11 +78,12 @@ export default class extends mixins(ResizeMixin) {
         {
           type: "pie",
           radius: "40%",
+          avoidLabelOverlap: true,//对，就是这里avoidLabelOverlap
           center: ["50%", "40%"],
           startAngle: 135, //起始角度
           selectedMode: "single",
           label: {
-            fontSize: 10,
+            fontSize: 10
           },
           data:(this as any).echartsData
         }

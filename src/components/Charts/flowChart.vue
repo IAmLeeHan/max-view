@@ -29,7 +29,7 @@ export default class extends mixins(ResizeMixin) {
   // private fromData2 = [] as any
   private toData = [] as any
 
-  private colorList = ['#CB7CFE','#DEF428','#10D6C0']
+  private colorList = ['#CB7CFE','#DEF428','#10D6C0','#528af3',"#FFA629"]
 
   @Watch("echartsData",{
      immediate: true,deep:false
@@ -169,37 +169,41 @@ export default class extends mixins(ResizeMixin) {
         }, 
         {
           type: 'effectScatter',
-                coordinateSystem: 'geo',
-                showEffectOn: 'render',
-                zlevel:1,
-                rippleEffect: {
-                    period: 15,
-                    scale: 1,
-                    brushType: 'fill'
+          coordinateSystem: 'geo',
+          showEffectOn: 'render',
+          avoidLabelOverlap: true,
+          zlevel:1,
+          rippleEffect: {
+              period: 15,
+              scale: 1,
+              brushType: 'fill'
+          },
+          hoverAnimation: true,
+          label: {
+              normal: {
+                  show: false,
+                  formatter: (params:any)=>{
+                    return params.name.replace(/省|市|自治区|特别行政区|壮族|回族|维吾尔/g,"");
+                  },
+                  position: 'right',
+                  offset: [5, 0],
+                  padding:[10]
+                  // color: function(params: any){
+                  //   console.log(params,"params");
+                    
+                  // },
+              },
+          },
+          itemStyle: {
+            normal: {
+                color:function(params: any){
+                  return _this.colorList[params.dataIndex]
                 },
-                hoverAnimation: true,
-                label: {
-                    normal: {
-                        show: true,
-                        formatter: '{b}',
-                        position: 'right',
-                        offset: [5, 0],
-                        // color: function(params: any){
-                        //   console.log(params,"params");
-                          
-                        // },
-                    },
-                },
-                itemStyle: {
-                    normal: {
-                       color:function(params: any){
-                          return _this.colorList[params.dataIndex]
-                        },
-                      shadowBlur: 10,
-                      shadowColor: '#333'
-                    }
-                },
-                symbolSize: 6,
+              shadowBlur: 10,
+              shadowColor: '#333'
+            }
+          },
+          symbolSize: 6,
           data:_this.fromData
         },
         //被攻击点
@@ -218,7 +222,7 @@ export default class extends mixins(ResizeMixin) {
               position: 'right', //显示位置
               offset: [5, 0], //偏移设置
               formatter: function(params: any) { //圆环显示文字
-                  return params.data.name;
+                  return params.data.name.replace(/省|市|自治区|特别行政区|壮族|回族|维吾尔/g,"");
               },
               fontSize: 16,
               color:"#ffffff"
@@ -258,7 +262,7 @@ export default class extends mixins(ResizeMixin) {
               position: 'right', //显示位置
               offset: [5, 0], //偏移设置
               formatter: function(params: any) { //圆环显示文字
-                  return params.data.name;
+                  return params.data.name.replace(/省|市|自治区|特别行政区|壮族|回族|维吾尔/g,"");
               },
               fontSize: 16,
               color:"#ffffff"

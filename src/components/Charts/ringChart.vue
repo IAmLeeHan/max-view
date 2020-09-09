@@ -66,11 +66,11 @@ export default class extends mixins(ResizeMixin) {
         padding:[0,0],
         left: 'center',
         textStyle:{
-          fontSize:12,
+          fontSize:10,
           color:'#fff'
         },
-        itemWidth:12,
-        itemHeight: 12,
+        itemWidth:10,
+        itemHeight: 10,
         data: dataName
       },
       series: [
@@ -84,7 +84,8 @@ export default class extends mixins(ResizeMixin) {
           label:{
             fontSize:10,
             formatter: (params: any) => {
-              return  _this.$formatNum(params.value) + ' ' + params.percent + '%'
+              // return  _this.$formatNum(params.value) + ' ' + params.percent + '%'
+              return params.percent + '%'
             }
           },
           emphasis: {

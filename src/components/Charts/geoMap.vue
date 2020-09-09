@@ -54,13 +54,13 @@ export default class extends mixins(ResizeMixin) {
 
   mounted() {
     this.chart = echarts.init(document.getElementById('chart_map') as any);
-    if(UserModule.govInfoQydm === '100000'){
+    if(EAreaModule.currentQydm === '100000'){
       (this as any).selectedPT = [`china`]
-    }else if(UserModule.govInfoQydm.indexOf('0000')!==-1){
-      (this as any).selectedPT = [`china`,`${UserModule.govInfoName}`]
+    }else if(EAreaModule.currentQydm.indexOf('0000')!==-1){
+      (this as any).selectedPT = [`china`,`${EAreaModule.currentName}`]
     }else{
       //  省代码
-      let PQydm = UserModule.govInfoQydm.substr(0,2) + '0000';
+      let PQydm = EAreaModule.currentQydm.substr(0,2) + '0000';
       // 省名称
       let pName = ''
       for(let key in MapModule.provinces){
@@ -69,7 +69,7 @@ export default class extends mixins(ResizeMixin) {
         }
       }
       
-      (this as any).selectedPT = [`china`,`${pName}`,`${UserModule.govInfoName}`]
+      (this as any).selectedPT = [`china`,`${pName}`,`${EAreaModule.currentName}`]
     }
 
     let time = getGovModSleep('a','a1') * 1000
@@ -82,7 +82,7 @@ export default class extends mixins(ResizeMixin) {
     }
     this.init()
     this.$nextTick(() => {
-      this.$emit('sendAddress',this.selectedAddress)
+      EAreaModule.setName((this as any).selectedAddress)
       document.getElementsByTagName('title')[0].innerHTML = AppModule.currentTitle + '-智慧信用云平台'
       AppModule.setCurrentTitle((this as any).selectedAddress)
       // this.initChart()
@@ -92,12 +92,12 @@ export default class extends mixins(ResizeMixin) {
   private getA1Data(){
     let _this = this as any
     let qydm: string
-    if(UserModule.govInfoQydm.substr(4,6)!=='00'){
-      qydm = UserModule.govInfoQydm.substr(0,4) + '00'
-      EAreaModule.setQydm(UserModule.govInfoQydm)
+    if(EAreaModule.currentQydm.substr(4,6)!=='00'){
+      qydm = EAreaModule.currentQydm.substr(0,4) + '00'
+      // EAreaModule.setQydm(UserModule.govInfoQydm)
       _this.isEara = true
     }else{
-      qydm = UserModule.govInfoQydm
+      qydm = EAreaModule.currentQydm
       _this.isEara = false
     }
     if(_this.selectedPT.length > 1){
@@ -107,7 +107,7 @@ export default class extends mixins(ResizeMixin) {
           _this.mapGet(`${_this.selectedPT[_this.selectedPT.length-1]}`,MapModule.currentMap, _this.chart);
         })
         if(_this.isEara){
-          EAreaModule.getEnterpriseDistribution(UserModule.govInfoQydm).then((res: any)=>{
+          EAreaModule.getEnterpriseDistribution(EAreaModule.currentQydm).then((res: any)=>{
           _this.mapGet(`${_this.selectedPT[_this.selectedPT.length-1]}`,MapModule.currentMap,_this.chart);
           })
         }
@@ -327,7 +327,7 @@ export default class extends mixins(ResizeMixin) {
 
   private changeInit(){
     (this as any).selectedAddress = this.selectedPT.length>1?this.selectedPT[this.selectedPT.length-1]:"中国"
-    this.$emit('sendAddress',this.selectedAddress)
+    EAreaModule.setName((this as any).selectedAddress)
     AppModule.setCurrentTitle((this as any).selectedAddress)
   }
 

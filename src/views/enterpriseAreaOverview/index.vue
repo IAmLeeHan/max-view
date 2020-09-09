@@ -66,7 +66,7 @@
         </div>
       </div>-->
         <moduleItem
-          v-if="KeyEnterprises.length>0"
+          v-if="KeyEnterprises.length>=0"
           ref="son"
           class="distributionOfKeyEnterprises"
           :sub-title="KeyEnterprises"
@@ -391,7 +391,7 @@ export default Vue.extend({
           _this.CHshow = true; 
           if(res.code === '200'){
             _this.CHData = res.data
-            _this.CHChartData = res.data.cyfb
+            _this.CHChartData = res.data.hyfb
           }
         }).catch((error: any)=>{
           _this.CHshow = true;
@@ -440,7 +440,8 @@ export default Vue.extend({
           let urlA5 = _this.$getModUrl('a','a5')
           let id
           if(res.data.length<=0){
-            id = (_this.KeyEnterprises[0].value) * 1
+            _this.ZDQYTableShow = true
+            return
           }else{
             id = (hasDataTag[0].value) * 1
           }
@@ -505,7 +506,7 @@ export default Vue.extend({
             _this.CHshow = true; 
             if(res.code === '200'){
               _this.CHData = res.data
-              _this.CHChartData = res.data.cyfb
+              _this.CHChartData = res.data.hyfb
             }
             if(sessionStorage.getItem('a2Key')){
               let obj: any = JSON.parse((sessionStorage as any).getItem('a2Key'))
@@ -695,7 +696,7 @@ export default Vue.extend({
     },
     changeA5Active(val: any){
       let _this = this as any
-      _this.currentId = val      
+      _this.currentId = val
       let urlA5 = _this.$getModUrl('a','a5');
       _this.getZDQYList(val*1,_this.currentQydm,urlA5)
     },

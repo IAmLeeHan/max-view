@@ -789,7 +789,7 @@ export default Vue.extend({
             let sort = data.sort((a: any,b: any)=>{
               return b.govE1Money - a.govE1Money
             })
-            _this.QYZBEchartsData = sort.splice(0,3)
+            _this.QYZBEchartsData = sort.splice(0,5)
           }
         })
         let urlB6 = _this.$getModUrl('b','b6')
@@ -940,7 +940,7 @@ export default Vue.extend({
             let sort = data.sort((a: any,b: any)=>{
               return b.govE1Money - a.govE1Money
             })
-            _this.QYZBEchartsData = sort.splice(0,3)
+            _this.QYZBEchartsData = sort.splice(0,5)
           }
         })
         let urlB6 = _this.$getModUrl('b','b6')
