@@ -179,7 +179,7 @@ import { formData } from '@/utils/index'
 import mixins from '@/components/polling/index.vue'
 import lottie from '@/components/lottie/index.vue';
 import getTagRule from '@/utils/getTagRule';
-import {getGovModSleep} from '@/utils/getsleep';
+import {getGovModSleep,getGovModOrder} from '@/utils/getsleep';
 
 export default Vue.extend({
   // components:{
@@ -255,7 +255,8 @@ export default Vue.extend({
       c1ModTimer:null,
       c2ModTimer:null,
       c3ModTimer:null,
-      modSleep:0
+      modSleep:0,
+      order:1
     }
   },
   watch: {
@@ -271,6 +272,8 @@ export default Vue.extend({
   created(){
     //页面刷新
     this.getModSleep()
+    //判断模块是否需要排序
+    this.getOrder()
     let _this = this as any
     //判断当前绑定的地区层级
     this.judgeArea()
@@ -612,6 +615,9 @@ export default Vue.extend({
           }, this.modSleep*1000)
         }
       }
+    },
+    getOrder(){
+      
     }
   },
   beforeDestroy(){

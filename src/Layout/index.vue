@@ -167,11 +167,11 @@ export default class extends mixins(ResizeMixin) {
   private changeNowTime(newVal:any){
     let currentTime = newVal.substr(newVal.length-8,newVal.length)
     // if(currentTime === '23:59:59'){
-      if(currentTime === '11:31:00'){
-      // UserModule.Login().then(()=>{
-        window.location.reload()
-      // })
-    }
+    //   // if(currentTime === '11:31:00'){
+    //   // UserModule.Login().then(()=>{
+    //     window.location.reload()
+    //   // })
+    // }
   }
 
   private defaultMap = "";

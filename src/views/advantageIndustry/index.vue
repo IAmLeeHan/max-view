@@ -166,16 +166,9 @@ export default Vue.extend({
     this.$nextTick(()=>{
         document.getElementsByTagName('title')[0].innerHTML = this.selectedArea.name + '-智慧信用云平台'
     })
+    
     //判断显示label
     this.getareaMap()
-    // this.advantageTimer = setInterval(() => {
-    //   setTimeout(()=>{
-    //     this._getLeftData()
-    //   }, 0)
-    // }, 3000)
-  },
-  mounted(){
-    // console.log(JSON.parse(this.$store.state.user.indexList))
   },
   methods:{
     //点击某个行业后重新获取echart数据
@@ -214,31 +207,44 @@ export default Vue.extend({
         if((res as any).code === "200"){
           this.dataCity = res.data
           let firstIndex,secondIndex,thirdIndex = 0
-          this.dataCity.map((item: any)=>{
-            if(item.code.substr(0,2) === adminCode.substr(0,2)){
-              this.valueCity.push(item.code)
-              if(item.childs && item.childs.length){
-                item.childs.map((second: any)=>{
-                  if(second.code.substr(0,4) === adminCode.substr(0,4)){
-                    this.valueCity.push(second.code)
-                    if(second.childs && second.childs.length){
-                      second.childs.map((third: any)=>{
-                        if(third.code === adminCode){
-                          this.valueCity.push(adminCode)
-                        }
-                      })
+          if(adminCode.substr(0,2)==="11"||adminCode.substr(0,2)==="12"||adminCode.substr(0,2)==="31"||adminCode.substr(0,2)==="50"){
+            this.dataCity.map((item: any)=>{
+              if(item.code.substr(0,2) === adminCode.substr(0,2)){
+                this.valueCity.push(item.code)
+                if(item.childs && item.childs.length){
+                  item.childs.map((second: any)=>{
+                    if(second.code === adminCode){
+                      this.valueCity.push(second.code)
                     }
-                  }
-                })
+                  })
+                }
               }
-            }
-          })
+            })
+          }else{
+            this.dataCity.map((item: any)=>{
+              if(item.code.substr(0,2) === adminCode.substr(0,2)){
+                this.valueCity.push(item.code)
+                if(item.childs && item.childs.length){
+                  item.childs.map((second: any)=>{
+                    if(second.code.substr(0,4) === adminCode.substr(0,4)){
+                      this.valueCity.push(second.code)
+                      if(second.childs && second.childs.length){
+                        second.childs.map((third: any)=>{
+                          if(third.code === adminCode){
+                            this.valueCity.push(adminCode)
+                          }
+                        })
+                      }
+                    }
+                  })
+                }
+              }
+            })
+          }
         }
       })
     },
     //判断是否显示label
-    //处理标签方法
-    
     //点击显示区域弹窗
     showList(){
       let el: any = this.$refs.cascader

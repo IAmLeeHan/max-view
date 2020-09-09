@@ -175,6 +175,7 @@
             slot="echarts"
             line-color="#40DCD6"
             :echarts-data="established"
+            :unit="CSunit"
             height="100%"
             width="100%"
           ></horizontalBar>

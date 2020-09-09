@@ -197,25 +197,40 @@ export default Vue.extend({
         if((res as any).code === "200"){
           this.dataCity = res.data
           let firstIndex,secondIndex,thirdIndex = 0
-          this.dataCity.map((item: any)=>{
-            if(item.code.substr(0,2) === adminCode.substr(0,2)){
-              this.valueCity.push(item.code)
-              if(item.childs && item.childs.length){
-                item.childs.map((second: any)=>{
-                  if(second.code.substr(0,4) === adminCode.substr(0,4)){
-                    this.valueCity.push(second.code)
-                    if(second.childs && second.childs.length){
-                      second.childs.map((third: any)=>{
-                        if(third.code === adminCode){
-                          this.valueCity.push(adminCode)
-                        }
-                      })
+          if(adminCode.substr(0,2)==="11"||adminCode.substr(0,2)==="12"||adminCode.substr(0,2)==="31"||adminCode.substr(0,2)==="50"){
+            this.dataCity.map((item: any)=>{
+              if(item.code.substr(0,2) === adminCode.substr(0,2)){
+                this.valueCity.push(item.code)
+                if(item.childs && item.childs.length){
+                  item.childs.map((second: any)=>{
+                    if(second.code === adminCode){
+                      this.valueCity.push(second.code)
                     }
-                  }
-                })
+                  })
+                }
               }
-            }
-          })
+            })
+          }else{
+            this.dataCity.map((item: any)=>{
+              if(item.code.substr(0,2) === adminCode.substr(0,2)){
+                this.valueCity.push(item.code)
+                if(item.childs && item.childs.length){
+                  item.childs.map((second: any)=>{
+                    if(second.code.substr(0,4) === adminCode.substr(0,4)){
+                      this.valueCity.push(second.code)
+                      if(second.childs && second.childs.length){
+                        second.childs.map((third: any)=>{
+                          if(third.code === adminCode){
+                            this.valueCity.push(adminCode)
+                          }
+                        })
+                      }
+                    }
+                  })
+                }
+              }
+            })
+          }
         }
       })
     },

@@ -275,26 +275,51 @@ export default Vue.extend({
         if((res as any).code === "200"){
           this.dataCity = res.data
           let firstIndex,secondIndex,thirdIndex = 0
-          this.dataCity.map((item: any)=>{
-            if(item.code.substr(0,2) === adminCode.substr(0,2)){
-              this.valueCity.push(item.code)
-              if(item.childs && item.childs.length){
-                item.childs.map((second: any)=>{
-                  if(second.code.substr(0,4) === adminCode.substr(0,4)){
-                    this.valueCity.push(second.code)
-                    if(second.childs && second.childs.length){
-                      second.childs.map((third: any)=>{
-                        if(third.code === adminCode){
-                          this.valueCity.push(adminCode)
-                        }
-                      })
+          if(adminCode.substr(0,2)==="11"||adminCode.substr(0,2)==="12"||adminCode.substr(0,2)==="31"||adminCode.substr(0,2)==="50"){
+            this.dataCity.map((item: any)=>{
+              if(item.code.substr(0,2) === adminCode.substr(0,2)){
+                this.valueCity.push(item.code)
+                if(item.childs && item.childs.length){
+                  item.childs.map((second: any)=>{
+                    if(second.code === adminCode){
+                      this.valueCity.push(second.code)
                     }
-                  }
-                })
+                  })
+                }
               }
+            })
+            if(adminCode.indexOf("0000")===-1&&adminCode.indexOf("00")===-1){
+              this.dataCity.map((item: any)=>{
+                if(item.code === this.valueCity[0]){
+                  this.selectedArea.parentNode = item.code
+                  this.selectedArea.parentName = item.name
+                }
+              })
+            }else{
+              this.selectedArea.parentName = this.$store.state.user.govInfoName
+              this.selectedArea.parentNode = this.$store.state.user.govInfoQydm
             }
-          })
-          if(adminCode.indexOf("0000")===-1&&adminCode.indexOf("00")===-1){
+          }else{
+            this.dataCity.map((item: any)=>{
+              if(item.code.substr(0,2) === adminCode.substr(0,2)){
+                this.valueCity.push(item.code)
+                if(item.childs && item.childs.length){
+                  item.childs.map((second: any)=>{
+                    if(second.code.substr(0,4) === adminCode.substr(0,4)){
+                      this.valueCity.push(second.code)
+                      if(second.childs && second.childs.length){
+                        second.childs.map((third: any)=>{
+                          if(third.code === adminCode){
+                            this.valueCity.push(adminCode)
+                          }
+                        })
+                      }
+                    }
+                  })
+                }
+              }
+            })
+            if(adminCode.indexOf("0000")===-1&&adminCode.indexOf("00")===-1){
               this.dataCity.map((item: any)=>{
                 item.childs.map((second: any)=>{
                   if(second.code === this.valueCity[1]){
@@ -308,6 +333,8 @@ export default Vue.extend({
             this.selectedArea.parentNode = this.$store.state.user.govInfoQydm
           }
         }
+          }
+          
       })
       // console.log(this.selectedArea)
     },

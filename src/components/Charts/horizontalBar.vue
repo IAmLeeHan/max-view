@@ -60,7 +60,7 @@ export default class extends mixins(ResizeMixin) {
     _this.chart.clear();
     _this.chart.setOption({
       title: {
-        subtext: "单位 : 万家",
+        subtext: "单位 : " + _this.unit,
         subtextStyle: {
           color: "#fff"
         },
@@ -69,7 +69,7 @@ export default class extends mixins(ResizeMixin) {
       },
       tooltip: {
         trigger: "axis",
-        formatter: "{b} ：{c}万家",
+        formatter: "{b} ：{c}" +  _this.unit,
         axisPointer: {
           // 坐标轴指示器，坐标轴触发有效
           type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
@@ -88,7 +88,7 @@ export default class extends mixins(ResizeMixin) {
             type: "value",
             max: function(value) {
               if(value.max <= 200){
-                return value.max + 40
+                return value.max + 100
               }else if(value.max > 200 && value.max <= 1000){
                 return value.max + 400
               }else{
