@@ -21,7 +21,7 @@
             height="100%"
             width="100%"
             :unit="ZLunit"
-            :wrap="ZLwrap"
+            :wrap="false"
             :rotate="ZLrotate"
             :echarts-data="ZLEchartsData"
           ></doubleEchartLee>
@@ -44,7 +44,7 @@
             width="100%"
             :unit="ZLFXunit"
             :rotate="ZLFXrotate"
-            :wrap="ZLFwrap"
+            :wrap="false"
             :echarts-data="ZLFXEchartsData"
           ></stackedChart>
         </moduleItem>
@@ -189,7 +189,7 @@
             :unit="ZDXunit"
             :echarts-data="ZDXEchartsData"
             :show-unit="ZDXShowUnit"
-            :wrap="ZDXWrap"
+            :wrap="false"
             :rotate="ZDXrotate"
           ></verticalBar>
           <RosePieChart

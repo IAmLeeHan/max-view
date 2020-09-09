@@ -125,7 +125,7 @@ export default class extends mixins(ResizeMixin) {
             rotate:0,
             formatter:function(value: any){  
               let ret = "";//拼接加\n返回的类目项  
-              let maxLength = 5;//每项显示文字个数  
+              let maxLength = 4;//每项显示文字个数  
               let valLength = value.length;//X轴类目项的文字个数  
               let rowN = Math.ceil(valLength / maxLength); //类目项需要换行的行数  
               if(_this.wrap){
