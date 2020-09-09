@@ -76,6 +76,7 @@ import {getE3Label,getE3} from "@/api/focusedInvestment"
 import mixins from '@/components/polling/index.vue'
 import { formData } from '@/utils/index'
 import getTagRule from '@/utils/getTagRule';
+import {getGovModSleep} from '@/utils/getsleep';
 
 export default Vue.extend({
   filters:{
@@ -110,7 +111,9 @@ export default Vue.extend({
     return {
       active:0,
       rankList:[],
-      labelList:[] as any
+      labelList:[] as any,
+      modSleep:0,
+      e3ModTimer:null
     }
   },
   watch:{
@@ -119,19 +122,16 @@ export default Vue.extend({
       window.clearInterval(_this.timer)
       _this.timer = null
       _this.loop = 0
-      this.getLabel()
+      this.getLabel(1)
     }
   },
   created(){
     //获取筛选label
-    this.getLabel()
+    this.getLabel(1)
+    //模块定时刷新
+    this.getModSleep()
   },
   methods: {
-    // //切换label
-    // changeLabel(val: number){
-    //   // this.active = val
-    //   this.getEnterpriseData(val)
-    // },
     //切换标签栏
     changeLabel(val: number,name: any,ruleId: any,hasValue: any){
       if((ruleId===1&&hasValue)||(ruleId===0&&hasValue)){
@@ -151,7 +151,7 @@ export default Vue.extend({
       this.$emit("checkMore",val)
     },
     //获取标签Label
-    getLabel(){
+    getLabel(flag: any){
       let _this = this as any
       let urlA1 = _this.$getModUrl('e','e3')
       let ruleId = getTagRule("e","e3")
@@ -179,9 +179,14 @@ export default Vue.extend({
             let arr = this.labelList.filter((item: any)=>{
               return item.hasValue
             })
-            if(arr.length){
-              this.active = arr[0].id
-            }
+            // if(arr.length){
+            //   this.active = arr[0].id
+            // }
+            if(_this.govModNext || flag){
+                if(arr.length){
+                   this.active = arr[0].id
+                }
+              }
             //获取对外投资活跃企业数据
             this.getEnterpriseData(this.active)
             //启动轮询
@@ -212,7 +217,29 @@ export default Vue.extend({
             this.active = val
           }
       })
+    },
+    getModSleep(){
+      let _this = this as any
+      this.modSleep = getGovModSleep("e","e3")
+      if(this.modSleep){
+        _this.e3ModTimer = setInterval(() => {
+          setTimeout(()=>{
+            window.clearInterval(_this.timer)
+            _this.timer = null
+            _this.loop = 0
+            this.getLabel(0)
+          }, 0)
+        }, this.modSleep*1000)
+      }
     }
+  },
+  beforeDestroy(){
+    let _this = this as any
+    if(_this.e3ModTimer){
+      window.clearInterval(_this.e3ModTimer)
+      this.e3ModTimer = null
+    }
+    
   }
 });
 </script>

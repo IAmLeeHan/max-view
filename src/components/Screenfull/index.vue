@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="screen"
     id="screenfull"
     class="screenfull"
     @click="click"
@@ -13,6 +14,7 @@
 import screenfull from "screenfull";
 import Vue from "vue";
 import { AppModule } from "@/store/modules/app";
+import $ from "jquery"
 
 const sf = screenfull;
 
@@ -22,17 +24,30 @@ export default Vue.extend({
       return AppModule.isFullscreen;
     }
   },
-
+  data(){
+    return{
+      timer:null
+    }
+  },
   mounted() {
+    let _this = this as any
     if (sf.isEnabled) {
       sf.on("change", this.change);
     }
+    // _this.timer = window.setTimeout(() => {
+    //   if(sf.isEnabled){
+    //     _this.click()
+    //   }
+    // }, 3000);
   },
 
   beforeDestroy() {
+    let _this = this as any
     if (sf.isEnabled) {
       sf.off("change", this.change);
     }
+    window.clearTimeout(_this.timer)
+    _this.timer = null
   },
   methods: {
     change() {

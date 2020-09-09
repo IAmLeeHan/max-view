@@ -36,6 +36,8 @@
 
 <script lang="ts">
 import Vue from "vue";
+import {getGovModSleep} from '@/utils/getsleep';
+
 export default Vue.extend({
   props:{
     title:{
@@ -56,14 +58,38 @@ export default Vue.extend({
   data() {
     return {
       active:0,
+      modSleep:0,
+      e1ModTimer:null
     }
+  },
+  created(){
+    //获取模块刷新时间
+    this.getModSleep()
   },
   methods: {
     changeActive(i: number){
       (this as any).active = i
     },
-    
+    //获取模块刷新时间并轮询
+    getModSleep(){
+      let _this = this as any
+      this.modSleep = getGovModSleep("e","e1")
+      if(this.modSleep){
+        _this.e1ModTimer = setInterval(() => {
+            setTimeout(()=>{
+              _this.$emit("getModSleep")
+            }, 0)
+          }, this.modSleep*1000)
+      }
+    }
   },
+  beforeDestroy(){
+    let _this = this as any
+    if(_this.e1ModTimer){
+      window.clearInterval(_this.e1ModTimer)
+      this.e1ModTimer = null
+    }
+  }
 });
 </script>
 

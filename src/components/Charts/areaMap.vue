@@ -3,7 +3,7 @@
     <div class="legendBox">
       <div class="fl r_box_ul">
         <div
-          v-for="(item,index) in echartData"
+          v-for="(item,index) in legendList"
           :key="index"
           class="areaItem"
         >
@@ -91,13 +91,14 @@ export default class extends mixins(ResizeMixin) {
             }
           })
         }
+
         let series = [];
-        for(let i = 0;i<_this.echartData.length;i++){
+        for(let i = 0;i<_this.legendList.length;i++){
             let bb = {};
-            let name = _this.echartData[i].qyName;
-            let code = _this.echartData[i].key
-            let unitName = _this.echartData[i].unitName
-            let value = Number(_this.echartData[i].value);
+            let name = _this.legendList[i].qyName;
+            let code = _this.legendList[i].key
+            let unitName = _this.legendList[i].unitName
+            let value = Number(_this.legendList[i].value);
             let scale = 4 - i*0.2
             let effectData = [] as any
             let val = {

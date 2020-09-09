@@ -1623,7 +1623,7 @@ export default Vue.extend({
                 td{
                   width: 100%;
                   display: flex;
-                  justify-content: space-between;
+                  justify-content: flex-start;
                   align-items: center;
                   border: 0;
                   padding: 0 10px;
@@ -1643,14 +1643,17 @@ export default Vue.extend({
                   .name{
                     font-size: 12px;
                     color: #ffffff;
+                    width:30%;
                     // margin-left: 14px;
                   }
                   .money{
                     font-size: 12px;
                     color: #D5A32A;
+                    width:30%;
                     // margin-left: 14px;
                   }
                   .percentage{
+                    flex: 1;
                     font-size: 12px;
                     color: #D5A32A;
                     // margin-left: 10px;

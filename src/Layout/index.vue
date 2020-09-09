@@ -7,7 +7,7 @@
       <h1>{{ title }}</h1>
       <div class="setting">
         <p>
-          <Screenfull ref="Screenfull"></Screenfull>
+          <Screenfull ref="allView"></Screenfull>
         </p>
         <p class="line"></p>
         <p>
@@ -163,10 +163,22 @@ export default class extends mixins(ResizeMixin) {
         document.getElementsByTagName('title')[0].innerHTML = _this.currentTitle + '-智慧信用云平台'
       })
     }
+  @Watch("nowTime")
+  private changeNowTime(newVal:any){
+    let currentTime = newVal.substr(newVal.length-8,newVal.length)
+    // if(currentTime === '23:59:59'){
+      if(currentTime === '11:31:00'){
+      // UserModule.Login().then(()=>{
+        window.location.reload()
+      // })
+    }
+  }
 
   private defaultMap = "";
 
   private setting = false;
+
+  private nowTime = null
 
   // private dialogTableVisible = false;
 
@@ -174,6 +186,10 @@ export default class extends mixins(ResizeMixin) {
     left: "50px",
     bottom: "50px"
   };
+
+  mounted(){
+    this.nowTimes()
+  }
 
   private logout() {
     UserModule.LogOut().then(()=>{
@@ -196,6 +212,54 @@ export default class extends mixins(ResizeMixin) {
     this.$store.dispatch('SetDialogTableVisible',false)
     this.$router.push({name:path})
   }
+
+  //显示当前时间（年月日时分秒）
+    private timeFormate(timeStamp:any) {
+      let year = new Date(timeStamp).getFullYear();
+      let month =
+        new Date(timeStamp).getMonth() + 1 < 10
+          ? "0" + (new Date(timeStamp).getMonth() + 1)
+          : new Date(timeStamp).getMonth() + 1;
+      let date =
+        new Date(timeStamp).getDate() < 10
+          ? "0" + new Date(timeStamp).getDate()
+          : new Date(timeStamp).getDate();
+      let hh =
+        new Date(timeStamp).getHours() < 10
+          ? "0" + new Date(timeStamp).getHours()
+          : new Date(timeStamp).getHours();
+      let mm =
+        new Date(timeStamp).getMinutes() < 10
+          ? "0" + new Date(timeStamp).getMinutes()
+          : new Date(timeStamp).getMinutes();
+      let ss =
+        new Date(timeStamp).getSeconds() < 10
+          ? "0" + new Date(timeStamp).getSeconds()
+          : new Date(timeStamp).getSeconds();
+      (this as any).nowTime =
+        year +
+        "年" +
+        month +
+        "月" +
+        date +
+        "日" +
+        " " +
+        hh +
+        ":" +
+        mm +
+        ":" +
+        ss;
+    }
+    private nowTimes() {
+      this.timeFormate(new Date());
+      setInterval(this.nowTimes, 1000);
+      this.clear();
+    }
+    private clear() {
+      clearInterval((this as any).nowTimes);
+      (this as any).nowTimes = null;
+    }
+
 }
 </script>
 

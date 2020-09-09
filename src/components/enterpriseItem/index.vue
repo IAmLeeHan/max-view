@@ -58,9 +58,9 @@
         <div class="content leftContent">
           {{ item.x315OrgName }}
         </div>
-        <div class="num leftNum">
+        <!-- <div class="num leftNum">
           {{ item.counts }}{{ item.unit }}
-        </div>
+        </div> -->
       </div>
     </div>
     <div

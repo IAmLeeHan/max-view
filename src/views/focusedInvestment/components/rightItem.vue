@@ -94,6 +94,8 @@
 import Vue from "vue";
 import {getE4,getE5,getE5Pre} from "@/api/focusedInvestment"
 import { formData } from '@/utils/index'
+import {getGovModSleep} from '@/utils/getsleep';
+
 export default Vue.extend({
   props:{
     title:{
@@ -128,7 +130,11 @@ export default Vue.extend({
       active:0,
       rankTopData:[],
       rankBottomData:[] as any,
-      zczb:0
+      zczb:0,
+      e4ModSleep:0,
+      e5ModSleep:0,
+      e4Timer:null,
+      e5Timer:null
     }
   },
   watch:{
@@ -141,6 +147,8 @@ export default Vue.extend({
     //获取数据
     this.getTopData()
     this.getBottomData()
+    //获取轮询
+    this.getModSleep()
   },
   methods: {
     //点击查看更多
@@ -175,7 +183,37 @@ export default Vue.extend({
         }
       })
     },
+    getModSleep(){
+      let _this = this as any
+      this.e4ModSleep = getGovModSleep("e","e4")
+      this.e5ModSleep = getGovModSleep("e","e5")
+      if(this.e4ModSleep){
+        _this.e4Timer = setInterval(() => {
+            setTimeout(()=>{
+              _this.getTopData()
+            }, 0)
+          }, this.e4ModSleep*1000)
+      }
+      if(this.e5ModSleep){
+        _this.e5Timer = setInterval(() => {
+            setTimeout(()=>{
+              _this.getBottomData()
+            }, 0)
+          }, this.e5ModSleep*1000)
+      }
+    }
   },
+  beforeDestroy(){
+    let _this = this as any
+    if(_this.e4Timer){
+      window.clearInterval(_this.e4Timer)
+      this.e4Timer = null
+    }
+    if(_this.e5Timer){
+      window.clearInterval(_this.e5Timer)
+      this.e5Timer = null
+    }
+  }
 });
 </script>
 

@@ -248,7 +248,7 @@ export default Vue.extend({
       labelIndex:0,
       labelName:"",
       top10Data:[] as any,
-      itemIndex:0,
+      itemIndex:"" as any,
       loading:true,
       flag:0,//0:省，1市，2区,
       Municipality:false,//直辖市
@@ -265,7 +265,7 @@ export default Vue.extend({
       _this.timer = null
       _this.loop = 0
       this.judgeArea()
-      this.getData(this.labelIndex,this.labelName)
+      this.getData(this.labelIndex,this.labelName,1)
     },
   },
   created(){
@@ -290,10 +290,10 @@ export default Vue.extend({
     //切换标签栏
     changeLabel(val: number,name: any,ruleId: any,hasValue: any){
       if((ruleId===1&&hasValue)||(ruleId===0&&hasValue)){
-        this.getData(val,name)
+        this.getData(val,name,1)
       }
       if(ruleId===2){
-        this.getData(val,name)
+        this.getData(val,name,1)
       }
     },
     //选中某个列表
@@ -312,7 +312,7 @@ export default Vue.extend({
       this.$emit("getIndustry",params)
     },
     //获取数据
-    getData(val: any,name: any){
+    getData(val: any,name: any,flag: any){
       this.loading = true
       let _this = this as any
       //区域支柱行业
@@ -322,13 +322,27 @@ export default Vue.extend({
             this.loading = false
             if(res.code === "200" && JSON.parse(res.data).length){
               this.top10Data = JSON.parse(res.data)
-              this.itemIndex = this.top10Data[0].hydmCode
-              let params = {
-                type:this.type,
-                data:this.top10Data[0].charts,
-                labelName:name
+              if(flag){
+                this.itemIndex = this.top10Data[0].hydmCode
+                let params = {
+                  type:this.type,
+                  data:this.top10Data[0].charts,
+                  labelName:name
+                }
+                this.$emit("getIndustry",params)
+              }else{
+                let params = {
+                  type:this.type,
+                  data:[] as any,
+                  labelName:name
+                }
+                this.top10Data.map((item: any)=>{
+                  if(item.hydmCode === this.itemIndex){
+                    params.data = item.charts
+                  }
+                })
+                this.$emit("getIndustry",params)
               }
-              this.$emit("getIndustry",params)
               this.labelIndex = val
               this.labelName = name
             }
@@ -341,13 +355,27 @@ export default Vue.extend({
             this.loading = false
             if(res.code === "200" && JSON.parse(res.data).length){
               this.top10Data = JSON.parse(res.data)
-              this.itemIndex = this.top10Data[0].hydmCode
-              let params = {
-                type:this.type,
-                data:this.top10Data[0].charts,
-                labelName:name
+              if(flag){
+                this.itemIndex = this.top10Data[0].hydmCode
+                let params = {
+                  type:this.type,
+                  data:this.top10Data[0].charts,
+                  labelName:name
+                }
+                this.$emit("getIndustry",params)
+              }else{
+                let params = {
+                  type:this.type,
+                  data:[] as any,
+                  labelName:name
+                }
+                this.top10Data.map((item: any)=>{
+                  if(item.hydmCode === this.itemIndex){
+                    params.data = item.charts
+                  }
+                })
+                this.$emit("getIndustry",params)
               }
-              this.$emit("getIndustry",params)
               this.labelIndex = val,
               this.labelName = name
             }
@@ -360,14 +388,27 @@ export default Vue.extend({
             this.loading = false
             if(res.code === "200" && JSON.parse(res.data).length){
               this.top10Data = JSON.parse(res.data)
-              this.itemIndex = this.top10Data[0].hydmCode
-              // console.log(this.top10Data)
-              let params = {
-                type:this.type,
-                data:this.top10Data[0].charts,
-                labelName:name
+              if(flag){
+                this.itemIndex = this.top10Data[0].hydmCode
+                let params = {
+                  type:this.type,
+                  data:this.top10Data[0].charts,
+                  labelName:name
+                }
+                this.$emit("getIndustry",params)
+              }else{
+                let params = {
+                  type:this.type,
+                  data:[] as any,
+                  labelName:name
+                }
+                this.top10Data.map((item: any)=>{
+                  if(item.hydmCode === this.itemIndex){
+                    params.data = item.charts
+                  }
+                })
+                this.$emit("getIndustry",params)
               }
-              this.$emit("getIndustry",params)
               this.labelIndex = val,
               this.labelName = name
             }
@@ -453,7 +494,7 @@ export default Vue.extend({
               //开启标签轮询
               _this.pollingLabel()
               //获取数据
-              this.getData(this.labelIndex,this.labelName)
+              this.getData(this.labelIndex,this.labelName,flag)
             }
           }
           if(this.type === "starIndustry"){
@@ -481,7 +522,7 @@ export default Vue.extend({
               //开启标签轮询
               _this.pollingLabel()
               //获取数据
-              this.getData(this.labelIndex,this.labelName)
+              this.getData(this.labelIndex,this.labelName,flag)
             }
           }
           if(this.type === "potentialIndustry"){
@@ -509,7 +550,7 @@ export default Vue.extend({
               //开启标签轮询
               _this.pollingLabel()
               //获取数据
-              this.getData(this.labelIndex,this.labelName)
+              this.getData(this.labelIndex,this.labelName,flag)
             }
           }
         }

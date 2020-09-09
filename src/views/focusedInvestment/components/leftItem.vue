@@ -122,6 +122,7 @@ import Vue from "vue";
 import {getE2} from "@/api/focusedInvestment"
 import mixins from '@/components/polling/index.vue'
 import { formData } from '@/utils/index'
+import {getGovModSleep} from '@/utils/getsleep';
 export default Vue.extend({
   filters:{
     rate:function(val: number){
@@ -174,16 +175,12 @@ export default Vue.extend({
         },
       ],
       rankListMoney:[],
-      rankListNum:[]
+      rankListNum:[],
+      modSleep:0,
+      e2ModTimer:null
     }
   },
   watch:{
-    // moneyIndex(){
-    //   this.getLeftTopData()
-    // },
-    // numIndex(){
-    //   this.getLeftBottomData()
-    // },
     areaCode(){
       let _this = this as any
       window.clearInterval(_this.timer)
@@ -194,6 +191,7 @@ export default Vue.extend({
     }
   },
   created(){
+    this.getModSleep()
     let _this = this as any
     //获取区域外来资本概况money
     this.getLeftTopData(this.moneyIndex)
@@ -243,8 +241,30 @@ export default Vue.extend({
       this.getLeftTopData(val)
       //获取区域外来资本概况size
       this.getLeftBottomData(val)
+    },
+    getModSleep(){
+      let _this = this as any
+      this.modSleep = getGovModSleep("e","e2")
+      if(this.modSleep){
+          _this.e2ModTimer = setInterval(() => {
+            setTimeout(()=>{
+              window.clearInterval(_this.timer)
+              _this.timer = null
+              _this.loop = 0
+              this.getLeftTopData(this.moneyIndex)
+              this.getLeftBottomData(this.numIndex)
+            }, 0)
+          }, this.modSleep*1000)
+        }
     }
   },
+  beforeDestroy(){
+    let _this = this as any
+    if(_this.e2ModTimer){
+      window.clearInterval(_this.e2ModTimer)
+      this.e2ModTimer = null
+    }
+  }
 });
 </script>
 

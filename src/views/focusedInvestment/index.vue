@@ -15,6 +15,7 @@
           :title="e1Title"
           class="capitalFlowBox"
           :area-name="selectedArea.name"
+          @getModSleep="getEchartData"
         >
           <flowChart
             id="capitalFlow"
@@ -22,6 +23,7 @@
             height="100%"
             width="100%"
             :echarts-data="flowEchartData"
+            
           ></flowChart>
         </echartItem>
         <!-- 对外投资活跃企业 -->
