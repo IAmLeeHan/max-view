@@ -135,6 +135,9 @@ export default class extends mixins(ResizeMixin) {
                       let temp = "";//每次截取的字符串  
                       let start = i * maxLength;//开始截取的位置  
                       let end = start + maxLength;//结束截取的位置  
+                      if(value.length>8){
+                        value = value.substring(0,7)+'…'
+                      }
                       //这里也可以加一个是否是最后一行的判断
                       if(i + 1 === rowN){
                         temp = value.substring(start, end);  
