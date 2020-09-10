@@ -152,7 +152,7 @@ export default class extends mixins(ResizeMixin) {
                       return (data.length-i) * size
                     }
                   }
-                  // return (_this.sortList.length-params[3]) *size
+                  // return 12
                 },
                 itemStyle: {
                     color: _this.colorList2[i%20]

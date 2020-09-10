@@ -131,10 +131,10 @@
             </div>
             <div class="perBox">
               <div
-                class="per"
-                :class="[item.rata?'up':'down']"
+                class="per up"
+                
               >
-                {{ item.rata | rata }}%
+                {{ item.rata | rata }}
               </div>
               <div
                 v-if="item.rata>0"
@@ -142,12 +142,12 @@
               >
                 ↑
               </div>
-              <div
+              <!-- <div
                 v-else
                 class="flag down"
               >
                 ↓
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -189,9 +189,13 @@ export default Vue.extend({
     },
     rata:function(val: any){
       if(val){
-        return Math.abs(parseInt(val*100 + ''))
+        if(val*1>=0){
+          return Math.abs(parseInt(val*100 + ''))+"%"
+        }else{
+          return "--"
+        }
       }else{
-        return "-"
+        return "--"
       }
     },
     //省排名 全国排名
