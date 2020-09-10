@@ -35,7 +35,6 @@ export default class extends mixins(ResizeMixin) {
     this.chart.dispose()
     this.chart = null
   }
-
   private initChart() {
     let _this = this as any;
     this.chart = echarts.init(document.getElementById(this.id) as HTMLDivElement)
@@ -51,7 +50,6 @@ export default class extends mixins(ResizeMixin) {
     if(this.echartsData.length){
       industryName = _this.echartsData[0].industryName
     }
-    console.log(industryName,2323)
     for(let i in _this.echartsData){
       nameList.push(_this.echartsData[i].year)
       data2.push(_this.echartsData[i].counts);

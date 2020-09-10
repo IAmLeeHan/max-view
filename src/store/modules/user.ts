@@ -174,9 +174,18 @@ class User extends VuexModule implements IUserState {
                 resolve()
               }
             })
-            // this.ResetToken()
+            this.ResetToken()
             resolve()
           }
+        }).catch(err=>{
+          console.log(err);
+          removeRefresh()
+          removeToken()
+          resetRouter()
+          localStorage.clear()
+          this.SET_TOKEN('')
+          this.SET_KEEP_LOGGED_IN('0')
+          location.reload()
         })
       }).catch(err=>{
         console.log(err);

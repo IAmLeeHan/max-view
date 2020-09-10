@@ -58,12 +58,18 @@ export default class extends mixins(ResizeMixin) {
   })
   private changeData(){
     this.legendList = []
+    this.sortList = []
+    let data = JSON.parse(JSON.stringify(this.echartData))
+    this.sortList = data.sort((a: any,b: any)=>{
+          return (b.value*1) - (a.value*1)
+    })
     this.$nextTick(() => {
       this.chart = echarts.init(document.getElementById(this.id) as any);
       this.initChart(this.chart)
     })
   }
   private legendList = [] as any
+  private sortList = [] as any
   private colorList2 = ["#D31F9A","#00A2FF","#DEF427","#10D5C0","#ED694F","#F8A10B","#40CFE9","#5A45DA","#CB7BFD","#86ED32",'#c76972',"#c9a544","#329dcf","#ffb676","#a432f4","#f4cd32","#656ff0","#3a98f9","#57eb8b"]
   mounted() {
     this.chart = echarts.init(document.getElementById(this.id) as any);
@@ -76,6 +82,19 @@ export default class extends mixins(ResizeMixin) {
     this.chart.dispose()
     this.chart = null
   }
+  //删除重复元素
+  private fun(){
+    let arr = JSON.parse(JSON.stringify(this.sortList))
+    for (let i = 0; i < arr.length; i++) {
+        for(let j = i+1; j < arr.length; j++){
+            if(arr[i].value==arr[j].value){
+                arr.splice(j,1);
+　　　　　　　　　　j--;
+            }
+        }
+    }
+    return arr;
+}
   private mapGet(data: any,total: number){
     let _this = this
     _this.legendList = []
@@ -84,14 +103,14 @@ export default class extends mixins(ResizeMixin) {
         for(let i in data.features){
             d[data.features[i].properties.adcode] = data.features[i].properties.center
         }
-        for(let key in d){
-            _this.echartData.map((_item: any)=>{
-            if(key === _item.key){
-              _this.legendList.push(_item)
+        
+        _this.sortList.map((_item: any)=>{
+              for(let key in d){
+                if(key === _item.key){
+                  _this.legendList.push(_item)
+                }
             }
           })
-        }
-
         let series = [];
         for(let i = 0;i<_this.legendList.length;i++){
             let bb = {};
@@ -104,7 +123,7 @@ export default class extends mixins(ResizeMixin) {
             let val = {
               unitName:unitName,
               name:name,
-              value:""
+              value:[] as any,
             }
             if(d[code]&&value){
               val.value = d[code].concat(value)
@@ -124,10 +143,17 @@ export default class extends mixins(ResizeMixin) {
                     position: 'right',
                     formatter: '{b}',
                 },
-                // symbolSize: function(val: any) {
-                //     return (((val[2]/total)*100).toFixed(2))
-                // },
-                symbolSize:12,
+                
+                symbolSize:function(params: any){
+                  let data = _this.fun()
+                  let size = parseInt((32/data.length)+"")*1
+                  for(let i = data.length - 1;i>=0;i--){
+                    if(data[i].value*1 === params[2]){
+                      return (data.length-i) * size
+                    }
+                  }
+                  // return (_this.sortList.length-params[3]) *size
+                },
                 itemStyle: {
                     color: _this.colorList2[i%20]
                 },
@@ -151,7 +177,7 @@ export default class extends mixins(ResizeMixin) {
             geo: {
                 // map: '青岛市',
                 map:(_this as any).areaInfo.parentName,
-                zoom:0.9,
+                zoom:1.1,
                 label: {
                     show: false,
                     emphasis: {
@@ -169,7 +195,7 @@ export default class extends mixins(ResizeMixin) {
                         color: 'rgba(37, 43, 61, .5)' //悬浮背景
                     }
                 },
-                left:'left',
+                left:'center',
                 top:"center"
             },
             series: series
@@ -180,10 +206,10 @@ export default class extends mixins(ResizeMixin) {
     let _this = this
     myChart.clear();
     let total = 0
-    _this.echartData.map((item: any)=>{
+    _this.sortList.map((item: any)=>{
       total += Number(item.value*1)
     })
-    if(this.echartData.length){
+    if(this.sortList.length){
       MapModule.SetCurrentMap(formData({adminCode:(this as any).areaInfo.parentNode})).then(res=>{
         _this.mapGet(MapModule.currentMap,total)
       })
@@ -193,13 +219,13 @@ export default class extends mixins(ResizeMixin) {
 </script>
 <style lang="scss" scoped>
   .MapBox{
-    height:100%;
+    height:90%;
     width:100%;
     display:flex;
     align-items: center;
     .legendBox{
       width:50%;
-      height:70%;
+      height:80%;
       .r_box_ul{
           width:100%;
           margin-left:40px;

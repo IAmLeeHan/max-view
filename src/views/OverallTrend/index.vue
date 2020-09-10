@@ -801,7 +801,7 @@ export default Vue.extend({
         _this.ZDXBarShow = true
         _this.showZDXDate = true
         _this.ZDXWrap = false
-          _this.ZDXShowUnit = true
+        _this.ZDXShowUnit = true
           if(res.code === '200'){
             _this.ZDXData = res.data
             _this.ZDXEchartsData = res.data.orgCount.month.data
@@ -809,6 +809,12 @@ export default Vue.extend({
             if(res.data.orgCount.month.unit){
               _this.ZDXunit = res.data.orgCount.month.unit
             }
+          }
+          if(sessionStorage.getItem('b5Key')){
+            let obj: any = JSON.parse((sessionStorage as any).getItem('b5Key'))
+            _this.$refs.modB5.changeActive(obj.index,obj.value)
+          }else{
+            _this.$refs.modB5.changeActive(0,1)
           }
         })
         let urlE1 = _this.$getModUrl('e','e1')

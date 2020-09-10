@@ -667,7 +667,6 @@ export default Vue.extend({
       if(this.type === "potentialEnterprise"){
         _this.order = getGovModOrder("d","d3")
       }
-      console.log(this.order)
     }
   }
 });

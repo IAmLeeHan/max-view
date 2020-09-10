@@ -33,7 +33,7 @@ export default class extends mixins(ResizeMixin) {
     })
   }
 
-  private arrCount(arr:any[]){
+  private arrCount(arr: any[]){
     let count = 0
     arr.forEach(item => {
       count = count + item * 1 
@@ -73,12 +73,12 @@ export default class extends mixins(ResizeMixin) {
       legend: {
         tooltip:{
           show:true,
-          formatter:(params:any) => {
-            let index = _this.echartsData.map((item: any)=> item.name).findIndex((item:string)=>{
+          formatter:(params: any) => {
+            let index = _this.echartsData.map((item: any)=> item.name).findIndex((item: string)=>{
               return item === params.name
             })
-            let count:number = _this.arrCount(_this.echartsData.map((item:any)=>item.value * 1))
-            let item = _this.echartsData.filter((item:any,i:number)=>{
+            let count: number = _this.arrCount(_this.echartsData.map((item: any)=>item.value * 1))
+            let item = _this.echartsData.filter((item: any,i: number)=>{
               return i === index
             })
             return params.name + '&nbsp;&nbsp;&nbsp;' +  _this.$formatNum(item[0].value) + '&nbsp;&nbsp;&nbsp;' + ((item[0].value/count) * 100).toFixed(2) + '%'

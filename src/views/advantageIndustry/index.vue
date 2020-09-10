@@ -84,6 +84,7 @@ import industryItem from '@/components/industryItem/index.vue'
 import doubleEchart from '@/components/Charts/doubleEchart.vue'
 import {getAreaCode,getAdvantageLeftData,getAdvantageMiddleData,getAdvantageRightData,showLabel} from "@/api/advantageIndustry"
 import { formData } from '@/utils/index'
+import { EAreaModule } from '@/store/modules/eArea';
 import getTagRule from '@/utils/getTagRule';
 import getModName from '@/utils/getModName'
 import {
@@ -160,9 +161,9 @@ export default Vue.extend({
     }
   },
   created(){
-    this.selectedArea.name = this.$store.state.user.govInfoName
-    this.selectedArea.code = this.$store.state.user.govInfoQydm
-    this.selectedArea.selected = this.$store.state.user.govInfoName
+    this.selectedArea.name = this.$store.state.EArea.currentName
+    this.selectedArea.code = this.$store.state.EArea.currentQydm
+    this.selectedArea.selected = this.$store.state.EArea.currentQydm
     this.$nextTick(()=>{
         document.getElementsByTagName('title')[0].innerHTML = this.selectedArea.name + '-智慧信用云平台'
     })
@@ -205,23 +206,26 @@ export default Vue.extend({
       this.selectedArea.code = el.getCheckedNodes()[0].value
       this.selectedArea.name = el.getCheckedNodes()[0].label
       AppModule.setCurrentTitle((this as any).selectedArea.name)
+      EAreaModule.setQydm(this.selectedArea.code)
+      EAreaModule.setCurrentName(this.selectedArea.name)
     },
     //获取区域层级
     getareaMap(){
       let _this = this as any
-      let adminCode = this.selectedArea.code
+      let selectedCode = this.selectedArea.code
+      let adminCode = this.$store.state.user.govInfoQydm
       let topCode = this.$store.state.user.govInfoTop
-      getAreaCode(formData({adminCode:(this as any).selectedArea.code,topCode:topCode})).then(res=>{
+      getAreaCode(formData({adminCode:adminCode,topCode:topCode})).then(res=>{
         if((res as any).code === "200"){
           this.dataCity = res.data
           let firstIndex,secondIndex,thirdIndex = 0
-          if(adminCode.substr(0,2)==="11"||adminCode.substr(0,2)==="12"||adminCode.substr(0,2)==="31"||adminCode.substr(0,2)==="50"){
+          if(selectedCode.substr(0,2)==="11"||selectedCode.substr(0,2)==="12"||selectedCode.substr(0,2)==="31"||selectedCode.substr(0,2)==="50"){
             this.dataCity.map((item: any)=>{
-              if(item.code.substr(0,2) === adminCode.substr(0,2)){
+              if(item.code.substr(0,2) === selectedCode.substr(0,2)){
                 this.valueCity.push(item.code)
                 if(item.childs && item.childs.length){
                   item.childs.map((second: any)=>{
-                    if(second.code === adminCode){
+                    if(second.code === selectedCode){
                       this.valueCity.push(second.code)
                     }
                   })
@@ -230,16 +234,16 @@ export default Vue.extend({
             })
           }else{
             this.dataCity.map((item: any)=>{
-              if(item.code.substr(0,2) === adminCode.substr(0,2)){
+              if(item.code.substr(0,2) === selectedCode.substr(0,2)){
                 this.valueCity.push(item.code)
                 if(item.childs && item.childs.length){
                   item.childs.map((second: any)=>{
-                    if(second.code.substr(0,4) === adminCode.substr(0,4)){
+                    if(second.code.substr(0,4) === selectedCode.substr(0,4)){
                       this.valueCity.push(second.code)
                       if(second.childs && second.childs.length){
                         second.childs.map((third: any)=>{
-                          if(third.code === adminCode){
-                            this.valueCity.push(adminCode)
+                          if(third.code === selectedCode){
+                            this.valueCity.push(selectedCode)
                           }
                         })
                       }
