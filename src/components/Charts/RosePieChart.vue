@@ -52,11 +52,20 @@ export default class extends mixins(ResizeMixin) {
     this.chart = null
   }
 
+  private arrCount(arr:any[]){
+    let count = 0
+    arr.forEach(item => {
+      count = count + item * 1 
+    })
+    
+    return count
+  }
+
   private initChart() {
     let _this = this as any;
     this.chart = echarts.init(document.getElementById(this.id) as HTMLDivElement)
     this.chart.clear();
-     let dataName = [];
+     let dataName: string[] = [];
      for (let i in _this.echartsData) {
         dataName.push(_this.echartsData[i].name);
       }
@@ -69,6 +78,19 @@ export default class extends mixins(ResizeMixin) {
             }
       },
       legend: {
+        tooltip:{
+          show:true,
+          formatter:(params:any) => {
+            let index = dataName.findIndex((item:string)=>{
+              return item === params.name
+            })
+            let count:number = _this.arrCount(_this.echartsData.map((item:any)=>item.value * 1))
+            let item = _this.echartsData.filter((item:any,i:number)=>{
+              return i === index
+            })
+            return params.name + '  ' +  _this.$formatNum(item[0].value) + '  ' + ((item[0].value/count) * 100).toFixed(2) + '%'
+          }
+        },
         bottom: _this.vertical ? 30 : 0,
         padding: _this.vertical ? [5,0] :[0, 5],
         itemWidth: 10,
@@ -108,6 +130,10 @@ export default class extends mixins(ResizeMixin) {
         }
       ]
     } as EChartOption<EChartOption.SeriesPie>)
+    // _this.chart.on('mouseover',function(params:any){
+    //   console.log(params,"159951");
+      
+    // })
   }
 }
 </script>

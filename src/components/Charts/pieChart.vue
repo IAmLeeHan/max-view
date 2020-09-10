@@ -33,6 +33,15 @@ export default class extends mixins(ResizeMixin) {
     })
   }
 
+  private arrCount(arr:any[]){
+    let count = 0
+    arr.forEach(item => {
+      count = count + item * 1 
+    })
+    
+    return count
+  }
+
   beforeDestroy() {
     if (!this.chart) {
       return
@@ -56,11 +65,25 @@ export default class extends mixins(ResizeMixin) {
       ],
       tooltip:{
         trigger: "item",
+        confine:true,
         formatter: (params: any) => {
-              return params.name + ' ' +  _this.$formatNum(params.value) + ' ' + params.percent + '%'
+              return params.name + '&nbsp;&nbsp;&nbsp;' +  _this.$formatNum(params.value) + '&nbsp;&nbsp;&nbsp;' + params.percent + '%'
             }
       },
       legend: {
+        tooltip:{
+          show:true,
+          formatter:(params:any) => {
+            let index = _this.echartsData.map((item: any)=> item.name).findIndex((item:string)=>{
+              return item === params.name
+            })
+            let count:number = _this.arrCount(_this.echartsData.map((item:any)=>item.value * 1))
+            let item = _this.echartsData.filter((item:any,i:number)=>{
+              return i === index
+            })
+            return params.name + '&nbsp;&nbsp;&nbsp;' +  _this.$formatNum(item[0].value) + '&nbsp;&nbsp;&nbsp;' + ((item[0].value/count) * 100).toFixed(2) + '%'
+          }
+        },
         bottom: 12,
         padding: [-5, 5],
         itemWidth: 10,
