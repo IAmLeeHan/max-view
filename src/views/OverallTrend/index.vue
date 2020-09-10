@@ -112,7 +112,7 @@
             style="height:100%"
           >
             <div class="NewKeyEnterprisesBox">
-              <div class="echartsBox">
+              <div class="echartsBox" v-if="XZZDRecharts.length>0">
                 <verticalBar
                   v-if="XZZDechartsShow"
                   id="NewKeyEnterprises"
@@ -1443,6 +1443,7 @@ export default Vue.extend({
       min-height: 272px;
       background-image: url("~img/border-md.png");
       .NewKeyEnterprisesBox {
+        width: 100%;
         height: 100%;
         display: flex;
         justify-content: space-between;
@@ -1452,7 +1453,8 @@ export default Vue.extend({
           padding-right: 100px;
         }
         .tableBox {
-          width: 50%;
+          // width: 50%;
+          flex: 1;
           height: 100%;
         }
         table {
