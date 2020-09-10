@@ -182,7 +182,7 @@ export default class extends mixins(ResizeMixin) {
           label: {
               normal: {
                   show: false,
-                  formatter: (params:any)=>{
+                  formatter: (params: any)=>{
                     return params.name.replace(/省|市|自治区|特别行政区|壮族|回族|维吾尔/g,"");
                   },
                   position: 'right',

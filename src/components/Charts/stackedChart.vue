@@ -215,7 +215,7 @@ export default class extends mixins(ResizeMixin) {
     ]
     }
     _this.chart.setOption(option as any as EChartOption<EChartOption.SeriesBar>)
-    _this.chart.on('legendselectchanged',function(obj:any){
+    _this.chart.on('legendselectchanged',function(obj: any){
       for(let i in option.legend.selected){
         (option as any).legend.selected[i] = false
       }

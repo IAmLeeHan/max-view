@@ -145,7 +145,7 @@
             {{ item.rata | rata }}
           </div>
           <div
-            v-if="item.rata>=0"
+            v-if="item.rata>0"
             class="flag up"
           >
             ↑
@@ -801,13 +801,13 @@ export default Vue.extend({
           }
       }
       .top1{
-        background: url("../../assets/images/01.png")no-repeat, rgba(114,255,250,0.08);
+        background: url("../../assets/images/01.png")no-repeat, rgba(114,255,250,0.06);
       }
       .top2{
-        background: url("../../assets/images/02.png")no-repeat, rgba(114,255,250,0.08);
+        background: url("../../assets/images/02.png")no-repeat, rgba(114,255,250,0.06);
       }
       .top3{
-        background: url("../../assets/images/03.png")no-repeat, rgba(114,255,250,0.08);
+        background: url("../../assets/images/03.png")no-repeat, rgba(114,255,250,0.06);
       }
       .itemSelected{
         // background:rgba(67,246,255,0.24);
@@ -862,7 +862,7 @@ export default Vue.extend({
         font-size: 12px;
         color:#3DD3CF;
         margin-bottom:5px;
-        width:90px;
+        width:80px;
         text-align: center;
       }
     }
@@ -872,11 +872,11 @@ export default Vue.extend({
         width:150px;
       }
       .num{
-        width:100px;
+        width:130px;
         text-align: center;
       }
       .rank{
-        width:90px;
+        width:80px;
         text-align: center;
       }
     }

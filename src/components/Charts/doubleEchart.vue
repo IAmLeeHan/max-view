@@ -77,11 +77,11 @@ export default class extends mixins(ResizeMixin) {
           text:industryName,
           textStyle:{
             color:"#fff",
-            fontSize:16,
+            fontSize:14,
             fontWeight:"bold",
           },
           left:"4%",
-          top:30
+          top:25
         },
         tooltip: {
           trigger: 'axis',
@@ -108,7 +108,7 @@ export default class extends mixins(ResizeMixin) {
         },
         legend: {
           right:25,
-          top: 30,
+          top: 45,
           itemWidth: 14,
           itemHeight: 4,
           textStyle: {
@@ -119,8 +119,8 @@ export default class extends mixins(ResizeMixin) {
         grid: {
           left: '4%',
           right: '4%',
-          top: '25%',
-          bottom: '5%',
+          top: '30%',
+          bottom: '3%',
           containLabel: true
         },
         xAxis: [

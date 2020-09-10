@@ -4,7 +4,9 @@
     :style="{backgroundImage: 'url(' + bg + ')'}"
   >
     <el-header class="header">
-      <h1 id="pageTitle">{{ title }}</h1>
+      <h1 id="pageTitle">
+        {{ title }}
+      </h1>
       <div class="setting">
         <p>
           <Screenfull ref="allView"></Screenfull>

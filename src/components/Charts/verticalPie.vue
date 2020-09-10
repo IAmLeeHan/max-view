@@ -78,7 +78,8 @@ export default class extends mixins(ResizeMixin) {
         right: 20,
         bottom:"10%",
         textStyle: {
-          color: "#fff"
+          color: "#fff",
+          // fontSize:10
         },
         orient:"vertical" ,
         data: this.echartData.map((item: any)=> item.key)

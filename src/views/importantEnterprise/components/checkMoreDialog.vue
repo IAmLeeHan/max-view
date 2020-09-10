@@ -1,6 +1,12 @@
 <template>
-  <div class="importantEnterpriseBox">
-    <div class="dialogContent">
+  <div
+    class="importantEnterpriseBox"
+    @click.stop="close"
+  >
+    <div
+      class="dialogContent"
+      @click.stop=""
+    >
       <div class="top">
         <div class="title">
           {{ type | type }}
@@ -374,6 +380,7 @@ export default Vue.extend({
                 margin-left:30px;
                 float:left;
                 height:20px;
+                font-weight: bold;
                 margin-top:20px;
                 line-height:20px;
                 background: linear-gradient(0deg, #91E9EB 0%, #FFFFFF 100%);

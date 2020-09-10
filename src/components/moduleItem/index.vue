@@ -8,9 +8,15 @@
         </p>
         <p class="rightBK"></p>
       </div>
-      <div class="year" v-if="year">
-        <svg-icon class="svgIcon" name="calendar" />
-        <span>{{year}}</span>
+      <div
+        v-if="year"
+        class="year"
+      >
+        <svg-icon
+          class="svgIcon"
+          name="calendar"
+        />
+        <span>{{ year }}</span>
       </div>
       <ul
         v-if="subTitle.length>0&&showSwiper"

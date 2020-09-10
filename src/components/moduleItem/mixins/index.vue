@@ -27,7 +27,7 @@ export default Vue.extend({
                     if(data.length<=0){
                         console.log("没有sub");
                     }else{
-                        if(_this.govModNext === 0){
+                        if(_this.govModNext === 0 || data.length === 1){
                             console.log("不切换");
                         }else{
                             _this.loopFun(data)

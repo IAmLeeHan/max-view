@@ -78,7 +78,11 @@
           gov-key="a5Key"
           @changeCH="changeA5Active"
         >
-          <div width="100%" height="100%" slot="echarts">
+          <div
+            slot="echarts"
+            width="100%"
+            height="100%"
+          >
             <div class="TableBox">
               <table>
                 <tr
@@ -150,6 +154,7 @@
             width="100%"
             :echarts-data="businessNatureData"
             :unit="XLunit"
+            :wrap="true"
           ></verticalBar>
         </moduleItem>
         <moduleItem
@@ -553,11 +558,11 @@ export default Vue.extend({
       let time5 = getGovModSleep('a','a5') * 1000
       if(time5>0){
         _this.timerA5 = window.setInterval(()=>{
+          let obj: any = JSON.parse((sessionStorage as any).getItem('a5Key'))
           if(sessionStorage.getItem('a5Key')){
-            let obj: any = JSON.parse((sessionStorage as any).getItem('a5Key'))
             _this.$refs.son.changeActive(obj.index,obj.value)
           }else{
-            _this.$refs.son.changeActive(0,1)
+            _this.$refs.son.changeActive(0,obj.value)
           }
         },time5)
       }

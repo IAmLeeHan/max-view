@@ -12,8 +12,8 @@
           gov-key="b1Key"
           :gov-mod-next="nextB1"
           :gov-mod-next-sleep="sleepB1"
-          @changeCH="changeB1Active"
           :year="qyzlbhYear"
+          @changeCH="changeB1Active"
         >
           <doubleEchartLee
             v-if="ZLshow"
@@ -36,8 +36,8 @@
           gov-key="b2Key"
           :gov-mod-next="nextB2"
           :gov-mod-next-sleep="sleepB2"
-          @changeCH="changeB2Active"
           :year="cyqyzlfxYear"
+          @changeCH="changeB2Active"
         >
           <stackedChart
             v-if="ZLFXshow"
@@ -60,8 +60,8 @@
           gov-key="b3Key"
           :gov-mod-next="nextB3"
           :gov-mod-next-sleep="sleepB3"
-          @changeCH="changeB3Active"
           :year="xzqyqsYear"
+          @changeCH="changeB3Active"
         >
           <verticalBar
             v-if="XZshow"
@@ -74,7 +74,7 @@
             :unit="XZunit"
             :wrap="XZwrap"
             :rotate="XZrotate"
-            :showY="false"
+            :show-y="false"
             :year="qyzlbhYear"
           ></verticalBar>
         </moduleItem>
@@ -104,15 +104,18 @@
           :title="title4"
           flex-start
           :show-swiper="false"
-          @changeCH="changeB4Active"
           :year="xzzdqyslqsYear"
+          @changeCH="changeB4Active"
         >
           <div
             slot="echarts"
             style="height:100%"
           >
             <div class="NewKeyEnterprisesBox">
-              <div class="echartsBox" v-if="XZZDRecharts.length>0">
+              <div
+                v-if="XZZDRecharts.length>0"
+                class="echartsBox"
+              >
                 <verticalBar
                   v-if="XZZDechartsShow"
                   id="NewKeyEnterprises"
@@ -150,7 +153,7 @@
                     </td>
                   </tr>
                   <div
-                    v-if="XZZDList.length>6"
+                    v-if="popCount>6"
                     class="getMore"
                   >
                     <p @click="showMore(currentId)">
@@ -173,8 +176,8 @@
           gov-key="b5Key"
           :gov-mod-next="nextB5"
           :gov-mod-next-sleep="sleepB5"
-          @changeCH="changeB5Active"
           :year="zdxqyqsYear"
+          @changeCH="changeB5Active"
         >
           <ul
             v-if="showZDXDate"
@@ -284,8 +287,15 @@
                   {{ t.name }}
                 </li>
               </ul>
-              <div class="TableBox" v-loading="swiperLoad" element-loading-background="rgba(0, 0, 0, 0.5)">
-                <swiper :options="swiperOption" v-if="showSwiper">
+              <div
+                v-loading="swiperLoad"
+                class="TableBox"
+                element-loading-background="rgba(0, 0, 0, 0.5)"
+              >
+                <swiper
+                  v-if="showSwiper"
+                  :options="swiperOption"
+                >
                   <swiperSlide>
                     <table>
                       <tr
@@ -536,6 +546,7 @@ export default Vue.extend({
       ZDXWrap:false,
       ZDXrotate:40,
       showZDXDate:false,
+      xzzdCount:0,
       revocationOfEnterprise: [
         {
           name:"企业数量",
@@ -919,11 +930,11 @@ export default Vue.extend({
       let time4 = getGovModSleep('b','b4') * 1000
       if(time4>0){
         _this.timerB4 = window.setInterval(()=>{
+          let obj: any = JSON.parse((sessionStorage as any).getItem('b4Key'))
           if(sessionStorage.getItem('b4Key')){
-            let obj: any = JSON.parse((sessionStorage as any).getItem('b4Key'))
             _this.$refs.son.changeActive(obj.index,obj.value)
           }else{
-            _this.$refs.son.changeActive(0,1)
+            _this.$refs.son.changeActive(0,obj.value)
           }
         },time4)
       }
@@ -1315,6 +1326,7 @@ export default Vue.extend({
         _this.XZZDListShow = true
         if(res.code === '200'){
           _this.XZZDList = res.data
+          _this.popCount = res.count
         }
       })
     },

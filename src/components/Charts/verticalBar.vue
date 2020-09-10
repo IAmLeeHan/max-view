@@ -145,7 +145,7 @@ export default class extends mixins(ResizeMixin) {
                         temp = value.substring(start, end);  
                       }else if(i === 0){
                         if(_this.rotate>0){
-                          temp = "\n" + value.substring(start, end) + "\n";  
+                          temp = value.substring(start, end) + "\n";  
                         }else{
                           temp = value.substring(start, end) + "\n";  
                         }

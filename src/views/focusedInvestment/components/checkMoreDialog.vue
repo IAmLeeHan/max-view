@@ -1,6 +1,12 @@
 <template>
-  <div class="focusedInvestmentBox">
-    <div class="dialogContent">
+  <div
+    class="focusedInvestmentBox"
+    @click.stop="close"
+  >
+    <div
+      class="dialogContent"
+      @click.stop=""
+    >
       <div class="top">
         <div class="title">
           {{ type | type }}
@@ -84,7 +90,7 @@
               {{ item.orgName }}
             </div>
             <div class="money">
-              {{ item.govE5Money }}{{ item.govUnitName }}
+              {{ $formatNum(item.govE5Money) }}{{ item.govUnitName }}
             </div>
           </div>
         </div>
@@ -246,6 +252,7 @@ export default Vue.extend({
                 float:left;
                 height:20px;
                 margin-top:20px;
+                font-weight: bold;
                 line-height:20px;
                  background: linear-gradient(0deg, #91E9EB 0%, #FFFFFF 100%);
                 -webkit-background-clip: text;

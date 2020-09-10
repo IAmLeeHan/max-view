@@ -3,7 +3,7 @@
 ** fontSize(res)
 ** 返回值：字体大小
 **/
-export function fontSize(res:number) {
+export function fontSize(res: number) {
     let clientWidth =
     window.innerWidth ||
     document.documentElement.clientWidth ||

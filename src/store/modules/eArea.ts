@@ -5,7 +5,7 @@ import store from '@/store'
 import { enterpriseDistribution } from '@/api/area'
 
 export interface IeAreaState {
-  currentName:string
+  currentName: string
   currentQydm: string
   // 机构总数
   agencyTotal: number
@@ -38,7 +38,7 @@ class EArea extends VuexModule implements IeAreaState {
   }
 
   @Mutation
-  private SET_CURRENT_NAME(name:string){
+  private SET_CURRENT_NAME(name: string){
     this.currentName = name
   }
   // 设置机构数量
@@ -78,7 +78,7 @@ class EArea extends VuexModule implements IeAreaState {
   }
 
   @Action
-  public setCurrentName(name:string){
+  public setCurrentName(name: string){
     this.SET_CURRENT_NAME(name)
   }
 

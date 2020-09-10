@@ -34,7 +34,9 @@
             v-for="(item,index) in orgList"
             :key="index"
           >
-            <p class="subtitle">{{ item.name }}</p>
+            <p class="subtitle">
+              {{ item.name }}
+            </p>
             <p>
               <count-to
                 :start-val="0"
@@ -216,7 +218,7 @@ export default Vue.extend({
     .headerRight{
       height: 76px;
       padding: 14px 30px;
-      background: url('~img/header_bg.png') no-repeat;
+      background: url('~img/title_border.png') no-repeat;
       background-size: 100% 100%;
       display: flex;
       li{
