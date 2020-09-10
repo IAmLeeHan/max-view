@@ -127,7 +127,6 @@
                   :interval="true"
                   bar-color-top="#8DE8C7"
                   bar-color-bottom="#1FA879"
-                  :year="xzzdqyslqsYear"
                 ></verticalBar>
               </div>
               <div class="tableBox">
@@ -176,7 +175,6 @@
           gov-key="b5Key"
           :gov-mod-next="nextB5"
           :gov-mod-next-sleep="sleepB5"
-          :year="zdxqyqsYear"
           @changeCH="changeB5Active"
         >
           <ul
