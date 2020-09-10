@@ -123,7 +123,7 @@ export default class extends mixins(ResizeMixin) {
           fontSize: 10,
           // fontWeight:'lighter',
           rotate:0,
-          interval:_this.echartsData.name.length>6?2:0,
+          // interval:_this.echartsData.name.length>6?2:0,
           boundaryGap:true,
           formatter:function(value: any){  
               let ret = "";//拼接加\n返回的类目项  

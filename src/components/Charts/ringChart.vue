@@ -22,7 +22,15 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: '200px' }) private height!: string
   @Prop({ default: ()=>[] }) private echartsData!: string
 
-  private  colorList = ["#528af3","#40DCD6","#D75353","#A186F8","#C0D53A","#51AF51","#3066CB"]
+  private  colorList = [
+            "#528af3",
+            "#40DCD6",
+            "#D75353",
+            "#A186F8",
+            "#C0D53A",
+            "#51AF51",
+            "#3066CB"
+          ]
 
   @Watch('echartsData')
   private onEchartsDataChange(n: any,o: any){

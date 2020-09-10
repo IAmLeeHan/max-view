@@ -259,12 +259,10 @@
           <div 
             v-else
             slot="echarts"
-            width="100%"
-            height="100%"
+            class="swiperBox"
           >
             <div class="LDQYtable">
               <ul
-                v-if="showZDXDate"
                 class="Date"
               >
                 <li
@@ -276,8 +274,8 @@
                   {{ t.name }}
                 </li>
               </ul>
-              <div class="TableBox">
-                <swiper :options="swiperOption">
+              <div class="TableBox" v-loading="swiperLoad" element-loading-background="rgba(0, 0, 0, 0.5)">
+                <swiper :options="swiperOption" v-if="showSwiper">
                   <swiperSlide>
                     <table>
                       <tr
@@ -561,6 +559,8 @@ export default Vue.extend({
           value:2
         }
       ],
+      swiperLoad:false,
+      showSwiper:true,
       LDQYAllData:[],
       LDQYTableData1:[],
       LDQYTableData2:[],
@@ -606,7 +606,7 @@ export default Vue.extend({
       XZZDechartsShow:false,
       swiperOption:{
         autoplay:{
-          delay:3000
+          delay:10000
         },
         direction: 'vertical',
         loop:true
@@ -1003,6 +1003,9 @@ export default Vue.extend({
   },
   methods:{
     itemStyle(i: any){
+      /*
+        '#528af3',"#FFA629"
+      */
       switch (i) {
         case 0:
           return '#CB7CFE'
@@ -1012,6 +1015,12 @@ export default Vue.extend({
           break;
         case 2:
           return '#10D6C0'
+          break;
+        case 3:
+          return '#528af3'
+          break;
+        case 4:
+          return '#FFA629'
           break;
         default:
           break;
@@ -1219,20 +1228,28 @@ export default Vue.extend({
     changeQYLDType(val: any,i: number){
       let _this = this as any
       _this.QYLDActive = i
-      console.log(val,"val");
-      
+      _this.showSwiper = false
+      _this.swiperLoad = true
       switch (val * 1) {
         case 1:
           let data = _this.LDQYAllData.province
           let index = data.length / 2
           _this.LDQYTableData1 = data.slice(0,index)
           _this.LDQYTableData2 = data.slice(index,data.length)
+          setTimeout(() => {
+            _this.showSwiper = true
+            _this.swiperLoad = false
+          }, 180);
           break;
         case 2:
           let data2 = _this.LDQYAllData.city
           let index2 = data2.length / 2
           _this.LDQYTableData1 = data2.slice(0,index2)
           _this.LDQYTableData2 = data2.slice(index2,data2.length)
+          setTimeout(() => {
+            _this.showSwiper = true
+            _this.swiperLoad = false
+          }, 180);
           break;
         default:
           break;
@@ -1544,6 +1561,10 @@ export default Vue.extend({
           position: relative;
           .item{
             margin-top:10px;
+            display: flex;
+            i{
+              flex-shrink: 0;
+            }
             span{
               margin-left: 10px;
             }
@@ -1566,13 +1587,18 @@ export default Vue.extend({
           }
         }
       }
+      .swiperBox{
+        width: 100%;
+        height: calc(100% - 20px);
+      }
       .LDQYtable{
         margin-top: 20px;
         // position: absolute;
         z-index: 3000;
         color: #fff;
         width: 100%;
-        position: absolute;
+        height: 100%;
+        // position: absolute;
         left: 0px;
         .Date{
           width: 148px;
@@ -1598,10 +1624,7 @@ export default Vue.extend({
         }
         .TableBox{
           width: 100%;
-          height: 200px;
-          display: flex;
-          position: absolute;
-          justify-content: space-between;
+          height: 100%;
           .swiper-container{
             width: 100%;
             height: 100%;

@@ -78,7 +78,7 @@
           gov-key="a5Key"
           @changeCH="changeA5Active"
         >
-          <div slot="echarts">
+          <div width="100%" height="100%" slot="echarts">
             <div class="TableBox">
               <table>
                 <tr

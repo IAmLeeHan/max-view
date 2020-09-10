@@ -305,7 +305,7 @@ export default class extends mixins(ResizeMixin) {
           tooltip:{
               show:true,
               formatter: function(params: any) {
-                  return '<div class="tooltip_box" style="width:auto;height:146px;background: url('+img+') no-repeat left top / 100% 100%;"><p style="padding-left:20px;padding-top:16px;color:#fff;font-size:16px;font-weight:600;">'+params.name+'</p><p style="padding-left:20px;padding-top:12px;color:#1dd6cf;font-size:18px;font-weight:bold;font-family: Arial;">'+_that.$formatNum(params.value)+'<span style="padding-right:10px;color:#1dd6cf;font-size:14px;font-weight:500;"> 家</span></p></div>'
+                  return '<div class="tooltip_box" style="width:auto;height:146px;background: url('+img+') no-repeat left top / 100% 100%;"><p style="padding-left:20px;padding-top:16px;padding-right:16px;color:#fff;font-size:16px;font-weight:600;">'+params.name+'</p><p style="padding-left:20px;padding-top:12px;color:#1dd6cf;font-size:18px;font-weight:bold;font-family: Arial;">'+_that.$formatNum(params.value)+'<span style="padding-right:10px;color:#1dd6cf;font-size:14px;font-weight:500;"> 家</span></p></div>'
               },
               position:'top',
               backgroundColor:'none'

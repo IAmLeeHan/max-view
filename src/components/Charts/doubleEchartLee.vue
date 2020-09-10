@@ -171,7 +171,7 @@ export default class extends mixins(ResizeMixin) {
               fontSize: 10,
               // fontWeight:'lighter',
               // align: 'center',
-              interval: nameList.length>6?2:0,
+              // interval: nameList.length>6?2:0,
               rotate:0,
               formatter:function(value: any){  
               let ret = "";//拼接加\n返回的类目项  
