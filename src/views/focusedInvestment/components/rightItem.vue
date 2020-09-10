@@ -78,7 +78,7 @@
             {{ item.orgName }}
           </div>
           <div class="num2">
-            {{ item.govE5Money }}{{ item.govUnitName }}
+            {{ item.govE5Money | thousands(that) }}{{ item.govUnitName }}
           </div>
         </div>
       </div>
@@ -97,6 +97,15 @@ import { formData } from '@/utils/index'
 import {getGovModSleep} from '@/utils/getsleep';
 
 export default Vue.extend({
+  filters:{
+    thousands:function(val: any,that: any){
+      if(val){
+        return that.$formatNum(val)
+      }else{
+        return ""
+      }
+    }
+  },
   props:{
     title:{
       type:String,
@@ -127,6 +136,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      that:this,
       active:0,
       rankTopData:[],
       rankBottomData:[] as any,
@@ -149,6 +159,17 @@ export default Vue.extend({
     this.getBottomData()
     //获取轮询
     this.getModSleep()
+  },
+  beforeDestroy(){
+    let _this = this as any
+    if(_this.e4Timer){
+      window.clearInterval(_this.e4Timer)
+      this.e4Timer = null
+    }
+    if(_this.e5Timer){
+      window.clearInterval(_this.e5Timer)
+      this.e5Timer = null
+    }
   },
   methods: {
     //点击查看更多
@@ -201,17 +222,6 @@ export default Vue.extend({
             }, 0)
           }, this.e5ModSleep*1000)
       }
-    }
-  },
-  beforeDestroy(){
-    let _this = this as any
-    if(_this.e4Timer){
-      window.clearInterval(_this.e4Timer)
-      this.e4Timer = null
-    }
-    if(_this.e5Timer){
-      window.clearInterval(_this.e5Timer)
-      this.e5Timer = null
     }
   }
 });

@@ -24,6 +24,7 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: ()=>[] }) private echartsData!: any[]
   @Prop({ default: false }) private wrap!: boolean
   @Prop({ default: 40}) private rotate!: number
+  @Prop({ default:'' }) private year!: number | string
 
   @Watch('echartsData')
   private changeData(){
@@ -58,11 +59,11 @@ export default class extends mixins(ResizeMixin) {
           formatter: function(params: any){
             let html = "<div>"
             if(params[1]){
-              if(params[1].seriesName.indexOf("企业数量") !== -1){
-                html += "<div>"+params[1].name+"</div>"
+              if(params[1].seriesName.indexOf("企业数量") !== -1){  
+                html += "<div>"+`${_this.year?_this.year + '年' + params[1].name + '月' : params[1].name}`+"</div>"
                 html += "<div>"+params[1].marker+params[1].seriesName+" ："+params[1].data.num+"%"+"</div>"
               }else{
-                html += "<div>"+params[1].name+"</div>"
+                html += "<div>"+`${_this.year?_this.year + '年' + params[1].name + '月' : params[1].name}`+"</div>"
                 html += "<div>"+params[1].marker+params[1].seriesName+" ："+ _this.$formatNum(params[1].value) +"%"+"</div>"
               }
             }

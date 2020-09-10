@@ -4,7 +4,7 @@
     :style="{backgroundImage: 'url(' + bg + ')'}"
   >
     <el-header class="header">
-      <h1>{{ title }}</h1>
+      <h1 id="pageTitle">{{ title }}</h1>
       <div class="setting">
         <p>
           <Screenfull ref="allView"></Screenfull>
@@ -164,7 +164,7 @@ export default class extends mixins(ResizeMixin) {
       })
     }
   @Watch("nowTime")
-  private changeNowTime(newVal:any){
+  private changeNowTime(newVal: any){
     let currentTime = newVal.substr(newVal.length-8,newVal.length)
     // if(currentTime === '23:59:59'){
     //   // if(currentTime === '11:31:00'){
@@ -214,7 +214,7 @@ export default class extends mixins(ResizeMixin) {
   }
 
   //显示当前时间（年月日时分秒）
-    private timeFormate(timeStamp:any) {
+    private timeFormate(timeStamp: any) {
       let year = new Date(timeStamp).getFullYear();
       let month =
         new Date(timeStamp).getMonth() + 1 < 10

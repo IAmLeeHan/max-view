@@ -47,6 +47,11 @@ export default class extends mixins(ResizeMixin) {
     let unit = ''
     let unitList = [] as any
     let labelName = ''
+    let industryName = ""
+    if(this.echartsData.length){
+      industryName = _this.echartsData[0].industryName
+    }
+    console.log(industryName,2323)
     for(let i in _this.echartsData){
       nameList.push(_this.echartsData[i].year)
       data2.push(_this.echartsData[i].counts);
@@ -68,6 +73,16 @@ export default class extends mixins(ResizeMixin) {
       data.push(val)
     }
     this.chart.setOption({
+        title:{
+          text:industryName,
+          textStyle:{
+            color:"#fff",
+            fontSize:16,
+            fontWeight:"bold",
+          },
+          left:"4%",
+          top:30
+        },
         tooltip: {
           trigger: 'axis',
           formatter: function(params: any){
@@ -92,7 +107,7 @@ export default class extends mixins(ResizeMixin) {
           }
         },
         legend: {
-          left:25,
+          right:25,
           top: 30,
           itemWidth: 14,
           itemHeight: 4,

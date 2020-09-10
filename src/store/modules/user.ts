@@ -1,6 +1,7 @@
 import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-decorators'
 import { login, logout } from '@/api/users'
 import { getRefresh, setRefresh, removeRefresh,setToken,removeToken } from '@/utils/cookies'
+import { EAreaModule } from '@/store/modules/eArea';
 import {
   getGovName,
   setGovName,
@@ -100,6 +101,7 @@ class User extends VuexModule implements IUserState {
             setGovName(name)
             this.SET_NAME(name)
             this.SET_GOV_INFO_NAME(govInfoName)
+            EAreaModule.setCurrentName(govInfoName)
             setGovInfoName(govInfoName)
             this.SET_GOV_INFO_QYDM(govInfoQydm)
             setGovInfoQydm(govInfoQydm)
@@ -142,6 +144,7 @@ class User extends VuexModule implements IUserState {
             setGovName(name)
             this.SET_NAME(name)
             this.SET_GOV_INFO_NAME(govInfoName)
+            EAreaModule.setCurrentName(govInfoName)
             setGovInfoName(govInfoName)
             this.SET_GOV_INFO_QYDM(govInfoQydm)
             setGovInfoQydm(govInfoQydm)

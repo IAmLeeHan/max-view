@@ -239,6 +239,11 @@ export default Vue.extend({
     })
     this.getareaMap()
   },
+  mounted(){
+    this.$nextTick(()=>{
+      (document as any).getElementById("pageTitle").innerHTML = "重点企业分析"
+    })
+  },
   methods:{
     //判断点击的是哪个查看更多
     checkMore(val: any){

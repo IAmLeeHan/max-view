@@ -202,6 +202,13 @@ export default Vue.extend({
       _this.pollingLabel()
     }, 2000);
   },
+  beforeDestroy(){
+    let _this = this as any
+    if(_this.e2ModTimer){
+      window.clearInterval(_this.e2ModTimer)
+      this.e2ModTimer = null
+    }
+  },
   methods: {
     //切换投资金额top10
     moneyChange(val: number){
@@ -256,13 +263,6 @@ export default Vue.extend({
             }, 0)
           }, this.modSleep*1000)
         }
-    }
-  },
-  beforeDestroy(){
-    let _this = this as any
-    if(_this.e2ModTimer){
-      window.clearInterval(_this.e2ModTimer)
-      this.e2ModTimer = null
     }
   }
 });

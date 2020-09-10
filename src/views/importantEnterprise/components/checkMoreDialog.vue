@@ -32,11 +32,11 @@
             v-for="(item,index) in rankList"
             :key="index"
             class="rankItem"
-            :class="{top1: index===0&&current===1,top2: index===1&&current===1,top3: index===2&&current===1}"
+            :class="{top1: index===0&&current===1&&order===1,top2: index===1&&current===1&&order===1,top3: index===2&&current===1&&order===1}"
           >
             <div
               class="index"
-              :class="{top: index+1<=3&&current===1}"
+              :class="{top: index+1<=3&&current===1&&order===1}"
             >
               {{ (((current-1)*10)+index)+1 }}
             </div>
@@ -59,7 +59,7 @@
               v-show="flag!==0"
               class="rank"
             >
-              省排名
+              省级排名
             </div>
             <div
               v-show="flag===2&&!Municipality"
@@ -72,11 +72,11 @@
             v-for="(item,index) in rankList"
             :key="index"
             class="rankItem"
-            :class="{top1: index===0&&current===1,top2: index===1&&current===1,top3: index===2&&current===1}"
+            :class="{top1: index===0&&current===1&&order===1,top2: index===1&&current===1&&order===1,top3: index===2&&current===1&&order===1}"
           >
             <div
               class="index"
-              :class="{top: index+1<=3&&current===1}"
+              :class="{top: index+1<=3&&current===1&&order===1}"
             >
               {{ (((current-1)*10)+index)+1 }}
             </div>
@@ -109,11 +109,11 @@
             v-for="(item,index) in rankList"
             :key="index"
             class="rankItem"
-            :class="{top1: index===0&&current===1,top2: index===1&&current===1,top3: index===2&&current===1}"
+            :class="{top1: index===0&&current===1&&order===1,top2: index===1&&current===1&&order===1,top3: index===2&&current===1&&order===1}"
           >
             <div
               class="index"
-              :class="{top: index+1<=3&&current===1}"
+              :class="{top: index+1<=3&&current===1&&order===1}"
             >
               {{ (((current-1)*10)+index)+1 }}
             </div>
@@ -169,6 +169,7 @@
 import Vue from "vue";
 import {getLeftDialogPage,getMiddleDialogPage,getRightDialogPage} from "@/api/importantEnterprise"
 import { formData } from '@/utils/index'
+import {getGovModOrder} from '@/utils/getsleep';
 export default Vue.extend({
   filters:{
     type:function(val: string){
@@ -240,7 +241,8 @@ export default Vue.extend({
       current:1,
       total:0,
       flag:0,//0:省，1市，2区
-      Municipality:false
+      Municipality:false,
+      order:1
     }
   },
   created(){
@@ -251,6 +253,8 @@ export default Vue.extend({
         this.labelIndex = this.labelList[0].id
       }
     }
+    //判断模块是否需要排序
+    this.getOrder()
     //判断当前绑定的地区层级
     this.judgeArea()
     //获取数据
@@ -316,6 +320,19 @@ export default Vue.extend({
           this.Municipality = true
         }
       }
+    },
+    getOrder(){
+      let _this = this as any
+      if(this.type === "pillarEnterprise"){
+        _this.order = getGovModOrder("d","d1")
+      }
+      if(this.type === "starEnterprise"){
+        _this.order = getGovModOrder("d","d2")
+      }
+      if(this.type === "potentialEnterprise"){
+        _this.order = getGovModOrder("d","d3")
+      }
+      console.log(this.order,1212)
     }
   },
   

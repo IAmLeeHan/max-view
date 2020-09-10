@@ -2,6 +2,7 @@
 import './404'
 import './back-top'
 import './bug'
+import './calendar'
 import './chart'
 import './clipboard'
 import './component'

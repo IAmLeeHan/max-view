@@ -43,7 +43,7 @@ export default class extends mixins(ResizeMixin) {
   selectedAddress(){
     return this.selectedPT.length>1?this.selectedPT[this.selectedPT.length-1]:"中国"
   }
-  get CurrentQydm(){
+  get CurrentQydm(){    
     return EAreaModule.currentQydm
   }
 
@@ -82,7 +82,7 @@ export default class extends mixins(ResizeMixin) {
     }
     this.init()
     this.$nextTick(() => {
-      EAreaModule.setName((this as any).selectedAddress)
+      EAreaModule.setCurrentName((this as any).selectedAddress)
       document.getElementsByTagName('title')[0].innerHTML = AppModule.currentTitle + '-智慧信用云平台'
       AppModule.setCurrentTitle((this as any).selectedAddress)
       // this.initChart()
@@ -114,6 +114,7 @@ export default class extends mixins(ResizeMixin) {
       })
     }else{
       EAreaModule.getEnterpriseDistribution(qydm).then(res=>{
+        (EAreaModule as any).SET_LOADING(false)
         MapModule.SetCurrentMap(formData({adminCode:qydm})).then(res=>{
           (EAreaModule as any).SET_LOADING(true)
           _this.mapGet(`中国`,MapModule.currentMap, _this.chart);
@@ -327,7 +328,7 @@ export default class extends mixins(ResizeMixin) {
 
   private changeInit(){
     (this as any).selectedAddress = this.selectedPT.length>1?this.selectedPT[this.selectedPT.length-1]:"中国"
-    EAreaModule.setName((this as any).selectedAddress)
+    EAreaModule.setCurrentName((this as any).selectedAddress)
     AppModule.setCurrentTitle((this as any).selectedAddress)
   }
 
@@ -436,8 +437,10 @@ export default class extends mixins(ResizeMixin) {
             }else{
               (_that as any).selectedPT.push(params.data.name)
             }
+            (EAreaModule as any).SET_LOADING(false)
             EAreaModule.setQydm(params.data.code)
             EAreaModule.getEnterpriseDistribution(params.data.code).then((res: any)=>{
+              (EAreaModule as any).SET_LOADING(true)
               _that.mapGet(params.data.name,MapModule.currentMap, _that.chart);
             })
           }

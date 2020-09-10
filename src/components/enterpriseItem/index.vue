@@ -47,11 +47,11 @@
         v-for="(item,index) in rankList"
         :key="index"
         class="rankItem"
-        :class="{top1: index===0,top2: index===1,top3: index===2}"
+        :class="{top1: index===0&&order===1,top2: index===1&&order===1,top3: index===2&&order===1}"
       >
         <div
           class="index"
-          :class="{top: index+1<=3}"
+          :class="{top: index+1<=3&&order===1}"
         >
           {{ index+1 }}
         </div>
@@ -78,8 +78,8 @@
           <span v-if="flag===2&&!Municipality">市排名</span>
           <span v-else></span>
         </div>
-        <div class="rankLabel">
-          <span v-if="flag!==0">省排名</span>
+        <div class="rankLabel countryLabel">
+          <span v-if="flag!==0">省级排名</span>
           <span v-else></span>
         </div>
         <div class="rankLabel countryLabel">
@@ -90,11 +90,11 @@
         v-for="(item,index) in rankList"
         :key="index"
         class="rankItem"
-        :class="{top1: index===0,top2: index===1,top3: index===2}"
+        :class="{top1: index===0&&order===1,top2: index===1&&order===1,top3: index===2&&order===1}"
       >
         <div
           class="index"
-          :class="{top: index+1<=3}"
+          :class="{top: index+1<=3&&order===1}"
         >
           {{ index+1 }}
         </div>
@@ -129,11 +129,11 @@
         v-for="(item,index) in rankList"
         :key="index"
         class="rankItem"
-        :class="{top1: index===0,top2: index===1,top3: index===2}"
+        :class="{top1: index===0&&order===1,top2: index===1&&order===1,top3: index===2&&order===1}"
       >
         <div
           class="index"
-          :class="{top: index+1<=3}"
+          :class="{top: index+1<=3&&order===1}"
         >
           {{ index+1 }}
         </div>
@@ -141,27 +141,26 @@
           {{ item.x315OrgName }}
         </div>
         <div class="num rightNum">
-          {{ item.counts }}{{ item.unit }}
+          {{ $formatNum(item.counts) }}{{ item.unit }}
         </div>
         <div class="perBox">
           <div
-            class="per"
-            :class="[item.rata>0?'up':'down']"
+            class="per up"
           >
-            {{ item.rata | rata }}%
+            {{ item.rata | rata }}
           </div>
           <div
-            v-if="item.rata>0"
+            v-if="item.rata>=0"
             class="flag up"
           >
             ↑
           </div>
-          <div
+          <!-- <div
             v-else
             class="flag down"
           >
             ↓
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -199,7 +198,7 @@
         name="time"
       ></slot>
       <slot 
-        v-if="echartLabelIndex===2" 
+        v-if="echartLabelIndex===2&&flag!==2" 
         name="area"
       ></slot>
     </div>
@@ -213,14 +212,18 @@ import {getEnterpriseLeftData,getEnterpriseMiddleData,getEnterpriseRightData,get
 import { formData } from '@/utils/index'
 import mixins from '@/components/polling/index.vue'
 import getTagRule from '@/utils/getTagRule';
-import {getGovModSleep} from '@/utils/getsleep';
+import {getGovModSleep,getGovModOrder} from '@/utils/getsleep';
 export default Vue.extend({
   filters:{
     rata:function(val: any){
       if(val){
-        return Math.abs(parseInt(val*100 + ''))
+        if(val*1>=0){
+          return Math.abs(parseInt(val*100 + ''))+"%"
+        }else{
+          return "--"
+        }
       }else{
-        return "-"
+        return "--"
       }
     },
     // 省排名 全国排名
@@ -298,7 +301,8 @@ export default Vue.extend({
       Municipality:false,//直辖市
       d1ModTimer:null,
       d2ModTimer:null,
-      d3ModTimer:null
+      d3ModTimer:null,
+      order:1
     }
   },
   watch:{
@@ -317,8 +321,24 @@ export default Vue.extend({
       //判断当前绑定的地区层级
       this.judgeArea()
       this.getLabelList(1)
+      this.getOrder()
       // console.log(this.areaCode,22)
       // console.log(JSON.parse(this.$store.state.user.indexList))
+  },
+  beforeDestroy(){
+    let _this = this as any
+    if(_this.d1ModTimer){
+      window.clearInterval(_this.d1ModTimer)
+      this.d1ModTimer = null
+    }
+    if(_this.d2ModTimer){
+      window.clearInterval(_this.d2ModTimer)
+      this.d2ModTimer = null
+    }
+    if(_this.d3ModTimer){
+      window.clearInterval(_this.d3ModTimer)
+      this.d3ModTimer = null
+    }
   },
   methods: {
     hoverLeave(){
@@ -506,6 +526,29 @@ export default Vue.extend({
         if(this.areaCode.substr(0,2)==="11" || this.areaCode.substr(0,2)==="12" || this.areaCode.substr(0,2)==="31" || this.areaCode.substr(0,2)==="50"){
           this.Municipality = true
         }
+        this.echartLabelList = [
+          {
+            label:"注册资本分布"
+          },
+          {
+            label:"成立时间分布"
+          },
+        ]
+        if(this.echartLabelIndex === 2){
+          this.echartLabelIndex = 0
+        }
+      }else{
+        this.echartLabelList = [
+          {
+            label:"注册资本分布"
+          },
+          {
+            label:"成立时间分布"
+          },
+          {
+            label:"区域分布"
+          },
+        ]
       }
     },
     //获取数据
@@ -612,21 +655,19 @@ export default Vue.extend({
         }
       }
       
-    }
-  },
-  beforeDestroy(){
-    let _this = this as any
-    if(_this.d1ModTimer){
-      window.clearInterval(_this.d1ModTimer)
-      this.d1ModTimer = null
-    }
-    if(_this.d2ModTimer){
-      window.clearInterval(_this.d2ModTimer)
-      this.d2ModTimer = null
-    }
-    if(_this.d3ModTimer){
-      window.clearInterval(_this.d3ModTimer)
-      this.d3ModTimer = null
+    },
+    getOrder(){
+      let _this = this as any
+      if(this.type === "pillarEnterprise"){
+        _this.order = getGovModOrder("d","d1")
+      }
+      if(this.type === "starEnterprise"){
+        _this.order = getGovModOrder("d","d2")
+      }
+      if(this.type === "potentialEnterprise"){
+        _this.order = getGovModOrder("d","d3")
+      }
+      console.log(this.order)
     }
   }
 });
@@ -743,7 +784,7 @@ export default Vue.extend({
   .rankBox{
       .rankItem{
           height:36px;
-          background:rgba(114,255,250,0.08);
+          background:rgba(114,255,250,0.06);
           display:flex;
           color:#fff;
           font-size: 12px;
@@ -771,13 +812,13 @@ export default Vue.extend({
           }
       }
       .top1{
-        background: url("../../assets/images/01.png")no-repeat, rgba(114,255,250,0.08);
+        background: url("../../assets/images/01.png")no-repeat, rgba(114,255,250,0.06);
       }
       .top2{
-        background: url("../../assets/images/02.png")no-repeat, rgba(114,255,250,0.08);
+        background: url("../../assets/images/02.png")no-repeat, rgba(114,255,250,0.06);
       }
       .top3{
-        background: url("../../assets/images/03.png")no-repeat, rgba(114,255,250,0.08);
+        background: url("../../assets/images/03.png")no-repeat, rgba(114,255,250,0.06);
       }
   }
   .rankLeftBox{
@@ -838,7 +879,6 @@ export default Vue.extend({
         width:145px;
         margin-left:10px;
         text-align: center;
-        // background:yellow;
       }
       .rank{
         width:60px;
@@ -849,12 +889,13 @@ export default Vue.extend({
       }
       .provinceRank{
         // margin-left:5px;
+        width:75px;
       }
       .countryRank{
         width:75px;
       }
       .content{
-        width:170px;
+        width:155px;
       }
     }
     

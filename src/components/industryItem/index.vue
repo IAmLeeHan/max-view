@@ -49,12 +49,12 @@
         v-for="(item,index) in top10Data"
         :key="index"
         class="rankItem"
-        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex&&index>2,itemSelected1: item.hydmCode===itemIndex&&index===0,itemSelected2: item.hydmCode===itemIndex&&index===1,itemSelected3: item.hydmCode===itemIndex&&index===2}"
+        :class="{top1: index===0&&order===1,top2: index===1&&order===1,top3: index===2&&order===1,itemSelected: (item.hydmCode===itemIndex&&index>2&&order===1)||(item.hydmCode===itemIndex&&order===0),itemSelected1: item.hydmCode===itemIndex&&index===0&&order===1,itemSelected2: item.hydmCode===itemIndex&&index===1&&order===1,itemSelected3: item.hydmCode===itemIndex&&index===2&&order===1}"
         @click="selectedItem(item.hydmCode)"
       >
         <div
           class="index"
-          :class="{top: index+1<=3}"
+          :class="{top: index+1<=3&&order===1}"
         >
           {{ index+1 }}
         </div>
@@ -78,7 +78,7 @@
           v-show="flag!==0"
           class="rankLabelItem"
         >
-          省排名
+          省级排名
         </div>
         <div
           v-show="flag===2&&!Municipality"
@@ -91,12 +91,12 @@
         v-for="(item,index) in top10Data"
         :key="index"
         class="rankItem"
-        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex&&index>2,itemSelected1: item.hydmCode===itemIndex&&index===0,itemSelected2: item.hydmCode===itemIndex&&index===1,itemSelected3: item.hydmCode===itemIndex&&index===2}"
+        :class="{top1: index===0&&order===1,top2: index===1&&order===1,top3: index===2&&order===1,itemSelected: (item.hydmCode===itemIndex&&index>2&&order===1)||(item.hydmCode===itemIndex&&order===0),itemSelected1: item.hydmCode===itemIndex&&index===0&&order===1,itemSelected2: item.hydmCode===itemIndex&&index===1&&order===1,itemSelected3: item.hydmCode===itemIndex&&index===2&&order===1}"
         @click="selectedItem(item.hydmCode)"
       >
         <div
           class="index"
-          :class="{top: index+1<=3}"
+          :class="{top: index+1<=3&&order===1}"
         >
           {{ index+1 }}
         </div>
@@ -104,7 +104,7 @@
           {{ item.hydmName }}
         </div>
         <div class="num">
-          {{ item.counts }}{{ item.unit }}
+          {{ $formatNum(item.counts) }}{{ item.unit }}
         </div>
         <div class="rank cityRank">
           {{ item.spm | spm(that) }}
@@ -125,12 +125,12 @@
         v-for="(item,index) in top10Data"
         :key="index"
         class="rankItem"
-        :class="{top1: index===0,top2: index===1,top3: index===2,itemSelected: item.hydmCode===itemIndex&&index>2,itemSelected1: item.hydmCode===itemIndex&&index===0,itemSelected2: item.hydmCode===itemIndex&&index===1,itemSelected3: item.hydmCode===itemIndex&&index===2}"
+        :class="{top1: index===0&&order===1,top2: index===1&&order===1,top3: index===2&&order===1,itemSelected: item.hydmCode===itemIndex&&index>2,itemSelected1: item.hydmCode===itemIndex&&index===0,itemSelected2: item.hydmCode===itemIndex&&index===1,itemSelected3: item.hydmCode===itemIndex&&index===2}"
         @click="selectedItem(item.hydmCode)"
       >
         <div
           class="index"
-          :class="{top: index+1<=3}"
+          :class="{top: index+1<=3&&order===1}"
         >
           {{ index+1 }}
         </div>
@@ -140,23 +140,22 @@
         <!-- <div class="num">{{item.num}}万家</div> -->
         <div class="perBox">
           <div
-            class="per"
-            :class="[item.rata>0?'up':'down']"
+            class="per up"
           >
-            {{ item.rata | rata }}%
+            {{ item.rata | rata }}
           </div>
           <div
-            v-if="item.rata>0"
+            v-if="item.rata>=0"
             class="flag up"
           >
             ↑
           </div>
-          <div
+          <!-- <div
             v-else
             class="flag down"
           >
             ↓
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -188,9 +187,13 @@ export default Vue.extend({
   filters:{
     rata:function(val: any){
       if(val){
-        return Math.abs(parseInt(val*100 + ''))
+        if(val*1>=0){
+          return Math.abs(parseInt(val*100 + ''))+"%"
+        }else{
+          return "--"
+        }
       }else{
-        return "-"
+        return "--"
       }
     },
     //省排名 全国排名
@@ -280,6 +283,21 @@ export default Vue.extend({
     //获取标签数据
     this.getLabelList(1)
   },
+  beforeDestroy(){
+    let _this = this as any
+    if(_this.c1ModTimer){
+      window.clearInterval(_this.c1ModTimer)
+      this.c1ModTimer = null
+    }
+    if(_this.c2ModTimer){
+      window.clearInterval(_this.c2ModTimer)
+      this.c2ModTimer = null
+    }
+    if(_this.c3ModTimer){
+      window.clearInterval(_this.c3ModTimer)
+      this.c3ModTimer = null
+    }
+  },
   methods: {
     hoverLeave(){
       this.hoverIndex = -1
@@ -305,11 +323,13 @@ export default Vue.extend({
       let params = {
         type:this.type,
         data:[],
-        labelName:this.labelName
+        labelName:this.labelName,
+        industryName:""
       }
       this.top10Data.map((item: any)=>{
         if(this.itemIndex === item.hydmCode){
-          params.data = item.charts
+          params.data = item.charts,
+          params.industryName = item.hydmName
         }
       })
       this.$emit("getIndustry",params)
@@ -330,18 +350,21 @@ export default Vue.extend({
                 let params = {
                   type:this.type,
                   data:this.top10Data[0].charts,
-                  labelName:name
+                  labelName:name,
+                  industryName:this.top10Data[0].hydmName
                 }
                 this.$emit("getIndustry",params)
               }else{
                 let params = {
                   type:this.type,
                   data:[] as any,
-                  labelName:name
+                  labelName:name,
+                  industryName:""
                 }
                 this.top10Data.map((item: any)=>{
                   if(item.hydmCode === this.itemIndex){
                     params.data = item.charts
+                    params.industryName = item.hydmName
                   }
                 })
                 this.$emit("getIndustry",params)
@@ -363,18 +386,21 @@ export default Vue.extend({
                 let params = {
                   type:this.type,
                   data:this.top10Data[0].charts,
-                  labelName:name
+                  labelName:name,
+                  industryName:this.top10Data[0].hydmName
                 }
                 this.$emit("getIndustry",params)
               }else{
                 let params = {
                   type:this.type,
                   data:[] as any,
-                  labelName:name
+                  labelName:name,
+                  industryName:""
                 }
                 this.top10Data.map((item: any)=>{
                   if(item.hydmCode === this.itemIndex){
                     params.data = item.charts
+                    params.industryName = item.hydmName
                   }
                 })
                 this.$emit("getIndustry",params)
@@ -396,18 +422,21 @@ export default Vue.extend({
                 let params = {
                   type:this.type,
                   data:this.top10Data[0].charts,
-                  labelName:name
+                  labelName:name,
+                  industryName:this.top10Data[0].hydmName
                 }
                 this.$emit("getIndustry",params)
               }else{
                 let params = {
                   type:this.type,
                   data:[] as any,
-                  labelName:name
+                  labelName:name,
+                  industryName:""
                 }
                 this.top10Data.map((item: any)=>{
                   if(item.hydmCode === this.itemIndex){
                     params.data = item.charts
+                    params.industryName = item.hydmName
                   }
                 })
                 this.$emit("getIndustry",params)
@@ -617,22 +646,16 @@ export default Vue.extend({
       }
     },
     getOrder(){
-      
-    }
-  },
-  beforeDestroy(){
-    let _this = this as any
-    if(_this.c1ModTimer){
-      window.clearInterval(_this.c1ModTimer)
-      this.c1ModTimer = null
-    }
-    if(_this.c2ModTimer){
-      window.clearInterval(_this.c2ModTimer)
-      this.c2ModTimer = null
-    }
-    if(_this.c3ModTimer){
-      window.clearInterval(_this.c3ModTimer)
-      this.c3ModTimer = null
+      let _this = this as any
+      if(this.type === "pillarIndustry"){
+        _this.order = getGovModOrder("c","c1")
+      }
+      if(this.type === "starIndustry"){
+        _this.order = getGovModOrder("c","c2")
+      }
+      if(this.type === "potentialIndustry"){
+        _this.order = getGovModOrder("c","c3")
+      }
     }
   }
 });
@@ -752,7 +775,7 @@ export default Vue.extend({
   .rankBox{
       .rankItem{
           height:36px;
-          background:rgba(114,255,250,0.08);
+          background:rgba(114,255,250,0.06);
           display:flex;
           color:#fff;
           font-size: 12px;
@@ -787,16 +810,17 @@ export default Vue.extend({
         background: url("../../assets/images/03.png")no-repeat, rgba(114,255,250,0.08);
       }
       .itemSelected{
-        background:rgba(67,246,255,0.24);
+        // background:rgba(67,246,255,0.24);
+        background:#0c688a;
       }
       .itemSelected1{
-        background: url("../../assets/images/01.png")no-repeat, rgba(67,246,255,0.24);
+        background: url("../../assets/images/01.png")no-repeat, #0c688a;
       }
       .itemSelected2{
-        background: url("../../assets/images/02.png")no-repeat, rgba(67,246,255,0.24);
+        background: url("../../assets/images/02.png")no-repeat, #0c688a;
       }
       .itemSelected3{
-        background: url("../../assets/images/03.png")no-repeat, rgba(67,246,255,0.24);
+        background: url("../../assets/images/03.png")no-repeat, #0c688a;
       }
   }
   .rankLeftBox{

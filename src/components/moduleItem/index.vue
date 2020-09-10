@@ -8,6 +8,10 @@
         </p>
         <p class="rightBK"></p>
       </div>
+      <div class="year" v-if="year">
+        <svg-icon class="svgIcon" name="calendar" />
+        <span>{{year}}</span>
+      </div>
       <ul
         v-if="subTitle.length>0&&showSwiper"
         :class="[{margin: subTitle.length<=3},{flexStart: flexStart}]"  
@@ -82,6 +86,10 @@ export default Vue.extend({
     },
     govKey:{
       type:String,
+      default:''
+    },
+    year:{
+      type:[String,Number],
       default:''
     }
   },
@@ -169,7 +177,20 @@ export default Vue.extend({
         background-size: 100% 70%;
       }
     }
-
+    .year{
+      margin:6px 10px;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: #43F6FF;
+      .svg-icon{
+        width: 14px!important;
+        height: 14px!important;
+      }
+      span{
+        padding-left: 6px;
+      }
+    }
     ul{
       display: flex;
       flex: 1;
@@ -179,7 +200,7 @@ export default Vue.extend({
       &.margin{
         justify-content: flex-end;
         li{
-          margin-left: 20px;
+          margin-left:14px;
           &:first-child{
             margin:0px;
           }
@@ -194,7 +215,8 @@ export default Vue.extend({
         }
       }
       li{
-        margin-left: 20px;
+        flex-shrink: 0;
+        margin-left: 14px;
         font-size: 14px;
         color: #fff;
         padding-bottom: 6px;

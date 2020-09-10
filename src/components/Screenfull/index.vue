@@ -1,7 +1,7 @@
 <template>
   <div
-    ref="screen"
     id="screenfull"
+    ref="screen"
     class="screenfull"
     @click="click"
   >
@@ -19,14 +19,14 @@ import $ from "jquery"
 const sf = screenfull;
 
 export default Vue.extend({
-  computed: {
-    isFullscreen() {
-      return AppModule.isFullscreen;
-    }
-  },
   data(){
     return{
       timer:null
+    }
+  },
+  computed: {
+    isFullscreen() {
+      return AppModule.isFullscreen;
     }
   },
   mounted() {

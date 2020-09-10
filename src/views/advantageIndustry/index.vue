@@ -170,6 +170,11 @@ export default Vue.extend({
     //判断显示label
     this.getareaMap()
   },
+  mounted(){
+    this.$nextTick(()=>{
+      (document as any).getElementById("pageTitle").innerHTML = "优势行业分析"
+    })
+  },
   methods:{
     //点击某个行业后重新获取echart数据
     getIndustry(val: any){
@@ -177,16 +182,19 @@ export default Vue.extend({
         this.pillarEchartData = val.data
         this.pillarEchartData.map((item: any)=>{
           this.$set(item,'labelName',val.labelName)
+          this.$set(item,'industryName',val.industryName)
         })
       }else if(val.type === 'starIndustry'){
         this.starEchartData = val.data
         this.starEchartData.map((item: any)=>{
           this.$set(item,'labelName',val.labelName)
+          this.$set(item,'industryName',val.industryName)
         })
       }else if(val.type === 'potentialIndustry'){
         this.potentialEchartData = val.data
         this.potentialEchartData.map((item: any)=>{
           this.$set(item,'labelName',val.labelName)
+          this.$set(item,'industryName',val.industryName)
         })
       }
     },

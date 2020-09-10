@@ -24,6 +24,7 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: () =>[] }) private echartsData!: any[]
   @Prop({ default: false }) private wrap!: boolean
   @Prop({ default:40 }) private rotate!: number
+  @Prop({ default:'' }) private year!: number | string
 
   @Watch('echartsData')
   private changeData(){
@@ -97,7 +98,7 @@ export default class extends mixins(ResizeMixin) {
           let data = ''
           let date = ''
           params.map((item: any)=>{
-            date = `<div>${item.name}</div>`
+            date = `<div>${_this.year?_this.year + '年' + params[0].name + '月' : params[0].name}</div>`
             data += ( `<div style="display:flex;align-items:center"><p style="width:10px;height:10px;border-radius:50%;background:${item.color};margin-right:10px"></p><p>${item.seriesName}：${item.value}</p></div>`)
           })
           return date + data

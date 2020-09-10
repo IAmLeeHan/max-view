@@ -52,7 +52,7 @@
             {{ item.orgName }}
           </div>
           <div class="capital">
-            {{ item.govE3Money }}{{ item.govUnitName }}
+            {{ item.govE3Money }}万元
           </div>
           <div class="time">
             {{ item.creatrTime | time }}
@@ -130,6 +130,14 @@ export default Vue.extend({
     this.getLabel(1)
     //模块定时刷新
     this.getModSleep()
+  },
+  beforeDestroy(){
+    let _this = this as any
+    if(_this.e3ModTimer){
+      window.clearInterval(_this.e3ModTimer)
+      this.e3ModTimer = null
+    }
+    
   },
   methods: {
     //切换标签栏
@@ -232,14 +240,6 @@ export default Vue.extend({
         }, this.modSleep*1000)
       }
     }
-  },
-  beforeDestroy(){
-    let _this = this as any
-    if(_this.e3ModTimer){
-      window.clearInterval(_this.e3ModTimer)
-      this.e3ModTimer = null
-    }
-    
   }
 });
 </script>

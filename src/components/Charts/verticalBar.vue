@@ -31,6 +31,7 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: '#0290FF'}) private barColorBottom!: string
   @Prop({ default:false }) private interval!: boolean
   @Prop({ default:true }) private showY!: boolean
+  @Prop({ default:'' }) private year!: number | string
 
   private barWidth = 12
 
@@ -85,7 +86,7 @@ export default class extends mixins(ResizeMixin) {
         trigger: 'axis',
         formatter: (params: any)=>{
           if(_this.showPercentage){
-            return params[0].name +'：'+ _this.$formatNum(data2[params[0].dataIndex]) +_this.unit + " " + data[params[0].dataIndex] + '%'
+            return `${_this.year?_this.year + '年' + params[0].name + '月' : params[0].name}` +'：'+ _this.$formatNum(data2[params[0].dataIndex]) +_this.unit + " " + data[params[0].dataIndex] + '%'
           }else{
             return params[0].name +'：'+ _this.$formatNum(data2[params[0].dataIndex]) +_this.unit
           }
@@ -122,7 +123,7 @@ export default class extends mixins(ResizeMixin) {
             fontSize: 10,
             // fontWeight: "lighter",
             // align: 'center',
-            interval:nameList.length>6||_this.interval?2:0,
+            // interval:nameList.length>6||_this.interval?2:0,
             rotate:0,
             formatter:function(value: any){  
               let ret = "";//拼接加\n返回的类目项  

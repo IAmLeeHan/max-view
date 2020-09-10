@@ -66,6 +66,13 @@ export default Vue.extend({
     //获取模块刷新时间
     this.getModSleep()
   },
+  beforeDestroy(){
+    let _this = this as any
+    if(_this.e1ModTimer){
+      window.clearInterval(_this.e1ModTimer)
+      this.e1ModTimer = null
+    }
+  },
   methods: {
     changeActive(i: number){
       (this as any).active = i
@@ -81,13 +88,6 @@ export default Vue.extend({
             }, 0)
           }, this.modSleep*1000)
       }
-    }
-  },
-  beforeDestroy(){
-    let _this = this as any
-    if(_this.e1ModTimer){
-      window.clearInterval(_this.e1ModTimer)
-      this.e1ModTimer = null
     }
   }
 });

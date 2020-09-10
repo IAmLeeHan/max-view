@@ -23,7 +23,6 @@
             height="100%"
             width="100%"
             :echarts-data="flowEchartData"
-            
           ></flowChart>
         </echartItem>
         <!-- 对外投资活跃企业 -->
@@ -169,6 +168,11 @@ export default Vue.extend({
     this.getareaMap()
     //获取区域外来资本流动图
     this.getEchartData()
+  },
+  mounted(){
+    this.$nextTick(()=>{
+      (document as any).getElementById("pageTitle").innerHTML = "重点引资企业"
+    })
   },
   methods:{
     //判断点击的是哪个查看更多

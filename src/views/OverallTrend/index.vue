@@ -13,6 +13,7 @@
           :gov-mod-next="nextB1"
           :gov-mod-next-sleep="sleepB1"
           @changeCH="changeB1Active"
+          :year="qyzlbhYear"
         >
           <doubleEchartLee
             v-if="ZLshow"
@@ -24,6 +25,7 @@
             :wrap="false"
             :rotate="ZLrotate"
             :echarts-data="ZLEchartsData"
+            :year="qyzlbhYear"
           ></doubleEchartLee>
         </moduleItem>
         <moduleItem
@@ -35,6 +37,7 @@
           :gov-mod-next="nextB2"
           :gov-mod-next-sleep="sleepB2"
           @changeCH="changeB2Active"
+          :year="cyqyzlfxYear"
         >
           <stackedChart
             v-if="ZLFXshow"
@@ -46,6 +49,7 @@
             :rotate="ZLFXrotate"
             :wrap="false"
             :echarts-data="ZLFXEchartsData"
+            :year="cyqyzlfxYear"
           ></stackedChart>
         </moduleItem>
         <moduleItem
@@ -57,6 +61,7 @@
           :gov-mod-next="nextB3"
           :gov-mod-next-sleep="sleepB3"
           @changeCH="changeB3Active"
+          :year="xzqyqsYear"
         >
           <verticalBar
             v-if="XZshow"
@@ -70,6 +75,7 @@
             :wrap="XZwrap"
             :rotate="XZrotate"
             :showY="false"
+            :year="qyzlbhYear"
           ></verticalBar>
         </moduleItem>
       </div>
@@ -99,6 +105,7 @@
           flex-start
           :show-swiper="false"
           @changeCH="changeB4Active"
+          :year="xzzdqyslqsYear"
         >
           <div
             slot="echarts"
@@ -117,6 +124,7 @@
                   :interval="true"
                   bar-color-top="#8DE8C7"
                   bar-color-bottom="#1FA879"
+                  :year="xzzdqyslqsYear"
                 ></verticalBar>
               </div>
               <div class="tableBox">
@@ -166,6 +174,7 @@
           :gov-mod-next="nextB5"
           :gov-mod-next-sleep="sleepB5"
           @changeCH="changeB5Active"
+          :year="zdxqyqsYear"
         >
           <ul
             v-if="showZDXDate"
@@ -192,6 +201,7 @@
             :show-unit="ZDXShowUnit"
             :wrap="false"
             :rotate="ZDXrotate"
+            :year="zdxqyqsYear"
           ></verticalBar>
           <RosePieChart
             v-if="ZDXRoseShow"
@@ -467,6 +477,11 @@ export default Vue.extend({
   data() {
     return {
       // 企业总量
+      qyzlbhYear:'',
+      cyqyzlfxYear:'',
+      xzqyqsYear:'',
+      zdxqyqsYear:'',
+      xzzdqyslqsYear:'',
       ZLunit:'',
       ZLshow:false,
       ZLwrap:false,
@@ -701,6 +716,7 @@ export default Vue.extend({
           if(res.code === '200'){
             _this.ZLData = res.data
             _this.ZLEchartsData = res.data.month.data
+            _this.qyzlbhYear = res.data.month.year
             if(res.data.month.unit){
               _this.ZLunit = res.data.month.unit
             }
@@ -713,6 +729,7 @@ export default Vue.extend({
           if(res.code === '200'){
             _this.ZLFXData = res.data
             _this.ZLFXEchartsData = res.data.month.data
+            _this.cyqyzlfxYear = res.data.month.year
             if(res.data.month.unit){
               _this.ZLFXunit = res.data.month.unit
             }
@@ -726,6 +743,7 @@ export default Vue.extend({
             _this.XZData = res.data
             _this.isParcent = true
             _this.XZEchartsData = res.data.orgCount.data
+            _this.xzqyqsYear = res.data.orgCount.year
             if(res.data.orgCount.unit){
               _this.XZunit = res.data.orgCount.unit
             }
@@ -776,6 +794,7 @@ export default Vue.extend({
           if(res.code === '200'){
             _this.ZDXData = res.data
             _this.ZDXEchartsData = res.data.orgCount.month.data
+            _this.zdxqyqsYear = res.data.orgCount.month.year
             if(res.data.orgCount.month.unit){
               _this.ZDXunit = res.data.orgCount.month.unit
             }
@@ -837,6 +856,7 @@ export default Vue.extend({
           if(res.code === '200'){
             _this.ZLData = res.data
             _this.ZLEchartsData = res.data.month.data
+            _this.qyzlbhYear = res.data.month.year
             if(res.data.month.unit){
               _this.ZLunit = res.data.month.unit
             }
@@ -859,6 +879,7 @@ export default Vue.extend({
           if(res.code === '200'){
             _this.ZLFXData = res.data
             _this.ZLFXEchartsData = res.data.month.data
+            _this.cyqyzlfxYear = res.data.month.year
             if(res.data.month.unit){
               _this.ZLFXunit = res.data.month.unit
             }
@@ -881,6 +902,7 @@ export default Vue.extend({
           if(res.code === '200'){
             _this.XZData = res.data
             _this.XZEchartsData = res.data.orgCount.data
+            _this.xzqyqsYear = res.data.orgCount.year
             if(res.data.orgCount.unit){
               _this.XZunit = res.data.orgCount.unit
             }
@@ -917,6 +939,7 @@ export default Vue.extend({
           if(res.code === '200'){
             _this.ZDXData = res.data
             _this.ZDXEchartsData = res.data.orgCount.month.data
+            _this.zdxqyqsYear = res.data.orgCount.month.year
             if(res.data.orgCount.month.unit){
               _this.ZDXunit = res.data.orgCount.month.unit
             }
@@ -1029,11 +1052,13 @@ export default Vue.extend({
     changeB1Active(val: any){
       let _this = this as any
       _this.CHshow = false
+      _this.qyzlbhYear=''
       switch (val * 1) {
         case 1:
           _this.ZLwrap = false,
           _this.ZLrotate = 40,
           _this.ZLEchartsData = _this.ZLData.month.data
+          _this.qyzlbhYear = _this.ZLData.month.year
           if(_this.ZLData.month.unit){
             _this.ZLunit = _this.ZLData.month.unit
           }
@@ -1064,9 +1089,11 @@ export default Vue.extend({
     changeB2Active(val: any){
       let _this = this as any
       _this.CHshow = false
+      _this.cyqyzlfxYear = ''
       switch (val * 1) {
         case 1:
           _this.ZLFXEchartsData = _this.ZLFXData.month.data
+          _this.cyqyzlfxYear = _this.ZLFXData.month.year
           if(_this.ZLFXData.month.unit){
             _this.ZLFXunit = _this.ZLFXData.month.unit
           }
@@ -1099,11 +1126,13 @@ export default Vue.extend({
     changeB3Active(val: any){
       let _this = this as any
       _this.CHshow = false
+      _this.xzqyqsYear = ''
       switch (val * 1) {
         case 1:
           _this.XZrotate = 40
           _this.XZwrap = false
           _this.XZEchartsData = _this.XZData.orgCount.data
+          _this.xzqyqsYear = _this.XZData.orgCount.year
           _this.isParcent = true
           if(_this.XZData.orgCount.unit){
             _this.XZunit = _this.XZData.orgCount.unit
@@ -1135,9 +1164,11 @@ export default Vue.extend({
       _this.ZDXBarShow = false
       _this.ZDXRoseShow = false
       _this.ZDXRingShow = false
+      _this.zdxqyqsYear = ''
       switch (val * 1) {
         case 1:
           _this.ZDXEchartsData = _this.ZDXData.orgCount.month.data
+          _this.zdxqyqsYear = _this.ZDXData.orgCount.month.year
           if(_this.ZDXData.orgCount.month.unit){
             _this.ZDXunit = _this.ZDXData.orgCount.month.unit
           }
@@ -1177,9 +1208,11 @@ export default Vue.extend({
       let _this = this as any
       _this.ZDXActive = i
       _this.showZDXDate = true
+      _this.zdxqyqsYear = ''
       switch (val * 1) {
         case 1:
           _this.ZDXEchartsData = _this.ZDXData.orgCount.month.data
+          _this.zdxqyqsYear = _this.ZDXData.orgCount.month.year
           if(_this.ZDXData.orgCount.month.unit){
             _this.ZDXunit = _this.ZDXData.orgCount.month.unit
           }
@@ -1265,7 +1298,8 @@ export default Vue.extend({
       trendsNewKeyEnterprises(b4aData).then((res: any)=>{
         _this.XZZDechartsShow = true
         if(res.code === '200'){
-          _this.XZZDRecharts = res.data
+          _this.XZZDRecharts = res.data.data
+          _this.xzzdqyslqsYear = res.data.year
         }
       })
       // b4 列表
@@ -1293,7 +1327,8 @@ export default Vue.extend({
       }
       trendsNewKeyEnterprises(b4aData).then((res: any)=>{
         if(res.code === '200'){
-          _this.XZZDRecharts = res.data
+          _this.XZZDRecharts = res.data.data
+          _this.xzzdqyslqsYear = res.data.year
         }
       })
       // b4 列表

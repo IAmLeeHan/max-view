@@ -52,7 +52,7 @@
               {{ item.orgName }}
             </div>
             <div class="zczb rank">
-              {{ item.govE3Money }}{{ item.govUnitName }}
+              {{ item.govE3Money }}万元
             </div>
             <div class="clsj rank">
               {{ item.creatrTime | time }}

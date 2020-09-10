@@ -1,7 +1,7 @@
 const advantageIndustry = {
   path:'advantageIndustry',
-  name:'advantageIndustry',
   component:()=>import('@/views/advantageIndustry/index.vue'),
+  name:'advantageIndustry',
   meta:{
     title:'优势行业分析',
     bg:'bg_two'

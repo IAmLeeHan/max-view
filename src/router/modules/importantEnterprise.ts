@@ -1,7 +1,7 @@
 const importantEnterprise = {
   path:'importantEnterprise',
-  name:'importantEnterprise',
   component:()=>import('@/views/importantEnterprise/index.vue'),
+  name:'importantEnterprise',
   meta:{
     title:'重点企业分析',
     bg:'bg_two'
