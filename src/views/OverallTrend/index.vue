@@ -104,7 +104,6 @@
           :title="title4"
           flex-start
           :show-swiper="false"
-          :year="xzzdqyslqsYear"
           @changeCH="changeB4Active"
         >
           <div
