@@ -64,7 +64,7 @@ export default class extends mixins(ResizeMixin) {
     let nameList = [];
     let data: any = [];
     let data2: any[] = [];
-    let all = 0;
+    let all = 1;
     for(let i in _this.echartsData){
       nameList.push(_this.echartsData[i].name)
       data2.push(_this.echartsData[i].value);

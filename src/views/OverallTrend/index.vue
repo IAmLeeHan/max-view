@@ -123,7 +123,8 @@
                   :echarts-data="XZZDRecharts"
                   :unit="XZZDunit"
                   :show-unit="showXZZDUnit"
-                  :interval="true"
+                  :interval="false"
+                  :wrap="true"
                   bar-color-top="#8DE8C7"
                   bar-color-bottom="#1FA879"
                 ></verticalBar>

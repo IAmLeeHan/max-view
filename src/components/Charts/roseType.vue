@@ -38,41 +38,7 @@ export default class extends mixins(ResizeMixin) {
       this.initChart()
     })
   }
-  private echartsData = [
-    {
-      value: "5890",
-      name: "制造业"
-    },
-    {
-      value: "4100",
-      name: "进出口"
-    },
-    {
-      value: "3370",
-      name: "建筑业"
-    },
-    {
-      value: "2400",
-      name: "服务业"
-    },
-    {
-      value: "1600",
-      name: "石化化工"
-    },
-    {
-      value: "1000",
-      name: "服装"
-    },
-    {
-      value: "800",
-      name: "其他"
-    }
-  ]
-  // mounted() {
-  //   this.$nextTick(() => {
-  //     this.initChart()
-  //   })
-  // }
+  
 
   beforeDestroy() {
     if (!this.chart) {
@@ -102,12 +68,14 @@ export default class extends mixins(ResizeMixin) {
       legend: {
         bottom: 12,
         padding: [0, 5],
-        itemWidth: 12,
-        itemHeight: 12,
+        itemWidth: 10,
+        itemHeight: 10,
+        itemGap:15,
         right: 20,
         top:"center",
         textStyle: {
-          color: "#fff"
+          color: "#fff",
+          fontSize:10
         },
         orient:"vertical" ,
         data: this.seriesData.map((item: any)=> item.name)
@@ -116,7 +84,7 @@ export default class extends mixins(ResizeMixin) {
         {
           type: "pie",
           radius: ['40%',"56%"],
-          center: ['35%', '46%'],
+          center: ['35%', '50%'],
           startAngle: 60, //起始角度
           selectedMode: "single",
           roseType:"radius",

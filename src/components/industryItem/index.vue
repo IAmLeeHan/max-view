@@ -825,6 +825,7 @@ export default Vue.extend({
   }
   .rankLeftBox{
     margin-top:20px;
+    height:425px;
     .rankItem{
       width:100%;
       .content{
@@ -884,6 +885,7 @@ export default Vue.extend({
   }
   .rankRightBox{
     margin-top:20px;
+    height:425px;
     .rankItem{
       width:100%;
       .content{

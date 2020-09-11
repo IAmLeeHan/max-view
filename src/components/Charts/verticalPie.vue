@@ -73,13 +73,14 @@ export default class extends mixins(ResizeMixin) {
       legend: {
         top:"center",
         padding: [0, 5],
-        itemWidth: 12,
-        itemHeight: 12,
+        itemWidth: 10,
+        itemHeight: 10,
+        itemGap:15,
         right: 20,
         bottom:"10%",
         textStyle: {
           color: "#fff",
-          // fontSize:10
+          fontSize:10
         },
         orient:"vertical" ,
         data: this.echartData.map((item: any)=> item.key)
@@ -88,7 +89,7 @@ export default class extends mixins(ResizeMixin) {
         {
           type: "pie",
           radius: ['30%',"46%"],
-          center: ['35%', '46%'],
+          center: ['35%', '50%'],
           // startAngle: 60, //起始角度
           selectedMode: "single",
           label:{
