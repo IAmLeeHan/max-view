@@ -171,11 +171,11 @@ export default Vue.extend({
     //获取区域外来资本流动图
     this.getEchartData()
   },
-  mounted(){
-    this.$nextTick(()=>{
-      (document as any).getElementById("pageTitle").innerHTML = "重点引资企业"
-    })
-  },
+  // mounted(){
+  //   this.$nextTick(()=>{
+  //     (document as any).getElementById("pageTitle").innerHTML = "重点引资企业"
+  //   })
+  // },
   methods:{
     //判断点击的是哪个查看更多
     checkMore(val: any){

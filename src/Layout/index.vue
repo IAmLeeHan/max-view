@@ -4,7 +4,7 @@
     :style="{backgroundImage: 'url(' + bg + ')'}"
   >
     <el-header class="header">
-      <h1 id="pageTitle">
+      <h1 ref="pageTitle">
         {{ title }}
       </h1>
       <div class="setting">
@@ -143,6 +143,8 @@ export default class extends mixins(ResizeMixin) {
     return AppModule.currentTitle
   }
   get title() {
+    console.log(this.$route.meta.title,'title');
+    
     return this.$route.meta.title;
   }
   get name() {
@@ -156,6 +158,13 @@ export default class extends mixins(ResizeMixin) {
 
   get indexList(){    
     return JSON.parse((UserModule as any).indexList)
+  }
+
+  @Watch('title',{immediate:true,deep:true})
+  private changeTitle(n: string){
+    this.$nextTick(()=>{
+      (this as any).$refs.pageTitle.innerHTML = n
+    })
   }
 
   @Watch("currentTitle",{ immediate: true,deep:true })

@@ -171,11 +171,11 @@ export default Vue.extend({
     //判断显示label
     this.getareaMap()
   },
-  mounted(){
-    this.$nextTick(()=>{
-      (document as any).getElementById("pageTitle").innerHTML = "优势行业分析"
-    })
-  },
+  // mounted(){
+  //   this.$nextTick(()=>{
+  //     (document as any).getElementById("pageTitle").innerHTML = "优势行业分析"
+  //   })
+  // },
   methods:{
     //点击某个行业后重新获取echart数据
     getIndustry(val: any){
