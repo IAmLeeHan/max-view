@@ -1,5 +1,5 @@
 <template>
-  <div style="height:97%">
+  <div style="height:97%;" >
     <div class="importantEnterprise">
       <enterpriseItem
         :title="d1Title"
@@ -429,6 +429,7 @@ export default Vue.extend({
 
 
 <style lang="scss" scope>
+
 .importantEnterprise{
   width: 100%;
   height: 100%;

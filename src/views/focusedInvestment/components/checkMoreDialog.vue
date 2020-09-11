@@ -95,7 +95,7 @@
           </div>
         </div>
         <!-- 分页 -->
-        <div class="pageBox">
+        <div class="dialogPageBox">
           <div class="block">
             <el-pagination
               background
@@ -229,7 +229,7 @@ export default Vue.extend({
         right: 0;
         margin:auto;
         background: rgba(0,0,0,.5);
-        z-index: 19999;
+        z-index: 9999;
         overflow: hidden;
         .dialogContent{
             width:944px;
@@ -411,7 +411,7 @@ export default Vue.extend({
                   text-align: center;
                 }
               }
-              .pageBox{
+              .dialogPageBox{
                 width:884px;
                 margin:0 auto;
                 .block{
@@ -419,6 +419,7 @@ export default Vue.extend({
                   float:right;
                   color:#fff!important;
                    .el-pagination{
+                     padding: 0px;
                     li{
                       color:#fff;
                       background:rgba(255,255,255,0.15);
@@ -433,6 +434,7 @@ export default Vue.extend({
                       }
                     }
                     .btn-next{
+                      margin-right:0px;
                       background:rgba(255,255,255,0.15);
                       i{
                         color:#fff;

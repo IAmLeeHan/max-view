@@ -91,6 +91,10 @@ export default class extends mixins(ResizeMixin) {
           label:{
               formatter: '{d}%'
           },
+          labelLine:{
+            length:10,
+            length2:10
+          },
           data:(this as any).seriesData
         }
       ]

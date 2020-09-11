@@ -275,8 +275,7 @@ export default Vue.extend({
   created(){
     //页面刷新
     this.getModSleep()
-    //判断模块是否需要排序
-    this.getOrder()
+    
     let _this = this as any
     //判断当前绑定的地区层级
     this.judgeArea()
@@ -345,6 +344,12 @@ export default Vue.extend({
             this.loading = false
             if(res.code === "200" && JSON.parse(res.data).length){
               this.top10Data = JSON.parse(res.data)
+              if(this.top10Data.length&&this.top10Data[0].isOrder&&this.top10Data[0].isOrder === 1){
+                this.order = 1
+              }else{
+                //判断模块是否需要排序
+                this.getOrder()
+              }
               if(flag){
                 this.itemIndex = this.top10Data[0].hydmCode
                 let params = {
@@ -381,6 +386,12 @@ export default Vue.extend({
             this.loading = false
             if(res.code === "200" && JSON.parse(res.data).length){
               this.top10Data = JSON.parse(res.data)
+              if(this.top10Data.length&&this.top10Data[0].isOrder&&this.top10Data[0].isOrder === 1){
+                this.order = 1
+              }else{
+                //判断模块是否需要排序
+                this.getOrder()
+              }
               if(flag){
                 this.itemIndex = this.top10Data[0].hydmCode
                 let params = {
@@ -417,6 +428,12 @@ export default Vue.extend({
             this.loading = false
             if(res.code === "200" && JSON.parse(res.data).length){
               this.top10Data = JSON.parse(res.data)
+              if(this.top10Data.length&&this.top10Data[0].isOrder&&this.top10Data[0].isOrder === 1){
+                this.order = 1
+              }else{
+                //判断模块是否需要排序
+                this.getOrder()
+              }
               if(flag){
                 this.itemIndex = this.top10Data[0].hydmCode
                 let params = {

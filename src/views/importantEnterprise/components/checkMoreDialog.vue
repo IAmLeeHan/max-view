@@ -152,7 +152,7 @@
           </div>
         </div>
         <!-- 分页 -->
-        <div class="pageBox">
+        <div class="dialogPageBox">
           <div class="block">
             <el-pagination
               background
@@ -247,7 +247,7 @@ export default Vue.extend({
     return {
       that:this,
       labelIndex:"",
-      rankList:[],
+      rankList:[] as any,
       current:1,
       total:0,
       flag:0,//0:省，1市，2区
@@ -263,8 +263,7 @@ export default Vue.extend({
         this.labelIndex = this.labelList[0].id
       }
     }
-    //判断模块是否需要排序
-    this.getOrder()
+    
     //判断当前绑定的地区层级
     this.judgeArea()
     //获取数据
@@ -293,6 +292,12 @@ export default Vue.extend({
         getLeftDialogPage(formData({qydm:this.areaCode,label:this.labelIndex,page:this.current,size:10}),urlA1).then((res: any)=>{
             if(res.code === "200"){
               this.rankList = JSON.parse(res.data).records
+              if(this.rankList.length&&this.rankList[0].isOrder&&this.rankList[0].isOrder === 1){
+                this.order = 1
+              }else{
+                //判断模块是否需要排序
+                this.getOrder()
+              }
               this.total = JSON.parse(res.data).total
             }
         })
@@ -302,6 +307,12 @@ export default Vue.extend({
         getMiddleDialogPage(formData({qydm:this.areaCode,label:this.labelIndex,page:this.current,size:10}),urlA1).then((res: any)=>{
             if(res.code === "200"){
               this.rankList = JSON.parse(res.data).records
+              if(this.rankList.length&&this.rankList[0].isOrder&&this.rankList[0].isOrder === 1){
+                this.order = 1
+              }else{
+                //判断模块是否需要排序
+                this.getOrder()
+              }
               this.total = JSON.parse(res.data).total
             }
         })
@@ -311,6 +322,12 @@ export default Vue.extend({
         getRightDialogPage(formData({qydm:this.areaCode,label:this.labelIndex,page:this.current,size:10}),urlA1).then((res: any)=>{
             if(res.code === "200"){
               this.rankList = JSON.parse(res.data).records
+              if(this.rankList.length&&this.rankList[0].isOrder&&this.rankList[0].isOrder === 1){
+                this.order = 1
+              }else{
+                //判断模块是否需要排序
+                this.getOrder()
+              }
               this.total = JSON.parse(res.data).total
             }
         })
@@ -360,14 +377,14 @@ export default Vue.extend({
         left:0;
         right: 0;
         margin:auto;
-        background: rgba(0,0,0,.5);
-        z-index: 19999;
+        background: rgba(0,0,0,0.5);
+        z-index: 9999;
         overflow: hidden;
         .dialogContent{
             width:944px;
             height:580px;
             background:#0F6997;
-            position: fixed;
+            position: absolute;
             top:0;
             bottom: 0;
             left:0;
@@ -562,7 +579,7 @@ export default Vue.extend({
                 }
                 
               }
-              .pageBox{
+              .dialogPageBox{
                 width:884px;
                 margin:0 auto;
                 .block{
@@ -570,6 +587,7 @@ export default Vue.extend({
                   float:right;
                   color:#fff!important;
                    .el-pagination{
+                     padding: 0px;
                     li{
                       color:#fff;
                       background:rgba(255,255,255,0.15);
@@ -584,6 +602,7 @@ export default Vue.extend({
                       }
                     }
                     .btn-next{
+                      margin-right:0px;
                       background:rgba(255,255,255,0.15);
                       i{
                         color:#fff;

@@ -321,9 +321,6 @@ export default Vue.extend({
       //判断当前绑定的地区层级
       this.judgeArea()
       this.getLabelList(1)
-      this.getOrder()
-      // console.log(this.areaCode,22)
-      // console.log(JSON.parse(this.$store.state.user.indexList))
   },
   beforeDestroy(){
     let _this = this as any
@@ -559,6 +556,12 @@ export default Vue.extend({
         getEnterpriseLeftData(formData({qydm:this.areaCode,label:value})).then((res: any)=>{
           if(res.code === "200"){
             this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            if(this.rankList.length&&this.rankList[0].isOrder&&this.rankList[0].isOrder === 1){
+                this.order = 1
+              }else{
+                //判断模块是否需要排序
+                this.getOrder()
+            }
             let unitName = ''
             if(this.rankList.length){
               unitName = this.rankList[0].unit
@@ -578,6 +581,12 @@ export default Vue.extend({
         getEnterpriseMiddleData(formData({qydm:this.areaCode,label:value})).then((res: any)=>{
           if(res.code === "200"){
             this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            if(this.rankList.length&&this.rankList[0].isOrder&&this.rankList[0].isOrder === 1){
+                this.order = 1
+              }else{
+                //判断模块是否需要排序
+                this.getOrder()
+            }
             let unitName = ''
             if(this.rankList.length){
               unitName = this.rankList[0].unit
@@ -597,6 +606,12 @@ export default Vue.extend({
         getEnterpriseRightData(formData({qydm:this.areaCode,label:value})).then((res: any)=>{
           if(res.code === "200"){
             this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            if(this.rankList.length&&this.rankList[0].isOrder&&this.rankList[0].isOrder === 1){
+                this.order = 1
+              }else{
+                //判断模块是否需要排序
+                this.getOrder()
+            }
             let unitName = ''
             if(this.rankList.length){
               unitName = this.rankList[0].unit

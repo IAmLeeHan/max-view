@@ -63,7 +63,7 @@
         </div>
       </div>
     </div>
-    <div class="checkMore">
+    <div class="checkMore" v-if="rankList.length>=7">
       <span @click="checkMore">查看更多></span>
     </div>
   </div>

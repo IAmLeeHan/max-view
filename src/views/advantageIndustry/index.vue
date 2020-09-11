@@ -1,5 +1,5 @@
 <template>
-  <div style="height:97%">
+  <div style="height:97%;">
     <div class="advantageIndustry">
       <industryItem
         :title="c1Title"

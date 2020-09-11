@@ -83,7 +83,7 @@
         </div>
       </div>
     </div>
-    <div class="checkMore">
+    <div class="checkMore" v-if="rankBottomData.length>=9">
       <span @click="checkMore">查看更多></span>
     </div>
   </div>
