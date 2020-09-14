@@ -13,7 +13,7 @@
         v-if="labelList.length>0"
         :class="{margin: labelList.length<=3}"  
       >
-        <li 
+        <!-- <li 
           v-for="(item,index) in labelList" 
           v-if="(item.ruleId===1)||(item.ruleId===2&&item.hasValue)||(item.ruleId===0)"
           :key="index"
@@ -21,7 +21,23 @@
           @click="changeLabel(item.id,item.label,item.ruleId,item.hasValue)"
         >
           {{ item.label }}
-        </li>
+        </li> -->
+        <swiper
+          ref="mySwiper"
+          :options="swiperOption"
+          class="swiperBox"
+        >
+          <swiper-slide 
+            v-for="(item,index) in labelList" 
+            v-if="(item.ruleId===1)||(item.ruleId===2&&item.hasValue)||(item.ruleId===0)"
+            :id="item.id"
+            :key="index"
+            :class="{active: active === item.id,noData: (item.ruleId===1&&!item.hasValue)||(item.ruleId===0&&!item.hasValue)}"
+            @click="changeLabel(item.id,item.label,item.ruleId,item.hasValue)"
+          >
+            {{ item.label }}
+          </swiper-slide>
+        </swiper>
       </ul>
     </div>
     <!-- 标题栏结束 -->
@@ -48,9 +64,16 @@
           :key="index"
           class="rankItem"
         >
-          <div class="name">
-            {{ item.orgName }}
-          </div>
+          <el-tooltip
+            effect="light"
+            :content="item.orgName" 
+            :disabled="item.showOverFlow"
+            placement="top"
+          >
+            <div class="e3Name">
+              {{ item.orgName }}
+            </div>
+          </el-tooltip>
           <div class="capital">
             {{ item.govE3Money }}万元
           </div>
@@ -63,7 +86,10 @@
         </div>
       </div>
     </div>
-    <div class="checkMore" v-if="rankList.length>=7">
+    <div
+      v-if="rankList.length>=7"
+      class="checkMore"
+    >
       <span @click="checkMore">查看更多></span>
     </div>
   </div>
@@ -77,8 +103,13 @@ import mixins from '@/components/polling/index.vue'
 import { formData } from '@/utils/index'
 import getTagRule from '@/utils/getTagRule';
 import {getGovModSleep} from '@/utils/getsleep';
-
+import 'swiper/dist/css/swiper.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default Vue.extend({
+  components:{
+    swiper,
+    swiperSlide
+  },
   filters:{
     time:function(val: any){
       if(val){
@@ -108,12 +139,28 @@ export default Vue.extend({
     },
   },
   data() {
+    const that = this as any
     return {
       active:0,
       rankList:[],
       labelList:[] as any,
       modSleep:0,
-      e3ModTimer:null
+      e3ModTimer:null,
+      swiperOption: {
+        freeMode: true,
+        freeModeMomentumRatio: 0.5,
+        slidesPerView: 'auto',
+        resistanceRatio:0.7,
+        on:{
+          click:function(swiper: any){
+            that.labelList.map((item: any)=>{
+              if(item.id === swiper.path[0].id){
+                that.changeLabel(item.id,item.label,item.ruleId,item.hasValue)
+              }
+            })
+          }
+        },
+      }
     }
   },
   watch:{
@@ -222,6 +269,12 @@ export default Vue.extend({
       getE3(formData({qydm:this.areaCode,label:val,pageNum:1,size:7}),urlA1).then((res: any)=>{
           if(res.code === "200" && res.data && JSON.parse(res.data).records.length){
             this.rankList = JSON.parse(res.data).records
+            this.rankList.map((item: any)=>{
+              this.$set(item,"showOverFlow",true)
+            })
+            setTimeout(() => {
+                this.showOverflow("e3Name")
+            }, 500);
             this.active = val
           }
       })
@@ -239,6 +292,19 @@ export default Vue.extend({
           }, 0)
         }, this.modSleep*1000)
       }
+    },
+    //鼠标悬浮显示被隐藏的企业名称
+    showOverflow(className: string){
+      this.$nextTick(()=>{
+        let dom = document.getElementsByClassName(className)
+        for(let i = 0;i<dom.length;i++){
+            if(dom[i].scrollWidth>dom[i].clientWidth){
+                this.$set(this.rankList[i],"showOverFlow",false)
+            }else{
+                this.$set(this.rankList[i],"showOverFlow",true)
+            }
+        }
+      })
     }
   }
 });
@@ -302,10 +368,15 @@ export default Vue.extend({
           }
         }
       }
-      li{
+      .swiperBox {
+        margin-left:10px;
+      }
+      .swiper-slide{
+        width:auto!important;
         font-size: 14px;
         color: #fff;
         padding-bottom: 6px;
+        margin-right:20px;
         &:last-child{
             margin:0;
         }
@@ -377,9 +448,12 @@ export default Vue.extend({
             color:#fff;
             font-size: 22px;
           }
-          .name{
+          .e3Name{
             width:450px;
             margin-left:20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
           .capital{
             width:140px;

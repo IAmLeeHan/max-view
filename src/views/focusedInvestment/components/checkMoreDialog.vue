@@ -15,7 +15,7 @@
           v-if="labelList.length"
           class="labelBox"
         >
-          <div
+          <!-- <div
             v-for="(item,index) in labelList" 
             v-if="(item.ruleId===1)||(item.ruleId===2&&item.hasValue)||(item.ruleId===0)"
             :key="index"
@@ -24,7 +24,23 @@
             @click="changeLabel(item.id)"
           >
             {{ item.label }}
-          </div>
+          </div> -->
+          <swiper
+            ref="mySwiper"
+            :options="swiperOption"
+            class="swiperBox"
+          >
+            <swiper-slide 
+              v-for="(item,index) in labelList" 
+              v-if="(item.ruleId===1)||(item.ruleId===2&&item.hasValue)||(item.ruleId===0)"
+              :id="item.id"
+              :key="index"
+              class="labelItem"
+              :class="{labelSelected: labelIndex===item.id,noData: (item.ruleId===1&&!item.hasValue)||(item.ruleId===0&&!item.hasValue)}"
+            >
+              {{ item.label }}
+            </swiper-slide>
+          </swiper>
         </div>
         <i
           class="el-icon-close"
@@ -118,7 +134,13 @@
 import Vue from "vue";
 import {getE3,getE5} from "@/api/focusedInvestment"
 import { formData } from '@/utils/index'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+
 export default Vue.extend({
+  components:{
+    swiper,
+    swiperSlide
+  },
   filters:{
     type:function(val: string){
       if(val === "middleBottom"){
@@ -152,12 +174,27 @@ export default Vue.extend({
     }
   },
   data() {
+    const that = this as any
     return {
-      
       labelIndex:"",
       rankList:[],
       current:1,
-      total:0
+      total:0,
+      swiperOption: {
+        freeMode: true,
+        freeModeMomentumRatio: 0.5,
+        slidesPerView: 'auto',
+        resistanceRatio:0.7,
+        on:{
+          click:function(swiper: any){
+            that.labelList.map((item: any)=>{
+              if(item.id === swiper.path[0].id){
+                that.changeLabel(item.id)
+              }
+            })
+          }
+        },
+      }
     }
   },
   created(){
@@ -218,7 +255,6 @@ export default Vue.extend({
 
 
 <style lang="scss" scope>
-
     .focusedInvestmentBox{
         width:100%;
         height: 100%;
@@ -264,14 +300,18 @@ export default Vue.extend({
                 height:20px;
                 margin-top:20px;
                 width:73%;
-                display:flex;
-                justify-content: space-around;
-                .labelItem{
+                
+                .swiperBox {
+                  margin-left:10px;
+                }
+                .swiper-slide{
+                  width:auto!important;
                   display:inline-block;
                   font-size: 14px;
                   color:#fff;
                   cursor: pointer;
                   height:100%;
+                  margin-right:20px;
                   &:hover{
                     color:#43F6FF;
                   }
@@ -284,6 +324,7 @@ export default Vue.extend({
                   color:rgba(255, 255, 255, 0.5);
                   pointer-events: none;
                 }
+
               }
               .el-icon-close{
                 float:right;

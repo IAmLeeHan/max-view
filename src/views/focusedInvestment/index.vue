@@ -1,6 +1,9 @@
 <template>
   <div style="height:97%">
-    <div class="focusedInvestment">
+    <div
+      class="focusedInvestment"
+      :class="{blur: showDialog||this.$store.state.app.dialogTableVisible}"
+    >
       <leftItem
         :title="e2Title"
         class="leftItem"
@@ -45,14 +48,7 @@
         :area-code="selectedArea.code"
         @checkMore="checkMore"
       ></rightItem>
-      <checkMoreDialog
-        v-if="showDialog"
-        :type="type"
-        :label-list="labelInfo.labelList"
-        :label-id="labelInfo.labelId"
-        :area-code="selectedArea.code"
-        @closeDialog="closeDialog"
-      ></checkMoreDialog>
+      
       <!-- 地区切换 -->
       <div class="search_box">
         <svg-icon name="icon_dingwei"></svg-icon>
@@ -74,6 +70,14 @@
         </div>
       </div>
     </div>
+    <checkMoreDialog
+      v-if="showDialog"
+      :type="type"
+      :label-list="labelInfo.labelList"
+      :label-id="labelInfo.labelId"
+      :area-code="selectedArea.code"
+      @closeDialog="closeDialog"
+    ></checkMoreDialog>
   </div>
 </template>
 
@@ -264,7 +268,9 @@ export default Vue.extend({
 
 
 <style lang="scss" scope>
-
+.blur{
+  filter: blur(5px);
+}
 .focusedInvestment{
   width: 100%;
   height: 100%;
@@ -372,6 +378,18 @@ export default Vue.extend({
     border-bottom-color: #1680a8!important;
     &::after{
       border-bottom-color:#1680a8!important;
+    }
+  }
+</style>
+<style lang="scss">
+  .is-light{
+    background:rgba(33,95,136,0.95)!important;
+    color:#fff;
+    border:none!important;
+    .popper__arrow{
+      &::after{
+        border-top-color:rgba(33,95,136,0.95)!important
+      }
     }
   }
 </style>

@@ -1,6 +1,9 @@
 <template>
-  <div style="height:97%;" >
-    <div class="importantEnterprise">
+  <div style="height:97%;">
+    <div
+      class="importantEnterprise"
+      :class="{blur: showDialog||this.$store.state.app.dialogTableVisible}"
+    >
       <enterpriseItem
         :title="d1Title"
         class="advantageIndustryItem"
@@ -100,14 +103,6 @@
           :area-info="selectedArea"
         ></areaMap>
       </enterpriseItem>
-      <checkMoreDialog
-        v-if="showDialog"
-        :type="type"
-        :label-list="labelList"
-        :area-code="selectedArea.selectedValue"
-        :label-id="labelIndex"
-        @closeDialog="closeDialog"
-      ></checkMoreDialog>
       <!-- 地区切换 -->
       <div class="search_box">
         <svg-icon name="icon_dingwei"></svg-icon>
@@ -129,6 +124,14 @@
         </div>
       </div>
     </div>
+    <checkMoreDialog
+      v-if="showDialog"
+      :type="type"
+      :label-list="labelList"
+      :area-code="selectedArea.selectedValue"
+      :label-id="labelIndex"
+      @closeDialog="closeDialog"
+    ></checkMoreDialog>
   </div>
 </template>
 
@@ -429,7 +432,9 @@ export default Vue.extend({
 
 
 <style lang="scss" scope>
-
+.blur{
+  filter:blur(5px)
+}
 .importantEnterprise{
   width: 100%;
   height: 100%;

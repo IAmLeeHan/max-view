@@ -398,6 +398,7 @@ export default Vue.extend({
             _this.CHData = res.data
             _this.CHChartData = res.data.hyfb
           }
+          _this.$refs.modA2.changeActive(0,2)
         }).catch((error: any)=>{
           _this.CHshow = true;
         })
@@ -452,6 +453,7 @@ export default Vue.extend({
           }
           _this.currentId = id
           _this.getZDQYList(id,newVal,urlA5)
+          _this.$refs.son.changeActive(0,id)
         })
         let urlA6 = _this.$getModUrl('a','a6')
         _this.XLshow = false;

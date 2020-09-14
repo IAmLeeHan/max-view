@@ -65,6 +65,7 @@ import Vue from "vue";
 import mixins from './mixins/index.vue';
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import { EAreaModule } from '@/store/modules/eArea'
 export default Vue.extend({
   components:{
     swiper,
@@ -115,6 +116,11 @@ export default Vue.extend({
           }
         },
       }
+    }
+  },
+  computed:{
+    currentQydm(){
+      return EAreaModule.currentQydm
     }
   },
   watch:{

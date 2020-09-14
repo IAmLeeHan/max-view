@@ -55,9 +55,16 @@
         >
           {{ index+1 }}
         </div>
-        <div class="content leftContent">
-          {{ item.x315OrgName }}
-        </div>
+        <el-tooltip
+          effect="light"
+          :content="item.x315OrgName" 
+          :disabled="item.showOverFlow"
+          placement="top"
+        >
+          <div class="content leftContent">
+            {{ item.x315OrgName }}
+          </div>
+        </el-tooltip>
         <div class="num leftNum">
           {{ item.counts }}{{ item.unit }}
         </div>
@@ -98,9 +105,16 @@
         >
           {{ index+1 }}
         </div>
-        <div class="content middleContent">
-          {{ item.x315OrgName }}
-        </div>
+        <el-tooltip
+          effect="light"
+          :content="item.x315OrgName" 
+          :disabled="item.showOverFlow"
+          placement="top-start"
+        >
+          <div class="content middleContent">
+            {{ item.x315OrgName }}
+          </div>
+        </el-tooltip>
         <div class="num middleNum">
           {{ item.counts }}{{ item.unit }}
         </div>
@@ -137,9 +151,17 @@
         >
           {{ index+1 }}
         </div>
-        <div class="content rightContent">
-          {{ item.x315OrgName }}
-        </div>
+        <el-tooltip
+          effect="light"
+          :content="item.x315OrgName" 
+          :disabled="item.showOverFlow"
+          placement="top"
+        >
+          <div class="content rightContent">
+            {{ item.x315OrgName }}
+          </div>
+        </el-tooltip>
+        
         <div class="num rightNum">
           {{ $formatNum(item.counts) }}{{ item.unit }}
         </div>
@@ -556,6 +578,12 @@ export default Vue.extend({
         getEnterpriseLeftData(formData({qydm:this.areaCode,label:value})).then((res: any)=>{
           if(res.code === "200"){
             this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            this.rankList.map((item: any)=>{
+              this.$set(item,"showOverFlow",true)
+            })
+            setTimeout(() => {
+                this.showOverflow("leftContent")
+            }, 500);
             if(this.rankList.length&&this.rankList[0].isOrder&&this.rankList[0].isOrder === 1){
                 this.order = 1
               }else{
@@ -581,6 +609,12 @@ export default Vue.extend({
         getEnterpriseMiddleData(formData({qydm:this.areaCode,label:value})).then((res: any)=>{
           if(res.code === "200"){
             this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            this.rankList.map((item: any)=>{
+              this.$set(item,"showOverFlow",true)
+            })
+            setTimeout(() => {
+                this.showOverflow("middleContent")
+            }, 500);
             if(this.rankList.length&&this.rankList[0].isOrder&&this.rankList[0].isOrder === 1){
                 this.order = 1
               }else{
@@ -606,6 +640,12 @@ export default Vue.extend({
         getEnterpriseRightData(formData({qydm:this.areaCode,label:value})).then((res: any)=>{
           if(res.code === "200"){
             this.rankList = JSON.parse(res.data).zdqyfxTopDtos
+            this.rankList.map((item: any)=>{
+              this.$set(item,"showOverFlow",true)
+            })
+            setTimeout(() => {
+                this.showOverflow("rightContent")
+            }, 500);
             if(this.rankList.length&&this.rankList[0].isOrder&&this.rankList[0].isOrder === 1){
                 this.order = 1
               }else{
@@ -682,6 +722,20 @@ export default Vue.extend({
       if(this.type === "potentialEnterprise"){
         _this.order = getGovModOrder("d","d3")
       }
+    },
+    //鼠标悬浮显示被隐藏的企业名称
+    showOverflow(className: string){
+      this.$nextTick(()=>{
+        let dom = document.getElementsByClassName(className)
+        for(let i = 0;i<dom.length;i++){
+            if(dom[i].scrollWidth>dom[i].clientWidth){
+                
+                this.$set(this.rankList[i],"showOverFlow",false)
+            }else{
+                this.$set(this.rankList[i],"showOverFlow",true)
+            }
+        }
+      })
     }
   }
 });
@@ -1003,4 +1057,16 @@ export default Vue.extend({
       height: calc(100% - 64%);
   }
 }
+</style>
+<style lang="scss">
+  .is-light{
+    background:rgba(33,95,136,0.95)!important;
+    color:#fff;
+    border:none!important;
+    .popper__arrow{
+      &::after{
+        border-top-color:rgba(33,95,136,0.95)!important
+      }
+    }
+  }
 </style>

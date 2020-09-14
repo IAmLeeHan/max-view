@@ -432,11 +432,13 @@ export default class extends mixins(ResizeMixin) {
               }
           }else{
             _that.isEara = true;
-            if(_that.selectedPT.length > 3){
-              (_that as any).selectedPT[3] = (params.data.name)
+            if(_that.selectedPT.length >= 3){
+              (_that as any).selectedPT[2] = (params.data.name)
             }else{
               (_that as any).selectedPT.push(params.data.name)
             }
+            console.log(_that.selectedPT,"selectedPT");
+            
             (EAreaModule as any).SET_LOADING(false)
             EAreaModule.setQydm(params.data.code)
             EAreaModule.getEnterpriseDistribution(params.data.code).then((res: any)=>{

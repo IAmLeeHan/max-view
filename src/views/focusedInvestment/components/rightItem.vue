@@ -29,10 +29,17 @@
           v-for="(item,index) in rankTopData"
           :key="index"
           class="rankItem"
-        >
-          <div class="name">
-            {{ item.hyName }}
-          </div>
+        >  
+          <el-tooltip
+            effect="light"
+            :content="item.hyName" 
+            :disabled="item.showOverFlow"
+            placement="top"
+          >
+            <div class="name e4Name">
+              {{ item.hyName }}
+            </div>
+          </el-tooltip>
           <div class="num">
             {{ item.govE4Money }}{{ item.govUnitName }}
           </div>
@@ -74,16 +81,26 @@
           :key="index"
           class="rankItem"
         >
-          <div class="name2">
-            {{ item.orgName }}
-          </div>
+          <el-tooltip
+            effect="light"
+            :content="item.orgName" 
+            :disabled="item.showOverFlow"
+            placement="top"
+          >
+            <div class="name2 e5Name">
+              {{ item.orgName }}
+            </div>
+          </el-tooltip>
           <div class="num2">
             {{ item.govE5Money | thousands(that) }}{{ item.govUnitName }}
           </div>
         </div>
       </div>
     </div>
-    <div class="checkMore" v-if="rankBottomData.length>=9">
+    <div
+      v-if="rankBottomData.length>=9"
+      class="checkMore"
+    >
       <span @click="checkMore">查看更多></span>
     </div>
   </div>
@@ -187,7 +204,12 @@ export default Vue.extend({
       getE4(formData({qydm:this.areaCode}),urlA1).then((res: any)=>{
         if(res.code === "200"){
           this.rankTopData = JSON.parse(res.data)
-
+          this.rankTopData.map((item: any)=>{
+              this.$set(item,"showOverFlow",true)
+          })
+          setTimeout(() => {
+              this.showOverflow("e4Name")
+          }, 500);
         }
       })
     },
@@ -198,6 +220,12 @@ export default Vue.extend({
       getE5Pre(formData({qydm:this.areaCode,pageNum:1,size:9}),urlA1).then((res: any)=>{
         if(res.code === "200"){
           this.rankBottomData = JSON.parse(res.data)
+          this.rankBottomData.map((item: any)=>{
+              this.$set(item,"showOverFlow",true)
+          })
+          setTimeout(() => {
+              this.showOverflow("e5Name")
+          }, 500);
           if(this.rankBottomData.length){
             this.zczb = this.rankBottomData[0].govE5Zczb
           }
@@ -222,6 +250,27 @@ export default Vue.extend({
             }, 0)
           }, this.e5ModSleep*1000)
       }
+    },
+    //鼠标悬浮显示被隐藏的企业名称
+    showOverflow(className: string){
+      this.$nextTick(()=>{
+        let dom = document.getElementsByClassName(className)
+        for(let i = 0;i<dom.length;i++){
+            if(dom[i].scrollWidth>dom[i].clientWidth){
+                if(className === "e4Name"){
+                  this.$set(this.rankTopData[i],"showOverFlow",false)
+                }else{
+                  this.$set(this.rankBottomData[i],"showOverFlow",false)
+                }
+            }else{
+                if(className === "e4Name"){
+                  this.$set(this.rankTopData[i],"showOverFlow",true)
+                }else{
+                  this.$set(this.rankBottomData[i],"showOverFlow",true)
+                }
+            }
+        }
+      })
     }
   }
 });

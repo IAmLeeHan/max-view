@@ -12,7 +12,7 @@
           {{ type | type }}
         </div>
         <div class="labelBox">
-          <div
+          <!-- <div
             v-for="(item,index) in labelList" 
             v-if="(item.ruleId===1)||(item.ruleId===2&&item.hasValue)||(item.ruleId===0)"
             :key="index"
@@ -21,7 +21,23 @@
             @click="changeLabel(item.id)"
           >
             {{ item.label }}
-          </div>
+          </div> -->
+          <swiper
+            ref="mySwiper"
+            :options="swiperOption"
+            class="swiperBox"
+          >
+            <swiper-slide 
+              v-for="(item,index) in labelList" 
+              v-if="(item.ruleId===1)||(item.ruleId===2&&item.hasValue)||(item.ruleId===0)"
+              :id="item.id"
+              :key="index"
+              class="labelItem"
+              :class="{labelSelected: labelIndex===item.id,noData: (item.ruleId===1&&!item.hasValue)||(item.ruleId===0&&!item.hasValue)}"
+            >
+              {{ item.label }}
+            </swiper-slide>
+          </swiper>
         </div>
         <i
           class="el-icon-close"
@@ -132,7 +148,6 @@
             <div class="perBox">
               <div
                 class="per up"
-                
               >
                 {{ item.rata | rata }}
               </div>
@@ -176,7 +191,12 @@ import Vue from "vue";
 import {getLeftDialogPage,getMiddleDialogPage,getRightDialogPage} from "@/api/importantEnterprise"
 import { formData } from '@/utils/index'
 import {getGovModOrder} from '@/utils/getsleep';
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default Vue.extend({
+  components:{
+    swiper,
+    swiperSlide
+  },
   filters:{
     type:function(val: string){
       if(val === "pillarEnterprise"){
@@ -244,6 +264,7 @@ export default Vue.extend({
     }
   },
   data() {
+    const that = this as any
     return {
       that:this,
       labelIndex:"",
@@ -252,7 +273,22 @@ export default Vue.extend({
       total:0,
       flag:0,//0:省，1市，2区
       Municipality:false,
-      order:1
+      order:1,
+      swiperOption: {
+        freeMode: true,
+        freeModeMomentumRatio: 0.5,
+        slidesPerView: 'auto',
+        resistanceRatio:0.7,
+        on:{
+          click:function(swiper: any){
+            that.labelList.map((item: any)=>{
+              if(item.id === swiper.path[0].id){
+                that.changeLabel(item.id)
+              }
+            })
+          }
+        },
+      }
     }
   },
   created(){
@@ -412,7 +448,12 @@ export default Vue.extend({
                 margin-left:30px;
                 height:20px;
                 margin-top:20px;
-                .labelItem{
+                width: 73%;
+                .swiperBox {
+                  margin-left:10px;
+                }
+                .swiper-slide{
+                  width:auto!important;
                   display:inline-block;
                   font-size: 14px;
                   color:#fff;

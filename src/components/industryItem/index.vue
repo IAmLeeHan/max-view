@@ -58,9 +58,16 @@
         >
           {{ index+1 }}
         </div>
-        <div class="content">
-          {{ item.hydmName }}
-        </div>
+        <el-tooltip
+          effect="light"
+          :content="item.hydmName" 
+          :disabled="item.showOverFlow"
+          placement="top"
+        >
+          <div class="content leftContent">
+            {{ item.hydmName }}
+          </div>
+        </el-tooltip>
         <div class="num">
           {{ item.counts }}{{ item.unit }}
         </div>
@@ -70,7 +77,10 @@
       v-if="type==='starIndustry'"
       class="rankMiddleBox rankBox"
     >
-      <div class="rankContent">
+      <div
+        v-if="top10Data.length"
+        class="rankContent"
+      >
         <div class="rankLabelItem">
           全国排名
         </div>
@@ -100,9 +110,16 @@
         >
           {{ index+1 }}
         </div>
-        <div class="content">
-          {{ item.hydmName }}
-        </div>
+        <el-tooltip
+          effect="light"
+          :content="item.hydmName" 
+          :disabled="item.showOverFlow"
+          placement="top"
+        >
+          <div class="content middleContent">
+            {{ item.hydmName }}
+          </div>
+        </el-tooltip>
         <div class="num">
           {{ $formatNum(item.counts) }}{{ item.unit }}
         </div>
@@ -134,10 +151,17 @@
         >
           {{ index+1 }}
         </div>
-        <div class="content">
-          {{ item.hydmName }}
-        </div>
-        <!-- <div class="num">{{item.num}}万家</div> -->
+        
+        <el-tooltip
+          effect="light"
+          :content="item.hydmName" 
+          :disabled="item.showOverFlow"
+          placement="top"
+        >
+          <div class="content rightContent">
+            {{ item.hydmName }}
+          </div>
+        </el-tooltip>
         <div class="perBox">
           <div
             class="per up"
@@ -344,6 +368,12 @@ export default Vue.extend({
             this.loading = false
             if(res.code === "200" && JSON.parse(res.data).length){
               this.top10Data = JSON.parse(res.data)
+              this.top10Data.map((item: any)=>{
+                this.$set(item,"showOverFlow",true)
+              })
+              setTimeout(() => {
+                  this.showOverflow("leftContent")
+              }, 500);
               if(this.top10Data.length&&this.top10Data[0].isOrder&&this.top10Data[0].isOrder === 1){
                 this.order = 1
               }else{
@@ -386,6 +416,12 @@ export default Vue.extend({
             this.loading = false
             if(res.code === "200" && JSON.parse(res.data).length){
               this.top10Data = JSON.parse(res.data)
+              this.top10Data.map((item: any)=>{
+                this.$set(item,"showOverFlow",true)
+              })
+              setTimeout(() => {
+                  this.showOverflow("middleContent")
+              }, 500);
               if(this.top10Data.length&&this.top10Data[0].isOrder&&this.top10Data[0].isOrder === 1){
                 this.order = 1
               }else{
@@ -428,6 +464,12 @@ export default Vue.extend({
             this.loading = false
             if(res.code === "200" && JSON.parse(res.data).length){
               this.top10Data = JSON.parse(res.data)
+              this.top10Data.map((item: any)=>{
+                this.$set(item,"showOverFlow",true)
+              })
+              setTimeout(() => {
+                  this.showOverflow("rightContent")
+              }, 500);
               if(this.top10Data.length&&this.top10Data[0].isOrder&&this.top10Data[0].isOrder === 1){
                 this.order = 1
               }else{
@@ -673,6 +715,20 @@ export default Vue.extend({
       if(this.type === "potentialIndustry"){
         _this.order = getGovModOrder("c","c3")
       }
+    },
+    //鼠标悬浮显示被隐藏的企业名称
+    showOverflow(className: string){
+      this.$nextTick(()=>{
+        let dom = document.getElementsByClassName(className)
+        for(let i = 0;i<dom.length;i++){
+            if(dom[i].scrollWidth>dom[i].clientWidth){
+                
+                this.$set(this.top10Data[i],"showOverFlow",false)
+            }else{
+                this.$set(this.top10Data[i],"showOverFlow",true)
+            }
+        }
+      })
     }
   }
 });
@@ -945,4 +1001,16 @@ export default Vue.extend({
     position:absolute;
   }
 }
+</style>
+<style lang="scss">
+  .is-light{
+    background:rgba(33,95,136,0.95)!important;
+    color:#fff;
+    border:none!important;
+    .popper__arrow{
+      &::after{
+        border-top-color:rgba(33,95,136,0.95)!important
+      }
+    }
+  }
 </style>

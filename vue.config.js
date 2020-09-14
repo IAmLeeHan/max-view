@@ -30,9 +30,9 @@ module.exports = {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       '^/gov': {
         // target: `http://localhost:${mockServerPort}/mock-api/v1`,
-        target:'https://gov.x315.com',
+        // target:'https://gov.x315.com',
         // target:'http://gov.so315.cn',
-        // target:'http://10.86.11.17:8080',
+        target:'http://10.86.11.56:8081',
         changeOrigin: true, // needed for virtual hosted sites
         // ws: true, // proxy websockets
         // pathRewrite: {
@@ -40,9 +40,9 @@ module.exports = {
         // }
       },
       '^/zhuang':{
-        target:'https://gov.x315.com',
+        // target:'https://gov.x315.com',
         // target:'http://gov.so315.cn',
-        // target:'http://10.86.11.17:8080',
+        target:'http://10.86.11.56:8081',
         changeOrigin:true,
         pathRewrite: {
           '^/zhuang': ''

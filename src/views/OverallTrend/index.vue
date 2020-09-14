@@ -729,6 +729,7 @@ export default Vue.extend({
             if(res.data.month.unit){
               _this.ZLunit = res.data.month.unit
             }
+            _this.$refs.modB1.changeActive(0,1)
           }
         })
         let urlB2 = _this.$getModUrl('b','b2')
@@ -742,6 +743,7 @@ export default Vue.extend({
             if(res.data.month.unit){
               _this.ZLFXunit = res.data.month.unit
             }
+            _this.$refs.modB2.changeActive(0,1)
           }
         })
         let urlB3 = _this.$getModUrl('b','b3')
@@ -756,6 +758,7 @@ export default Vue.extend({
             if(res.data.orgCount.unit){
               _this.XZunit = res.data.orgCount.unit
             }
+            _this.$refs.modB3.changeActive(0,1)
           }
         })
 
@@ -789,6 +792,7 @@ export default Vue.extend({
           }
           _this.currentId = id
           _this.getXZZDList(id,newVal,urlB4)
+          _this.$refs.son.changeActive(0,id)
         })
 
         let urlB5 = _this.$getModUrl('b','b5')
@@ -808,12 +812,7 @@ export default Vue.extend({
               _this.ZDXunit = res.data.orgCount.month.unit
             }
           }
-          if(sessionStorage.getItem('b5Key')){
-            let obj: any = JSON.parse((sessionStorage as any).getItem('b5Key'))
-            _this.$refs.modB5.changeActive(obj.index,obj.value)
-          }else{
-            _this.$refs.modB5.changeActive(0,1)
-          }
+          _this.$refs.modB5.changeActive(0,1)
         })
         let urlE1 = _this.$getModUrl('e','e1')
         _this.QYZBShow = false
@@ -835,6 +834,7 @@ export default Vue.extend({
           _this.LDQYTableData1 = data.slice(0,index)
           _this.LDQYTableData2 = data.slice(index,data.length)
           _this.LDQYAllData = res.data.flowArea
+          _this.$refs.modB6.changeActive(0,1)
         })
         let urlB7 = _this.$getModUrl('b','b7')
         _this.QYCYshow = false
@@ -1011,12 +1011,12 @@ export default Vue.extend({
               _this.QYCYunit = res.data.unit
             }
           }
-          if(sessionStorage.getItem('b7Key')){
-            let obj: any = JSON.parse((sessionStorage as any).getItem('b7Key'))
-            _this.$refs.modB7.changeActive(obj.index,obj.value)
-          }else{
-            _this.$refs.modB7.changeActive(0,1)
-          }
+          // if(sessionStorage.getItem('b7Key')){
+          //   let obj: any = JSON.parse((sessionStorage as any).getItem('b7Key'))
+          //   _this.$refs.modB7.changeActive(obj.index,obj.value)
+          // }else{
+          //   _this.$refs.modB7.changeActive(0,1)
+          // }
         })
         },time7)
       }

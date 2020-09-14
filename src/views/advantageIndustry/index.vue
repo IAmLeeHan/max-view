@@ -1,6 +1,9 @@
 <template>
   <div style="height:97%;">
-    <div class="advantageIndustry">
+    <div
+      class="advantageIndustry"
+      :class="{blur: this.$store.state.app.dialogTableVisible}"
+    >
       <industryItem
         :title="c1Title"
         class="advantageIndustryItem"
